@@ -1,0 +1,12 @@
+*.log
+DBCache/
+Pictures/
+JavaScripts/tsconfig.json
+JavaScripts/Start.bat
+build.ts
+tsconfig.json
+README.md
+.mw/
+NAVDATA.bin
+dist/game.js
+dist/game.js.map

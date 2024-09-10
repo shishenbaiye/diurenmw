@@ -36,14 +36,14 @@ export class GameInstance extends MGameInstance {
     private log: Logger;
 
     onServerStart(): void {
-        this.log.warn("GameInstance onServerStart");
+        this.log.warn("GameInstance onServerStart main");
         // 加载资源
         this.downloadAssets();
         // 注册模块
         this.onRegisterModuleModule();
     }
     async onClientStart() {
-        this.log.warn("GameInstance onClientStart");
+        this.log.warn("GameInstance onClientStart main");
         // 初始化抛物线工具
         ParabolaTool.init(10);
         // 初始化相机
