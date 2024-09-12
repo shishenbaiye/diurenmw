@@ -1,6 +1,12 @@
 import { OdinGame, LogManager } from "odin";
 import { MFramework } from "./framework/MFramework";
-import { GameInstance } from "./game/GameInstance";
+import { GAModuleS } from "./modules/gasModule/GAModuleS";
+import { GAModuleC } from "./modules/gasModule/GAModuleC";
+import { PlayerModuleS } from "./modules/PlayerModule/PlayerModuleS";
+import { PlayerModuleC } from "./modules/PlayerModule/PlayerModuleC";
+import { PlayerModuleData } from "./modules/PlayerModule/PlayerModuleData";
+import { GAModuleData } from "./modules/gasModule/GAModuleData";
+import { CurrentScence } from "./CurrentScence";
 
 
 @Component
@@ -11,8 +17,8 @@ class GameStart extends OdinGame {
 
     onStart(): void {
         this.useUpdate = true;
-        MFramework.initial(GameInstance);
-        console.error("eason===  onStart");
+        MFramework.initial(CurrentScence.currentScence);
+
         DataStorage.setTemporaryStorage(this.isLocal);
         if (mw.SystemUtil.isClient()) {
         }
@@ -65,7 +71,8 @@ class GameStart extends OdinGame {
     //实现父类“注册模块”抽象方法
     onRegisterModuleModule(): void {
         // MFramework.registerModule(MallModuleS, MallModuleC, MallData);
-
+        MFramework.registerModule(GAModuleS,GAModuleC,GAModuleData);
+        MFramework.registerModule(PlayerModuleS,PlayerModuleC,PlayerModuleData)
 
 
         MFramework.enterGame();

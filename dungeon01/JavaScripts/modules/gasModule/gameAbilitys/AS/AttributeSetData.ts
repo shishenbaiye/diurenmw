@@ -26,6 +26,10 @@ export class AttributeSetData {
         return this.baseValue;
     }
 
+    setBase(value: number) {
+        this.baseValue = value;
+    }
+
     getOwnerId():string{
         return this.ownerGameObjectId;
     }
