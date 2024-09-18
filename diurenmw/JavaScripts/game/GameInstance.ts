@@ -40,7 +40,7 @@ export class GameInstance extends MGameInstance {
     async onClientStart() {
         this.log.warn("GameInstance onClientStart main");
         // 初始化抛物线工具
-        ParabolaTool.init(10);
+        // ParabolaTool.init(10);
         // 初始化相机
         this.camera.init();
         // 加载资源

@@ -45,7 +45,7 @@ export class PlayerAttributeSet extends AttributeSet{
     }
 
     onExpChanged(oldValue: number, newValue: number): void {
-        
+        console.log(`经验值变化：${this.exp.getCurrent()}`);
     }
 
     onHpChanged(oldValue: number, newValue: number): void {
