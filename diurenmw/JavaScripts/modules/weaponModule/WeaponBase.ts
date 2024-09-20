@@ -4,6 +4,8 @@ export abstract class WeaponBase extends MObject{
     /**持有者 */
     owner:Player;
 
+    /**武器的uuid */
+    public uuid:string;
     /**武器id */
     abstract wid:number;
     /**武器种类id */
