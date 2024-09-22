@@ -10,6 +10,9 @@ import { AttributeModuleData } from "./modules/AttributeModule/AttributeModuleDa
 import { WeaponModuleS } from "./modules/weaponModule/WeaponModuleS";
 import { WeaponModuleC } from "./modules/weaponModule/WeaponModuleC";
 import { WeaponModuleData } from "./modules/weaponModule/WeaponModuleData";
+import { BagModuleS } from "./modules/bagModule/BagModuleS";
+import { BagModuleC } from "./modules/bagModule/BagModuleC";
+import { BagModuleData } from "./modules/bagModule/BagModuleData";
 
 
 @Component
@@ -77,6 +80,7 @@ class GameStart extends OdinGame {
         MFramework.registerModule(AttributeModuleS, AttributeModuleC, AttributeModuleData);
         MFramework.registerModule(PlayerModuleS, PlayerModuleC, PlayerModuleData);
         MFramework.registerModule(WeaponModuleS,WeaponModuleC,WeaponModuleData);
+        MFramework.registerModule(BagModuleS, BagModuleC, BagModuleData);
 
         MFramework.enterGame();
     }
