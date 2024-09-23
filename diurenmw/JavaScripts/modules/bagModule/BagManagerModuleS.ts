@@ -2,11 +2,11 @@ import { GameEventBus } from "../../common/eventBus/EventBus";
 import { UuidCreater } from "../../tools/UuidCreater";
 import { PlayerAttributeSet } from "../AttributeModule/PlayerAttributeSet";
 import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
-import { BagModuleC } from "./BagModuleC";
-import { BagModuleData } from "./BagModuleData";
-import { BagItemBase, ItemType } from "./ItemBase";
+import { BagManagerModuleC } from "./BagManagerModuleC";
+import { BagManagerModuleData } from "./BagManagerModuleData";
+import { BagItem, BagItemBase, ItemType } from "./ItemBase";
 
-export class BagModuleS extends ModuleS<BagModuleC,BagModuleData> {
+export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModuleData> {
     /**
      * @groups 基类/C&S拓展
      * @description 生命周期方法-启动模块时调用
@@ -72,6 +72,6 @@ export class BagModuleS extends ModuleS<BagModuleC,BagModuleData> {
 
     net_TestAddItem(player: mw.Player): void {
         console.log("BagModuleS net_TestAddItem");
-        this.addItem(player, new BagItemBase("uuid", "暴风大剑", ItemType.Weapon, 1));
+        this.addItem(player, new BagItem("uuid", "暴风大剑", ItemType.Weapon, 1));
     }
 }

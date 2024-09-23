@@ -7,10 +7,8 @@
 */
 
 
-
-@UIBind('UI/Bag/BagUI.ui')
 export default class BagUI_Generate extends UIScript {
-		private exit_Internal: mw.Button
+	private exit_Internal: mw.Button
 	public get exit(): mw.Button {
 		if(!this.exit_Internal&&this.uiWidgetBase) {
 			this.exit_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/BagBackground/exit') as mw.Button
@@ -18,47 +16,28 @@ export default class BagUI_Generate extends UIScript {
 		return this.exit_Internal
 	}
 
-
- 
-	/**
-	* onStart 之前触发一次
-	*/
-	protected onAwake() {
-		this.canUpdate = false;
-		this.layer = UILayerMiddle;
-        this.initButtons();
+	private weapon_Internal: mw.Button
+	public get weapon(): mw.Button {
+		if(!this.weapon_Internal&&this.uiWidgetBase) {
+			this.weapon_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/BagBackground/Weapon') as mw.Button
+		}
+		return this.weapon_Internal
 	}
 
-	protected initButtons() {
-		//按钮添加点击
-		
-		//按钮添加点击
-		
-		this.exit.touchMethod = (ButtonTouchMethod.PreciseTap);
-		
-	
-
-		//按钮多语言
-		
-		//文本多语言
-		
-		//文本多语言
-		
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/BagBackground/Weapon/WeaponText") as any);
-		
-	
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/BagBackground/Button_1/TextBlock") as any);
-		
-	
-
+	private other_Internal: mw.Button
+	public get other(): mw.Button {
+		if(!this.other_Internal&&this.uiWidgetBase) {
+			this.other_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/BagBackground/Other') as mw.Button
+		}
+		return this.other_Internal
 	}
 
-	private initLanguage(ui: StaleButton | TextBlock) {
-        let call = UIScript.getBehavior("lan");
-        if (call && ui) {
-            call(ui);
-        }
-    }
-	 
+	private itemScrollBox_Internal: mw.ScrollBox
+	public get itemScrollBox(): mw.ScrollBox {
+		if(!this.itemScrollBox_Internal&&this.uiWidgetBase) {
+			this.itemScrollBox_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/BagBackground/ItemListBackground/ItemScrollBox') as mw.ScrollBox
+		}
+		return this.itemScrollBox_Internal
+	}
 }
  
