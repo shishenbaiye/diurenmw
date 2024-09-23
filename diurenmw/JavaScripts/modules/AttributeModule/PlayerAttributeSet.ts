@@ -74,7 +74,8 @@ export class PlayerAttributeSet extends AttributeSet{
     refreshAttribute(): void {
         // 计算血量
         let addHpValue = this.vit.getCurrent() * 5;
-        this.maxHp.setCurrent(addHpValue);
+        let maxHpValue = this.hp.getCurrent() + addHpValue;
+        this.maxHp.setCurrent(maxHpValue);
     }
 
     addSkillDamage(value: number): void {

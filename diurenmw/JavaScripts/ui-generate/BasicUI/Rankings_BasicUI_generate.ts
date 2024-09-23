@@ -213,7 +213,59 @@ export default class Rankings_BasicUI_Generate extends UIScript {
 	* onStart 之前触发一次
 	*/
 	protected onAwake() {
+		this.canUpdate = false;
+		this.layer = UILayerMiddle;
+        this.initButtons();
 	}
+
+	protected initButtons() {
+		//按钮添加点击
+		
+		//按钮添加点击
+		
+		this.mBtn_Mask.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_Close.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+
+		//按钮多语言
+		
+		//文本多语言
+		
+		this.initLanguage(this.mTxt_Rank)
+		
+	
+		this.initLanguage(this.mTxt_Rank1)
+		
+	
+		this.initLanguage(this.mTxt_Rank_PlayerName)
+		
+	
+		this.initLanguage(this.mTxt_Rank_Value)
+		
+	
+		this.initLanguage(this.mTxt_Rank_MyselfItem)
+		
+	
+		this.initLanguage(this.mTxt_Rank_MyselfValue)
+		
+	
+		this.initLanguage(this.mCanvas_Rank_MyselfPlayerName)
+		
+	
+		//文本多语言
+		
+
+	}
+
+	private initLanguage(ui: StaleButton | TextBlock) {
+        let call = UIScript.getBehavior("lan");
+        if (call && ui) {
+            call(ui);
+        }
+    }
 	 
 }
  

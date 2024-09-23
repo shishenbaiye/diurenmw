@@ -24,7 +24,41 @@ export default class BagUI_Generate extends UIScript {
 	* onStart 之前触发一次
 	*/
 	protected onAwake() {
+		this.canUpdate = false;
+		this.layer = UILayerMiddle;
+        this.initButtons();
 	}
+
+	protected initButtons() {
+		//按钮添加点击
+		
+		//按钮添加点击
+		
+		this.exit.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+
+		//按钮多语言
+		
+		//文本多语言
+		
+		//文本多语言
+		
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/BagBackground/Weapon/WeaponText") as any);
+		
+	
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/BagBackground/Button_1/TextBlock") as any);
+		
+	
+
+	}
+
+	private initLanguage(ui: StaleButton | TextBlock) {
+        let call = UIScript.getBehavior("lan");
+        if (call && ui) {
+            call(ui);
+        }
+    }
 	 
 }
  

@@ -3,6 +3,7 @@ import { GameEventBus } from "../../common/eventBus/EventBus";
 import { GameConfig } from "../../configs/GameConfig";
 import { AttributeDataInit } from "../gasModule/gameAbilitys/AS/AttributeHelper";
 import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
+import { WeaponModuleS } from "../weaponModule/WeaponModuleS";
 import { AttributeModuleC } from "./AttributeModuleC";
 import { AttributeModuleData } from "./AttributeModuleData";
 import { PlayerAttributeSet } from "./PlayerAttributeSet";
@@ -120,11 +121,44 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
     }
 
     net_OnClick() {
-        // let component = this.currentPlayer.character.getComponent(AbilitySystemComponent);
-        // if(component){
-        //     // console.log(component.attributeSet);
+        ModuleService.getModule(WeaponModuleS).equepWeapon(this.currentPlayer, "01921e61-c51a-15a5-f492-81b0af4afda7");
 
-        //     (component.attributeSet as PlayerAttributeSet).hp.setCurrent((component.attributeSet as PlayerAttributeSet).hp.getCurrent()-20);
-        // }
+        let attr = this.currentPlayer.character.getComponent(AbilitySystemComponent).attributeSet as PlayerAttributeSet;
+
+        console.log(`当前属性：`, 
+        `\n血量`+attr.hp.getCurrent(),
+        `\n最大血量`+attr.maxHp.getCurrent(), 
+        `\n蓝量`+attr.mp.getCurrent(), 
+        `\n最大蓝量`+attr.maxMp.getCurrent(), 
+        `\n力量`+attr.str.getCurrent(), 
+        `\n智力`+attr.int.getCurrent(), 
+        `\n体质`+attr.vit.getCurrent(),
+        `\n攻击力`+attr.atk.getCurrent(), 
+        `\n魔法攻击力`+attr.magicAtk.getCurrent(), 
+        `\n防御力`+attr.def.getCurrent(), 
+        `\n技能伤害增加率`+attr.skillDamage.getCurrent(), 
+        `\n伤害增加率`+attr.damage.getCurrent(), 
+        `\n暴击率`+attr.crit.getCurrent(), 
+        `\n暴击伤害`+attr.critDamage.getCurrent());
+    }
+
+    net_Onclick2() {
+        let attr = this.currentPlayer.character.getComponent(AbilitySystemComponent).attributeSet as PlayerAttributeSet;
+
+        console.log(`当前属性：`, 
+        `\n血量`+attr.hp.getCurrent(),
+        `\n最大血量`+attr.maxHp.getCurrent(), 
+        `\n蓝量`+attr.mp.getCurrent(), 
+        `\n最大蓝量`+attr.maxMp.getCurrent(), 
+        `\n力量`+attr.str.getCurrent(), 
+        `\n智力`+attr.int.getCurrent(), 
+        `\n体质`+attr.vit.getCurrent(),
+        `\n攻击力`+attr.atk.getCurrent(), 
+        `\n魔法攻击力`+attr.magicAtk.getCurrent(), 
+        `\n防御力`+attr.def.getCurrent(), 
+        `\n技能伤害增加率`+attr.skillDamage.getCurrent(), 
+        `\n伤害增加率`+attr.damage.getCurrent(), 
+        `\n暴击率`+attr.crit.getCurrent(), 
+        `\n暴击伤害`+attr.critDamage.getCurrent());
     }
 }

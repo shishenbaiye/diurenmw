@@ -1,5 +1,6 @@
 import {ConfigBase, IElementBase} from "./ConfigBase";
 import {PlayerLevelAttributeConfig} from "./PlayerLevelAttribute";
+import {WeaponObjConfig} from "./WeaponObj";
 
 export class GameConfig{
 	private static configMap:Map<string, ConfigBase<IElementBase>> = new Map();
@@ -19,4 +20,5 @@ export class GameConfig{
 		return this.configMap.get(ConfigClass.name) as T;
 	}
 	public static get PlayerLevelAttribute():PlayerLevelAttributeConfig{ return this.getConfig(PlayerLevelAttributeConfig) };
+	public static get WeaponObj():WeaponObjConfig{ return this.getConfig(WeaponObjConfig) };
 }

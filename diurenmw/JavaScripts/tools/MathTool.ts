@@ -1,18 +1,18 @@
 export class MathTool {
 
 
-    /**计算两个3维向量是否平行 */
-    static isParallel(v1: Vector, v2: Vector): boolean {
-        let v1x = v1.x;
-        let v1y = v1.y;
-        let v1z = v1.z;
-        let v2x = v2.x;
-        let v2y = v2.y;
-        let v2z = v2.z;
-        return (v1y * v2z - v1z * v2y) === 0 && (v1z * v2x - v1x * v2z) === 0 && (v1x * v2y - v1y * v2x) === 0;
-    }
+	/**计算两个3维向量是否平行 */
+	static isParallel(v1: Vector, v2: Vector): boolean {
+		let v1x = v1.x;
+		let v1y = v1.y;
+		let v1z = v1.z;
+		let v2x = v2.x;
+		let v2y = v2.y;
+		let v2z = v2.z;
+		return (v1y * v2z - v1z * v2y) === 0 && (v1z * v2x - v1x * v2z) === 0 && (v1x * v2y - v1y * v2x) === 0;
+	}
 
-    /**
+	/**
 	 * Rotation转欧拉角
 	 * @param rotation Rotation
 	 * @returns 欧拉角
@@ -141,5 +141,18 @@ export class MathTool {
 	 */
 	public static getPercent(_value: number, _min: number, _max: number) {
 		return (_value - _min) / (_max - _min);
+	}
+
+
+	/**正态分布随机值
+	 * @param min 最小值
+	 * @param max 最大值
+	 * @param bias 越大越偏向最大值，默认2
+	 */
+	public static normalDistribution(min: number, max: number, bias: number = 2): number {
+		const r = Math.random();
+		const exponent = bias;
+		const value = max - (max - min) * Math.pow(1 - r, exponent);
+		return Math.round(value); 
 	}
 }

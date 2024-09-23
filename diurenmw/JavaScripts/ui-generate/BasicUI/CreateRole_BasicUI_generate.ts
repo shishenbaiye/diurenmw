@@ -409,7 +409,101 @@ export default class CreateRole_BasicUI_Generate extends UIScript {
 	* onStart 之前触发一次
 	*/
 	protected onAwake() {
+		this.canUpdate = false;
+		this.layer = UILayerMiddle;
+        this.initButtons();
 	}
+
+	protected initButtons() {
+		//按钮添加点击
+		
+		//按钮添加点击
+		
+		this.mBtn_Define.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_TabIcon_Item1.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_TabIcon_Item2.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_TabIcon_Item3.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_TabIcon_Item4.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_TabIcon_Item5.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_Item.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_TabChosen.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_TabNormal1.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_TabNormal2.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_TabNormal3.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_TabNormal4.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_Gender_Men.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_Gender_Women.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_Clean.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+
+		//按钮多语言
+		
+		//文本多语言
+		
+		this.initLanguage(this.mTxt_TabChosen)
+		
+	
+		this.initLanguage(this.mTxt_TabNormal1)
+		
+	
+		this.initLanguage(this.mTxt_TabNormal2)
+		
+	
+		this.initLanguage(this.mTxt_TabNormal3)
+		
+	
+		this.initLanguage(this.mTxt_TabNormal4)
+		
+	
+		this.initLanguage(this.mTxt_ItemDetails)
+		
+	
+		this.initLanguage(this.mTxt_ItemName)
+		
+	
+		//文本多语言
+		
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/mCanvas_UI_Create/mBtn_Define/TextBlock") as any);
+		
+	
+
+	}
+
+	private initLanguage(ui: StaleButton | TextBlock) {
+        let call = UIScript.getBehavior("lan");
+        if (call && ui) {
+            call(ui);
+        }
+    }
 	 
 }
  

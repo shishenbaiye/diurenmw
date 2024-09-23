@@ -339,7 +339,95 @@ export default class Shop2_BasicUI_Generate extends UIScript {
 	* onStart 之前触发一次
 	*/
 	protected onAwake() {
+		this.canUpdate = false;
+		this.layer = UILayerMiddle;
+        this.initButtons();
 	}
+
+	protected initButtons() {
+		//按钮添加点击
+		
+		//按钮添加点击
+		
+		this.mBtn_Mask.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_Item_Illustrated.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_Item_Shop.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_Item_Bag.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_Close.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_TabChosen.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_TabNormal1.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_TabNormal2.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_TabNormal3.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mBtn_TabNormal4.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+
+		//按钮多语言
+		
+		//文本多语言
+		
+		this.initLanguage(this.mTxt_Item_Name)
+		
+	
+		this.initLanguage(this.mTxt_Item_ShoPrice)
+		
+	
+		this.initLanguage(this.mTxt_Item_ShopName)
+		
+	
+		this.initLanguage(this.mTxt_Item_Name1)
+		
+	
+		this.initLanguage(this.mTxt_Item_Count)
+		
+	
+		this.initLanguage(this.mTxt_Title)
+		
+	
+		this.initLanguage(this.mTxt_TabChosen)
+		
+	
+		this.initLanguage(this.mTxt_TabNormal1)
+		
+	
+		this.initLanguage(this.mTxt_TabNormal2)
+		
+	
+		this.initLanguage(this.mTxt_TabNormal3)
+		
+	
+		this.initLanguage(this.mTxt_TabNormal4)
+		
+	
+		//文本多语言
+		
+
+	}
+
+	private initLanguage(ui: StaleButton | TextBlock) {
+        let call = UIScript.getBehavior("lan");
+        if (call && ui) {
+            call(ui);
+        }
+    }
 	 
 }
  

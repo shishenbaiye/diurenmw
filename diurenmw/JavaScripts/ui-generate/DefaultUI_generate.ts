@@ -17,7 +17,32 @@ export default class DefaultUI_Generate extends UIScript {
 	* onStart 之前触发一次
 	*/
 	protected onAwake() {
+		this.canUpdate = false;
+		this.layer = UILayerMiddle;
+        this.initButtons();
 	}
+
+	protected initButtons() {
+		//按钮添加点击
+		
+		//按钮添加点击
+		
+
+		//按钮多语言
+		
+		//文本多语言
+		
+		//文本多语言
+		
+
+	}
+
+	private initLanguage(ui: StaleButton | TextBlock) {
+        let call = UIScript.getBehavior("lan");
+        if (call && ui) {
+            call(ui);
+        }
+    }
 	 
 }
  
