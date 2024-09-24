@@ -23,6 +23,8 @@ export class WeaponModuleS extends ModuleS<WeaponModuleC, WeaponModuleData> {
                 weapon.equip().then(()=>{
                     this.getClient(player).net_stopLoading();
                 })
+            }else{
+                this.getClient(player).net_stopLoading();
             }
         } else {
             console.error(`玩家${player.userId}添加武器脚本失败`);
