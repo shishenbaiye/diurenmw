@@ -33,6 +33,8 @@ export abstract class WeaponBase extends MObject{
     // 品级
     private quality:number;
 
+    private model:Model;
+
     initByData(data:WeaponData):void{
         this.uuid = data.uuid;
         this.wid = data.wid;
@@ -56,7 +58,7 @@ export abstract class WeaponBase extends MObject{
         this.quality = weaponConfig.quality;
     }
 
-    equip():void{
+    async equip(){
         let playerAtk = this.ownerAttribute.atk.getCurrent();
         let playerMatk = this.ownerAttribute.magicAtk.getCurrent();
         let playerStr = this.ownerAttribute.str.getCurrent();
@@ -79,6 +81,13 @@ export abstract class WeaponBase extends MObject{
         if(this.useEffet4){
             this.excuteEffet4();
         }
+        let weaponConfig = GameConfig.WeaponObj.getElement(this.wid);
+        let model = await GameObject.asyncSpawn(weaponConfig.model);
+        this.model = model as Model;
+        // this.model["actor"].RootComponent.SetCollisionResponseToChannel(UE.ECollisionChannel.ECC_Pawn, UE.ECollisionResponse.ECR_Ignore);
+        this.owner.character.attachToSlot(model,HumanoidSlotType.RightHand);
+        this.model.setCollision(PropertyStatus.Off,true);
+        model.worldTransform.scale = new Vector(1.2);
     }
 
     unEquip():void{
@@ -104,6 +113,11 @@ export abstract class WeaponBase extends MObject{
         if(this.useEffet4){
             this.unExcuteEffet4();
         }
+
+        if(this.model){
+            this.model.destroy();
+        }
+
         //Todo:添加进背包
     }
 

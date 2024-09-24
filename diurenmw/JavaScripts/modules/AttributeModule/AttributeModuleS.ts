@@ -24,7 +24,7 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
             let data = TeleportService.getTeleportData(player.teleportId);
             console.log(`带过来的数据：`, data)
         }
-        GameEventBus.emit(`AttributeModule_Ready`,player);
+        GameEventBus.emit(`AttributeModule_Ready`, player);
     }
 
     registerAbilitys() {
@@ -76,13 +76,13 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
     addExp(player: mw.Player, exp: number) {
         let playerData = this.getPlayerData(player);
         let excelData = GameConfig.PlayerLevelAttribute.getElement(playerData.level);
-        if(excelData.isMaxLevel) return;
+        if (excelData.isMaxLevel) return;
         playerData.exp += exp;
         if (playerData.exp >= excelData.exp) {
             this.levelUp(player);
             let excuteExp = playerData.exp - excelData.exp;
             this.addExp(player, excuteExp);
-        }else{
+        } else {
             let as = (player.character.getComponent(AbilitySystemComponent).attributeSet as PlayerAttributeSet);
             if (as) {
                 as.exp.setCurrent(playerData.exp);
@@ -104,7 +104,7 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
                 as.exp.setBase(GameConfig.PlayerLevelAttribute.getElement(playerData.level).exp);
                 as.exp.setCurrent(0);
             }
-        }else{
+        } else {
             console.error(`已经满级`);
             playerData.exp = 0;
         }
@@ -120,45 +120,51 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
 
     }
 
-    net_OnClick() {
-        ModuleService.getModule(WeaponModuleS).equepWeapon(this.currentPlayer, "01921e61-c51a-15a5-f492-81b0af4afda7");
+    async net_OnClick() {
+        let player = this.currentPlayer;
+        let res = await ModuleService.getModule(WeaponModuleS).equepWeapon(player, "01921e65-4bc7-c6d5-102f-2a5d222257c3");
+        if (res) {
+            let attr = player.character.getComponent(AbilitySystemComponent).attributeSet as PlayerAttributeSet;
 
-        let attr = this.currentPlayer.character.getComponent(AbilitySystemComponent).attributeSet as PlayerAttributeSet;
+            console.warn(`当前属性：`,
+                `\n血量：` + attr.hp.getCurrent(),
+                `\n最大血量：` + attr.maxHp.getCurrent(),
+                `\n蓝量：` + attr.mp.getCurrent(),
+                `\n最大蓝量：` + attr.maxMp.getCurrent(),
+                `\n力量：` + attr.str.getCurrent(),
+                `\n智力：` + attr.int.getCurrent(),
+                `\n体质：` + attr.vit.getCurrent(),
+                `\n攻击力：` + attr.atk.getCurrent(),
+                `\n魔法攻击力：` + attr.magicAtk.getCurrent(),
+                `\n防御力：` + attr.def.getCurrent(),
+                `\n技能伤害增加率：` + attr.skillDamage.getCurrent(),
+                `\n伤害增加率：` + attr.damage.getCurrent(),
+                `\n暴击率：` + attr.crit.getCurrent(),
+                `\n暴击伤害：` + attr.critDamage.getCurrent());
+            return true;
+        }else{
+            return res;
+        }
 
-        console.log(`当前属性：`, 
-        `\n血量`+attr.hp.getCurrent(),
-        `\n最大血量`+attr.maxHp.getCurrent(), 
-        `\n蓝量`+attr.mp.getCurrent(), 
-        `\n最大蓝量`+attr.maxMp.getCurrent(), 
-        `\n力量`+attr.str.getCurrent(), 
-        `\n智力`+attr.int.getCurrent(), 
-        `\n体质`+attr.vit.getCurrent(),
-        `\n攻击力`+attr.atk.getCurrent(), 
-        `\n魔法攻击力`+attr.magicAtk.getCurrent(), 
-        `\n防御力`+attr.def.getCurrent(), 
-        `\n技能伤害增加率`+attr.skillDamage.getCurrent(), 
-        `\n伤害增加率`+attr.damage.getCurrent(), 
-        `\n暴击率`+attr.crit.getCurrent(), 
-        `\n暴击伤害`+attr.critDamage.getCurrent());
     }
 
     net_Onclick2() {
         let attr = this.currentPlayer.character.getComponent(AbilitySystemComponent).attributeSet as PlayerAttributeSet;
 
-        console.log(`当前属性：`, 
-        `\n血量`+attr.hp.getCurrent(),
-        `\n最大血量`+attr.maxHp.getCurrent(), 
-        `\n蓝量`+attr.mp.getCurrent(), 
-        `\n最大蓝量`+attr.maxMp.getCurrent(), 
-        `\n力量`+attr.str.getCurrent(), 
-        `\n智力`+attr.int.getCurrent(), 
-        `\n体质`+attr.vit.getCurrent(),
-        `\n攻击力`+attr.atk.getCurrent(), 
-        `\n魔法攻击力`+attr.magicAtk.getCurrent(), 
-        `\n防御力`+attr.def.getCurrent(), 
-        `\n技能伤害增加率`+attr.skillDamage.getCurrent(), 
-        `\n伤害增加率`+attr.damage.getCurrent(), 
-        `\n暴击率`+attr.crit.getCurrent(), 
-        `\n暴击伤害`+attr.critDamage.getCurrent());
+        console.log(`当前属性：`,
+            `\n血量` + attr.hp.getCurrent(),
+            `\n最大血量` + attr.maxHp.getCurrent(),
+            `\n蓝量` + attr.mp.getCurrent(),
+            `\n最大蓝量` + attr.maxMp.getCurrent(),
+            `\n力量` + attr.str.getCurrent(),
+            `\n智力` + attr.int.getCurrent(),
+            `\n体质` + attr.vit.getCurrent(),
+            `\n攻击力` + attr.atk.getCurrent(),
+            `\n魔法攻击力` + attr.magicAtk.getCurrent(),
+            `\n防御力` + attr.def.getCurrent(),
+            `\n技能伤害增加率` + attr.skillDamage.getCurrent(),
+            `\n伤害增加率` + attr.damage.getCurrent(),
+            `\n暴击率` + attr.crit.getCurrent(),
+            `\n暴击伤害` + attr.critDamage.getCurrent());
     }
 }
