@@ -151,19 +151,27 @@ export class PlayerAttributeSet extends AttributeSet {
         }
 
     }
-
+    /**增加技能攻击力
+     * @param value 增加的数值 0.1表示增加10%
+     */
     addSkillDamage(value: number): void {
         let currentSkillDamage = this.skillDamage.getCurrent();
-        let newSkillDamage = currentSkillDamage * value;
+        let newSkillDamage = currentSkillDamage * (1 + value);
         this.skillDamage.setCurrent(newSkillDamage);
     }
 
+    /**增加伤害加成
+     * @param value 增加的数值 0.1表示增加10%
+     */
     addDamage(value: number): void {
         let currentDamage = this.damage.getCurrent();
         let newDamage = currentDamage + value;
         this.damage.setCurrent(newDamage);
     }
 
+    /**增加暴击率
+     * @param value 增加的数值 0.1表示增加10%
+     */
     addCritDamage(value: number): void {
         let currentCritDamage = this.critDamage.getCurrent();
         let newCritDamage = currentCritDamage + value;

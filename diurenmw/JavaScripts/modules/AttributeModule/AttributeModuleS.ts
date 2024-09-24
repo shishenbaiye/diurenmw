@@ -1,6 +1,7 @@
 // import { PlayerAttributeSet } from "../boxingModule/PlayerAttributeSet";
 import { GameEventBus } from "../../common/eventBus/EventBus";
 import { GameConfig } from "../../configs/GameConfig";
+import { MathTool } from "../../tools/MathTool";
 import { AttributeDataInit } from "../gasModule/gameAbilitys/AS/AttributeHelper";
 import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { WeaponModuleS } from "../weaponModule/WeaponModuleS";
@@ -61,11 +62,11 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
             AttributeDataInit(as, "magicAtk", excelData.matk);
             AttributeDataInit(as, "def", excelData.armor);
 
-            AttributeDataInit(as, "skillDamage", 0);
-            AttributeDataInit(as, "damage", 0);
+            AttributeDataInit(as, "skillDamage", 1);
+            AttributeDataInit(as, "damage", 1);
 
             AttributeDataInit(as, "crit", excelData.crit);
-            AttributeDataInit(as, "critDamage", 1.5);
+            AttributeDataInit(as, "critDamage", 1);
 
             as.refreshAttribute();
             console.warn(`初始化属性完成`);
@@ -126,21 +127,15 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
         if (res) {
             let attr = player.character.getComponent(AbilitySystemComponent).attributeSet as PlayerAttributeSet;
 
-            console.warn(`当前属性：`,
-                `\n血量：` + attr.hp.getCurrent(),
-                `\n最大血量：` + attr.maxHp.getCurrent(),
-                `\n蓝量：` + attr.mp.getCurrent(),
-                `\n最大蓝量：` + attr.maxMp.getCurrent(),
-                `\n力量：` + attr.str.getCurrent(),
-                `\n智力：` + attr.int.getCurrent(),
-                `\n体质：` + attr.vit.getCurrent(),
-                `\n攻击力：` + attr.atk.getCurrent(),
-                `\n魔法攻击力：` + attr.magicAtk.getCurrent(),
-                `\n防御力：` + attr.def.getCurrent(),
-                `\n技能伤害增加率：` + attr.skillDamage.getCurrent(),
-                `\n伤害增加率：` + attr.damage.getCurrent(),
-                `\n暴击率：` + attr.crit.getCurrent(),
-                `\n暴击伤害：` + attr.critDamage.getCurrent());
+            console.warn(`造成伤害：`,MathTool.damageFormula(1,2.6,
+                attr.atk.getCurrent(),
+                attr.magicAtk.getCurrent(),
+                attr.str.getCurrent(),
+                attr.int.getCurrent(),
+                attr.damage.getCurrent(),
+                attr.skillDamage.getCurrent(),
+                attr.crit.getCurrent(),
+                attr.critDamage.getCurrent()));
             return true;
         }else{
             return res;
@@ -154,21 +149,15 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
         if (res) {
             let attr = player.character.getComponent(AbilitySystemComponent).attributeSet as PlayerAttributeSet;
 
-            console.warn(`当前属性：`,
-                `\n血量：` + attr.hp.getCurrent(),
-                `\n最大血量：` + attr.maxHp.getCurrent(),
-                `\n蓝量：` + attr.mp.getCurrent(),
-                `\n最大蓝量：` + attr.maxMp.getCurrent(),
-                `\n力量：` + attr.str.getCurrent(),
-                `\n智力：` + attr.int.getCurrent(),
-                `\n体质：` + attr.vit.getCurrent(),
-                `\n攻击力：` + attr.atk.getCurrent(),
-                `\n魔法攻击力：` + attr.magicAtk.getCurrent(),
-                `\n防御力：` + attr.def.getCurrent(),
-                `\n技能伤害增加率：` + attr.skillDamage.getCurrent(),
-                `\n伤害增加率：` + attr.damage.getCurrent(),
-                `\n暴击率：` + attr.crit.getCurrent(),
-                `\n暴击伤害：` + attr.critDamage.getCurrent());
+            console.warn(`造成伤害：`,MathTool.damageFormula(1,2.6,
+                attr.atk.getCurrent(),
+                attr.magicAtk.getCurrent(),
+                attr.str.getCurrent(),
+                attr.int.getCurrent(),
+                attr.damage.getCurrent(),
+                attr.skillDamage.getCurrent(),
+                attr.crit.getCurrent(),
+                attr.critDamage.getCurrent()));
             return true;
         }else{
             return res;

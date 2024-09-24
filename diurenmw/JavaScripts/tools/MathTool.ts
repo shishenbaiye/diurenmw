@@ -153,6 +153,68 @@ export class MathTool {
 		const r = Math.random();
 		const exponent = bias;
 		const value = max - (max - min) * Math.pow(1 - r, exponent);
-		return Math.round(value); 
+		return Math.round(value);
+	}
+
+
+	/**伤害计算公式
+	 * @param type 伤害类型 1:物理 2:魔法 3:真实
+	 * @param skill 技能倍率
+	 * @param atk 物理攻击
+	 * @param matk 魔法攻击
+	 * @param str 力量
+	 * @param int 智力
+	 * @param damage 伤害加成 
+	 * @param skillDamage 技能伤害加成
+	 * @param crit 暴击率
+	 * @param critDamage 暴击伤害
+	 * @returns 伤害值
+	 */
+	public static damageFormula(type: number, skill: number, atk: number, matk: number, str: number, int: number, damage: number, skillDamage: number, crit: number, critDamage: number): number {
+		if (type == 1) {
+			// 力量兑换物理攻击值
+			const strAdd = 50 * Math.log(str + 1);
+			const isCrit = Math.random() < crit;
+			const res = (atk + strAdd) * skill * skillDamage * damage * (isCrit ? 2*critDamage : 1);
+			// 取整
+			return Math.round(res);
+		}
+		if (type == 2) {
+			// 智力兑换魔法攻击值
+			const intAdd = 50 * Math.log(str + 1);
+			const isCrit = Math.random() < crit;
+			const res = (matk + intAdd) * skill * skillDamage * damage * (isCrit ? 2*critDamage : 1);
+			// 取整
+			return Math.round(res);
+		}
+		if (type == 3) {
+			const isCrit = Math.random() < crit;
+			const res = skill * skillDamage * damage * (isCrit ? 2*critDamage : 1);
+			return Math.round(res);
+		}
+	}
+
+	/**计算玩家对怪物造成的伤害 */
+	public static calculateActualDamage(damage: number, monsterDef: number, playerLevel: number, monsterLevel: number, K = 50): number {
+		// 计算等级因子 LevelFactor
+		const levelFactor = 1 / (1 + Math.exp(playerLevel - monsterLevel));
+
+		// 计算实际伤害 ActualDamage
+		const actualDamage = damage * K / (K + monsterDef * levelFactor);
+
+		// 确保实际伤害不为负数,取整
+		return Math.round(Math.max(actualDamage, 0))
+	}
+
+	/**计算怪物对玩家造成伤害 */
+	public static calculateMonsterDamage(monsterDamage: number, playerDef: number, playerLevel: number, monsterLevel: number, K = 50): number {
+		// 计算等级因子 LevelFactor
+		const levelFactor = 1 / (1 + Math.exp(monsterLevel - playerLevel));
+
+		// 计算实际伤害 ActualDamage
+		const actualDamage = monsterDamage * K / (K + playerDef * levelFactor);
+
+		// 确保实际伤害不为负数
+		return Math.round(Math.max(actualDamage, 0));
 	}
 }

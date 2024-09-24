@@ -23,7 +23,6 @@ export class WarriorSuperWeapon extends WeaponBase {
         this.ownerAttribute.vit.add(999);
     }
     unExcuteEffet1(): void {
-        console.log("unExcuteEffet1");
         this.ownerAttribute.vit.sub(999);
     }
 
@@ -31,10 +30,10 @@ export class WarriorSuperWeapon extends WeaponBase {
     useEffet2: boolean = true;
     effect2Desc: string = "";
     excuteEffet2(): void {
-       
+       this.ownerAttribute.crit.add(0.8)
     }
     unExcuteEffet2(): void {
-        
+        this.ownerAttribute.crit.sub(0.8)
     }
 
 
