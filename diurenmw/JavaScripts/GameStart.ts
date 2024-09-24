@@ -13,6 +13,8 @@ import { WeaponModuleData } from "./modules/weaponModule/WeaponModuleData";
 import { BagManagerModuleS } from "./modules/bagModule/BagManagerModuleS";
 import { BagManagerModuleC } from "./modules/bagModule/BagManagerModuleC";
 import { BagManagerModuleData } from "./modules/bagModule/BagManagerModuleData";
+import { MContainer } from "./framework/DI/MContainer";
+import { LoadingManager } from "./common/LoadingManager";
 
 
 @Component
@@ -24,7 +26,7 @@ class GameStart extends OdinGame {
     onStart(): void {
         this.useUpdate = true;
         MFramework.initial(CurrentScence.currentScence);
-
+        MContainer.instance.getPlugin(LoadingManager).init();
         DataStorage.setTemporaryStorage(this.isLocal);
         if (mw.SystemUtil.isClient()) {
         }
@@ -67,6 +69,7 @@ class GameStart extends OdinGame {
         //         }
         //     }
         // });
+
         this.onRegisterModuleModule();
     }
 

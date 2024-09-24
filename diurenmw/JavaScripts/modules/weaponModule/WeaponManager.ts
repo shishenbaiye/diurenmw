@@ -25,6 +25,7 @@ export class WeaponManager extends MObject {
         if (!as) return null;
         if (WeaponManager.instance.weaponMap.has(wid)) {
             let weapon = MFramework.createObject(WeaponManager.instance.weaponMap.get(wid)) as T;
+            weapon.wid = wid;
             weapon.owner = owner;
             weapon.ownerAttribute = as;
             weapon.uuid = UuidCreater.create();

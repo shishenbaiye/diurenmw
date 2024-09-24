@@ -1,3 +1,5 @@
+import { AttributeSet } from "./AttributeSet";
+
 @Serializable
 export class AttributeSetData { 
     constructor(id:string, name: string, initValue: number) {
@@ -6,6 +8,7 @@ export class AttributeSetData {
         this.baseValue = initValue;
         this.name = name;
     }
+    ownerAs:AttributeSet;
     @Property({ replicated: true })
     public ownerGameObjectId:string
     @Property({ replicated: true })
@@ -19,7 +22,10 @@ export class AttributeSetData {
     }
 
     setCurrent(value: number) {
+        this.ownerAs.preAttributeChange(this, value);
+        let oldValue = this.currentValue;
         this.currentValue = value; 
+        this.ownerAs.postAttributeChange(this, oldValue, value);
     }
 
     getBase(): number {
@@ -32,5 +38,13 @@ export class AttributeSetData {
 
     getOwnerId():string{
         return this.ownerGameObjectId;
+    }
+
+    add(value: number) {
+        this.setCurrent(this.getCurrent() + value);
+    }
+
+    sub(value: number) {
+        this.setCurrent(this.getCurrent() - value);
     }
 }

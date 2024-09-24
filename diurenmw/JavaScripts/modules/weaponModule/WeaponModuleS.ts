@@ -20,7 +20,11 @@ export class WeaponModuleS extends ModuleS<WeaponModuleC, WeaponModuleData> {
                 let data = weaponData.getEquipedWeapon();
                 let weapon = WeaponManager.instance.createByData(player, data);
                 weaponScript.setWeapon(weapon);
-                weapon.equip();
+                weapon.equip().then(()=>{
+                    this.getClient(player).net_stopLoading();
+                })
+            }else{
+                this.getClient(player).net_stopLoading();
             }
         } else {
             console.error(`玩家${player.userId}添加武器脚本失败`);
@@ -40,7 +44,7 @@ export class WeaponModuleS extends ModuleS<WeaponModuleC, WeaponModuleData> {
         return data.removeWeapon(uuId);
     }
 
-    equepWeapon(player: mw.Player, uuId: string): boolean {
+    async equepWeapon(player: mw.Player, uuId: string): Promise<boolean> {
         let data = this.getPlayerData(player);
         let weaponData = data.getWeaponData(uuId);
         if (weaponData == null) {
@@ -55,7 +59,7 @@ export class WeaponModuleS extends ModuleS<WeaponModuleC, WeaponModuleData> {
                 weaponScript.getWeapon().unEquip();
             }
             weaponScript.setWeapon(weapon);
-            weapon.equip();
+            await weapon.equip();
             data.equipWeapon(uuId);
             return true;
         }

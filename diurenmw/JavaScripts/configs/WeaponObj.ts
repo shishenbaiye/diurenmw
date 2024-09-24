@@ -1,20 +1,16 @@
 import { ConfigBase, IElementBase } from "./ConfigBase";
-const EXCELDATA:Array<Array<any>> = [["id","name","type","quality","atk","matk","str","int","effect1","effect2","effect3","effect4"],["","","","","","","","","","","",""],[1001,"大剑",1,1,[15,20],[5,10],100,20,null,null,null,null],[1002,"超级无敌牛逼大剑",1,5,[180,200],[50,80],1500,300,"效果1描述","效果1描述","效果1描述","效果1描述"]];
+const EXCELDATA:Array<Array<any>> = [["id","name","type","quality","model","atk","matk","str","int","effect1","effect2","effect3","effect4"],["","","","","","","","","","","","",""],[1001,"大剑",1,1,"ED1D823242771BAA249294A58DE4710A",[15,20],[5,10],100,20,null,null,null,null],[1002,"超级无敌牛逼大剑",1,5,"4D82B7F549634FA3E420FA80E2FB3CD3",[180,200],[50,80],1500,300,"效果1描述","效果1描述","效果1描述","效果1描述"]];
 export interface IWeaponObjElement extends IElementBase{
  	/**ID*/
 	id:number
 	/**名称*/
 	name:string
-	/**武器种类：
-1.剑*/
+	/**武器种类：&#xA;1.剑*/
 	type:number
-	/**品级：
-1.普通
-2.高级
-3.稀有
-4.传说
-5.史诗*/
+	/**品级：&#xA;1.普通&#xA;2.高级&#xA;3.稀有&#xA;4.传说&#xA;5.史诗*/
 	quality:number
+	/**模型*/
+	model:string
 	/**物理攻击力范围*/
 	atk:Array<number>
 	/**魔法攻击力范围*/

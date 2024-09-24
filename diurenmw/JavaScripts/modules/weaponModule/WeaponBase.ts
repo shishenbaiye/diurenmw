@@ -21,7 +21,7 @@ export abstract class WeaponBase extends MObject{
     /**武器id */
     abstract wid:number;
     /**武器种类id */
-    abstract wtid:number;
+    private wtid:number;
     // 物理攻击
     private atk:number;
     // 魔法攻击
@@ -32,6 +32,8 @@ export abstract class WeaponBase extends MObject{
     private int:number;
     // 品级
     private quality:number;
+
+    private model:Model;
 
     initByData(data:WeaponData):void{
         this.uuid = data.uuid;
@@ -49,6 +51,7 @@ export abstract class WeaponBase extends MObject{
 
     init(){
         let weaponConfig = GameConfig.WeaponObj.getElement(this.wid);
+        this.wtid = weaponConfig.type;
         this.atk = MathTool.normalDistribution(weaponConfig.atk[0],weaponConfig.atk[1]);
         this.matk = MathTool.normalDistribution(weaponConfig.matk[0],weaponConfig.matk[1]);
         this.str = weaponConfig.str;
@@ -56,7 +59,7 @@ export abstract class WeaponBase extends MObject{
         this.quality = weaponConfig.quality;
     }
 
-    equip():void{
+    async equip(){
         let playerAtk = this.ownerAttribute.atk.getCurrent();
         let playerMatk = this.ownerAttribute.magicAtk.getCurrent();
         let playerStr = this.ownerAttribute.str.getCurrent();
@@ -79,6 +82,13 @@ export abstract class WeaponBase extends MObject{
         if(this.useEffet4){
             this.excuteEffet4();
         }
+        let weaponConfig = GameConfig.WeaponObj.getElement(this.wid);
+        let model = await GameObject.asyncSpawn(weaponConfig.model);
+        this.model = model as Model;
+        // this.model["actor"].RootComponent.SetCollisionResponseToChannel(UE.ECollisionChannel.ECC_Pawn, UE.ECollisionResponse.ECR_Ignore);
+        this.owner.character.attachToSlot(model,HumanoidSlotType.RightHand);
+        this.model.setCollision(PropertyStatus.Off,true);
+        model.worldTransform.scale = new Vector(1.2);
     }
 
     unEquip():void{
@@ -104,6 +114,11 @@ export abstract class WeaponBase extends MObject{
         if(this.useEffet4){
             this.unExcuteEffet4();
         }
+
+        if(this.model){
+            this.model.destroy();
+        }
+
         //Todo:添加进背包
     }
 
