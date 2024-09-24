@@ -80,16 +80,16 @@ export class AttributeModuleC extends ModuleC<AttributeModuleS, AttributeModuleD
                 this.attrUI.mDef.text = `${value}`;
                 break;
             case "skillDamage":
-                this.attrUI.mSkillDamage.text = `${value}`;
+                this.attrUI.mSkillDamage.text = `${(value-1)*100}%`;
                 break;
             case "damage":
-                this.attrUI.mDamage.text = `${value}`;
+                this.attrUI.mDamage.text = `${(value-1)*100}%`;
                 break;
             case "crit":
-                this.attrUI.mCrit.text = `${value}`;
+                this.attrUI.mCrit.text = `${(value)*100}%`;
                 break;
             case "critDamage":
-                this.attrUI.mCritDamage.text = `${value}`;
+                this.attrUI.mCritDamage.text = `${(value-1)*100}%`;
                 break;
             default:
                 console.error(`未知属性：${attrName}`);
