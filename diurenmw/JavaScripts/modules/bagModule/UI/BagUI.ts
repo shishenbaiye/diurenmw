@@ -25,7 +25,7 @@ export default class BagUI extends BagUI_Generate {
 
 	/** 仅在游戏时间对非模板实例调用一次 */
 	protected onStart() {
-		this.itemNumPerLine = Math.floor(this.itemScrollBox.size.x / BagItemUI.defaultX);
+		this.itemNumPerLine = Math.floor(this.content.size.x / BagItemUI.defaultX);
 		console.log("BagUI itemNumPerLine is " + this.itemNumPerLine);
 	}
 
@@ -37,7 +37,7 @@ export default class BagUI extends BagUI_Generate {
 
 	protected AddItemUI() : boolean {
 
-		let index = this.itemScrollBox.getChildrenCount();
+		let index = this.content.getChildrenCount();
 		if(index + 1 >= this.bagData.bagTypeCapacity.get(this.currentTypePage))
 		{
 			console.warn("BagUI AddItemUI failed, is full. currentTypePage is " + this.currentTypePage + ", max capacity is " + this.bagData.bagTypeCapacity.get(this.currentTypePage));
@@ -46,7 +46,7 @@ export default class BagUI extends BagUI_Generate {
 
 		const bagItemUIObject = UIService.create(BagItemUI);
 		bagItemUIObject.init(index, this.bagData);
-		this.itemScrollBox.addChild(bagItemUIObject.uiObject)
+		this.content.addChild(bagItemUIObject.uiObject)
 
 		bagItemUIObject.uiObject.position = new mw.Vector2((index % this.itemNumPerLine) * BagItemUI.defaultX, Math.floor(index / this.itemNumPerLine) * BagItemUI.defaultY);
 		bagItemUIObject.uiObject.size = new mw.Vector2(BagItemUI.defaultX, BagItemUI.defaultY);
@@ -56,6 +56,9 @@ export default class BagUI extends BagUI_Generate {
 	}
 
 	protected updateCurrentTypePage() {
+
+		this.content.size = new Vector2(this.content.size.x, (Math.floor(this.bagData.bagTypeCapacity.get(this.currentTypePage) / this.itemNumPerLine) + 1) * BagItemUI.defaultY);
+
 		for(let i = 0; i <= this.bagData.bagTypeCapacity.get(this.currentTypePage); ++i) {
 			this.AddItemUI();
 		}

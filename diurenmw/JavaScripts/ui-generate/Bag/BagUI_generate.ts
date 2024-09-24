@@ -39,5 +39,13 @@ export default class BagUI_Generate extends UIScript {
 		}
 		return this.itemScrollBox_Internal
 	}
+
+	private content_Internal: mw.ScrollBox
+	public get content(): mw.ScrollBox {
+		if(!this.content_Internal&&this.uiWidgetBase) {
+			this.content_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/BagBackground/ItemListBackground/ItemScrollBox/Content') as mw.ScrollBox
+		}
+		return this.content_Internal
+	}
 }
  

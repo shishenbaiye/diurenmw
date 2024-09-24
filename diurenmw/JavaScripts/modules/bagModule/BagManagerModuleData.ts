@@ -21,7 +21,7 @@ export class BagManagerModuleData extends Subdata {
         if(!this.bagTypeCapacity)
         {
             this.bagTypeCapacity = new Map<ItemType, number>();
-            this.bagTypeCapacity.set(ItemType.Weapon, 20);
+            this.bagTypeCapacity.set(ItemType.Weapon, 100);
         }
         this.save(true);
     }
