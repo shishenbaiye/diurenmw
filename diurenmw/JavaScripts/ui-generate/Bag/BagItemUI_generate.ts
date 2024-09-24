@@ -8,8 +8,7 @@
 
 
 
-@UIBind('UI/Bag/BagItem.ui')
-export default class BagItem_Generate extends UIScript {
+export default class BagItemUI_Generate extends UIScript {
 		private itemName_Internal: mw.TextBlock
 	public get itemName(): mw.TextBlock {
 		if(!this.itemName_Internal&&this.uiWidgetBase) {
@@ -24,45 +23,5 @@ export default class BagItem_Generate extends UIScript {
 		}
 		return this.itemNum_Internal
 	}
-
-
- 
-	/**
-	* onStart 之前触发一次
-	*/
-	protected onAwake() {
-		this.canUpdate = false;
-		this.layer = UILayerMiddle;
-        this.initButtons();
-	}
-
-	protected initButtons() {
-		//按钮添加点击
-		
-		//按钮添加点击
-		
-
-		//按钮多语言
-		
-		//文本多语言
-		
-		this.initLanguage(this.itemName)
-		
-	
-		this.initLanguage(this.itemNum)
-		
-	
-		//文本多语言
-		
-
-	}
-
-	private initLanguage(ui: StaleButton | TextBlock) {
-        let call = UIScript.getBehavior("lan");
-        if (call && ui) {
-            call(ui);
-        }
-    }
-	 
 }
  

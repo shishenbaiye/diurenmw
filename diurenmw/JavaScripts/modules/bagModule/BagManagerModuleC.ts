@@ -1,9 +1,10 @@
-import { BagModuleData } from "./BagModuleData";
-import { BagModuleS } from "./BagModuleS";
+import { BagManagerModuleData } from "./BagManagerModuleData";
+import { BagManagerModuleS } from "./BagManagerModuleS";
 import BagUI from "./UI/BagUI";
+import BagItemUI from "./UI/BagItemUI";
 import { BagItemBase, ItemType } from "./ItemBase";
 
-export class BagModuleC extends ModuleC<BagModuleS,BagModuleData> {
+export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModuleData> {
     /**
      * @groups 基类/C&S拓展
      * @description 生命周期方法-创建模块时调用
@@ -55,7 +56,7 @@ export class BagModuleC extends ModuleC<BagModuleS,BagModuleData> {
 
     // 初始化背包
     protected Init(): void {
-        mw.InputUtil.onKeyDown(Keys.B, this.onBagOpen);
+        mw.InputUtil.onKeyDown(Keys.B, this.onBagOpen.bind(this));
 
         mw.InputUtil.onKeyDown(Keys.One, () => {
             console.log("BagModuleC onKeyOne");
@@ -65,11 +66,12 @@ export class BagModuleC extends ModuleC<BagModuleS,BagModuleData> {
 
     // 打开背包
     protected onBagOpen(): void {
-        UIService.show(BagUI);
+        let ui = UIService.show(BagUI);
+        ui.init(this.data);
     }
 
     // 更新客户端背包数据
-    net_updateBagData(BagItemBase : BagItemBase): void {
-        this.data.addItem(BagItemBase);
+    net_updateBagData(bagItemBase : BagItemBase): void {
+        this.data.addItem(bagItemBase);
     }
 }
