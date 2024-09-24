@@ -148,23 +148,30 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
 
     }
 
-    net_Onclick2() {
-        let attr = this.currentPlayer.character.getComponent(AbilitySystemComponent).attributeSet as PlayerAttributeSet;
+    async net_Onclick2() {
+        let player = this.currentPlayer;
+        let res = await ModuleService.getModule(WeaponModuleS).equepWeapon(player, "01921e61-c51a-15a5-f492-81b0af4afda7");
+        if (res) {
+            let attr = player.character.getComponent(AbilitySystemComponent).attributeSet as PlayerAttributeSet;
 
-        console.log(`当前属性：`,
-            `\n血量` + attr.hp.getCurrent(),
-            `\n最大血量` + attr.maxHp.getCurrent(),
-            `\n蓝量` + attr.mp.getCurrent(),
-            `\n最大蓝量` + attr.maxMp.getCurrent(),
-            `\n力量` + attr.str.getCurrent(),
-            `\n智力` + attr.int.getCurrent(),
-            `\n体质` + attr.vit.getCurrent(),
-            `\n攻击力` + attr.atk.getCurrent(),
-            `\n魔法攻击力` + attr.magicAtk.getCurrent(),
-            `\n防御力` + attr.def.getCurrent(),
-            `\n技能伤害增加率` + attr.skillDamage.getCurrent(),
-            `\n伤害增加率` + attr.damage.getCurrent(),
-            `\n暴击率` + attr.crit.getCurrent(),
-            `\n暴击伤害` + attr.critDamage.getCurrent());
+            console.warn(`当前属性：`,
+                `\n血量：` + attr.hp.getCurrent(),
+                `\n最大血量：` + attr.maxHp.getCurrent(),
+                `\n蓝量：` + attr.mp.getCurrent(),
+                `\n最大蓝量：` + attr.maxMp.getCurrent(),
+                `\n力量：` + attr.str.getCurrent(),
+                `\n智力：` + attr.int.getCurrent(),
+                `\n体质：` + attr.vit.getCurrent(),
+                `\n攻击力：` + attr.atk.getCurrent(),
+                `\n魔法攻击力：` + attr.magicAtk.getCurrent(),
+                `\n防御力：` + attr.def.getCurrent(),
+                `\n技能伤害增加率：` + attr.skillDamage.getCurrent(),
+                `\n伤害增加率：` + attr.damage.getCurrent(),
+                `\n暴击率：` + attr.crit.getCurrent(),
+                `\n暴击伤害：` + attr.critDamage.getCurrent());
+            return true;
+        }else{
+            return res;
+        }
     }
 }

@@ -21,7 +21,7 @@ export abstract class WeaponBase extends MObject{
     /**武器id */
     abstract wid:number;
     /**武器种类id */
-    abstract wtid:number;
+    private wtid:number;
     // 物理攻击
     private atk:number;
     // 魔法攻击
@@ -51,6 +51,7 @@ export abstract class WeaponBase extends MObject{
 
     init(){
         let weaponConfig = GameConfig.WeaponObj.getElement(this.wid);
+        this.wtid = weaponConfig.type;
         this.atk = MathTool.normalDistribution(weaponConfig.atk[0],weaponConfig.atk[1]);
         this.matk = MathTool.normalDistribution(weaponConfig.matk[0],weaponConfig.matk[1]);
         this.str = weaponConfig.str;

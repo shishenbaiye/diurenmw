@@ -7,7 +7,6 @@ import { MPlugin } from "../../../framework/DI/MContainer";
 @registerWeapon(1002)
 export class WarriorSuperWeapon extends WeaponBase {
     wid: number = 1002;
-    wtid: number = 1;
 
     init(){
         super.init();
@@ -21,10 +20,11 @@ export class WarriorSuperWeapon extends WeaponBase {
     useEffet1: boolean = true;
     effect1Desc: string = "";
     excuteEffet1(): void {
-        
+        this.ownerAttribute.vit.add(999);
     }
     unExcuteEffet1(): void {
-        
+        console.log("unExcuteEffet1");
+        this.ownerAttribute.vit.sub(999);
     }
 
 
