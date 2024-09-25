@@ -1,8 +1,7 @@
-import { BagManagerModuleData } from "./BagManagerModuleData";
+import { BagManagerModuleData, BagItemBase, ItemType } from "./BagManagerModuleData";
 import { BagManagerModuleS } from "./BagManagerModuleS";
 import BagUI from "./UI/BagUI";
 import BagItemUI from "./UI/BagItemUI";
-import { BagItemBase, ItemType } from "./ItemBase";
 
 export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModuleData> {
     /**

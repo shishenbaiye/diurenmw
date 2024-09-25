@@ -26,10 +26,11 @@ export default class BagItemUI extends BagItemUI_Generate {
 	public init(inIndex : number, inBagData : BagManagerModuleData) {
 		this.index = inIndex;
 		this.bagData = inBagData;
+		this.updateItemUI();
 	}
 
-	protected initButtons() {
-		
+	protected updateItemUI() {
+		// this.bagData.
 	}
 
 	private initLanguage(ui: StaleButton | TextBlock) {

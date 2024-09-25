@@ -1,8 +1,7 @@
 
 import BagUI_Generate from "../../../ui-generate/Bag/BagUI_generate"
 import BagItemUI from "./BagItemUI"
-import { BagManagerModuleData } from "../BagManagerModuleData";
-import { ItemType } from "../ItemBase";
+import { BagManagerModuleData, ItemType } from "../BagManagerModuleData";
 
 @UIBind('UI/Bag/BagUI.ui')
 export default class BagUI extends BagUI_Generate {
@@ -55,12 +54,46 @@ export default class BagUI extends BagUI_Generate {
 		return true;
 	}
 
+	protected RemoveItemUI() {
+		if(this.content.getChildrenCount() <= 0)
+		{
+			console.warn("BagUI RemoveItemUI failed, is empty.");
+			return;
+		}
+		this.content.removeChildAt(this.content.getChildrenCount());
+	}
+
 	protected updateCurrentTypePage() {
 
-		this.content.size = new Vector2(this.content.size.x, (Math.floor(this.bagData.bagTypeCapacity.get(this.currentTypePage) / this.itemNumPerLine) + 1) * BagItemUI.defaultY);
+		let num = this.bagData.bagTypeCapacity.get(this.currentTypePage);
+		let currentNum = this.content.getChildrenCount();
+		this.content.size = new Vector2(this.content.size.x, (Math.floor(num / this.itemNumPerLine) + 1) * BagItemUI.defaultY);
 
-		for(let i = 0; i <= this.bagData.bagTypeCapacity.get(this.currentTypePage); ++i) {
-			this.AddItemUI();
+		console.log("BagUI updateCurrentTypePage, currentTypePage is " + this.currentTypePage + ", num is " + num + ", currentNum is " + currentNum);
+
+		console.log("bagTypeCapacity size: " + this.bagData.bagTypeCapacity.size);
+		this.bagData.bagTypeCapacity.forEach((value, key) => {
+			console.log("key is " + key + ", value is " + value);
+		});
+
+		console.log("capactiry armor " + this.bagData.bagTypeCapacity.has(ItemType.Weapon));
+		console.log("capactiry weapon " + this.bagData.bagTypeCapacity.has(ItemType.Armor));
+		console.log("capactiry jewelry " + this.bagData.bagTypeCapacity.has(ItemType.Jewelry));
+		console.log("capactiry consumables " + this.bagData.bagTypeCapacity.has(ItemType.Consumables));
+		console.log("capactiry materials " + this.bagData.bagTypeCapacity.has(ItemType.Materials));
+
+
+		if(num > currentNum)
+		{
+			for(let i = 0; i <= num; ++i) {
+				this.AddItemUI();
+			}
+		}
+		else
+		{
+			for(let i = 0; i < num - currentNum; ++i) {
+				this.RemoveItemUI();
+			}
 		}
 	}
 
@@ -97,7 +130,8 @@ export default class BagUI extends BagUI_Generate {
 
 	protected OnWeaponClicked() {
 		console.log("BagUI OnWeaponClicked");
-
+		this.currentTypePage = ItemType.Weapon;
+		this.updateCurrentTypePage();
 	}
 
 	protected OnOtherClicked() {

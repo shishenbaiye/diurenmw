@@ -3,8 +3,7 @@ import { UuidCreater } from "../../tools/UuidCreater";
 import { PlayerAttributeSet } from "../AttributeModule/PlayerAttributeSet";
 import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { BagManagerModuleC } from "./BagManagerModuleC";
-import { BagManagerModuleData } from "./BagManagerModuleData";
-import { BagItem, BagItemBase, ItemType } from "./ItemBase";
+import { BagManagerModuleData, BagItemBase, ItemType} from "./BagManagerModuleData";
 
 export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModuleData> {
     /**
@@ -72,6 +71,6 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
 
     net_TestAddItem(player: mw.Player): void {
         console.log("BagModuleS net_TestAddItem");
-        this.addItem(player, new BagItem("uuid", "暴风大剑", ItemType.Weapon, 1));
+        this.addItem(player, {uuid: "uuid", count: 1, itemtype: ItemType.Weapon});
     }
 }
