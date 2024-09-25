@@ -1,4 +1,5 @@
 import { WeaponBase } from "./WeaponBase";
+import { WeaponModuleS } from "./WeaponModuleS";
 
 @Component
 export default class WeaponScript extends Script {
@@ -9,16 +10,49 @@ export default class WeaponScript extends Script {
     protected onStart() { 
         
     }
-    
-    setWeapon(weapon: WeaponBase) {
-        this.equipeWeapon = weapon;
+    /**装备武器
+     * @param uuid 武器uuid
+     */
+    async equepWeapon(uuid:string): Promise<boolean> {
+        let weapon = ModuleService.getModule(WeaponModuleS).equepWeapon((this.gameObject as Character).player, uuid);
+        if(weapon){
+            this.unEquipWeapon();
+            await weapon.equip();
+            this.equipeWeapon = weapon;
+            return true;
+        }
+        return false;
     }
-    
+
+
+    /**卸下武器
+     * @param uuid 武器uuid
+     */
+    unEquipWeapon() {
+        if(this.equipeWeapon){
+            this.equipeWeapon.unEquip();
+            this.equipeWeapon = null;
+        }
+    }
+       
+    /**获取当前装备武器
+     * @returns
+    */
     getWeapon(): WeaponBase {
         return this.equipeWeapon;
     }
 
-    removeWeapon() {
-        this.equipeWeapon = null;
+    /**添加一把新武器
+     * @param wid 武器id
+     */
+    addWeapon(wid:number) {
+        return ModuleService.getModule(WeaponModuleS).addWeapon((this.gameObject as Character).player, wid);
+    }
+
+    /**删除一把武器
+     * @param uuid 武器uuid
+     */
+    removeWeapon(uuid:string) {
+        return ModuleService.getModule(WeaponModuleS).removeWeapon((this.gameObject as Character).player, uuid);
     }
 }

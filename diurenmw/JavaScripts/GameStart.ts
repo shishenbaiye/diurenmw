@@ -15,6 +15,9 @@ import { BagManagerModuleC } from "./modules/bagModule/BagManagerModuleC";
 import { BagManagerModuleData } from "./modules/bagModule/BagManagerModuleData";
 import { MContainer } from "./framework/DI/MContainer";
 import { LoadingManager } from "./common/LoadingManager";
+import { ArmorModuleS } from "./modules/armorModule/ArmorModuleS";
+import { ArmorModuleC } from "./modules/armorModule/ArmorModuleC";
+import { ArmorModuleData } from "./modules/armorModule/ArmorModuleData";
 
 
 @Component
@@ -83,6 +86,7 @@ class GameStart extends OdinGame {
         MFramework.registerModule(AttributeModuleS, AttributeModuleC, AttributeModuleData);
         MFramework.registerModule(PlayerModuleS, PlayerModuleC, PlayerModuleData);
         MFramework.registerModule(WeaponModuleS,WeaponModuleC,WeaponModuleData);
+        MFramework.registerModule(ArmorModuleS,ArmorModuleC,ArmorModuleData);
         MFramework.registerModule(BagManagerModuleS, BagManagerModuleC, BagManagerModuleData);
 
         MFramework.enterGame();

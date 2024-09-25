@@ -18,11 +18,11 @@ export class WeaponModuleS extends ModuleS<WeaponModuleC, WeaponModuleData> {
             // 获取玩家装备的武器
             if (weaponData.equipedWeapon) {
                 let data = weaponData.getEquipedWeapon();
-                let weapon = WeaponManager.instance.createByData(player, data);
-                weaponScript.setWeapon(weapon);
-                weapon.equip().then(()=>{
-                    this.getClient(player).net_stopLoading();
-                })
+                if(data){
+                    weaponScript.equepWeapon(data.uuid).then(()=>{
+                        this.getClient(player).net_stopLoading();
+                    })
+                }
             }else{
                 this.getClient(player).net_stopLoading();
             }
@@ -31,6 +31,10 @@ export class WeaponModuleS extends ModuleS<WeaponModuleC, WeaponModuleData> {
         }
     }
 
+    /**增加武器
+     * @param player 玩家
+     * @param wid 武器id
+     */
     addWeapon(player: mw.Player, wid: number): WeaponBase {
         let weapon = WeaponManager.instance.createNew(player, wid);
         let data = this.getPlayerData(player);
@@ -44,25 +48,17 @@ export class WeaponModuleS extends ModuleS<WeaponModuleC, WeaponModuleData> {
         return data.removeWeapon(uuId);
     }
 
-    async equepWeapon(player: mw.Player, uuId: string): Promise<boolean> {
+    equepWeapon(player: mw.Player, uuId: string): WeaponBase {
         let data = this.getPlayerData(player);
         let weaponData = data.getWeaponData(uuId);
         if (weaponData == null) {
             console.error(`玩家${player.userId}没有这个武器`);
-            return false;
+            return null;
         }
 
         let weapon = WeaponManager.instance.createByData(player, weaponData);
-        let weaponScript = player.character.getComponent(WeaponScript);
-        if (weaponScript) {
-            if(weaponScript.getWeapon()){
-                weaponScript.getWeapon().unEquip();
-            }
-            weaponScript.setWeapon(weapon);
-            await weapon.equip();
-            data.equipWeapon(uuId);
-            return true;
-        }
+        data.equipWeapon(uuId);
+        return weapon;
     }
 
 }

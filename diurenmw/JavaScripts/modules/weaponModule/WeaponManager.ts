@@ -1,3 +1,4 @@
+import { GameConfig } from "../../configs/GameConfig";
 import { Constructor, MSingletonPlugin } from "../../framework/DI/MContainer";
 import { MFramework } from "../../framework/MFramework";
 import { MObject } from "../../framework/Object/MObject";
@@ -23,6 +24,8 @@ export class WeaponManager extends MObject {
     createNew<T extends WeaponBase>(owner: Player, wid: number): T {
         let as = owner.character.getComponent(AbilitySystemComponent).attributeSet as PlayerAttributeSet;
         if (!as) return null;
+        let weaponConfig = GameConfig.WeaponObj.getElement(wid);
+        if (!weaponConfig) return null;
         if (WeaponManager.instance.weaponMap.has(wid)) {
             let weapon = MFramework.createObject(WeaponManager.instance.weaponMap.get(wid)) as T;
             weapon.wid = wid;
@@ -42,17 +45,19 @@ export class WeaponManager extends MObject {
     }
 
     /**通过UUid创建一个武器对象 */
-    createByData<T extends WeaponBase>(owner: Player, data:WeaponData): T {
+    createByData<T extends WeaponBase>(owner: Player, data: WeaponData): T {
         let as = owner.character.getComponent(AbilitySystemComponent).attributeSet as PlayerAttributeSet;
         if (!as) return null;
         if (WeaponManager.instance.weaponMap.has(data.wid)) {
             let weapon = MFramework.createObject(WeaponManager.instance.weaponMap.get(data.wid)) as T;
+            weapon.wid = data.wid;
             weapon.owner = owner;
             weapon.ownerAttribute = as;
             weapon.initByData(data);
             return weapon;
         }
         let weapon = MFramework.createObject(WeaponBase) as T;
+        weapon.wid = data.wid;
         weapon.owner = owner;
         weapon.ownerAttribute = as;
         weapon.initByData(data);

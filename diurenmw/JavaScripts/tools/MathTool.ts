@@ -173,17 +173,17 @@ export class MathTool {
 	public static damageFormula(type: number, skill: number, atk: number, matk: number, str: number, int: number, damage: number, skillDamage: number, crit: number, critDamage: number): number {
 		if (type == 1) {
 			// 力量兑换物理攻击值
-			const strAdd = 50 * Math.log(str + 1);
+			const strAdd = 1 + str / 250; 
 			const isCrit = Math.random() < crit;
-			const res = (atk + strAdd) * skill * skillDamage * damage * (isCrit ? 2*critDamage : 1);
+			const res = (atk * strAdd) * skill * skillDamage * damage * (isCrit ? 2*critDamage : 1);
 			// 取整
 			return Math.round(res);
 		}
 		if (type == 2) {
 			// 智力兑换魔法攻击值
-			const intAdd = 50 * Math.log(str + 1);
+			const intAdd = 1 + int / 250;
 			const isCrit = Math.random() < crit;
-			const res = (matk + intAdd) * skill * skillDamage * damage * (isCrit ? 2*critDamage : 1);
+			const res = (matk * intAdd) * skill * skillDamage * damage * (isCrit ? 2*critDamage : 1);
 			// 取整
 			return Math.round(res);
 		}

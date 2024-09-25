@@ -5,7 +5,7 @@ export default class CameraCollsion extends Script {
     /** 当脚本被实例后，会在第一帧更新前调用此函数 */
     protected onStart(): void {
         if(SystemUtil.isClient()){
-            this.gameObject["actor"].RootComponent.SetCollisionResponseToChannel(UE.ECollisionChannel.ECC_Camera, UE.ECollisionResponse.ECR_Ignore);
+            // this.gameObject["actor"].RootComponent.SetCollisionResponseToChannel(UE.ECollisionChannel.ECC_Camera, UE.ECollisionResponse.ECR_Ignore);
             this.destroy();
         }
     }

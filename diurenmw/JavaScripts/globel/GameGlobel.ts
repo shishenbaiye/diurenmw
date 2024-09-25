@@ -1,6 +1,3 @@
-declare global {
-    var UE: any;
-}
 export namespace GameGlobal{
     export function AutoInit(target: any) {
 		target.initSelf();

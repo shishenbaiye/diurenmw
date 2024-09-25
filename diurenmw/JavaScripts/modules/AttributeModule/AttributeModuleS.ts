@@ -2,9 +2,12 @@
 import { GameEventBus } from "../../common/eventBus/EventBus";
 import { GameConfig } from "../../configs/GameConfig";
 import { MathTool } from "../../tools/MathTool";
+import ArmorScript from "../armorModule/ArmorScript";
+import { ArmorPart } from "../armorModule/ArmorType";
 import { AttributeDataInit } from "../gasModule/gameAbilitys/AS/AttributeHelper";
 import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { WeaponModuleS } from "../weaponModule/WeaponModuleS";
+import WeaponScript from "../weaponModule/WeaponScript";
 import { AttributeModuleC } from "./AttributeModuleC";
 import { AttributeModuleData } from "./AttributeModuleData";
 import { PlayerAttributeSet } from "./PlayerAttributeSet";
@@ -121,9 +124,17 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
 
     }
 
+    async net_add(){
+        let player = this.currentPlayer;
+        let res = player.character.getComponent(ArmorScript).addArmor(20002);
+        if(res){
+            return true;
+        }
+    }
+
     async net_OnClick() {
         let player = this.currentPlayer;
-        let res = await ModuleService.getModule(WeaponModuleS).equepWeapon(player, "01921e65-4bc7-c6d5-102f-2a5d222257c3");
+        let res = await player.character.getComponent(WeaponScript).equepWeapon("019228b7-7393-af93-a224-c9342fa1b295");
         if (res) {
             let attr = player.character.getComponent(AbilitySystemComponent).attributeSet as PlayerAttributeSet;
 
@@ -145,7 +156,7 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
 
     async net_Onclick2() {
         let player = this.currentPlayer;
-        let res = await ModuleService.getModule(WeaponModuleS).equepWeapon(player, "01921e61-c51a-15a5-f492-81b0af4afda7");
+        let res = await player.character.getComponent(ArmorScript).equepArmor(ArmorPart.Body,"019228be-435a-1345-1d51-4f3fb1eeb2eb");
         if (res) {
             let attr = player.character.getComponent(AbilitySystemComponent).attributeSet as PlayerAttributeSet;
 

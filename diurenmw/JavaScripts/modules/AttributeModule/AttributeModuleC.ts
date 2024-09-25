@@ -12,6 +12,17 @@ export class AttributeModuleC extends ModuleC<AttributeModuleS, AttributeModuleD
     private attrUI:AttributePanel = null;
 
     protected onStart(): void {
+
+        InputUtil.onKeyDown(Keys.I, async () => {
+            // z装备
+            this.load.showMaskLoading();
+            let res = await this.server.net_add();
+            if(res){
+                this.load.hideMaskLoading();
+                console.warn(`添加成功`);
+            }
+        })
+
         InputUtil.onKeyDown(Keys.O, async () => {
             // z装备
             this.load.showMaskLoading();
