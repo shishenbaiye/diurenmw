@@ -15,7 +15,7 @@ import { BagManagerModuleS } from "./modules/bagModule/BagManagerModuleS";
 import { PlayerModuleC } from "./modules/PlayerModule/PlayerModuleC";
 import { PlayerModuleData } from "./modules/PlayerModule/PlayerModuleData";
 import { PlayerModuleS } from "./modules/PlayerModule/PlayerModuleS";
-import { TutorialModuleC } from "./modules/tutorialModule/tutorialModuleC";
+import { TutorialModuleC } from "./modules/tutorialModule/TutorialModuleC";
 import { TutorialModuleData } from "./modules/tutorialModule/TutorialModuleData";
 import { TutorialModuleS } from "./modules/tutorialModule/TutorialModuleS";
 import { WeaponModuleC } from "./modules/weaponModule/WeaponModuleC";
