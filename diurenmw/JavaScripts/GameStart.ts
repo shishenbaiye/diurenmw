@@ -1,23 +1,26 @@
-import { OdinGame, LogManager } from "odin";
-import { MFramework } from "./framework/MFramework";
-import { AttributeModuleC } from "./modules/AttributeModule/AttributeModuleC";
-import { PlayerModuleS } from "./modules/PlayerModule/PlayerModuleS";
-import { PlayerModuleC } from "./modules/PlayerModule/PlayerModuleC";
-import { PlayerModuleData } from "./modules/PlayerModule/PlayerModuleData";
-import { CurrentScence } from "./CurrentScence";
-import { AttributeModuleS } from "./modules/AttributeModule/AttributeModuleS";
-import { AttributeModuleData } from "./modules/AttributeModule/AttributeModuleData";
-import { WeaponModuleS } from "./modules/weaponModule/WeaponModuleS";
-import { WeaponModuleC } from "./modules/weaponModule/WeaponModuleC";
-import { WeaponModuleData } from "./modules/weaponModule/WeaponModuleData";
-import { BagManagerModuleS } from "./modules/bagModule/BagManagerModuleS";
-import { BagManagerModuleC } from "./modules/bagModule/BagManagerModuleC";
-import { BagManagerModuleData } from "./modules/bagModule/BagManagerModuleData";
-import { MContainer } from "./framework/DI/MContainer";
+import { LogManager, OdinGame } from "odin";
 import { LoadingManager } from "./common/LoadingManager";
-import { ArmorModuleS } from "./modules/armorModule/ArmorModuleS";
+import { CurrentScence } from "./CurrentScence";
+import { MContainer } from "./framework/DI/MContainer";
+import { MFramework } from "./framework/MFramework";
 import { ArmorModuleC } from "./modules/armorModule/ArmorModuleC";
 import { ArmorModuleData } from "./modules/armorModule/ArmorModuleData";
+import { ArmorModuleS } from "./modules/armorModule/ArmorModuleS";
+import { AttributeModuleC } from "./modules/AttributeModule/AttributeModuleC";
+import { AttributeModuleData } from "./modules/AttributeModule/AttributeModuleData";
+import { AttributeModuleS } from "./modules/AttributeModule/AttributeModuleS";
+import { BagManagerModuleC } from "./modules/bagModule/BagManagerModuleC";
+import { BagManagerModuleData } from "./modules/bagModule/BagManagerModuleData";
+import { BagManagerModuleS } from "./modules/bagModule/BagManagerModuleS";
+import { PlayerModuleC } from "./modules/PlayerModule/PlayerModuleC";
+import { PlayerModuleData } from "./modules/PlayerModule/PlayerModuleData";
+import { PlayerModuleS } from "./modules/PlayerModule/PlayerModuleS";
+import { TutorialModuleC } from "./modules/tutorialModule/tutorialModuleC";
+import { TutorialModuleData } from "./modules/tutorialModule/TutorialModuleData";
+import { TutorialModuleS } from "./modules/tutorialModule/TutorialModuleS";
+import { WeaponModuleC } from "./modules/weaponModule/WeaponModuleC";
+import { WeaponModuleData } from "./modules/weaponModule/WeaponModuleData";
+import { WeaponModuleS } from "./modules/weaponModule/WeaponModuleS";
 
 
 @Component
@@ -83,10 +86,11 @@ class GameStart extends OdinGame {
     //实现父类“注册模块”抽象方法
     onRegisterModuleModule(): void {
         // MFramework.registerModule(MallModuleS, MallModuleC, MallData);
+        MFramework.registerModule(TutorialModuleS, TutorialModuleC, TutorialModuleData);
         MFramework.registerModule(AttributeModuleS, AttributeModuleC, AttributeModuleData);
         MFramework.registerModule(PlayerModuleS, PlayerModuleC, PlayerModuleData);
-        MFramework.registerModule(WeaponModuleS,WeaponModuleC,WeaponModuleData);
-        MFramework.registerModule(ArmorModuleS,ArmorModuleC,ArmorModuleData);
+        MFramework.registerModule(WeaponModuleS, WeaponModuleC, WeaponModuleData);
+        MFramework.registerModule(ArmorModuleS, ArmorModuleC, ArmorModuleData);
         MFramework.registerModule(BagManagerModuleS, BagManagerModuleC, BagManagerModuleData);
 
         MFramework.enterGame();
