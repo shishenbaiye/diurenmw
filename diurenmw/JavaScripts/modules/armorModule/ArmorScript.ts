@@ -52,7 +52,7 @@ export default class ArmorScript extends Script {
      * @param part 1.头盔 2.上衣 3.下装 4.鞋子
      * @returns 
      */
-    getArmor(part: ArmorPart): ArmorBase {
+    getEquepArmor(part: ArmorPart): ArmorBase {
         switch (part) {
             case 1:
                 return this.equipeHead;
@@ -95,11 +95,17 @@ export default class ArmorScript extends Script {
                 this.equipeFoot = null;
                 break;
         }
+        ModuleService.getModule(ArmorModuleS).unEquipArmor((this.gameObject as Character).player, part);
     }
 
     /**添加防具 */
     addArmor(aid: number) {
         return ModuleService.getModule(ArmorModuleS).addArmor((this.gameObject as Character).player, aid);
+    }
+
+    /**获取所有防具 */
+    getAllArmor() {
+        return ModuleService.getModule(ArmorModuleS).getAllArmor((this.gameObject as Character).player);
     }
 
     /**删除防具 */

@@ -32,13 +32,14 @@ export default class WeaponScript extends Script {
         if(this.equipeWeapon){
             this.equipeWeapon.unEquip();
             this.equipeWeapon = null;
+            ModuleService.getModule(WeaponModuleS).unEquipWeapon((this.gameObject as Character).player);
         }
     }
        
     /**获取当前装备武器
      * @returns
     */
-    getWeapon(): WeaponBase {
+    getEquipWeapon(): WeaponBase {
         return this.equipeWeapon;
     }
 
@@ -47,6 +48,11 @@ export default class WeaponScript extends Script {
      */
     addWeapon(wid:number) {
         return ModuleService.getModule(WeaponModuleS).addWeapon((this.gameObject as Character).player, wid);
+    }
+
+    /**获取所有武器 */
+    getAllWeapon() {
+        return ModuleService.getModule(WeaponModuleS).getAllWeapon((this.gameObject as Character).player);
     }
 
     /**删除一把武器

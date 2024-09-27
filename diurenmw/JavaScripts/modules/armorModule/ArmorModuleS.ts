@@ -1,5 +1,6 @@
 import { GameEventBus } from "../../common/eventBus/EventBus";
 import { ArmorBase } from "./ArmorBase";
+import { ArmorData } from "./ArmorData";
 import { ArmorManager } from "./ArmorManager";
 import { ArmorModuleC } from "./ArmorModuleC";
 import { ArmorModuleData } from "./ArmorModuleData";
@@ -46,7 +47,7 @@ export class ArmorModuleS extends ModuleS<ArmorModuleC, ArmorModuleData> {
 
             this.getClient(player).net_stopLoading();
         } else {
-            console.error(`玩家${player.userId}添加武器脚本失败`);
+            console.error(`玩家${player.userId}添加防具脚本失败`);
         }
     }
 
@@ -56,6 +57,12 @@ export class ArmorModuleS extends ModuleS<ArmorModuleC, ArmorModuleData> {
         data.addArmor(armor.getData());
         console.log(`玩家${player.userId}获得防具${armor.getData().uuid}`);
         return armor;
+    }
+
+    getAllArmor(player: mw.Player): Array<ArmorData> {
+        let data = this.getPlayerData(player);
+        let armorList = data.haveArmorList
+        return armorList;
     }
 
     removeArmor(player: mw.Player, uuId: string): boolean {
@@ -74,5 +81,10 @@ export class ArmorModuleS extends ModuleS<ArmorModuleC, ArmorModuleData> {
         let armor = ArmorManager.instance.createByData(player, armorData);
         data.equipArmor(uuId);
         return armor;
+    }
+
+    unEquipArmor(player: mw.Player, part: ArmorPart) {
+        let data = this.getPlayerData(player);
+        data.unEquipArmor(part);
     }
 }

@@ -43,6 +43,11 @@ export class WeaponModuleS extends ModuleS<WeaponModuleC, WeaponModuleData> {
         return weapon;
     }
 
+    getAllWeapon(player: mw.Player): WeaponData[] {
+        let data = this.getPlayerData(player);
+        return data.haveWeaponList;
+    }
+
     removeWeapon(player: mw.Player, uuId: string): boolean {
         let data = this.getPlayerData(player);
         return data.removeWeapon(uuId);
@@ -59,6 +64,11 @@ export class WeaponModuleS extends ModuleS<WeaponModuleC, WeaponModuleData> {
         let weapon = WeaponManager.instance.createByData(player, weaponData);
         data.equipWeapon(uuId);
         return weapon;
+    }
+
+    unEquipWeapon(player: mw.Player) {
+        let data = this.getPlayerData(player);
+        data.unEquipWeapon();
     }
 
 }

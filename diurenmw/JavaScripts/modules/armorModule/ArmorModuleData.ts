@@ -37,9 +37,10 @@ export class ArmorModuleData extends Subdata{
             if (this.haveArmorList[i].uuid === uuId) {
                 this.haveArmorList.splice(i, 1);
                 this.save(true);
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     equipArmor(uuId: string): void {
