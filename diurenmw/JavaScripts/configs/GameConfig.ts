@@ -1,6 +1,7 @@
 import {ConfigBase, IElementBase} from "./ConfigBase";
 import {ArmorObjConfig} from "./ArmorObj";
 import {PlayerLevelAttributeConfig} from "./PlayerLevelAttribute";
+import {TaskConfig} from "./Task";
 import {WeaponObjConfig} from "./WeaponObj";
 
 export class GameConfig{
@@ -22,5 +23,6 @@ export class GameConfig{
 	}
 	public static get ArmorObj():ArmorObjConfig{ return this.getConfig(ArmorObjConfig) };
 	public static get PlayerLevelAttribute():PlayerLevelAttributeConfig{ return this.getConfig(PlayerLevelAttributeConfig) };
+	public static get Task():TaskConfig{ return this.getConfig(TaskConfig) };
 	public static get WeaponObj():WeaponObjConfig{ return this.getConfig(WeaponObjConfig) };
 }
