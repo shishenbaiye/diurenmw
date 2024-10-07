@@ -14,13 +14,15 @@ export default class BagItemUI extends BagItemUI_Generate {
 	* onStart 之前触发一次
 	*/
 	protected onAwake() {
-		console.log("BagItemUI onAwake");
 		this.index = -1;
 	}
 
 	/** 仅在游戏时间对非模板实例调用一次 */
 	protected onStart() { 
-		console.log("BagItemUI onStart");
+	}
+
+	protected OnDestory() {
+		console.log("BagItemUI OnDestory, index is " + this.index);
 	}
 
 	public init(inIndex : number, inBagData : BagManagerModuleData) {
@@ -31,13 +33,8 @@ export default class BagItemUI extends BagItemUI_Generate {
 
 	protected updateItemUI() {
 		// this.bagData.
-	}
 
-	private initLanguage(ui: StaleButton | TextBlock) {
-        let call = UIScript.getBehavior("lan");
-        if (call && ui) {
-            call(ui);
-        }
-    }
+		
+	}
 }
  

@@ -1,6 +1,6 @@
 import { BagManagerModuleData, BagItemBase, ItemType } from "./BagManagerModuleData";
 import { BagManagerModuleS } from "./BagManagerModuleS";
-import BagUI from "./UI/BagUI";
+import BagManagerUI from "./UI/BagManagerUI";
 import BagItemUI from "./UI/BagItemUI";
 
 export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModuleData> {
@@ -65,7 +65,7 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
 
     // 打开背包
     protected onBagOpen(): void {
-        let ui = UIService.show(BagUI);
+        let ui = UIService.show(BagManagerUI);
         ui.init(this.data);
     }
 

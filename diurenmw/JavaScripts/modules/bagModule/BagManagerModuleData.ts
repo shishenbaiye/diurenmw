@@ -1,15 +1,15 @@
 export enum ItemType
 {
     // 武器
-    Weapon = "Weapon",
+    Weapon = "0",
     // 防具
-    Armor = 11,
+    Armor = "1",
     // 首饰
-    Jewelry = 12,
+    Jewelry = "2",
     // 消耗品
-    Consumables = 13,
+    Consumables = "3",
     // 材料
-    Materials = 14,
+    Materials = "4",
 }
 
 export interface BagItemBase {
@@ -58,60 +58,27 @@ export class BagManagerModuleData extends Subdata {
 
         if(!this.bagTypeCapacity)
         {
-            console.error("is null, bagTypeCapacity" + this.bagTypeCapacity.size);
             this.bagTypeCapacity = new Map<ItemType, number>();
-        }
-        else
-        {
-            console.error("bagTypeCapacity" + this.bagTypeCapacity.size);
-            this.bagTypeCapacity.forEach((value, key) => {
-                console.error("key is " + key + ", value is " + value);
-            });
         }
         if(!this.bagTypeCapacity.get(ItemType.Weapon))
         {
             this.bagTypeCapacity.set(ItemType.Weapon, 100);
-            console.error("is null, bagTypeCapacity.get(ItemType.Weapon):" + this.bagTypeCapacity.get(ItemType.Weapon));
-        }
-        else
-        {
-            console.error("bagTypeCapacity.get(ItemType.Weapon):" + this.bagTypeCapacity.get(ItemType.Weapon));
         }
         if(!this.bagTypeCapacity.get(ItemType.Armor))
         {
             this.bagTypeCapacity.set(ItemType.Armor, 20);
-            console.error("is null, bagTypeCapacity.get(ItemType.Armor):" + this.bagTypeCapacity.get(ItemType.Armor));
-        }
-        else
-        {
-            console.error("bagTypeCapacity.get(ItemType.Armor):" + this.bagTypeCapacity.get(ItemType.Armor));
         }
         if(!this.bagTypeCapacity.get(ItemType.Jewelry))
         {
             this.bagTypeCapacity.set(ItemType.Jewelry, 200);
-            console.error("is null, bagTypeCapacity.get(ItemType.Jewelry):" + this.bagTypeCapacity.get(ItemType.Jewelry));
-        }
-        else
-        {
-            console.error("bagTypeCapacity.get(ItemType.Jewelry):" + this.bagTypeCapacity.get(ItemType.Jewelry));
         }
         if(!this.bagTypeCapacity.get(ItemType.Consumables))
         {
             this.bagTypeCapacity.set(ItemType.Consumables, 100);
-            console.error("is null, bagTypeCapacity.get(ItemType.Consumables):" + this.bagTypeCapacity.get(ItemType.Consumables));
-        }
-        else
-        {
-            console.error("bagTypeCapacity.get(ItemType.Consumables):" + this.bagTypeCapacity.get(ItemType.Consumables));
         }
         if(!this.bagTypeCapacity.get(ItemType.Materials))
         {
             this.bagTypeCapacity.set(ItemType.Materials, 100);
-            console.error("is null, bagTypeCapacity.get(ItemType.Materials):" + this.bagTypeCapacity.get(ItemType.Materials));
-        }
-        else
-        {
-            console.error("bagTypeCapacity.get(ItemType.Materials):" + this.bagTypeCapacity.get(ItemType.Materials));
         }
         this.save(true);
     }
