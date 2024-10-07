@@ -4,6 +4,8 @@ import BagManagerUI from "./UI/BagManagerUI";
 import BagItemUI from "./UI/BagItemUI";
 
 export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModuleData> {
+    bagManagerUIObj : BagManagerUI;
+
     /**
      * @groups 基类/C&S拓展
      * @description 生命周期方法-创建模块时调用
@@ -65,12 +67,18 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
 
     // 打开背包
     protected onBagOpen(): void {
-        let ui = UIService.show(BagManagerUI);
-        ui.init(this.data);
+        this.bagManagerUIObj = UIService.show(BagManagerUI);
+        this.bagManagerUIObj.init(this.data);
     }
 
     // 更新客户端背包数据
     net_updateBagData(bagItemBase : BagItemBase): void {
         this.data.addItem(bagItemBase);
+        if(this.bagManagerUIObj && bagItemBase.itemtype == this.bagManagerUIObj.currentTypePage)
+        {
+            this.bagManagerUIObj.BagItemObjs.forEach((value: BagItemUI, index: number, array: BagItemUI[])=>{
+                value.updateItemUI(index, bagItemBase.itemtype);
+            }); 
+        }
     }
 }

@@ -7,6 +7,8 @@ import ItemTypeUI from "./ItemTypeUI";
 @UIBind('UI/Bag/BagUI.ui')
 export default class BagManagerUI extends BagUI_Generate {
 
+	BagItemObjs : Array<BagItemUI>;
+
 	private exitButton_Internal: mw.Button
 	public get exitButton(): mw.Button {
 		if(!this.exitButton_Internal&&this.uiWidgetBase) {
@@ -50,6 +52,7 @@ export default class BagManagerUI extends BagUI_Generate {
 		this.onTypeSelect = new mw.MulticastDelegate<(inItemType : ItemType) => void>();
 		this.onTypeSelect.add(this.onTypeSelectClick.bind(this));
         this.initButtons();
+		this.BagItemObjs = new Array<BagItemUI>;
 	}
 
 	/** 仅在游戏时间对非模板实例调用一次 */
@@ -92,8 +95,9 @@ export default class BagManagerUI extends BagUI_Generate {
 		}
 
 		const bagItemUIObject = UIService.create(BagItemUI);
-		bagItemUIObject.init(index, this.bagData);
+		bagItemUIObject.init(index, this.currentTypePage, this.bagData);
 		this.content.addChild(bagItemUIObject.uiObject)
+		this.BagItemObjs.push(bagItemUIObject);
 
 		bagItemUIObject.uiObject.position = new mw.Vector2((index % this.itemNumPerLine) * BagItemUI.defaultX, Math.floor(index / this.itemNumPerLine) * BagItemUI.defaultY);
 		bagItemUIObject.uiObject.size = new mw.Vector2(BagItemUI.defaultX, BagItemUI.defaultY);
@@ -102,19 +106,12 @@ export default class BagManagerUI extends BagUI_Generate {
 		return true;
 	}
 
-	protected removeItemUI() {
-		if(this.content.getChildrenCount() <= 0)
-		{
-			console.warn("BagUI RemoveItemUI failed, is empty.");
-			return;
-		}
-		this.content.removeChildAt(this.content.getChildrenCount());
-	}
-
 	protected updateCurrentTypePage() {
 
 		let num = this.bagData.bagTypeCapacity.get(this.currentTypePage);
 		this.content.removeAllChildren();
+		this.BagItemObjs = new Array<BagItemUI>;
+
 		let currentNum = this.content.getChildrenCount();
 		this.content.size = new Vector2(this.content.size.x, (Math.floor(num / this.itemNumPerLine) + 1) * BagItemUI.defaultY);
 		this.content.position = new Vector2(0, 0);

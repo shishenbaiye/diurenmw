@@ -5,7 +5,17 @@ import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySys
 import { BagManagerModuleC } from "./BagManagerModuleC";
 import { BagManagerModuleData, BagItemBase, ItemType} from "./BagManagerModuleData";
 
+import { GameConfig } from "../../configs/GameConfig";
+import WeaponScript from "../weaponModule/WeaponScript";
+
+// 事件类型
+type eventType = (wid : number)=>{};
+
 export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModuleData> {
+    
+    // 按键监听
+    listenButtonEvents : Map<string, Array<eventType>>;
+
     /**
      * @groups 基类/C&S拓展
      * @description 生命周期方法-启动模块时调用
@@ -13,6 +23,7 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
      */
     protected onStart(): void {
         console.log("BagModuleS onStart");
+        this.listenButtonEvents = new Map<string, Array<eventType>>;
     }
     /**
      * @description 生命周期方法-刷新模块调用
@@ -69,8 +80,34 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
         this.getClient(player).net_updateBagData(items);
     }
 
+    // 监听按钮事件，根据物品类型来分类
+    addButtonListen(wid : number, inEvent : eventType)
+    {
+        if(this.listenButtonEvents.has(wid.toString()))
+        {
+            this.listenButtonEvents.get(wid.toString()).push(inEvent);
+        }
+        else
+        {
+            let tempEvents = new Array<eventType>;
+            this.listenButtonEvents.set(wid.toString(), tempEvents);
+        }
+    }
+
+    // 测试代码
     net_TestAddItem(player: mw.Player): void {
         console.log("BagModuleS net_TestAddItem");
-        this.addItem(player, {uuid: "uuid", count: 1, itemtype: ItemType.Weapon});
+        
+        player.character.getComponent(WeaponScript).addWeapon(1001);
+        let res = player.character.getComponent(WeaponScript).getAllWeapon();
+        console.log("all weapon number : " + res.length);
+
+        let excelData = GameConfig.WeaponObj.getElement(res[0].wid);
+        
+        console.log("weapon 0, uuid : " + res[0].uuid);
+        console.log("weapon 0, name : " + excelData.name);
+
+        
+        this.addItem(player, {uuid: res[0].uuid, wid: res[0].wid, count: 1, itemtype: ItemType.Weapon});
     }
 }

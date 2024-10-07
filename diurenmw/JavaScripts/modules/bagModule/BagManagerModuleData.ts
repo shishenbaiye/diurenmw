@@ -1,3 +1,5 @@
+import { GameConfig } from "../../configs/GameConfig";
+
 export enum ItemType
 {
     // 武器
@@ -14,6 +16,7 @@ export enum ItemType
 
 export interface BagItemBase {
     uuid: string;
+    wid: number;
     count: number;
     itemtype: ItemType;
 }
@@ -94,15 +97,48 @@ export class BagManagerModuleData extends Subdata {
         return null;
     }
 
-    addItem(items : BagItemBase) : void {
+    findItemByIndex(inItemType : ItemType, index : number) : BagItemBase {
+        if(this.itemList.has(inItemType))
+        {
+            if(this.itemList.get(inItemType).length > index)
+            {
+                return this.itemList.get(inItemType)[index];
+            }
+        }
+        return null;
+    }
+
+    addItem(items : BagItemBase) : boolean {
         let BagItem = this.findItem(items.itemtype, items.uuid);
+        let weaponConfig = GameConfig.WeaponObj.getElement(items.wid);
+        if(!weaponConfig)
+        {
+           console.error("addItem weaponConfig is null");
+           return false;
+        }
+        
         if(BagItem)
         {
+            if(weaponConfig.stackMax < items.count + BagItem.count)
+            {
+                console.log("addItem weaponConfig weaponConfig.stackMax is over");
+                return false;
+            }
             BagItem.count += items.count;
         }
         else
         {
+            if(weaponConfig.stackMax < items.count)
+            {
+                console.log("addItem weaponConfig weaponConfig.stackMax is over");
+                return false;
+            }
             this.itemList.get(items.itemtype).push(items);
         }
+        if(SystemUtil.isServer())
+        {
+            this.save(false);
+        }
+        return true;
     }
 }
