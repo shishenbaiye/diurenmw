@@ -3,6 +3,8 @@ import {ArmorObjConfig} from "./ArmorObj";
 import {JewelryObjConfig} from "./JewelryObj";
 import {PlayerLevelAttributeConfig} from "./PlayerLevelAttribute";
 import {TaskConfig} from "./Task";
+import {TutorialListConfig} from "./TutorialList";
+import {TutorialTypeConfig} from "./TutorialType";
 import {WeaponObjConfig} from "./WeaponObj";
 
 export class GameConfig{
@@ -26,5 +28,7 @@ export class GameConfig{
 	public static get JewelryObj():JewelryObjConfig{ return this.getConfig(JewelryObjConfig) };
 	public static get PlayerLevelAttribute():PlayerLevelAttributeConfig{ return this.getConfig(PlayerLevelAttributeConfig) };
 	public static get Task():TaskConfig{ return this.getConfig(TaskConfig) };
+	public static get TutorialList():TutorialListConfig{ return this.getConfig(TutorialListConfig) };
+	public static get TutorialType():TutorialTypeConfig{ return this.getConfig(TutorialTypeConfig) };
 	public static get WeaponObj():WeaponObjConfig{ return this.getConfig(WeaponObjConfig) };
 }

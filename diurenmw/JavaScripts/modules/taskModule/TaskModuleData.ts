@@ -57,7 +57,7 @@ export default class TaskModuleData extends Subdata {
         this.save(true);
     }
 
-    public setPlayerid(playerid: number) {
+    public setPlayerId(playerid: number) {
         this._playerId = playerid;
     }
 
