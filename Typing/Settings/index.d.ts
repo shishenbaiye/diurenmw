@@ -1,6 +1,5 @@
 ﻿declare namespace mw {
     /**
-     * @author mengyuan.hao
      * @groups 设置
      * @description 控制一些优化项的开启关闭
      * @networkStatus usage:客户端
@@ -65,7 +64,6 @@
 
 declare namespace mw {
     /**
-     * @author junwen.hua
      * @groups 设置
      * @description 重力模式
      */
@@ -82,7 +80,6 @@ declare namespace mw {
         Custom = 4
     }
     /**
-     * @author junwen.hua
      * @groups 设置
      * @description 环境设置
      * @effect 只在客户端调用生效
@@ -109,7 +106,6 @@ declare namespace mw {
      */
     class EnvironmentSettings {
         /**
-         * @author junwen.hua
          * @groups 设置
          * @description 获取当前重力模式
          * @effect 只在客户端调用生效
@@ -117,7 +113,6 @@ declare namespace mw {
          */
         static getGravityMode(): GravityMode;
         /**
-         * @author junwen.hua
          * @groups 设置
          * @description 获取当前重力大小
          * @effect 只在客户端调用生效
@@ -125,7 +120,6 @@ declare namespace mw {
          */
         static getGravity(): number;
         /**
-           * @author junwen.hua
            * @description 设置世界整体膨胀时间速度
            * @groups 设置
            * @effect 调用端自动广播
@@ -134,14 +128,12 @@ declare namespace mw {
            */
         static setGlobalTimeDilation(timeDilation: number): void;
         /**
-         * @author jun.zhang
          * @description 获取死亡边界高度，range: [-50000, 50000]。开启死亡边界高度功能后，角色掉落到死亡边界之下会进入死亡状态并重生，其他对象会销毁
          * @groups 设置
          * @effect 调用端生效
          */
         static get deathBoundaryHeight(): number;
         /**
-         * @author jun.zhang
          * @description 是否开启死亡边界。启用后死亡边界高度限制才会生效
          * @groups 设置
          * @effect 调用端生效
@@ -152,7 +144,6 @@ declare namespace mw {
 
 declare namespace mw {
     /**
-     * @author mengyuan.hao
      * @description  图片画质设置
      * @groups 设置
      * @networkStatus usage:客户端
@@ -199,7 +190,6 @@ declare namespace mw {
      */
     class GraphicsSettings {
         /**
-         * @author xiangkun.sun,mengyuan.hao
          * @description  获取当前CPU画质等级
          * @deprecated info:该接口已废弃，在该接口被删除前会仍保持可用，请尽快使用替换方案以免出现问题 since: 030 reason:接口废弃 replacement:
          * @groups 设置
@@ -208,7 +198,6 @@ declare namespace mw {
          */
         static getCPULevel(): mw.GraphicsLevel;
         /**
-         * @author xiangkun.sun,mengyuan.hao
          * @description  获取当前GPU画质等级
          * @deprecated info:该接口已废弃，在该接口被删除前会仍保持可用，请尽快使用替换方案以免出现问题 since: 030 reason:接口废弃 replacement:
          * @groups 设置
@@ -217,7 +206,6 @@ declare namespace mw {
          */
         static getGPULevel(): mw.GraphicsLevel;
         /**
-         * @author xiangkun.sun,mengyuan.hao
          * @description 获取默认CPU画质等级
          * @deprecated info:该接口已废弃，在该接口被删除前会仍保持可用，请尽快使用替换方案以免出现问题 since: 030 reason:接口废弃 replacement:
          * @groups 设置
@@ -226,7 +214,6 @@ declare namespace mw {
          */
         static getDefaultCPULevel(): mw.GraphicsLevel;
         /**
-         * @author xiangkun.sun,mengyuan.hao
          * @description 获取默认GPU画质等级
          * @deprecated info:该接口已废弃，在该接口被删除前会仍保持可用，请尽快使用替换方案以免出现问题 since: 030 reason:接口废弃 replacement:
          * @groups 设置
@@ -235,7 +222,6 @@ declare namespace mw {
          */
         static getDefaultGPULevel(): mw.GraphicsLevel;
         /**
-         * @author xiangkun.sun,mengyuan.hao
          * @description 设置CPU和GPU的画质等级
          * @deprecated info:该接口已废弃，在该接口被删除前会仍保持可用，请尽快使用替换方案以免出现问题 since: 030 reason:接口废弃 replacement:
          * @effect 只在客户端调用生效
@@ -245,7 +231,6 @@ declare namespace mw {
          */
         static setGraphicsLevel(CPULevel: mw.GraphicsLevel, GPULevel: mw.GraphicsLevel): void;
         /**
-         * @author xiangkun.sun
          * @description 设置当前CPU画质等级
          * @deprecated info:该接口已废弃，在该接口被删除前会仍保持可用，请尽快使用替换方案以免出现问题 since: 030 reason:接口废弃 replacement:
          * @groups 设置
@@ -254,7 +239,6 @@ declare namespace mw {
          */
         static setGraphicsCPULevel(CPULevel: mw.GraphicsLevel): void;
         /**
-         * @author xiangkun.sun
          * @description 设置当前GPU画质等级
          * @deprecated info:该接口已废弃，在该接口被删除前会仍保持可用，请尽快使用替换方案以免出现问题 since: 030 reason:接口废弃 replacement:
          * @groups 设置
@@ -263,7 +247,6 @@ declare namespace mw {
          */
         static setGraphicsGPULevel(GPULevel: mw.GraphicsLevel): void;
         /**
-         * @author xiangkun.sun
          * @description 设置是否开启自动分辨率
          * @groups SETTINGS
          * @effect 只在客户端调用生效
@@ -271,7 +254,6 @@ declare namespace mw {
          */
         static setAutoScreenPercentage(isEnabled: boolean): void;
         /**
-         * @author xiangkun.sun
          * @description 设置TSR等级
          * @groups SETTINGS
          * @effect 只在客户端调用生效
@@ -279,7 +261,6 @@ declare namespace mw {
          */
         static setFSRLevel(FSRLevel: number): void;
         /**
-         * @author xiangkun.sun
          * @description 设置锐化程度
          * @groups SETTINGS
          * @effect 只在客户端调用生效
@@ -287,7 +268,6 @@ declare namespace mw {
          */
         static setSharpness(sharpness: number): void;
         /**
-         * @author xiangkun.sun
          * @description 获取自动分辨率开关状态
          * @groups SETTINGS
          * @effect 只在客户端调用生效
@@ -295,7 +275,6 @@ declare namespace mw {
          */
         static getAutoScreenPercentage(): boolean;
         /**
-         * @author xiangkun.sun
          * @description 获取FSR画质等级
          * @groups SETTINGS
          * @effect 只在客户端调用生效
@@ -303,7 +282,6 @@ declare namespace mw {
          */
         static getFSRLevel(): number;
         /**
-         * @author xiangkun.sun
          * @description 获取锐化程度
          * @groups SETTINGS
          * @effect 只在客户端调用生效
@@ -327,7 +305,6 @@ declare namespace mw {
 
 declare namespace mw {
     /**
-     * @author xiangkun.sun
      * @groups 设置
      * @description 全局的脚本配置信息
      * @networkStatus usage:双端
@@ -350,7 +327,6 @@ declare namespace mw {
      */
     class ScriptingSettings {
         /**
-         * @author xiangkun.sun
          * @description 设置异步回调超时时间
          * @groups 设置
          * @effect 调用端生效
@@ -368,7 +344,6 @@ declare namespace mw {
 
 declare namespace mw {
     /**
-     * @author mengyuan.hao
      * @description  房间设置
      * @groups 设置
      * @networkStatus usage:服务端
@@ -404,7 +379,6 @@ declare namespace mw {
      */
     class RoomSettings {
         /**
-         * @author xiangkun.sun,mengyuan.hao
          * @groups 设置
          * @description 设置中途加入开关
          * @effect 只在服务端调用生效
@@ -412,7 +386,6 @@ declare namespace mw {
          */
         static enableJoiningMidgame(isEnable: boolean): void;
         /**
-         * @author xiangkun.sun,mengyuan.hao
          * @groups 设置
          * @description 获取是否开启中途加入
          * @effect 只在服务端调用生效
@@ -420,7 +393,6 @@ declare namespace mw {
          */
         static isJoiningMidgameEnabled(): boolean;
         /**
-         * @author mengyuan.hao
          * @groups 设置
          * @description 获取玩家数量上限
          * @effect 只在服务端调用生效
@@ -428,7 +400,6 @@ declare namespace mw {
          */
         static getMaxPlayers(): number;
         /**
-         * @author mengyuan.hao
          * @groups 设置
          * @description 获取服务器预留玩家是否开启
          * @effect 只在服务端调用生效
@@ -436,7 +407,6 @@ declare namespace mw {
          */
         static isPlayerReserveEnabled(): boolean;
         /**
-         * @author mengyuan.hao
          * @groups 设置
          * @description 获取服务器预留玩家数量
          * @effect 只在服务端调用生效

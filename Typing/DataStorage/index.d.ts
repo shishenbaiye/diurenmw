@@ -9,7 +9,6 @@
 declare namespace mw {
     /**
      * @description 数据储存返回代码
-     * @author xiangkun.sun
      * @groups 数据处理
      */
     enum DataStorageResultCode {
@@ -48,7 +47,6 @@ declare namespace mw {
     }
     /**
      * @description 数据储存返回值
-     * @author xiangkun.sun
      * @groups 数据处理
      */
     interface DataStorageResult {
@@ -62,7 +60,6 @@ declare namespace mw {
         data: any;
     }
     /**
-     * @author xiangkun.sun
      * @description 数据存储
      * @groups 数据处理
      * @networkStatus usage:双端
@@ -70,7 +67,6 @@ declare namespace mw {
     class DataStorage {
         /**
          * @description 返回data的当前大小。单位为byte（字节）。
-         * @author xiangkun.sun
          * @groups 数据处理
          * @effect 调用端生效
          * @param data usage: 数据键值对对象。
@@ -79,7 +75,6 @@ declare namespace mw {
         static getDataSize(data: any): number;
         /**
          * @description 异步设置自定义数据
-         * @author xiangkun.sun
          * @groups 数据处理
          * @effect 只在服务端调用生效
          * @param key usage:字符串类型的键，用来唯一标识存储的数据。<br> range: 字符串长度不做限制，但请设置合适的标识。
@@ -89,7 +84,6 @@ declare namespace mw {
         static asyncSetData(key: string, value: any): Promise<DataStorageResultCode>;
         /**
          * @description 异步获取自定义数据
-         * @author xiangkun.sun
          * @groups 数据处理
          * @effect 只在服务端调用生效
          * @param key usage:字符串类型键，用来查找唯一标识存储的数据 <br> range: 字符串长度依据 asyncSetData 设置的而定。
@@ -98,7 +92,6 @@ declare namespace mw {
         static asyncGetData(key: string): Promise<DataStorageResult>;
         /**
          * @description 异步删除自定义数据
-         * @author xiangkun.sun
          * @groups 数据处理
          * @effect 只在服务端调用生效
          * @param key usage:字符串类型键，用来查找唯一标识存储的数据 <br> range: 字符串长度依据 asyncSetData 设置的而定。
@@ -108,7 +101,6 @@ declare namespace mw {
         /**
          * @description 设置数据存储环境是否是临时的
          * @deprecated info:该接口已废弃，在该接口被删除前会仍保持可用，请尽快使用替换方案以免出现问题 since:037 reason:接口废弃 replacement:客户端本地存储请使用LocalData相关接口,接口移除后，服务端将默认为永久存储。
-         * @author xiangkun.sun
          * @groups 数据处理
          * @effect 只在服务端调用生效
          * @param isTemporary usage:true代表临时存储，数据在游戏服务器进程中，游戏退出时数据被删除。false为永久存储，数据存储在专用服务器，游戏退出时数据不会被删除。
@@ -116,7 +108,6 @@ declare namespace mw {
         static setTemporaryStorage(isTemporary: boolean): void;
         /**
          * @description 异步获取其他游戏保存的数据
-         * @author xiangkun.sun
          * @groups 数据处理
          * @effect 只在服务端调用生效
          * @param gameId usage:开发者后台其他游戏的 gameId。<br> range: 字符串长度依据 gameId 长度而定。
@@ -126,7 +117,6 @@ declare namespace mw {
         static asyncGetOtherGameData(gameId: string, key: string): Promise<DataStorageResult>;
         /**
          * @description 异步设置其他游戏保存的数据
-         * @author xiangkun.sun
          * @groups 数据处理
          * @effect 只在服务端调用生效
          * @param gameId usage:开发者后台其他游戏的 gameId <br> range: 字符串长度依据 gameId 长度而定。
@@ -138,7 +128,6 @@ declare namespace mw {
         /**
          * @description 设置本地数据
          * @precautions 每条数据最多存储64kb的编码数据且本地存储的总数据大小不可以超过5mb，超过此限制的数据都不能被存储。
-         * @author xiangkun.sun
          * @groups 数据处理
          * @effect 只在客户端调用生效
          * @param key usage:字符串类型的键，用来唯一标识存储的数据。<br> range: 字符串长度不做限制，但请设置合适的标识。
@@ -148,7 +137,6 @@ declare namespace mw {
         static asyncSetLocalData(key: string, value: any): Promise<DataStorageResultCode>;
         /**
          * @description 获取本地数据
-         * @author xiangkun.sun
          * @groups 数据处理
          * @effect 只在客户端调用生效
          * @param key usage:字符串类型的键，用来唯一标识存储的数据。<br> range: 字符串长度不做限制，但请设置合适的标识。
@@ -157,7 +145,6 @@ declare namespace mw {
         static asyncGetLocalData(key: string): Promise<DataStorageResult>;
         /**
          * @description 删除本地数据
-         * @author xiangkun.sun
          * @groups 数据处理
          * @effect 只在客户端调用生效
          * @param key usage:字符串类型的键，用来唯一标识存储的数据。<br> range: 字符串长度不做限制，但请设置合适的标识。

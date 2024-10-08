@@ -1,5 +1,8 @@
 import { GameConfig } from "../../configs/GameConfig";
 
+// 事件类型
+export type eventType = (wid : number)=>void;
+
 export enum ItemType
 {
     // 武器

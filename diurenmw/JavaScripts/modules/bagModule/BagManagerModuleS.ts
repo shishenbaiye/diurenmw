@@ -3,18 +3,15 @@ import { UuidCreater } from "../../tools/UuidCreater";
 import { PlayerAttributeSet } from "../AttributeModule/PlayerAttributeSet";
 import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { BagManagerModuleC } from "./BagManagerModuleC";
-import { BagManagerModuleData, BagItemBase, ItemType} from "./BagManagerModuleData";
+import { BagManagerModuleData, BagItemBase, ItemType, eventType} from "./BagManagerModuleData";
 
 import { GameConfig } from "../../configs/GameConfig";
 import WeaponScript from "../weaponModule/WeaponScript";
 
-// 事件类型
-type eventType = (wid : number)=>{};
-
 export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModuleData> {
     
     // 按键监听
-    listenButtonEvents : Map<string, Array<eventType>>;
+    listenButtonClick : Map<number, mw.MulticastDelegate<eventType>>;
 
     /**
      * @groups 基类/C&S拓展
@@ -23,7 +20,7 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
      */
     protected onStart(): void {
         console.log("BagModuleS onStart");
-        this.listenButtonEvents = new Map<string, Array<eventType>>;
+        this.listenButtonClick = new Map<number, mw.MulticastDelegate<eventType>>;
     }
     /**
      * @description 生命周期方法-刷新模块调用
@@ -81,16 +78,25 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
     }
 
     // 监听按钮事件，根据物品类型来分类
-    addButtonListen(wid : number, inEvent : eventType)
+    addButtonClickListen(wid : number, inEvent : eventType)
     {
-        if(this.listenButtonEvents.has(wid.toString()))
+        if(this.listenButtonClick.has(wid))
         {
-            this.listenButtonEvents.get(wid.toString()).push(inEvent);
+            this.listenButtonClick.get(wid).add(inEvent);
         }
         else
         {
-            let tempEvents = new Array<eventType>;
-            this.listenButtonEvents.set(wid.toString(), tempEvents);
+            let tempEvents = new mw.MulticastDelegate<eventType>;
+            tempEvents.add(inEvent);
+            this.listenButtonClick.set(wid, tempEvents);
+        }
+    }
+
+    net_OnButtonClick(player: mw.Player, wid : number)
+    {
+        if(this.listenButtonClick.has(wid))
+        {
+            this.listenButtonClick.get(wid).broadcast(wid);
         }
     }
 
@@ -109,5 +115,9 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
 
         
         this.addItem(player, {uuid: res[0].uuid, wid: res[0].wid, count: 1, itemtype: ItemType.Weapon});
+
+        this.addButtonClickListen(res[0].wid, (inWid : number) => {
+            console.warn("!!!!!!!!!!!!!!!!!!!! wid : " + inWid + ", buttonClick");
+        });
     }
 }

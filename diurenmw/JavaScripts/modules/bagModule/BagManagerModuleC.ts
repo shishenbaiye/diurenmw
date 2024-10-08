@@ -1,10 +1,11 @@
-import { BagManagerModuleData, BagItemBase, ItemType } from "./BagManagerModuleData";
+import { BagManagerModuleData, BagItemBase, ItemType, eventType } from "./BagManagerModuleData";
 import { BagManagerModuleS } from "./BagManagerModuleS";
 import BagManagerUI from "./UI/BagManagerUI";
 import BagItemUI from "./UI/BagItemUI";
 
 export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModuleData> {
     bagManagerUIObj : BagManagerUI;
+    onButtonClickEvents: mw.MulticastDelegate<eventType>;
 
     /**
      * @groups 基类/C&S拓展
@@ -12,7 +13,8 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
      * @effect 只在客户端调用生效
      */
     protected onAwake(): void {
-        
+        this.onButtonClickEvents = new mw.MulticastDelegate<eventType>;
+        this.onButtonClickEvents.add(this.onButtonClickEvent.bind(this));
     }
 
     onAttributeAllReady(player:mw.Player){
@@ -68,7 +70,13 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
     // 打开背包
     protected onBagOpen(): void {
         this.bagManagerUIObj = UIService.show(BagManagerUI);
-        this.bagManagerUIObj.init(this.data);
+        new mw.MulticastDelegate<eventType>
+        this.bagManagerUIObj.init(this.data, this.onButtonClickEvents);
+    }
+
+    onButtonClickEvent(wid : number)
+    {
+        this.server.net_OnButtonClick(mw.Player.localPlayer, wid);
     }
 
     // 更新客户端背包数据

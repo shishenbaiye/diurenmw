@@ -1,13 +1,15 @@
 
 import BagUI_Generate from "../../../ui-generate/Bag/BagUI_generate"
 import BagItemUI from "./BagItemUI"
-import { BagManagerModuleData, ItemType } from "../BagManagerModuleData";
+import { BagManagerModuleData, ItemType, eventType } from "../BagManagerModuleData";
 import ItemTypeUI from "./ItemTypeUI";
 
 @UIBind('UI/Bag/BagUI.ui')
 export default class BagManagerUI extends BagUI_Generate {
 
 	BagItemObjs : Array<BagItemUI>;
+
+	onButtonClickEvents: mw.MulticastDelegate<eventType>;
 
 	private exitButton_Internal: mw.Button
 	public get exitButton(): mw.Button {
@@ -61,8 +63,9 @@ export default class BagManagerUI extends BagUI_Generate {
 		console.log("BagUI itemNumPerLine is " + this.itemNumPerLine);
 	}
 
-	public init(inBagData : BagManagerModuleData) { 
+	public init(inBagData : BagManagerModuleData, inOnButtonClickEvents : mw.MulticastDelegate<eventType>) { 
 		this.bagData = inBagData;
+		this.onButtonClickEvents = inOnButtonClickEvents;
 		
 		this.updateCurrentTypePage();
 		this.updateItemTypeUI();
@@ -95,7 +98,7 @@ export default class BagManagerUI extends BagUI_Generate {
 		}
 
 		const bagItemUIObject = UIService.create(BagItemUI);
-		bagItemUIObject.init(index, this.currentTypePage, this.bagData);
+		bagItemUIObject.init(index, this.currentTypePage, this.bagData, this.onButtonClickEvents);
 		this.content.addChild(bagItemUIObject.uiObject)
 		this.BagItemObjs.push(bagItemUIObject);
 
