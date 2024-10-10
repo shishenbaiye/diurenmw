@@ -1,4 +1,5 @@
 import { GameEventBus } from "../../common/eventBus/EventBus";
+import { BagManagerModuleS } from "../bagModule/BagManagerModuleS";
 import { WeaponBase } from "./WeaponBase";
 import { WeaponData } from "./WeaponData";
 import { WeaponManager } from "./WeaponManager";
@@ -39,6 +40,9 @@ export class WeaponModuleS extends ModuleS<WeaponModuleC, WeaponModuleData> {
         let weapon = WeaponManager.instance.createNew(player, wid);
         let data = this.getPlayerData(player);
         data.addWeapon(weapon.getData());
+        if(weapon){
+            // ModuleService.getModule(BagManagerModuleS).addItem(player)
+        }
         console.log(`玩家${player.userId}获得武器${weapon.getData().uuid}`);
         return weapon;
     }

@@ -24,7 +24,7 @@ export class WeaponModuleData extends Subdata{
             if (this.haveWeaponList[i].uuid === uuId) {
                 this.haveWeaponList.splice(i, 1);
                 this.save(true);
-                return;
+                return true;
             }
         }
     }
