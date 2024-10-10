@@ -69,34 +69,60 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
         data.initData();
     }
 
-    addItem(player: mw.Player, items : BagItemBase): void {
+    addItem(player: mw.Player, inUuid : string, inItemType : ItemType, inTypeId : number, inCount : number): boolean {
+
+        let items : BagItemBase = {uuid: inUuid, typeId: inTypeId, count: inCount, itemtype: inItemType};
+
         console.log("BagModuleS addItem");
         let data = this.getPlayerData(player);
-        data.addItem(items);
-        // 更新客户端数据
-        this.getClient(player).net_updateBagData(items);
+        if(data.addItem(items))
+        {
+            // 更新客户端数据
+            this.getClient(player).net_addItem(items);
+            return true;
+        }
+        return false;
+        
+    }
+
+    // 查找物品数量
+    findItem(player: mw.Player, inUuid : string, inItemType : ItemType): number {
+        let data = this.getPlayerData(player);
+        return data.findItem(inItemType, inUuid).count;
+    }
+
+    // 删除指定数量的物品
+    removeItem(player: mw.Player, inUuid : string, inItemType : ItemType, inCount : number): boolean {
+        let data = this.getPlayerData(player);
+        if(data.removeItem(inUuid, inItemType, inCount))
+        {
+            // 更新客户端数据
+            this.getClient(player).net_removeItem(inUuid, inItemType, inCount);
+            return true;
+        }
+        return false;
     }
 
     // 监听按钮事件，根据物品类型来分类
-    addButtonClickListen(wid : number, inEvent : eventType)
+    addButtonClickListen(typeId : number, inEvent : eventType)
     {
-        if(this.listenButtonClick.has(wid))
+        if(this.listenButtonClick.has(typeId))
         {
-            this.listenButtonClick.get(wid).add(inEvent);
+            this.listenButtonClick.get(typeId).add(inEvent);
         }
         else
         {
             let tempEvents = new mw.MulticastDelegate<eventType>;
             tempEvents.add(inEvent);
-            this.listenButtonClick.set(wid, tempEvents);
+            this.listenButtonClick.set(typeId, tempEvents);
         }
     }
 
-    net_OnButtonClick(player: mw.Player, wid : number)
+    net_OnButtonClick(player: mw.Player, typeId : number)
     {
-        if(this.listenButtonClick.has(wid))
+        if(this.listenButtonClick.has(typeId))
         {
-            this.listenButtonClick.get(wid).broadcast(wid);
+            this.listenButtonClick.get(typeId).broadcast(typeId);
         }
     }
 
@@ -114,7 +140,27 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
         console.log("weapon 0, name : " + excelData.name);
 
         
-        this.addItem(player, {uuid: res[0].uuid, wid: res[0].wid, count: 1, itemtype: ItemType.Weapon});
+        this.addItem(player, res[0].uuid, ItemType.Weapon, res[0].wid, 1);
+
+        this.addButtonClickListen(res[0].wid, (inWid : number) => {
+            console.warn("!!!!!!!!!!!!!!!!!!!! wid : " + inWid + ", buttonClick");
+        });
+    }
+
+    // 测试代码
+    net_TestRemoveItem(player: mw.Player): void {
+        console.log("BagModuleS net_TestRemoveItem");
+
+        let res = player.character.getComponent(WeaponScript).getAllWeapon();
+        console.log("all weapon number : " + res.length);
+
+        let excelData = GameConfig.WeaponObj.getElement(res[0].wid);
+        
+        console.log("weapon 0, uuid : " + res[0].uuid);
+        console.log("weapon 0, name : " + excelData.name);
+
+        
+        this.removeItem(player, res[0].uuid, ItemType.Weapon, 1);
 
         this.addButtonClickListen(res[0].wid, (inWid : number) => {
             console.warn("!!!!!!!!!!!!!!!!!!!! wid : " + inWid + ", buttonClick");

@@ -65,6 +65,10 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
             console.log("BagModuleC onKeyOne");
             this.server.net_TestAddItem(mw.Player.localPlayer);
         });
+        mw.InputUtil.onKeyDown(Keys.Two, () => {
+            console.log("BagModuleC onKeyTwo");
+            this.server.net_TestRemoveItem(mw.Player.localPlayer);
+        });
     }
 
     // 打开背包
@@ -74,18 +78,27 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
         this.bagManagerUIObj.init(this.data, this.onButtonClickEvents);
     }
 
-    onButtonClickEvent(wid : number)
+    onButtonClickEvent(typeId : number)
     {
-        this.server.net_OnButtonClick(mw.Player.localPlayer, wid);
+        this.server.net_OnButtonClick(mw.Player.localPlayer, typeId);
+    }
+
+    net_addItem(bagItemBase : BagItemBase): void {
+        this.data.addItem(bagItemBase);
+        this.updateBagData(bagItemBase.itemtype);
+    }
+
+    net_removeItem(inUuid : string, inItemType : ItemType, inCount : number): void {
+        this.data.removeItem(inUuid, inItemType, inCount);
+        this.updateBagData(inItemType);
     }
 
     // 更新客户端背包数据
-    net_updateBagData(bagItemBase : BagItemBase): void {
-        this.data.addItem(bagItemBase);
-        if(this.bagManagerUIObj && bagItemBase.itemtype == this.bagManagerUIObj.currentTypePage)
+    updateBagData(inItemtype : ItemType): void {
+        if(this.bagManagerUIObj && inItemtype == this.bagManagerUIObj.currentTypePage)
         {
             this.bagManagerUIObj.BagItemObjs.forEach((value: BagItemUI, index: number, array: BagItemUI[])=>{
-                value.updateItemUI(index, bagItemBase.itemtype);
+                value.updateItemUI(index, inItemtype);
             }); 
         }
     }

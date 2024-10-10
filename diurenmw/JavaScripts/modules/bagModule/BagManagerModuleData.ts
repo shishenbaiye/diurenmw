@@ -19,7 +19,7 @@ export enum ItemType
 
 export interface BagItemBase {
     uuid: string;
-    wid: number;
+    typeId: number;
     count: number;
     itemtype: ItemType;
 }
@@ -111,9 +111,34 @@ export class BagManagerModuleData extends Subdata {
         return null;
     }
 
+    removeItem(inUuid : string, inItemType : ItemType, inCount : number) : boolean {
+        let BagItem = this.findItem(inItemType, inUuid);
+        if(BagItem)
+        {
+            if(BagItem.count < inCount)
+            {
+                console.log("removeItem BagItem.count < inCount, BagItem.count : " + BagItem.count + ", inCount : " + inCount);
+                return false;
+            }
+            BagItem.count -= inCount;
+            if(BagItem.count == 0)
+            {
+                let bagTypeList = this.itemList.get(inItemType);
+                let index = bagTypeList.indexOf(BagItem);
+                bagTypeList.splice(index, 1);
+            }
+            if(SystemUtil.isServer())
+            {
+                this.save(false);
+            }
+            return true;
+        }
+        return false;
+    }
+
     addItem(items : BagItemBase) : boolean {
         let BagItem = this.findItem(items.itemtype, items.uuid);
-        let weaponConfig = GameConfig.WeaponObj.getElement(items.wid);
+        let weaponConfig = GameConfig.WeaponObj.getElement(items.typeId);
         if(!weaponConfig)
         {
            console.error("addItem weaponConfig is null");

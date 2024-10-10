@@ -86,7 +86,7 @@ export default class BagItemUI extends BagItemUI_Generate {
 			return;
 		}
 
-		let weaponConfig = GameConfig.WeaponObj.getElement(bagItemObj.wid);
+		let weaponConfig = GameConfig.WeaponObj.getElement(bagItemObj.typeId);
 		if(!weaponConfig)
 		{
 			this.setVisibility(mw.SlateVisibility.Hidden);
@@ -123,7 +123,7 @@ export default class BagItemUI extends BagItemUI_Generate {
 
 	protected buttonClick() {
 		let bagItemObj = this.bagData.findItemByIndex(this.itemType, this.index)
-		this.onButtonClickEvents.broadcast(bagItemObj.wid);
+		this.onButtonClickEvents.broadcast(bagItemObj.typeId);
 	}
 }
  
