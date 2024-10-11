@@ -2,6 +2,7 @@ import { AnimExController, AnimExInfo } from "./CharacterAnim";
 import { CharacterHit } from "./CharacterHit";
 import { DamageResultType, EmCharacterState } from "./FightEnum";
 
+/** 角色基础信息 */
 export interface ICharacterInfo {
 
     /** 角色对象 */
@@ -31,6 +32,7 @@ export interface ICharacterInfo {
     get isClientOnly(): boolean;
 
     addBuffs(buffIds: number[], sourceId: number);
+
     clearBuffs();
 
     changeState(state: EmCharacterState, add: boolean);
