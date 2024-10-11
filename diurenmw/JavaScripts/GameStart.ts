@@ -12,6 +12,9 @@ import { AttributeModuleS } from "./modules/AttributeModule/AttributeModuleS";
 import { BagManagerModuleC } from "./modules/bagModule/BagManagerModuleC";
 import { BagManagerModuleData } from "./modules/bagModule/BagManagerModuleData";
 import { BagManagerModuleS } from "./modules/bagModule/BagManagerModuleS";
+import { JewelryModuleC } from "./modules/jewelryModule/JewelryModuleC";
+import { JewelryModuleData } from "./modules/jewelryModule/JewelryModuleData";
+import { JewelryModuleS } from "./modules/jewelryModule/JewelryModuleS";
 import { PlayerModuleC } from "./modules/PlayerModule/PlayerModuleC";
 import { PlayerModuleData } from "./modules/PlayerModule/PlayerModuleData";
 import { PlayerModuleS } from "./modules/PlayerModule/PlayerModuleS";
@@ -24,9 +27,6 @@ import { TutorialModuleS } from "./modules/tutorialModule/TutorialModuleS";
 import { WeaponModuleC } from "./modules/weaponModule/WeaponModuleC";
 import { WeaponModuleData } from "./modules/weaponModule/WeaponModuleData";
 import { WeaponModuleS } from "./modules/weaponModule/WeaponModuleS";
-import { JewelryModuleS } from "./modules/jewelryModule/JewelryModuleS";
-import { JewelryModuleC } from "./modules/jewelryModule/JewelryModuleC";
-import { JewelryModuleData } from "./modules/jewelryModule/JewelryModuleData";
 
 
 @Component
@@ -100,7 +100,7 @@ class GameStart extends OdinGame {
         MFramework.registerModule(ArmorModuleS, ArmorModuleC, ArmorModuleData);
         MFramework.registerModule(JewelryModuleS, JewelryModuleC, JewelryModuleData);
         MFramework.registerModule(BagManagerModuleS, BagManagerModuleC, BagManagerModuleData);
-
+        // MFramework.registerModule(NpcModuleS, NpcModuleC, null);
         MFramework.enterGame();
     }
 
