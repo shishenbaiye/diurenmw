@@ -1,0 +1,2 @@
+python syncInfoOnlyJs.py
+pause

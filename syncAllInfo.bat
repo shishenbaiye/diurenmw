@@ -1,0 +1,2 @@
+python syncAllInfo.py
+pause
