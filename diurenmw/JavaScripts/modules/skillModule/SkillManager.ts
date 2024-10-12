@@ -15,7 +15,7 @@ export class SkillManager extends MObject{
 
     private registerMap:Map<string,Constructor<any>> = new Map<string,Constructor<any>>();
 
-    registerSkill(skillname:string,skill: Constructor<any>){
+    registerSkill(skillType:ESkillType,skillname:string,skill: Constructor<any>){
         if(this.registerMap.has(skillname)){
             console.warn(skillname,"技能已经注册过了");
             return;
@@ -37,6 +37,6 @@ export class SkillManager extends MObject{
 
 export function RegisterSkill(skillType:ESkillType){
     return function(target: any){
-        SkillManager.instance.registerSkill(target.name,target);
+        SkillManager.instance.registerSkill(skillType,target.name,target);
     }
 }
