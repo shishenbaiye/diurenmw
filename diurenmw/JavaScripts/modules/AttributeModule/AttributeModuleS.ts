@@ -31,11 +31,11 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
         GameEventBus.emit(`AttributeModule_Ready`, player);
     }
 
-    registerAbilitys() {
+    private registerAbilitys() {
 
     }
 
-    initPlayerAbilitys(player: mw.Player) {
+    private initPlayerAbilitys(player: mw.Player) {
         // let component = player.character.getComponent(AbilitySystemComponent);
         // if(component){
         //     component.giveAbility(GA_PropInvincible);
@@ -43,7 +43,9 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
         // }
     }
 
-    initAttributeSet(player: mw.Player) {
+
+
+    private initAttributeSet(player: mw.Player) {
         let component = player.character.getComponent(AbilitySystemComponent);
         if (component) {
             component.addAttributeSet(PlayerAttributeSet);
@@ -76,6 +78,11 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
         }
     }
 
+    /**刷新属性 */
+    refeshAttr(player: mw.Player) {
+        GameEventBus.emit(`AttributeModule_refeshAttr`, player);
+    }
+
     /**增加经验 */
     addExp(player: mw.Player, exp: number) {
         let playerData = this.getPlayerData(player);
@@ -83,8 +90,8 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
         if (excelData.isMaxLevel) return;
         playerData.exp += exp;
         if (playerData.exp >= excelData.exp) {
-            this.levelUp(player);
             let excuteExp = playerData.exp - excelData.exp;
+            this.levelUp(player);
             this.addExp(player, excuteExp);
         } else {
             let as = (player.character.getComponent(AbilitySystemComponent).attributeSet as PlayerAttributeSet);
@@ -104,9 +111,23 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
             if (as) {
                 as.level.setBase(playerData.level);
                 as.level.setCurrent(playerData.level);
-
-                as.exp.setBase(GameConfig.PlayerLevelAttribute.getElement(playerData.level).exp);
+                let oldData = GameConfig.PlayerLevelAttribute.getElement(currentLevel);
+                let newData = GameConfig.PlayerLevelAttribute.getElement(playerData.level);
+                as.exp.setBase(newData.exp);
                 as.exp.setCurrent(0);
+
+                as.atk.add(newData.atk- oldData.atk);
+                as.magicAtk.add(newData.matk - oldData.matk);
+                as.def.add(newData.armor - oldData.armor);
+                as.hp.add(newData.hp - oldData.hp);
+                as.maxHp.add(newData.hp - oldData.hp);
+                as.mp.add(newData.mp - oldData.mp);
+                as.maxMp.add(newData.mp - oldData.mp);
+                as.str.add(newData.strength - oldData.strength);
+                as.int.add(newData.intellect - oldData.intellect);
+                as.vit.add(newData.vitality - oldData.vitality);
+                
+                this.refeshAttr(player);
             }
         } else {
             console.error(`已经满级`);
@@ -124,10 +145,10 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
 
     }
 
-    async net_add(){
+    async net_add() {
         let player = this.currentPlayer;
         let res = player.character.getComponent(ArmorScript).addArmor(20002);
-        if(res){
+        if (res) {
             return true;
         }
     }
@@ -138,7 +159,7 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
         if (res) {
             let attr = player.character.getComponent(AbilitySystemComponent).attributeSet as PlayerAttributeSet;
 
-            console.warn(`造成伤害：`,MathTool.damageFormula(1,2.6,
+            console.warn(`造成伤害：`, MathTool.damageFormula(1, 2.6,
                 attr.atk.getCurrent(),
                 attr.magicAtk.getCurrent(),
                 attr.str.getCurrent(),
@@ -148,7 +169,7 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
                 attr.crit.getCurrent(),
                 attr.critDamage.getCurrent()));
             return true;
-        }else{
+        } else {
             return res;
         }
 
@@ -156,11 +177,11 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
 
     async net_Onclick2() {
         let player = this.currentPlayer;
-        let res = await player.character.getComponent(ArmorScript).equepArmor(ArmorPart.Body,"019228be-435a-1345-1d51-4f3fb1eeb2eb");
+        let res = await player.character.getComponent(ArmorScript).equepArmor(ArmorPart.Body, "019228be-435a-1345-1d51-4f3fb1eeb2eb");
         if (res) {
             let attr = player.character.getComponent(AbilitySystemComponent).attributeSet as PlayerAttributeSet;
 
-            console.warn(`造成伤害：`,MathTool.damageFormula(1,2.6,
+            console.warn(`造成伤害：`, MathTool.damageFormula(1, 2.6,
                 attr.atk.getCurrent(),
                 attr.magicAtk.getCurrent(),
                 attr.str.getCurrent(),
@@ -170,7 +191,7 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
                 attr.crit.getCurrent(),
                 attr.critDamage.getCurrent()));
             return true;
-        }else{
+        } else {
             return res;
         }
     }

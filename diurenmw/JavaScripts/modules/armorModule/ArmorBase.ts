@@ -57,6 +57,8 @@ export abstract class ArmorBase extends MObject{
             this.str = MathTool.normalDistribution(armorConfig.str[0],armorConfig.str[1]);
             this.int = MathTool.normalDistribution(armorConfig.int[0],armorConfig.int[1]);
         }
+
+        abstract refesh(): void;
     
         equip(){
             this.ownerAttribute.def.add(this.def);

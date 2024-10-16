@@ -4,15 +4,33 @@ export class AttributeModuleData extends Subdata{
 
     @Decorator.persistence()
     /**等级 */
-    level: number;
+    _level: number;
 
     @Decorator.persistence()
     /**经验 */
-    exp: number;
+    _exp: number;
 
     protected initDefaultData(): void {
         this.level = 1;
         this.exp = 0;
         this.save(true);
+    }
+
+    set exp(value:number){
+        this._exp = value;
+        this.save(true);
+    }
+
+    set level(value:number){
+        this._level = value;
+        this.save(true);
+    }
+
+    get exp(){
+        return this._exp;
+    }
+
+    get level(){
+        return this._level;
     }
 }

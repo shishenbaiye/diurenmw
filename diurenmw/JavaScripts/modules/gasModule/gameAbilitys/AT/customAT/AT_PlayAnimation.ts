@@ -7,15 +7,14 @@ import { AbilityTask } from "../AbilityTask";
 export class AT_PlayAnimation extends AbilityTask{
     /**创建一个动画任务
      * @param ga 技能
-     * @param animGuid 动画资源id
+     * @param anim 动画实例
+     * @param TotalTime 动画总时间（单位秒）
      * @param owner 释放者
-     * @param animSlot 动画插槽
-     * @param animSpeed 动画速度
     */
     static New(ga: GameAbility,anim:Animation,TotalTime:number,owner?:Character):AT_PlayAnimation {
         if(! anim) return;
         if(! owner) owner = ga.owner as Character;
-        let payload = Payload.createPayload();
+        let payload = Payload.New();
         let instance = super.createTask(ga,payload) as AT_PlayAnimation;
         instance.owner = owner;
         instance.currentAnim = anim;

@@ -133,17 +133,22 @@ export class PlayerAttributeSet extends AttributeSet {
         }
     }
 
+    private vitHpAddValue: number = 0;
     /**计算数值 */
     refreshAttribute(isStart: boolean = true): void {
+        this.hp.sub(this.vitHpAddValue);
+        this.maxHp.sub(this.vitHpAddValue);
         // 计算血量
         if (isStart) {
             let addHpValue = this.vit.getCurrent() * 5;
-            let maxHpValue = this.maxHp.getBase() + addHpValue;
+            this.vitHpAddValue = addHpValue;
+            let maxHpValue = this.maxHp.getCurrent() + addHpValue;
             this.hp.setCurrent(maxHpValue);
             this.maxHp.setCurrent(maxHpValue);
         } else {
             let addHpValue = this.vit.getCurrent() * 5;
-            let maxHpValue = this.maxHp.getBase() + addHpValue;
+            this.vitHpAddValue = addHpValue;
+            let maxHpValue = this.maxHp.getCurrent() + addHpValue;
             this.maxHp.setCurrent(maxHpValue);
             if (this.hp.getCurrent() > maxHpValue) {
                 this.hp.setCurrent(maxHpValue);
@@ -160,6 +165,13 @@ export class PlayerAttributeSet extends AttributeSet {
         this.skillDamage.setCurrent(newSkillDamage);
     }
 
+    /**减少技能攻击力 */
+    reduceSkillDamage(value: number): void {
+        let currentSkillDamage = this.skillDamage.getCurrent();
+        let newSkillDamage = currentSkillDamage / (1 + value);
+        this.skillDamage.setCurrent(newSkillDamage);
+    }
+
     /**增加伤害加成
      * @param value 增加的数值 0.1表示增加10%
      */
@@ -169,12 +181,30 @@ export class PlayerAttributeSet extends AttributeSet {
         this.damage.setCurrent(newDamage);
     }
 
-    /**增加暴击率
+    /**减少伤害加成
+     * @param value 减少的数值 0.1表示减少10%
+     */
+    reduceDamage(value: number): void {
+        let currentDamage = this.damage.getCurrent();
+        let newDamage = currentDamage - value;
+        this.damage.setCurrent(newDamage);
+    }
+
+    /**增加暴击伤害
      * @param value 增加的数值 0.1表示增加10%
      */
     addCritDamage(value: number): void {
         let currentCritDamage = this.critDamage.getCurrent();
         let newCritDamage = currentCritDamage + value;
+        this.critDamage.setCurrent(newCritDamage);
+    }
+
+    /**减少暴击伤害
+     * @param value 减少的数值 0.1表示减少10%
+     */
+    reduceCritDamage(value: number): void {
+        let currentCritDamage = this.critDamage.getCurrent();
+        let newCritDamage = currentCritDamage - value;
         this.critDamage.setCurrent(newCritDamage);
     }
 

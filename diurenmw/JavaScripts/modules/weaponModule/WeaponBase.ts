@@ -33,7 +33,7 @@ export abstract class WeaponBase extends MObject{
     // 品级
     private quality:number;
 
-    private model:Model;
+    protected model:Model;
 
     initByData(data:WeaponData):void{
         this.uuid = data.uuid;
@@ -59,6 +59,8 @@ export abstract class WeaponBase extends MObject{
         this.quality = weaponConfig.quality;
     }
 
+    abstract refesh():void;
+
     async equip(){
         let playerAtk = this.ownerAttribute.atk.getCurrent();
         let playerMatk = this.ownerAttribute.magicAtk.getCurrent();
@@ -82,14 +84,12 @@ export abstract class WeaponBase extends MObject{
         if(this.useEffet4){
             this.excuteEffet4();
         }
-        let weaponConfig = GameConfig.WeaponObj.getElement(this.wid);
-        let model = await GameObject.asyncSpawn(weaponConfig.model);
-        this.model = model as Model;
-        // this.model["actor"].RootComponent.SetCollisionResponseToChannel(UE.ECollisionChannel.ECC_Pawn, UE.ECollisionResponse.ECR_Ignore);
-        this.owner.character.attachToSlot(model,HumanoidSlotType.RightHand);
-        this.model.setCollision(PropertyStatus.Off,true);
-        model.worldTransform.scale = new Vector(1.2);
+
+        await this.onModelLoad();
     }
+
+    /**创建武器模型 */
+    abstract onModelLoad():Promise<void>;
 
     unEquip():void{
         let playerAtk = this.ownerAttribute.atk.getCurrent();

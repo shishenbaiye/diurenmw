@@ -8,7 +8,7 @@ export class Payload extends MObject{
     protected init(): void {
         
     }
-    static createPayload(){
+    static New(){
         return MFramework.createObject(Payload) as Payload;
     }
     /**发送的tag */

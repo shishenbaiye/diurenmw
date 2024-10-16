@@ -1,3 +1,5 @@
+import { GameEventBus } from "../../common/eventBus/EventBus";
+import { AttributeModuleS } from "../AttributeModule/AttributeModuleS";
 import { ArmorBase } from "./ArmorBase";
 import { ArmorModuleS } from "./ArmorModuleS";
 import { ArmorPart } from "./ArmorType";
@@ -5,6 +7,11 @@ import { ArmorPart } from "./ArmorType";
 
 @Component
 export default class ArmorScript extends Script {
+
+    protected onStart(): void {
+        if(SystemUtil.isClient()) return;
+        GameEventBus.on("AttributeModule_refeshAttr", this.refeshArmorAttr.bind(this));
+    }
 
     /**当前装备的头盔 */
     private equipeHead: ArmorBase;
@@ -42,6 +49,7 @@ export default class ArmorScript extends Script {
                     this.equipeFoot = armor;
                     break;
             }
+            ModuleService.getModule(AttributeModuleS).refeshAttr((this.gameObject as Character).player);
             return true;
         }
         return false;
@@ -111,5 +119,21 @@ export default class ArmorScript extends Script {
     /**删除防具 */
     romoveArmor(uuid: string) {
         return ModuleService.getModule(ArmorModuleS).removeArmor((this.gameObject as Character).player, uuid);
+    }
+
+    private refeshArmorAttr(player:mw.Player){
+        if(player.userId != (this.gameObject as Character).player.userId) return;
+        if(this.equipeHead){
+            this.equipeHead.refesh();
+        }
+        if(this.equipeBody){
+            this.equipeBody.refesh();
+        }
+        if(this.equipeLeg){
+            this.equipeLeg.refesh();
+        }
+        if(this.equipeFoot){
+            this.equipeFoot.refesh();
+        }
     }
 }

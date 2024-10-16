@@ -173,8 +173,8 @@ export abstract class GameAbility extends MObject {
 
     /**发送GameEvent */
     sendGameEvent(target:GameObject, tag: string, customData?:any) {
-        let gameEvent = GameEvent.createEvent();
-        let payload = Payload.createPayload();
+        let gameEvent = GameEvent.New();
+        let payload = Payload.New();
         payload.ability = this,
         payload.eventMagnitude = this.owner.worldTransform.position.clone();
         payload.customData = customData;

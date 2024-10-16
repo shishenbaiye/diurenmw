@@ -1,9 +1,16 @@
+import { GameEventBus } from "../../common/eventBus/EventBus";
+import { AttributeModuleS } from "../AttributeModule/AttributeModuleS";
 import { JewelryBase } from "./JewelryBase";
 import { JewelryModuleS } from "./JewelryModuleS";
 import { JewelryPart } from "./JewelryType";
 
 @Component
 export default class JewelryScript extends Script {
+
+    protected onStart(): void {
+        if(SystemUtil.isClient()) return;
+        GameEventBus.on("AttributeModule_refeshAttr", this.refeshJewelryAttr.bind(this));
+    }
 
     /**当前装备的戒指 */
     private equipeRing: JewelryBase;
@@ -35,6 +42,7 @@ export default class JewelryScript extends Script {
                     this.equipeBracelet = jewelry;
                     break;
             }
+            ModuleService.getModule(AttributeModuleS).refeshAttr((this.gameObject as Character).player);
             return true;
         }
         return false;
@@ -96,5 +104,19 @@ export default class JewelryScript extends Script {
     /**删除防具 */
     romoveJewelry(uuid: string) {
         return ModuleService.getModule(JewelryModuleS).removeJewelry((this.gameObject as Character).player, uuid);
+    }
+
+    /**刷新装备的首饰属性 */
+    private refeshJewelryAttr(player: Player) {
+        if(player.userId != (this.gameObject as Character).player.userId) return;
+        if (this.equipeRing) {
+            this.equipeRing.refesh();
+        }
+        if (this.equipeNecklace) {
+            this.equipeNecklace.refesh();
+        }
+        if (this.equipeBracelet) {
+            this.equipeBracelet.refesh();
+        }
     }
 }
