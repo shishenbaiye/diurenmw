@@ -80,30 +80,37 @@ export default class BagItemUI extends BagItemUI_Generate {
 			return;
 		}
 		let bagItemObj = this.bagData.findItemByIndex(inItemType, inIndex)
-		if(!bagItemObj || !(inItemType == ItemType.Weapon))
+		if(!bagItemObj)
 		{
 			this.setVisibility(mw.SlateVisibility.Hidden);
 			return;
 		}
 
-		let weaponConfig = GameConfig.WeaponObj.getElement(bagItemObj.typeId);
-		if(!weaponConfig)
+		if(inItemType == ItemType.Weapon)
+		{
+			let weaponConfig = GameConfig.WeaponObj.getElement(bagItemObj.typeId);
+			if(!weaponConfig)
+			{
+				this.setVisibility(mw.SlateVisibility.Hidden);
+				return;
+			}
+			
+			this.setVisibility(mw.SlateVisibility.Visible);
+	
+			this.itemNameObj.text = weaponConfig.name;
+			this.itemNum.text = bagItemObj.count.toString();
+			if(weaponConfig.stackMax == 1)
+			{
+				this.itemNum.visibility = mw.SlateVisibility.Hidden;
+			}
+			this.button.normalImageGuid = weaponConfig.icon;
+			this.button.disableImageGuid = weaponConfig.icon;
+			this.button.pressedImageGuid = weaponConfig.icon;
+		}
+		else
 		{
 			this.setVisibility(mw.SlateVisibility.Hidden);
-			return;
 		}
-		
-		this.setVisibility(mw.SlateVisibility.Visible);
-
-		this.itemNameObj.text = weaponConfig.name;
-		this.itemNum.text = bagItemObj.count.toString();
-		if(weaponConfig.stackMax == 1)
-		{
-			this.itemNum.visibility = mw.SlateVisibility.Hidden;
-		}
-		this.button.normalImageGuid = weaponConfig.icon;
-		this.button.disableImageGuid = weaponConfig.icon;
-		this.button.pressedImageGuid = weaponConfig.icon;
 	}
 
 	protected setVisibility(inVisibility : mw.SlateVisibility)

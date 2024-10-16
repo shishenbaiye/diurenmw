@@ -67,8 +67,8 @@ export default class BagManagerUI extends BagUI_Generate {
 		this.bagData = inBagData;
 		this.onButtonClickEvents = inOnButtonClickEvents;
 		
-		this.updateCurrentTypePage();
 		this.updateItemTypeUI();
+		this.updateCurrentTypePage();
 	}
 
 	protected addItemTypeUI(inItemType : ItemType, inTypeText : string) {
@@ -90,8 +90,8 @@ export default class BagManagerUI extends BagUI_Generate {
 
 	protected addItemUI() : boolean {
 
-		let index = this.content.getChildrenCount();
-		if(index + 1 >= this.bagData.bagTypeCapacity.get(this.currentTypePage))
+		let index = this.BagItemObjs.length;
+		if(index + 1 > this.bagData.bagTypeCapacity.get(this.currentTypePage))
 		{
 			console.warn("BagUI AddItemUI failed, is full. currentTypePage is " + this.currentTypePage + ", max capacity is " + this.bagData.bagTypeCapacity.get(this.currentTypePage));
 			return false;
@@ -109,20 +109,55 @@ export default class BagManagerUI extends BagUI_Generate {
 		return true;
 	}
 
+	protected updateItemUIPosition() {
+		for(let i = 0; i < this.BagItemObjs.length; ++i) {
+			this.BagItemObjs[i].uiObject.position = new mw.Vector2((i % this.itemNumPerLine) * BagItemUI.defaultX, Math.floor(i / this.itemNumPerLine) * BagItemUI.defaultY);
+		}
+	}
+
 	protected updateCurrentTypePage() {
-
 		let num = this.bagData.bagTypeCapacity.get(this.currentTypePage);
-		this.content.removeAllChildren();
-		this.BagItemObjs = new Array<BagItemUI>;
 
-		let currentNum = this.content.getChildrenCount();
-		this.content.size = new Vector2(this.content.size.x, (Math.floor(num / this.itemNumPerLine) + 1) * BagItemUI.defaultY);
-		this.content.position = new Vector2(0, 0);
+		
+		let newY = (Math.floor(num / this.itemNumPerLine) + 1) * BagItemUI.defaultY;
+		if(newY > this.content.size.y) {
+			this.content.size = new Vector2(this.content.size.x, newY);
+			this.content.position = new Vector2(0, 0);
+			this.BagItemObjs = new Array<BagItemUI>;
+			this.content.removeAllChildren();
+		}
 
+		let currentNum = this.BagItemObjs.length;
 		console.log("BagUI updateCurrentTypePage : " + this.currentTypePage + ", num is " + num + ", currentNum is " + currentNum);
-
-		for(let i = 0; i <= num; ++i) {
+		const needAddNumbers = num - currentNum;
+		for(let i = 0; i < needAddNumbers; ++i) {
 			this.addItemUI();
+		}
+
+		this.showNumberItemObj(num);
+		this.updateItemUIPosition();
+	}
+
+	collapseAllItemObj()
+	{
+		for(let i = 0; i < this.BagItemObjs.length; ++i)
+		{
+			this.BagItemObjs[i].uiObject.visibility = mw.SlateVisibility.Collapsed;
+		}
+	}
+
+	showNumberItemObj(num : number)
+	{
+		for(let i = 0; i < num; ++i)
+		{
+			this.BagItemObjs[i].uiObject.visibility = mw.SlateVisibility.Visible;
+			this.BagItemObjs[i].updateItemUI(i, this.currentTypePage);
+			console.log("BagUI ShowNumberItemObj Visible : " + i);
+		}
+		for(let i = num; i < this.BagItemObjs.length; ++i)
+		{
+			this.BagItemObjs[i].uiObject.visibility = mw.SlateVisibility.Collapsed;
+			console.log("BagUI ShowNumberItemObj Collapsed : " + i);
 		}
 	}
 

@@ -89,6 +89,15 @@ export class BagManagerModuleData extends Subdata {
         this.save(true);
     }
 
+    getTypeItemNumber(itemType: ItemType) : number {
+        let bagTypeList = this.itemList.get(itemType);
+        if(bagTypeList)
+        {
+            return bagTypeList.length;
+        }
+        return 0;
+    }
+
     findItem(inItemType : ItemType, inUuid : string) : BagItemBase {
         let bagTypeList = this.itemList.get(inItemType);
         if(bagTypeList)
