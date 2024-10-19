@@ -23,7 +23,7 @@ export class SkillModuleData extends Subdata{
         this.skill2 = null;
         this.skill3 = null;
         this.skill4 = null;
-        this.haveSkills = ['GA.Warrior.Whirlwind']
+        this.haveSkills = ['GA_Warrior_Whirlwind']
         this.save(true);
     }
 }
