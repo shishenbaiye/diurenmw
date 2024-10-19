@@ -5,10 +5,10 @@ import { ItemType } from "../BagManagerModuleData";
 
 @UIBind('UI/Bag/ItemTypeUI.ui')
 export default class ItemTypeUI extends ItemTypeUI_Generate {
-	private typeButton_Internal: mw.Button
-	public get typeButton(): mw.Button {
+	private typeButton_Internal: mw.Checkbox
+	public get typeButton(): mw.Checkbox {
 		if(!this.typeButton_Internal&&this.uiWidgetBase) {
-			this.typeButton_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/TypeButton') as mw.Button;
+			this.typeButton_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/TypeButton') as mw.Checkbox;
 		}
 		return this.typeButton_Internal
 	}
@@ -46,6 +46,11 @@ export default class ItemTypeUI extends ItemTypeUI_Generate {
 		this.itemType = inItemType;
 		this.onTypeSelect = inOnTypeSelect;
 		this.typeButton.onClicked.add(this.typeSelectClick.bind(this));
+		this.typeButton.checkState = mw.CheckBoxState.Unchecked;
+	}
+
+	public setSelectType(inType : mw.CheckBoxState) {
+		this.typeButton.checkState = inType;
 	}
 
 	protected typeSelectClick() {

@@ -8,6 +8,7 @@ import ItemTypeUI from "./ItemTypeUI";
 export default class BagManagerUI extends BagUI_Generate {
 
 	BagItemObjs : Array<BagItemUI>;
+	ItemTypeUIs : Array<ItemTypeUI>;
 
 	onButtonClickEvents: mw.MulticastDelegate<eventType>;
 
@@ -55,6 +56,7 @@ export default class BagManagerUI extends BagUI_Generate {
 		this.onTypeSelect.add(this.onTypeSelectClick.bind(this));
         this.initButtons();
 		this.BagItemObjs = new Array<BagItemUI>;
+		this.ItemTypeUIs = new Array<ItemTypeUI>;
 	}
 
 	/** 仅在游戏时间对非模板实例调用一次 */
@@ -74,6 +76,7 @@ export default class BagManagerUI extends BagUI_Generate {
 	protected addItemTypeUI(inItemType : ItemType, inTypeText : string) {
 		let index = this.typeContent.getChildrenCount();
 		const itemTypeUIObject = UIService.create(ItemTypeUI);
+		this.ItemTypeUIs.push(itemTypeUIObject);
 		itemTypeUIObject.init(inItemType, inTypeText, this.onTypeSelect);
 		this.typeContent.addChild(itemTypeUIObject.uiObject);
 
@@ -191,6 +194,12 @@ export default class BagManagerUI extends BagUI_Generate {
 		console.log("BagUI onTypeSelectClick : " + inItemType);
 		this.currentTypePage = inItemType;
 		this.updateCurrentTypePage();
+		this.ItemTypeUIs.forEach(element => {
+			if(element.itemType != inItemType)
+			{
+				element.setSelectType(mw.CheckBoxState.Unchecked);
+			}
+		});
 	}
 }
  
