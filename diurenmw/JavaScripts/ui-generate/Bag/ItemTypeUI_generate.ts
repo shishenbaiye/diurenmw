@@ -34,7 +34,7 @@ export default class ItemTypeUI_Generate extends UIScript {
 		
 		//文本多语言
 		
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/Button/Text") as any);
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/TypeButton/TypeText") as any);
 		
 	
 
