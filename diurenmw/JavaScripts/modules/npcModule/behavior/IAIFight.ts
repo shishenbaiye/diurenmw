@@ -12,19 +12,22 @@ export interface IAIEle {
     pathAtk: number;
     pathFind: number;
     type: number
-
 }
 
 /** AI战斗 */
 export interface IAIFight {
+
+    npcId: number;
+
     get aiCfg(): IAIEle;
+
     exitMap: Map<AIExitType, number>;
+
+    playerState: number;
+
     getSpawnPos(): Vector[];
     resetTarget(exitType: AIExitType);
-    hp: number;
-    playerState: number;
-    stopFollow();
     startFollow(stopDistance: number);
-    npcId: number;
+    stopFollow();
 
 }
