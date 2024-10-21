@@ -12,6 +12,8 @@ import { AttributeModuleS } from "./modules/AttributeModule/AttributeModuleS";
 import { BagManagerModuleC } from "./modules/bagModule/BagManagerModuleC";
 import { BagManagerModuleData } from "./modules/bagModule/BagManagerModuleData";
 import { BagManagerModuleS } from "./modules/bagModule/BagManagerModuleS";
+import { DSEventModuleC } from "./modules/dSEventModule/DSEventModuleC";
+import { DSEventModuleS } from "./modules/dSEventModule/DSEventModuleS";
 import { JewelryModuleC } from "./modules/jewelryModule/JewelryModuleC";
 import { JewelryModuleData } from "./modules/jewelryModule/JewelryModuleData";
 import { JewelryModuleS } from "./modules/jewelryModule/JewelryModuleS";
@@ -92,6 +94,7 @@ class GameStart extends OdinGame {
     //实现父类“注册模块”抽象方法
     onRegisterModuleModule(): void {
         // MFramework.registerModule(MallModuleS, MallModuleC, MallData);
+        MFramework.registerModule(DSEventModuleS, DSEventModuleC, null);
         MFramework.registerModule(TaskModuleS, TaskModuleC, TaskModuleData);
         MFramework.registerModule(TutorialModuleS, TutorialModuleC, TutorialModuleData);
         MFramework.registerModule(AttributeModuleS, AttributeModuleC, AttributeModuleData);
