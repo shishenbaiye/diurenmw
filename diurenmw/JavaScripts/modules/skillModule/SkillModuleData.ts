@@ -1,29 +1,29 @@
 export class SkillModuleData extends Subdata{
     @Decorator.persistence()
-    normalSkillList: Array<string>;
+    normalSkillList: Array<number>;
 
     @Decorator.persistence()
-    skill1: string;
+    skill1: number;
 
     @Decorator.persistence()
-    skill2: string;
+    skill2: number;
 
     @Decorator.persistence()
-    skill3: string;
+    skill3: number;
 
     @Decorator.persistence()
-    skill4: string;
+    skill4: number;
 
     @Decorator.persistence()
-    haveSkills: Array<string>;
+    haveSkills: Array<number>;
 
-    protected onDataInit(): void {
+    protected initDefaultData(): void {
         this.normalSkillList = [];
         this.skill1 = null;
         this.skill2 = null;
         this.skill3 = null;
         this.skill4 = null;
-        this.haveSkills = ['GA_Warrior_Whirlwind']
+        this.haveSkills = []
         this.save(true);
     }
 }
