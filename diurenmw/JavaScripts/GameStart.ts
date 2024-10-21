@@ -20,6 +20,11 @@ import { JewelryModuleS } from "./modules/jewelryModule/JewelryModuleS";
 import { PlayerModuleC } from "./modules/PlayerModule/PlayerModuleC";
 import { PlayerModuleData } from "./modules/PlayerModule/PlayerModuleData";
 import { PlayerModuleS } from "./modules/PlayerModule/PlayerModuleS";
+import { RankModuleC } from "./modules/rankModule/RankModuleC";
+import { RankModuleS } from "./modules/rankModule/RankModuleS";
+import { SkillModuleC } from "./modules/skillModule/SkillModuleC";
+import { SkillModuleData } from "./modules/skillModule/SkillModuleData";
+import { SkillModuleS } from "./modules/skillModule/SkillModuleS";
 import { TaskModuleC } from "./modules/taskModule/TaskModuleC";
 import TaskModuleData from "./modules/taskModule/TaskModuleData";
 import { TaskModuleS } from "./modules/taskModule/TaskModuleS";
@@ -29,9 +34,6 @@ import { TutorialModuleS } from "./modules/tutorialModule/TutorialModuleS";
 import { WeaponModuleC } from "./modules/weaponModule/WeaponModuleC";
 import { WeaponModuleData } from "./modules/weaponModule/WeaponModuleData";
 import { WeaponModuleS } from "./modules/weaponModule/WeaponModuleS";
-import { SkillModuleS } from "./modules/skillModule/SkillModuleS";
-import { SkillModuleC } from "./modules/skillModule/SkillModuleC";
-import { SkillModuleData } from "./modules/skillModule/SkillModuleData";
 
 
 @Component
@@ -107,6 +109,7 @@ class GameStart extends OdinGame {
         MFramework.registerModule(JewelryModuleS, JewelryModuleC, JewelryModuleData);
         MFramework.registerModule(BagManagerModuleS, BagManagerModuleC, BagManagerModuleData);
         MFramework.registerModule(SkillModuleS, SkillModuleC, SkillModuleData);
+        MFramework.registerModule(RankModuleS, RankModuleC, null);
         // MFramework.registerModule(NpcModuleS, NpcModuleC, null);
         MFramework.enterGame();
     }
