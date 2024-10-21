@@ -12,22 +12,26 @@ export class SkillManager extends MObject{
         }
         return this._skillmgr;
     }
+    private registerTypeMap:Map<ESkillType,Array<number>> = new Map<ESkillType,Array<number>>();
+    private registerMap:Map<number,Constructor<any>> = new Map<number,Constructor<any>>();
 
-    private registerMap:Map<string,Constructor<any>> = new Map<string,Constructor<any>>();
-
-    registerSkill(skillType:ESkillType,skillname:string,skill: Constructor<any>){
-        if(this.registerMap.has(skillname)){
-            console.warn(skillname,"技能已经注册过了");
+    registerSkill(skillId:number,skillType:ESkillType,skill: Constructor<any>){
+        if(this.registerMap.has(skillId)){
+            console.warn(skill.name,"技能已经注册过了");
             return;
         }
-        this.registerMap.set(skillname,skill);
+        if(!this.registerTypeMap.has(skillType)){
+            this.registerTypeMap.set(skillType,[]);
+        }
+        this.registerTypeMap.get(skillType).push(skillId);
+        this.registerMap.set(skillId,skill);
     }
 
-    getSkillByName(skillname:string):Constructor<any>{
-        if(this.registerMap.has(skillname)){
-            return this.registerMap.get(skillname);
+    getSkillById(skillId:number):Constructor<any>{
+        if(this.registerMap.has(skillId)){
+            return this.registerMap.get(skillId);
         }
-        console.warn(skillname,"技能未注册");
+        console.warn(skillId,"技能未注册");
         return null;
     }
 }
@@ -35,8 +39,8 @@ export class SkillManager extends MObject{
 
 
 
-export function RegisterSkill(skillType:ESkillType){
+export function RegisterSkill(skillId:number,skillType:ESkillType){
     return function(target: any){
-        SkillManager.instance.registerSkill(skillType,target.name,target);
+        SkillManager.instance.registerSkill(skillId,skillType,target);
     }
 }

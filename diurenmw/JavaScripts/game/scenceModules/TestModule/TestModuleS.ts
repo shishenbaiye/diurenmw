@@ -1,4 +1,5 @@
 import { AttributeModuleS } from "../../../modules/AttributeModule/AttributeModuleS";
+import PlayerSkillScrpit from "../../../modules/skillModule/PlayerSkillScrpit";
 import WeaponScript from "../../../modules/weaponModule/WeaponScript";
 import { TestModuleC } from "./TestModuleC";
 
@@ -27,7 +28,25 @@ export class TestModuleS extends ModuleS<TestModuleC,null>{
         let player = this.currentPlayer;
         let weaponScript = player.character.getComponent(WeaponScript);
         if(weaponScript){
-            weaponScript.equepWeapon(`01929448-33e3-b3ae-02bd-0c0b3e684b16`)
+            let res = weaponScript.addWeapon(1002)
+            weaponScript.equepWeapon(res.uuid);
+        }
+    }
+
+    net_AddSkill(){
+        let player = this.currentPlayer;
+        let skillScript = player.character.getComponent(PlayerSkillScrpit);
+        if(skillScript){
+            skillScript.addSkill(1001);
+            skillScript.setSkill(1001,0)
+        }
+    }
+
+    net_activeSkill(){
+        let player = this.currentPlayer;
+        let skillScript = player.character.getComponent(PlayerSkillScrpit);
+        if(skillScript){
+            skillScript.activeSkill(0);
         }
     }
 }
