@@ -118,6 +118,10 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
         }
     }
 
+    net_GetPlayerAttributeSet(player: mw.Player): PlayerAttributeSet {
+        return (player.character.getComponent(AbilitySystemComponent).attributeSet as PlayerAttributeSet);
+    }
+
     net_OnButtonClick(player: mw.Player, typeId : number)
     {
         if(this.listenButtonClick.has(typeId))

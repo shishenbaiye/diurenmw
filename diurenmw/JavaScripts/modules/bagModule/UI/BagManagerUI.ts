@@ -3,6 +3,9 @@ import BagUI_Generate from "../../../ui-generate/Bag/BagUI_generate"
 import BagItemUI from "./BagItemUI"
 import { BagManagerModuleData, ItemType, eventType } from "../BagManagerModuleData";
 import ItemTypeUI from "./ItemTypeUI";
+import { PlayerAttributeSet } from "../../AttributeModule/PlayerAttributeSet";
+import BagAttributeUI from "./BagAttributeUI";
+import PlayerDataUI from "./PlayerDataUI";
 
 @UIBind('UI/Bag/BagUI.ui')
 export default class BagManagerUI extends BagUI_Generate {
@@ -11,6 +14,8 @@ export default class BagManagerUI extends BagUI_Generate {
 	ItemTypeUIs : Array<ItemTypeUI>;
 
 	onButtonClickEvents: mw.MulticastDelegate<eventType>;
+	bagAttributeUIObj : BagAttributeUI;
+	playerDataUIObj : PlayerDataUI;
 
 	private exitButton_Internal: mw.Button
 	public get exitButton(): mw.Button {
@@ -18,6 +23,14 @@ export default class BagManagerUI extends BagUI_Generate {
 			this.exitButton_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/BagBackground/exit') as mw.Button;
 		}
 		return this.exitButton_Internal
+	}
+
+	private rootContent_Internal: mw.Canvas
+	public get rootContent(): mw.Canvas {
+		if(!this.rootContent_Internal&&this.uiWidgetBase) {
+			this.rootContent_Internal = this.uiWidgetBase.findChildByPath('RootCanvas') as mw.Canvas;
+		}
+		return this.content_Internal
 	}
 
 	private content_Internal: mw.Canvas
@@ -65,12 +78,37 @@ export default class BagManagerUI extends BagUI_Generate {
 		console.log("BagUI itemNumPerLine is " + this.itemNumPerLine);
 	}
 
-	public init(inBagData : BagManagerModuleData, inOnButtonClickEvents : mw.MulticastDelegate<eventType>) { 
+	public init(inBagData : BagManagerModuleData, inOnButtonClickEvents : mw.MulticastDelegate<eventType>, inPlayerAttributeSet : PlayerAttributeSet) { 
 		this.bagData = inBagData;
 		this.onButtonClickEvents = inOnButtonClickEvents;
 		
 		this.updateItemTypeUI();
 		this.updateCurrentTypePage();
+		if(inPlayerAttributeSet)
+		{
+			console.log("BagManagerUI InPlayerAttributeSet is not null");
+		}
+		else
+		{
+			console.log("BagManagerUI InPlayerAttributeSet is null")
+		}
+		this.updateAttributeUI(inPlayerAttributeSet);
+	}
+
+	updateAttributeUI(inPlayerAttributeSet : PlayerAttributeSet) {
+		if(!this.bagAttributeUIObj)
+		{
+			this.bagAttributeUIObj = UIService.create(BagAttributeUI);
+			this.bagAttributeUIObj.init(inPlayerAttributeSet);
+			this.rootContent.addChild(this.bagAttributeUIObj.uiObject);
+			this.bagAttributeUIObj.uiObject.position = new mw.Vector2(0, 140);
+			this.bagAttributeUIObj.uiObject.size = new mw.Vector2(450, 600);
+			this.bagAttributeUIObj.uiObject.visibility = mw.SlateVisibility.Visible;
+		}
+		else
+		{
+			this.bagAttributeUIObj.init(inPlayerAttributeSet);
+		}
 	}
 
 	protected addItemTypeUI(inItemType : ItemType, inTypeText : string) {
