@@ -3,19 +3,19 @@
  * AUTO GENERATE BY UI EDITOR.
  * WARNING: DO NOT MODIFY THIS FILE,MAY CAUSE CODE LOST.
  * ATTENTION: onStart 等UI脚本自带函数不可改写为异步执行，有需求的异步逻辑请使用函数封装，通过函数接口在内部使用
- * UI: UI/Bag/BagUI.ui
+ * UI: UI/Bag/EquipmentUI.ui
 */
 
 
 
-@UIBind('UI/Bag/BagUI.ui')
-export default class BagUI_Generate extends UIScript {
-		private exit_Internal: mw.Button
-	public get exit(): mw.Button {
-		if(!this.exit_Internal&&this.uiWidgetBase) {
-			this.exit_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/BagBackground/exit') as mw.Button
+@UIBind('UI/Bag/EquipmentUI.ui')
+export default class EquipmentUI_Generate extends UIScript {
+		private itemName_Internal: mw.TextBlock
+	public get itemName(): mw.TextBlock {
+		if(!this.itemName_Internal&&this.uiWidgetBase) {
+			this.itemName_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/Button/itemName') as mw.TextBlock
 		}
-		return this.exit_Internal
+		return this.itemName_Internal
 	}
 
 
@@ -34,22 +34,16 @@ export default class BagUI_Generate extends UIScript {
 		
 		//按钮添加点击
 		
-		this.exit.touchMethod = (ButtonTouchMethod.PreciseTap);
-		
-	
 
 		//按钮多语言
 		
 		//文本多语言
 		
+		this.initLanguage(this.itemName)
+		
+	
 		//文本多语言
 		
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/Image_1/Canvas/BagMaxNum") as any);
-		
-	
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/Image_1/Canvas/TextBlock") as any);
-		
-	
 
 	}
 
