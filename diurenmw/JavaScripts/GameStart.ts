@@ -34,6 +34,8 @@ import { TutorialModuleS } from "./modules/tutorialModule/TutorialModuleS";
 import { WeaponModuleC } from "./modules/weaponModule/WeaponModuleC";
 import { WeaponModuleData } from "./modules/weaponModule/WeaponModuleData";
 import { WeaponModuleS } from "./modules/weaponModule/WeaponModuleS";
+import { HudModuleS } from "./modules/hudModule/HudModuleS";
+import { HudModuleC } from "./modules/hudModule/HudModuleC";
 
 
 @Component
@@ -48,6 +50,7 @@ class GameStart extends OdinGame {
         MContainer.instance.getPlugin(LoadingManager).init();
         DataStorage.setTemporaryStorage(this.isLocal);
         if (mw.SystemUtil.isClient()) {
+            
         }
         super.onStart();
         //输出log是否带odin前缀，以便于和编辑器的log进行区分
@@ -110,6 +113,7 @@ class GameStart extends OdinGame {
         MFramework.registerModule(BagManagerModuleS, BagManagerModuleC, BagManagerModuleData);
         MFramework.registerModule(SkillModuleS, SkillModuleC, SkillModuleData);
         MFramework.registerModule(RankModuleS, RankModuleC, null);
+        MFramework.registerModule(HudModuleS,HudModuleC,null);
         // MFramework.registerModule(NpcModuleS, NpcModuleC, null);
         MFramework.enterGame();
     }

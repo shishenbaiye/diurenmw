@@ -31,7 +31,8 @@ export class GA_Warrior_Whirlwind extends GameAbility{
         let aim = char.loadAnimation("298003");
         aim.blendInTime = 0;
         aim.blendOutTime = 0;
-        AT_PlayAnimation.New(this,aim,3.33,char).addEvent(3,()=>{
+        AT_PlayAnimation.New(this,aim,3.33,char)
+        .addEvent(3,()=>{
             this.end();
         }).activate();
     }

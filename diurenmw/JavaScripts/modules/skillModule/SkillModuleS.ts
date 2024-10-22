@@ -32,9 +32,7 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
             if (skillData.normalSkillList.length > 0) {
                 skillScript.normalAttack = skillData.normalSkillList;
             }
-            console.log(`开始设置技能1：${skillData.skill1}`);
             if (skillData.skill1) {
-                console.log(`设置技能1：${skillData.skill1}`);
                 skillScript.skill1 = skillData.skill1;
             }
 
@@ -102,6 +100,14 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
         let skillScript = player.character.getComponent(PlayerSkillScrpit);
         if (skillScript) {
             skillScript.activeSkill(index);
+        }
+    }
+
+    net_activeNormalSkill() {
+        let player = this.currentPlayer;
+        let skillScript = player.character.getComponent(PlayerSkillScrpit);
+        if (skillScript) {
+            skillScript.activeNormalAttack();
         }
     }
 }

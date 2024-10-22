@@ -1,17 +1,24 @@
-import { Constructor } from "../../framework/DI/MContainer";
 import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
-import { GameAbility } from "../gasModule/gameAbilitys/GA/GameAbility";
+import { HudModuleC } from "../hudModule/HudModuleC";
 import { SkillManager } from "./SkillManager";
 import { SkillModuleS } from "./SkillModuleS";
 
 @Component
 export default class PlayerSkillScrpit extends Script {
-
+    @Property({displayName: "普通攻击",replicated:true,onChanged:"onSetNormalAttack"})
     normalAttack: number[] = []
+
+    @Property({displayName: "技能1",replicated:true,onChanged:"onSetSkill1"})
     skill1: number = null
+    @Property({displayName: "技能2",replicated:true,onChanged:"onSetSkill2"})
     skill2: number = null
+    @Property({displayName: "技能3",replicated:true,onChanged:"onSetSkill3"})
     skill3: number = null
+    @Property({displayName: "技能4",replicated:true,onChanged:"onSetSkill4"})
     skill4: number = null
+
+
+
     ownerAsc: AbilitySystemComponent;
     setSkill(skillId: number, index: number) {
         switch (index) {
@@ -83,5 +90,30 @@ export default class PlayerSkillScrpit extends Script {
 
     addSkill(skillid: number) {
         ModuleService.getModule(SkillModuleS).addSkill((this.gameObject as Character).player, skillid);
+    }
+
+    onSetNormalAttack(){
+        if(this.gameObject.gameObjectId != Player.localPlayer.character.gameObjectId) return;
+        ModuleService.getModule(HudModuleC).setNormalSkill(this.normalAttack);
+    }
+
+    onSetSkill1(){
+        if(this.gameObject.gameObjectId != Player.localPlayer.character.gameObjectId) return;
+        ModuleService.getModule(HudModuleC).setSkill(this.skill1,0);
+    }
+
+    onSetSkill2(){
+        if(this.gameObject.gameObjectId != Player.localPlayer.character.gameObjectId) return;
+        ModuleService.getModule(HudModuleC).setSkill(this.skill2,1);
+    }
+
+    onSetSkill3(){
+        if(this.gameObject.gameObjectId != Player.localPlayer.character.gameObjectId) return;
+        ModuleService.getModule(HudModuleC).setSkill(this.skill3,2);
+    }
+
+    onSetSkill4(){
+        if(this.gameObject.gameObjectId != Player.localPlayer.character.gameObjectId) return;
+        ModuleService.getModule(HudModuleC).setSkill(this.skill4,3);
     }
 }
