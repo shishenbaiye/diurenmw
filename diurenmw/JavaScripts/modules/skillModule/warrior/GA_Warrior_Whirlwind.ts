@@ -136,7 +136,7 @@ export class GA_Warrior_Whirlwind extends GameAbility{
 
     checkHit(): GameObject[] {
         let vector = this.owner.worldTransform.position.clone()
-        let res = QueryUtil.sphereOverlap(vector, 100, true, undefined, false, this.owner);
+        let res = QueryUtil.sphereOverlap(vector, 200, true, undefined, false, this.owner);
         let characterArray = []
         for (let i = 0; i < res.length; i++) {
             if (res[i] instanceof Character) {

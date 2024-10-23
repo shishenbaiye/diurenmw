@@ -52,4 +52,18 @@ export class HudModuleC extends ModuleC<HudModuleS,null>{
         }
 
     }
+
+
+    net_setSkillCD(cd: number, index: number){
+        if(!this.diurenmwHudPanel){
+            this.initDiurenmwHud();
+        }
+        this.diurenmwHudPanel.setSkillCD(cd,index);
+    }
+
+    protected onUpdate(dt: number): void {
+        if(this.diurenmwHudPanel){
+            this.diurenmwHudPanel.update(dt);
+        }
+    }
 }

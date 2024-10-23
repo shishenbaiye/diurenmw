@@ -1,5 +1,7 @@
+import { GameConfig } from "../../configs/GameConfig";
 import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { HudModuleC } from "../hudModule/HudModuleC";
+import { HudModuleS } from "../hudModule/HudModuleS";
 import { SkillManager } from "./SkillManager";
 import { SkillModuleS } from "./SkillModuleS";
 
@@ -21,25 +23,28 @@ export default class PlayerSkillScrpit extends Script {
 
     ownerAsc: AbilitySystemComponent;
     setSkill(skillId: number, index: number) {
-        switch (index) {
-            case 0:
-                this.skill1 = skillId;
-                break;
-            case 1:
-                this.skill2 = skillId;
-                break;
-            case 2:
-                this.skill3 = skillId;
-                break;
-            case 3:
-                this.skill4 = skillId;
-                break;
-        }
-        ModuleService.getModule(SkillModuleS).setSkill((this.gameObject as Character).player, skillId, index);
+        let res = ModuleService.getModule(SkillModuleS).setSkill((this.gameObject as Character).player, skillId, index);
+        if(res){
+            switch (index) {
+                case 0:
+                    this.skill1 = skillId;
+                    break;
+                case 1:
+                    this.skill2 = skillId;
+                    break;
+                case 2:
+                    this.skill3 = skillId;
+                    break;
+                case 3:
+                    this.skill4 = skillId;
+                    break;
+            }
+        }    
     }
 
     setNormalAttack(skill: number[]) {
         this.normalAttack = skill;
+        ModuleService.getModule(SkillModuleS).setNormalSkill((this.gameObject as Character).player, skill);
     }
 
     private currentNormalAttackIndex: number = 0;
@@ -69,22 +74,42 @@ export default class PlayerSkillScrpit extends Script {
         if(index == 0){
             let skill = SkillManager.instance.getSkillById(this.skill1);
             if (!skill) return false;
-            return this.ownerAsc.tryActiveGameAbilityByClassOrName(skill);
+            let res = this.ownerAsc.tryActiveGameAbilityByClassOrName(skill);
+            if(res){
+                let cd = GameConfig.SkillObj.getElement(this.skill1).cd;
+                ModuleService.getModule(HudModuleS).setSkillCD(this.gameObject as Character,cd,0);
+                return true;
+            }
         }
         if(index == 1){
             let skill = SkillManager.instance.getSkillById(this.skill2);
             if (!skill) return false;
-            return this.ownerAsc.tryActiveGameAbilityByClassOrName(skill);
+            let res = this.ownerAsc.tryActiveGameAbilityByClassOrName(skill);
+            if(res){
+                let cd = GameConfig.SkillObj.getElement(this.skill2).cd;
+                ModuleService.getModule(HudModuleS).setSkillCD(this.gameObject as Character,cd,1);
+                return true;
+            }
         }
         if(index == 2){
             let skill = SkillManager.instance.getSkillById(this.skill3);
             if (!skill) return false;
-            return this.ownerAsc.tryActiveGameAbilityByClassOrName(skill);
+            let res = this.ownerAsc.tryActiveGameAbilityByClassOrName(skill);
+            if(res){
+                let cd = GameConfig.SkillObj.getElement(this.skill3).cd;
+                ModuleService.getModule(HudModuleS).setSkillCD(this.gameObject as Character,cd,2);
+                return true;
+            }
         }
         if(index == 3){
             let skill = SkillManager.instance.getSkillById(this.skill4);
             if (!skill) return false;
-            return this.ownerAsc.tryActiveGameAbilityByClassOrName(skill);
+            let res = this.ownerAsc.tryActiveGameAbilityByClassOrName(skill);
+            if(res){
+                let cd = GameConfig.SkillObj.getElement(this.skill4).cd;
+                ModuleService.getModule(HudModuleS).setSkillCD(this.gameObject as Character,cd,3);
+                return true;
+            }
         }
     }
 
