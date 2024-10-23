@@ -92,6 +92,72 @@ export class MainHudPanel extends MainHud_Generate{
         }
     }
 
+    skill1Cd:number = null;
+    skill2Cd:number = null;
+    skill3Cd:number = null;
+    skill4Cd:number = null;
+    setSkillCD(cd:number,index:number){
+        if(cd == 0) return;
+        if(index == 0){
+            this.skill1Cd = cd;
+        }
+        if(index == 1){
+            this.skill2Cd = cd;
+        }
+        if(index == 2){
+            this.skill3Cd = cd;
+        }
+        if(index == 3){
+            this.skill4Cd = cd;
+        }
+    }
+
+    update(dt: number) {    
+        if(this.skill1Cd){
+            this.skill1Cd -= dt;
+            if(this.skill1Cd <= 0){
+                this.skill1Cd = null;
+                this.mMaskButton_skill1.visibility = SlateVisibility.Collapsed;
+            }else{
+                this.mMaskButton_skill1.visibility = SlateVisibility.Visible;
+                this.mMaskButton_skill1.fanShapedValue = 1-(this.skill1Cd / GameConfig.SkillObj.getElement(this._skill1).cd)
+            }
+        }
+
+        if(this.skill2Cd){
+            this.skill2Cd -= dt;
+            if(this.skill2Cd <= 0){
+                this.skill2Cd = null;
+                this.mMaskButton_skill2.visibility = SlateVisibility.Collapsed;
+            }else{
+                this.mMaskButton_skill2.visibility = SlateVisibility.Visible;
+                this.mMaskButton_skill2.fanShapedValue = 1-(this.skill2Cd / GameConfig.SkillObj.getElement(this._skill2).cd)
+            }
+        }
+
+        if(this.skill3Cd){
+            this.skill3Cd -= dt;
+            if(this.skill3Cd <= 0){
+                this.skill3Cd = null;
+                this.mMaskButton_skill3.visibility = SlateVisibility.Collapsed;
+            }else{
+                this.mMaskButton_skill3.visibility = SlateVisibility.Visible;
+                this.mMaskButton_skill3.fanShapedValue = 1-(this.skill3Cd / GameConfig.SkillObj.getElement(this._skill3).cd)
+            }
+        }
+
+        if(this.skill4Cd){
+            this.skill4Cd -= dt;
+            if(this.skill4Cd <= 0){
+                this.skill4Cd = null;
+                this.mMaskButton_skill4.visibility = SlateVisibility.Collapsed;
+            }else{
+                this.mMaskButton_skill4.visibility = SlateVisibility.Visible;
+                this.mMaskButton_skill4.fanShapedValue = 1-(this.skill4Cd / GameConfig.SkillObj.getElement(this._skill4).cd)
+            }
+        }
+    }
+    
 
     protected onAwake(): void {
         super.onAwake();

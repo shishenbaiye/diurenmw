@@ -32,6 +32,73 @@ export class GA_Warrior_Whirlwind extends GameAbility{
         aim.blendInTime = 0;
         aim.blendOutTime = 0;
         AT_PlayAnimation.New(this,aim,3.33,char)
+        .addEvent(0.2,()=>{
+            let res = this.checkHit();
+            if(res.length > 0){
+                console.log(`res`,res);
+                res.forEach((obj:Character)=>{
+                    let asc = obj.getComponent(AbilitySystemComponent);
+                    console.log(`asc`,asc);
+                    if(asc){
+                        obj.loadAnimation("268673").play();
+                        EffectService.playOnGameObject("13595",obj,{scale:new Vector(5)})
+                    }
+                    
+                })
+            }
+        })
+        .addEvent(0.7,()=>{
+            let res = this.checkHit();
+            if(res.length > 0){
+                res.forEach((obj:Character)=>{
+                    let asc = obj.getComponent(AbilitySystemComponent);
+                    if(asc){
+                        obj.loadAnimation("268673").play();
+                        EffectService.playOnGameObject("13595",obj,{scale:new Vector(5)})
+                    }
+                    
+                })
+            }
+        })
+        .addEvent(1.2,()=>{
+            let res = this.checkHit();
+            if(res.length > 0){
+                res.forEach((obj:Character)=>{
+                    let asc = obj.getComponent(AbilitySystemComponent);
+                    if(asc){
+                        obj.loadAnimation("268673").play();
+                        EffectService.playOnGameObject("13595",obj,{scale:new Vector(5)})
+                    }
+                    
+                })
+            }
+        })
+        .addEvent(1.7,()=>{
+            let res = this.checkHit();
+            if(res.length > 0){
+                res.forEach((obj:Character)=>{
+                    let asc = obj.getComponent(AbilitySystemComponent);
+                    if(asc){
+                        obj.loadAnimation("268673").play();
+                        EffectService.playOnGameObject("13595",obj,{scale:new Vector(5)})
+                    }
+                    
+                })
+            }
+        })
+        .addEvent(2.2,()=>{
+            let res = this.checkHit();
+            if(res.length > 0){
+                res.forEach((obj:Character)=>{
+                    let asc = obj.getComponent(AbilitySystemComponent);
+                    if(asc){
+                        obj.loadAnimation("268673").play();
+                        EffectService.playOnGameObject("13595",obj,{scale:new Vector(5)})
+                    }
+                    
+                })
+            }
+        })
         .addEvent(3,()=>{
             this.end();
         }).activate();
@@ -43,4 +110,39 @@ export class GA_Warrior_Whirlwind extends GameAbility{
         // throw new Error("Method not implemented.");
     }
 
+    checkHitByDistance(): GameObject[] {
+        let owner = this.owner as Character;
+        let ownerLocation = owner.worldTransform.position.clone();
+        let allPlayer = Player.getAllPlayers();
+        let characterArray = [];
+        allPlayer.forEach((player) => {
+            if (player.character.gameObjectId != owner.gameObjectId) {
+                let targetLocation = player.character.worldTransform.position.clone();
+                let distance = Vector.distance(ownerLocation, targetLocation);
+                if (distance < 150) {
+                    let ownerForward = owner.worldTransform.getForwardVector().normalize();
+                    let ownerForwardXY = new Vector2(ownerForward.x, ownerForward.y);
+                    let ownerToTarget = targetLocation.subtract(ownerLocation).normalize();
+                    let ownerToTargetXY = new Vector2(ownerToTarget.x, ownerToTarget.y);
+                    let angle = Vector2.angle(ownerForwardXY, ownerToTargetXY);
+                    if (angle < 60) {
+                        characterArray.push(player.character);
+                    }
+                }
+            }
+        })
+        return characterArray;
+    }
+
+    checkHit(): GameObject[] {
+        let vector = this.owner.worldTransform.position.clone()
+        let res = QueryUtil.sphereOverlap(vector, 200, true, undefined, false, this.owner);
+        let characterArray = []
+        for (let i = 0; i < res.length; i++) {
+            if (res[i] instanceof Character) {
+                characterArray.push(res[i]);
+            }
+        }
+        return characterArray;
+    }
 }

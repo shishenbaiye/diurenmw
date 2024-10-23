@@ -1,4 +1,5 @@
 import { AttributeModuleS } from "../../../modules/AttributeModule/AttributeModuleS";
+import { AbilitySystemComponent } from "../../../modules/gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import PlayerSkillScrpit from "../../../modules/skillModule/PlayerSkillScrpit";
 import WeaponScript from "../../../modules/weaponModule/WeaponScript";
 import { TestModuleC } from "./TestModuleC";
@@ -17,6 +18,10 @@ export class TestModuleS extends ModuleS<TestModuleC,null>{
                 })
             }
         })
+
+
+        let npc = GameObject.findGameObjectById(`2E6F8AF6`);
+        npc.addComponent(AbilitySystemComponent);
     }
 
     net_AddExp(exp:number){

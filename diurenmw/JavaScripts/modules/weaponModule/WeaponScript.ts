@@ -19,12 +19,9 @@ export default class WeaponScript extends Script {
     async equepWeapon(uuid: string): Promise<boolean> {
         let weapon = ModuleService.getModule(WeaponModuleS).equepWeapon((this.gameObject as Character).player, uuid);
         if (weapon) {
-            console.log(`关闭加载动画1`);
             this.unEquipWeapon();
-            console.log(`关闭加载动画2`);
             await weapon.equip();
             this.equipeWeapon = weapon;
-            console.log(`关闭加载动画3`);
             ModuleService.getModule(AttributeModuleS).refeshAttr((this.gameObject as Character).player);
             return true;
         }
