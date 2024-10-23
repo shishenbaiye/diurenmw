@@ -3,6 +3,8 @@ import { BagManagerModuleS } from "./BagManagerModuleS";
 import BagManagerUI from "./UI/BagManagerUI";
 import BagItemUI from "./UI/BagItemUI";
 import { PlayerAttributeSet } from "../AttributeModule/PlayerAttributeSet";
+import { GameEventBus } from "../../common/eventBus/EventBus";
+import BagAttributeUI from "./UI/BagAttributeUI";
 
 export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModuleData> {
     bagManagerUIObj : BagManagerUI;
@@ -19,7 +21,7 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
     }
 
     onAttributeAllReady(player:mw.Player){
-        
+		GameEventBus.on("AttributeModule_Change", BagAttributeUI.onChangeAttribute);
     }
 
     /**
@@ -76,11 +78,7 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
     protected onBagOpen(): void {
         this.bagManagerUIObj = UIService.show(BagManagerUI);
         new mw.MulticastDelegate<eventType>
-        this.bagManagerUIObj.init(this.data, this.onButtonClickEvents, this.getPlayerAttributeSet());
-    }
-
-    getPlayerAttributeSet(): PlayerAttributeSet {
-        return this.server.net_GetPlayerAttributeSet(this.localPlayer);
+        this.bagManagerUIObj.init(this.data, this.onButtonClickEvents);
     }
 
     onButtonClickEvent(typeId : number)
