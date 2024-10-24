@@ -16,12 +16,12 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
      * @effect 只在客户端调用生效
      */
     protected onAwake(): void {
+        GameEventBus.on("AttributeModule_Change", BagAttributeUI.onChangeAttribute);
         this.onButtonClickEvents = new mw.MulticastDelegate<eventType>;
         this.onButtonClickEvents.add(this.onButtonClickEvent.bind(this));
     }
 
     onAttributeAllReady(player:mw.Player){
-		GameEventBus.on("AttributeModule_Change", BagAttributeUI.onChangeAttribute);
     }
 
     /**

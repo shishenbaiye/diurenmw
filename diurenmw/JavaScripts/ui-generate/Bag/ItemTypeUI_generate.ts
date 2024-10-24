@@ -8,6 +8,7 @@
 
 
 
+@UIBind('UI/Bag/ItemTypeUI.ui')
 export default class ItemTypeUI_Generate extends UIScript {
 	
 

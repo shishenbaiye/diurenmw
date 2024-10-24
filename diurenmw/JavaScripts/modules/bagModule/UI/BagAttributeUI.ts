@@ -36,7 +36,9 @@ export default class BagAttributeUI extends BagAttributeUI_Generate {
         BagAttributeUI.changeSkillDamage(BagAttributeUI.skillDamage);
         BagAttributeUI.changeDamage(BagAttributeUI.damage);
         BagAttributeUI.changeCrit(BagAttributeUI.crit);
-        BagAttributeUI.changeCritDamage(BagAttributeUI.crit);
+        BagAttributeUI.changeCritDamage(BagAttributeUI.critDamage);
+
+        
 	}
 
 	protected OnDestory() {
@@ -100,17 +102,21 @@ export default class BagAttributeUI extends BagAttributeUI_Generate {
 
     static level : number = 0;
 	static changeLevel(value: number){
+        BagAttributeUI.level = value;
         if (BagAttributeUI.instance)
         {
             BagAttributeUI.instance.mLevel.text = `${value}`;
         }
-		// let excelData = GameConfig.PlayerLevelAttribute.findElement("level", value);
-		// BagAttributeUI.changeMaxEXP(excelData.exp);
+		let excelData = GameConfig.PlayerLevelAttribute.findElement("level", value);
+        if(excelData)
+        {
+            BagAttributeUI.changeMaxEXP(excelData.exp);
+        }
 	}
 
 	static maxEXP : number = 1;
     static changeMaxEXP(value:number){
-        this.maxEXP = value;
+        BagAttributeUI.maxEXP = value;
         if (BagAttributeUI.instance)
         {
             BagAttributeUI.instance.mEXPValue.text = `${BagAttributeUI.EXP}/${BagAttributeUI.maxEXP}`;

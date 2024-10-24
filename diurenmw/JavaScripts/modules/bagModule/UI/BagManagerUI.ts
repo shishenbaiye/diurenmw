@@ -77,6 +77,17 @@ export default class BagManagerUI extends BagUI_Generate {
 		this.updateItemTypeUI();
 		this.updateCurrentTypePage();
 		this.updateAttributeUI();
+		this.updatePlayerDataUI();
+	}
+	updatePlayerDataUI() {
+		if(!this.playerDataUIObj)
+		{
+			this.playerDataUIObj = UIService.create(PlayerDataUI);
+			this.uiWidgetBase.rootContent.addChild(this.playerDataUIObj.uiObject);
+			this.playerDataUIObj.uiObject.position = new mw.Vector2(450, 140);
+			this.playerDataUIObj.uiObject.size = new mw.Vector2(700, 700);
+			this.playerDataUIObj.uiObject.visibility = mw.SlateVisibility.Visible;
+		}
 	}
 
 	updateAttributeUI() {
@@ -172,12 +183,10 @@ export default class BagManagerUI extends BagUI_Generate {
 		{
 			this.BagItemObjs[i].uiObject.visibility = mw.SlateVisibility.Visible;
 			this.BagItemObjs[i].updateItemUI(i, this.currentTypePage);
-			console.log("BagUI ShowNumberItemObj Visible : " + i);
 		}
 		for(let i = num; i < this.BagItemObjs.length; ++i)
 		{
 			this.BagItemObjs[i].uiObject.visibility = mw.SlateVisibility.Collapsed;
-			console.log("BagUI ShowNumberItemObj Collapsed : " + i);
 		}
 	}
 

@@ -8,6 +8,7 @@
 
 
 
+@UIBind('UI/Bag/BagItemUI.ui')
 export default class BagItemUI_Generate extends UIScript {
 		private itemName_Internal: mw.TextBlock
 	public get itemName(): mw.TextBlock {

@@ -8,6 +8,7 @@
 
 
 
+@UIBind('UI/Bag/BagAttributeUI.ui')
 export default class BagAttributeUI_Generate extends UIScript {
 		private mCanvas_Internal: mw.Canvas
 	public get mCanvas(): mw.Canvas {

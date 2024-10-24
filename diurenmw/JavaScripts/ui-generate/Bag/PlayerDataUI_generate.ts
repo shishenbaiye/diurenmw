@@ -7,6 +7,8 @@
 */
 
 
+
+@UIBind('UI/Bag/PlayerDataUI.ui')
 export default class PlayerDataUI_Generate extends UIScript {
 	
 

@@ -105,12 +105,12 @@ class GameStart extends OdinGame {
         MFramework.registerModule(DSEventModuleS, DSEventModuleC, null);
         MFramework.registerModule(TaskModuleS, TaskModuleC, TaskModuleData);
         MFramework.registerModule(TutorialModuleS, TutorialModuleC, TutorialModuleData);
+        MFramework.registerModule(BagManagerModuleS, BagManagerModuleC, BagManagerModuleData);
         MFramework.registerModule(AttributeModuleS, AttributeModuleC, AttributeModuleData);
         MFramework.registerModule(PlayerModuleS, PlayerModuleC, PlayerModuleData);
         MFramework.registerModule(WeaponModuleS, WeaponModuleC, WeaponModuleData);
         MFramework.registerModule(ArmorModuleS, ArmorModuleC, ArmorModuleData);
         MFramework.registerModule(JewelryModuleS, JewelryModuleC, JewelryModuleData);
-        MFramework.registerModule(BagManagerModuleS, BagManagerModuleC, BagManagerModuleData);
         MFramework.registerModule(SkillModuleS, SkillModuleC, SkillModuleData);
         MFramework.registerModule(RankModuleS, RankModuleC, null);
         MFramework.registerModule(HudModuleS,HudModuleC,null);

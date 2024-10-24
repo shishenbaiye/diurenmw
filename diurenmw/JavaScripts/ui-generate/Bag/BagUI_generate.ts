@@ -8,6 +8,7 @@
 
 
 
+@UIBind('UI/Bag/BagUI.ui')
 export default class BagUI_Generate extends UIScript {
 		private exit_Internal: mw.Button
 	public get exit(): mw.Button {
