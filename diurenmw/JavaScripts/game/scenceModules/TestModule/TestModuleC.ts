@@ -15,7 +15,7 @@ export class TestModuleC extends ModuleC<TestModuleS,null>{
         })
 
         InputUtil.onKeyDown(Keys.H,()=>{
-            this.server.net_activeSkill();
+            this.server.net_unEquipWeapon();
         })
     }
 

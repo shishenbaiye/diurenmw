@@ -24,14 +24,20 @@ export class GA_Warrior_Whirlwind extends GameAbility{
     cd: Constructor<CoolDownByGameEffect> = GE_CoolDown_Warrior_Whirlwind;
 
     protected onPreActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-        // throw new Error("Method not implemented.");
+
     }
+    private effect1:number;
+    private effect2:number;
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         let char = owner as Character;
         let aim = char.loadAnimation("298003");
         aim.blendInTime = 0;
-        aim.blendOutTime = 0;
+        // aim.blendOutTime = 0;
         AT_PlayAnimation.New(this,aim,3.33,char)
+        .addEvent(0.1,()=>{
+            this.effect1 = EffectService.playOnGameObject("84942",owner,{scale:new Vector(1.5),slotType:HumanoidSlotType.Root});
+            this.effect2 = EffectService.playOnGameObject("123627",owner,{scale:new Vector(1.5),position:new Vector(0,0,-owner.getBoundingBox().z/2)});
+        })
         .addEvent(0.2,()=>{
             let res = this.checkHit();
             if(res.length > 0){
@@ -99,15 +105,25 @@ export class GA_Warrior_Whirlwind extends GameAbility{
                 })
             }
         })
-        .addEvent(3,()=>{
-            this.end();
+        .addEvent(2.5,()=>{
+            EffectService.stop(this.effect1);
+            char.maxWalkSpeed -= 600;
+            char.rotateRate -= 5000;
+        })
+        .addEvent(3.1,()=>{
+            setTimeout(() => {
+                this.end();
+            }, 300);
         }).activate();
     }
     protected onCancel(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         // throw new Error("Method not implemented.");
     }
     protected onEnd(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-        // throw new Error("Method not implemented.");
+        let char = owner as Character;
+        this.effect1 = null;
+        char.maxWalkSpeed += 600;
+        char.rotateRate += 5000;
     }
 
     checkHitByDistance(): GameObject[] {
