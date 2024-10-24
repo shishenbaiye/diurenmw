@@ -80,7 +80,6 @@ export class WeaponModuleS extends ModuleS<WeaponModuleC, WeaponModuleData> {
 
         let weapon = WeaponManager.instance.createByData(player, weaponData);
         data.equipWeapon(uuId);
-        GameEventBus.emit(`WeaponModule_EquipWeapon`,player,weapon.wid);
         return weapon;
     }
 

@@ -47,6 +47,14 @@ export default class PlayerSkillScrpit extends Script {
         ModuleService.getModule(SkillModuleS).setNormalSkill((this.gameObject as Character).player, skill);
     }
 
+    removeCurrentSkill(){
+        this.normalAttack = [];
+        this.skill1 = -1;
+        this.skill2 = -1;
+        this.skill3 = -1;
+        this.skill4 = -1;
+    }
+
     private currentNormalAttackIndex: number = 0;
     private timeOutId: number = null;
     activeNormalAttack() {

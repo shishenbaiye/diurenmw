@@ -23,6 +23,7 @@ export default class WeaponScript extends Script {
             await weapon.equip();
             this.equipeWeapon = weapon;
             ModuleService.getModule(AttributeModuleS).refeshAttr((this.gameObject as Character).player);
+            GameEventBus.emit(`WeaponModule_EquipWeapon`,(this.gameObject as Character).player,weapon.getData().wtid);
             return true;
         }
         return false;

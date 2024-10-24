@@ -68,50 +68,50 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
 
     setNormalSkill(player: mw.Player, skillList: number[]) {
         let skillData = this.getPlayerData(player);
-        let weapon = player.character.getComponent(WeaponScript).getEquipWeapon();
+        let weapon = player.character.getComponent(WeaponScript).getEquipWeapon().getData();
         if(!weapon) return;
 
         skillData.normalSkillList = skillList;
-        skillData.weaponNormalSkillList.set(weapon.wid,skillList);
+        skillData.weaponNormalSkillList.set(weapon.wtid,skillList);
         skillData.save(true);
     }
 
     setSkill(player: mw.Player, skillId: number, index: number): boolean {
         let skillData = this.getPlayerData(player);
         let res = SkillManager.instance.getSkillById(skillId);
-        let weapon = player.character.getComponent(WeaponScript).getEquipWeapon();
+        let weapon = player.character.getComponent(WeaponScript).getEquipWeapon().getData();
         if (res && weapon) {
             switch (index) {
                 case 0:
                     skillData.skill1 = skillId;
-                    if(skillData.weaponSkillList.get(weapon.wid)){
-                        skillData.weaponSkillList.get(weapon.wid)[0] = skillId;
+                    if(skillData.weaponSkillList.get(weapon.wtid)){
+                        skillData.weaponSkillList.get(weapon.wtid)[0] = skillId;
                     }else{
-                        skillData.weaponSkillList.set(weapon.wid,[skillId,null,null,null]);
+                        skillData.weaponSkillList.set(weapon.wtid,[skillId,-1,-1,-1]);
                     }
                     break;
                 case 1:
                     skillData.skill2 = skillId;
-                    if(skillData.weaponSkillList.get(weapon.wid)){
-                        skillData.weaponSkillList.get(weapon.wid)[1] = skillId;
+                    if(skillData.weaponSkillList.get(weapon.wtid)){
+                        skillData.weaponSkillList.get(weapon.wtid)[1] = skillId;
                     }else{
-                        skillData.weaponSkillList.set(weapon.wid,[null,skillId,null,null]);
+                        skillData.weaponSkillList.set(weapon.wtid,[-1,skillId,-1,-1]);
                     }
                     break;
                 case 2:
                     skillData.skill3 = skillId;
-                    if(skillData.weaponSkillList.get(weapon.wid)){
-                        skillData.weaponSkillList.get(weapon.wid)[2] = skillId;
+                    if(skillData.weaponSkillList.get(weapon.wtid)){
+                        skillData.weaponSkillList.get(weapon.wtid)[2] = skillId;
                     }else{
-                        skillData.weaponSkillList.set(weapon.wid,[null,null,skillId,null]);
+                        skillData.weaponSkillList.set(weapon.wtid,[-1,-1,skillId,-1]);
                     }
                     break;
                 case 3:
                     skillData.skill4 = skillId;
-                    if(skillData.weaponSkillList.get(weapon.wid)){
-                        skillData.weaponSkillList.get(weapon.wid)[3] = skillId;
+                    if(skillData.weaponSkillList.get(weapon.wtid)){
+                        skillData.weaponSkillList.get(weapon.wtid)[3] = skillId;
                     }else{
-                        skillData.weaponSkillList.set(weapon.wid,[null,null,null,skillId]);
+                        skillData.weaponSkillList.set(weapon.wtid,[-1,-1,-1,skillId]);
                     }
                     break;
             }
@@ -157,11 +157,13 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
     onUnEquipWeapon(player: mw.Player) {
         let skillScript = player.character.getComponent(PlayerSkillScrpit);
         if (skillScript) {
-            skillScript.setNormalAttack([]);
-            skillScript.setSkill(null, 0);
-            skillScript.setSkill(null, 1);
-            skillScript.setSkill(null, 2);
-            skillScript.setSkill(null, 3);
+            let skillData = this.getPlayerData(player);
+            skillData.normalSkillList = [];
+            skillData.skill1 = -1;
+            skillData.skill2 = -1;
+            skillData.skill3 = -1;
+            skillData.skill4 = -1;
+            skillScript.removeCurrentSkill();
         }
     }
 

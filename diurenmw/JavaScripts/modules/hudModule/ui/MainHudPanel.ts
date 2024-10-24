@@ -10,7 +10,7 @@ export class MainHudPanel extends MainHud_Generate{
     private _normalSkillList: Array<number>;
 
     setNormalSkill(skillId: number[]) {
-        if(skillId == null){
+        if(skillId.length == 0){
             this._normalSkillList = [];
         }else{
             this._normalSkillList = skillId;
@@ -27,8 +27,10 @@ export class MainHudPanel extends MainHud_Generate{
     private _skill1: number;
     setSkill1(skillId: number) {
         this._skill1 = skillId;
-        if(skillId == null){
-            this.mImage_skill1.imageGuid = "";
+        if(skillId == -1){
+            this.mImage_skill1.visibility = SlateVisibility.Collapsed;
+            this.skill1Cd = null;
+            this.mMaskButton_skill1.visibility = SlateVisibility.Collapsed;
         }else{
             let config = GameConfig.SkillObj.getElement(skillId);
             if(config){
@@ -36,7 +38,7 @@ export class MainHudPanel extends MainHud_Generate{
                 this.mImage_skill1.imageGuid = config.iconGuid;
             }else{
                 console.warn("技能配置不存在",skillId);
-                this.mImage_skill1.imageGuid = "";
+                this.mImage_skill1.visibility = SlateVisibility.Collapsed;
             }
         }
     }
@@ -44,8 +46,10 @@ export class MainHudPanel extends MainHud_Generate{
     private _skill2: number;
     setSkill2(skillId: number) {
         this._skill2 = skillId;
-        if(skillId == null){
-            this.mImage_skill2.imageGuid = "";
+        if(skillId == -1){
+            this.mImage_skill2.visibility = SlateVisibility.Collapsed;
+            this.skill2Cd = null;
+            this.mMaskButton_skill2.visibility = SlateVisibility.Collapsed;
         }else{
             let config = GameConfig.SkillObj.getElement(skillId);
             if(config){
@@ -53,7 +57,7 @@ export class MainHudPanel extends MainHud_Generate{
                 this.mImage_skill2.imageGuid = config.iconGuid;
             }else{
                 console.warn("技能配置不存在",skillId);
-                this.mImage_skill2.imageGuid = "";
+                this.mImage_skill2.visibility = SlateVisibility.Collapsed;
             }
         }
     }
@@ -61,8 +65,10 @@ export class MainHudPanel extends MainHud_Generate{
     private _skill3: number;
     setSkill3(skillId: number) {
         this._skill3 = skillId;
-        if(skillId == null){
-            this.mImage_skill3.imageGuid = "";
+        if(skillId == -1){
+            this.mImage_skill3.visibility = SlateVisibility.Collapsed;
+            this.skill3Cd = null;
+            this.mMaskButton_skill3.visibility = SlateVisibility.Collapsed;
         }else{
             let config = GameConfig.SkillObj.getElement(skillId);
             if(config){
@@ -70,7 +76,7 @@ export class MainHudPanel extends MainHud_Generate{
                 this.mImage_skill3.imageGuid = config.iconGuid;
             }else{
                 console.warn("技能配置不存在",skillId);
-                this.mImage_skill3.imageGuid = "";
+                this.mImage_skill3.visibility = SlateVisibility.Collapsed;
             }
         }
     }
@@ -78,8 +84,10 @@ export class MainHudPanel extends MainHud_Generate{
     private _skill4: number;
     setSkill4(skillId: number) {
         this._skill4 = skillId;
-        if(skillId == null){
-            this.mImage_skill4.imageGuid = "";
+        if(skillId == -1){
+            this.mImage_skill4.visibility = SlateVisibility.Collapsed;
+            this.skill4Cd = null;
+            this.mMaskButton_skill4.visibility = SlateVisibility.Collapsed;
         }else{
             let config = GameConfig.SkillObj.getElement(skillId);
             if(config){
@@ -87,7 +95,7 @@ export class MainHudPanel extends MainHud_Generate{
                 this.mImage_skill4.imageGuid = config.iconGuid;
             }else{
                 console.warn("技能配置不存在",skillId);
-                this.mImage_skill4.imageGuid = "";
+                this.mImage_skill4.visibility = SlateVisibility.Collapsed;
             }
         }
     }
