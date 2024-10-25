@@ -131,6 +131,18 @@ export class PlayerAttributeSet extends AttributeSet {
         if (attribute.name == "vit") {
             this.refreshAttribute(true);
         }
+
+        if(attribute.name == "mp"){
+            if(newValue >= this.maxMp.getCurrent()){
+                if(this.ownerAsc.gameTag.hasTag("State.Mp.NotFull")){
+                    this.ownerAsc.gameTag.removeTag("State.Mp.NotFull");
+                }
+            }else{
+                if(!this.ownerAsc.gameTag.hasTag("State.Mp.NotFull")){
+                    this.ownerAsc.gameTag.addTag("State.Mp.NotFull");
+                }
+            }
+        }
     }
 
     private vitHpAddValue: number = 0;

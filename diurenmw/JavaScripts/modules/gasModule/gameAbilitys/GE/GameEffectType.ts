@@ -10,6 +10,9 @@ export enum EGameEffectDurationType{
 export enum EGameEffectCalculationType{
 	/**固定值 */
 	FixedValue,
+
+	/**自定义公式*/
+	CustomFormula,
 }
 
 export enum EGameEffectPeriodicInhibitionPolicy{

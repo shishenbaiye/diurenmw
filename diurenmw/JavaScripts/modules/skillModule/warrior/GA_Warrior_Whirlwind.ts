@@ -4,9 +4,11 @@ import { AT_PlayAnimation } from "../../gasModule/gameAbilitys/AT/customAT/AT_Pl
 import { GameAbility } from "../../gasModule/gameAbilitys/GA/GameAbility";
 import { EGameAbilityTriggerSourceType } from "../../gasModule/gameAbilitys/GA/GameAbilityType";
 import { CoolDownByGameEffect } from "../../gasModule/gameAbilitys/GE/GESpecial/CoolDownByGameEffect";
+import { CostByGameEffect } from "../../gasModule/gameAbilitys/GE/GESpecial/CostByGameEffect";
 import { RegisterSkill } from "../SkillManager";
 import { ESkillType } from "../SkillType";
 import { GE_CoolDown_Warrior_Whirlwind } from "./GE_CoolDown_Warrior_Whirlwind";
+import { GE_Cost_Warrior_Whirlwind } from "./GE_Cost_Warrior_Whirlwind";
 
 @RegisterSkill(1001,ESkillType.GreatSword)
 @MPlugin()
@@ -22,7 +24,8 @@ export class GA_Warrior_Whirlwind extends GameAbility{
     trigger: { tag: string; sourceType: EGameAbilityTriggerSourceType; }[];
 
     cd: Constructor<CoolDownByGameEffect> = GE_CoolDown_Warrior_Whirlwind;
-
+    cost: Constructor<CostByGameEffect> = GE_Cost_Warrior_Whirlwind;
+    
     protected onPreActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
 
     }
@@ -80,19 +83,6 @@ export class GA_Warrior_Whirlwind extends GameAbility{
             }
         })
         .addEvent(1.7,()=>{
-            let res = this.checkHit();
-            if(res.length > 0){
-                res.forEach((obj:Character)=>{
-                    let asc = obj.getComponent(AbilitySystemComponent);
-                    if(asc){
-                        obj.loadAnimation("268673").play();
-                        EffectService.playOnGameObject("13595",obj,{scale:new Vector(5)})
-                    }
-                    
-                })
-            }
-        })
-        .addEvent(2.2,()=>{
             let res = this.checkHit();
             if(res.length > 0){
                 res.forEach((obj:Character)=>{

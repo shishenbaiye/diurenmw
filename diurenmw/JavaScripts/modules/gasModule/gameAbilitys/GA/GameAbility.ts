@@ -6,6 +6,7 @@ import { AbilitySystemComponent } from "../ASC/AbilitySystemComponent";
 import { AbilityTask } from "../AT/AbilityTask";
 import { GameEffect } from "../GE/GameEffect";
 import { CoolDownByGameEffect } from "../GE/GESpecial/CoolDownByGameEffect";
+import { CostByGameEffect } from "../GE/GESpecial/CostByGameEffect";
 import { GameEvent } from "../GEvent/GameEvent";
 import { Payload } from "../GEvent/Payload";
 import { EGameAbilityTriggerSourceType } from "./GameAbilityType";
@@ -51,6 +52,9 @@ export abstract class GameAbility extends MObject {
     /**技能CD */
     abstract cd:Constructor<CoolDownByGameEffect>
 
+    /**技能消耗 */
+    abstract cost:Constructor<CostByGameEffect>
+
     /**gameEvent带的数据 */
     public payload: Payload|null = null;
     protected init() {
@@ -90,6 +94,20 @@ export abstract class GameAbility extends MObject {
             let tag = cdEffect.tag;
             if(asc.hasMatchingBlockTag(tag)){
                 console.warn(`技能在CD中${this.tag}`)
+                return false;
+            }
+        }
+
+        if(this.cost){
+            if(asc.attributeSet){
+                let costEffect = MFramework.createObject(this.cost) as CostByGameEffect;
+                let res = costEffect.canCost(asc.attributeSet);
+                if(!res){
+                    console.warn(`消耗不足，无法释放技能${this.tag}`)
+                    return false;
+                }
+            }else{
+                console.warn(`人物没有属性，技能消耗扣除失败，无法释放技能${this.tag}`)
                 return false;
             }
         }
@@ -148,6 +166,7 @@ export abstract class GameAbility extends MObject {
         this.ownerAsc = asc;
         this.isActivate = true;
         this.applyCDEffectToSelf(this.ownerAsc,this.cd);
+        this.applyCostEffectToSelf(this.ownerAsc,this.cost);
         this.onActive(this.ownerAsc, this.owner, this.target);
     }
 
@@ -193,6 +212,13 @@ export abstract class GameAbility extends MObject {
             if(MFramework.createObject<CoolDownByGameEffect>(gameEffect).time == 0){
                 return;
             }
+            ownerAsc.applyGameEffectToSelf(gameEffect);
+        }
+    }
+
+    /**应用消耗 */
+    applyCostEffectToSelf(ownerAsc:AbilitySystemComponent,gameEffect:Constructor<CostByGameEffect>){
+        if(gameEffect){
             ownerAsc.applyGameEffectToSelf(gameEffect);
         }
     }

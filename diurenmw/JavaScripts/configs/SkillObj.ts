@@ -1,5 +1,5 @@
 import { ConfigBase, IElementBase } from "./ConfigBase";
-const EXCELDATA:Array<Array<any>> = [["id","name","type","weaponType","quality","iconGuid","cd"],["","","","","","",""],[1001,"旋风斩",1,1,1,"312020",15]];
+const EXCELDATA:Array<Array<any>> = [["id","name","type","weaponType","quality","iconGuid","cd","cost","damage"],["","","","","","","","",""],[1001,"旋风斩",1,1,1,"312020",15,20,[150,150,150,200]]];
 export interface ISkillObjElement extends IElementBase{
  	/**ID*/
 	id:number
@@ -15,6 +15,11 @@ export interface ISkillObjElement extends IElementBase{
 	iconGuid:string
 	/**技能CD*/
 	cd:number
+	/**消耗*/
+	cost:number
+	/**伤害百分比（如果是多段攻击填数组)
+100代表百分之100的伤害*/
+	damage:Array<number>
  } 
 export class SkillObjConfig extends ConfigBase<ISkillObjElement>{
 	constructor(){

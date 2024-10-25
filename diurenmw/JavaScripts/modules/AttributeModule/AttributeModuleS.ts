@@ -6,6 +6,7 @@ import ArmorScript from "../armorModule/ArmorScript";
 import { ArmorPart } from "../armorModule/ArmorType";
 import { AttributeDataInit } from "../gasModule/gameAbilitys/AS/AttributeHelper";
 import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
+import { GA_Trigger_NotFullMp } from "../skillModule/common/GA_Trigger_NotFullMp";
 import { WeaponModuleS } from "../weaponModule/WeaponModuleS";
 import WeaponScript from "../weaponModule/WeaponScript";
 import { AttributeModuleC } from "./AttributeModuleC";
@@ -36,11 +37,11 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
     }
 
     private initPlayerAbilitys(player: mw.Player) {
-        // let component = player.character.getComponent(AbilitySystemComponent);
-        // if(component){
-        //     component.giveAbility(GA_PropInvincible);
-        //     component.giveAbility(GA_CancelProp);
-        // }
+        let component = player.character.getComponent(AbilitySystemComponent);
+        if(component){
+            component.giveAbility(GA_Trigger_NotFullMp);
+            // component.giveAbility(GA_CancelProp);
+        }
     }
 
 
