@@ -1,6 +1,7 @@
 
+/**  攻击信息 */
 @Serializable
-export class CharacterHit {
+export class HitInfo {
     @Property({ replicated: true })
     hitIndex: number = 0;
 
@@ -9,14 +10,14 @@ export class CharacterHit {
 
     static triggerIndexCounter: number = 0;
     static getIndex() {
-        let index = ++CharacterHit.triggerIndexCounter;
+        let index = ++HitInfo.triggerIndexCounter;
         if (index >= 32) {
-            CharacterHit.triggerIndexCounter = 0;
+            HitInfo.triggerIndexCounter = 0;
         }
         return index;
     }
 
     constructor() {
-        this.hitIndex = CharacterHit.getIndex();
+        this.hitIndex = HitInfo.getIndex();
     }
 }

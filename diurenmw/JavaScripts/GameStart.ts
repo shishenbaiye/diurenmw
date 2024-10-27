@@ -14,6 +14,9 @@ import { BagManagerModuleData } from "./modules/bagModule/BagManagerModuleData";
 import { BagManagerModuleS } from "./modules/bagModule/BagManagerModuleS";
 import { DSEventModuleC } from "./modules/dSEventModule/DSEventModuleC";
 import { DSEventModuleS } from "./modules/dSEventModule/DSEventModuleS";
+import { GMModuleC, GMModuleS } from "./modules/gmModule/GmModule";
+import { HudModuleC } from "./modules/hudModule/HudModuleC";
+import { HudModuleS } from "./modules/hudModule/HudModuleS";
 import { JewelryModuleC } from "./modules/jewelryModule/JewelryModuleC";
 import { JewelryModuleData } from "./modules/jewelryModule/JewelryModuleData";
 import { JewelryModuleS } from "./modules/jewelryModule/JewelryModuleS";
@@ -34,23 +37,26 @@ import { TutorialModuleS } from "./modules/tutorialModule/TutorialModuleS";
 import { WeaponModuleC } from "./modules/weaponModule/WeaponModuleC";
 import { WeaponModuleData } from "./modules/weaponModule/WeaponModuleData";
 import { WeaponModuleS } from "./modules/weaponModule/WeaponModuleS";
-import { HudModuleS } from "./modules/hudModule/HudModuleS";
-import { HudModuleC } from "./modules/hudModule/HudModuleC";
 
 
 @Component
 class GameStart extends OdinGame {
 
+    static instance: GameStart
+
     @mw.Property({ displayName: "数据是否本地" })
     public isLocal = true;
+    @mw.Property({ displayName: "是否打开GM" })
+    openGM: boolean = false;
 
     onStart(): void {
+        GameStart.instance = this;
         this.useUpdate = true;
         MFramework.initial(CurrentScence.currentScence);
         MContainer.instance.getPlugin(LoadingManager).init();
         DataStorage.setTemporaryStorage(this.isLocal);
         if (mw.SystemUtil.isClient()) {
-            
+
         }
         super.onStart();
         //输出log是否带odin前缀，以便于和编辑器的log进行区分
@@ -102,6 +108,7 @@ class GameStart extends OdinGame {
     //实现父类“注册模块”抽象方法
     onRegisterModuleModule(): void {
         // MFramework.registerModule(MallModuleS, MallModuleC, MallData);
+        MFramework.registerModule(GMModuleS, GMModuleC, null);
         MFramework.registerModule(DSEventModuleS, DSEventModuleC, null);
         MFramework.registerModule(TaskModuleS, TaskModuleC, TaskModuleData);
         MFramework.registerModule(TutorialModuleS, TutorialModuleC, TutorialModuleData);
@@ -113,7 +120,7 @@ class GameStart extends OdinGame {
         MFramework.registerModule(JewelryModuleS, JewelryModuleC, JewelryModuleData);
         MFramework.registerModule(SkillModuleS, SkillModuleC, SkillModuleData);
         MFramework.registerModule(RankModuleS, RankModuleC, null);
-        MFramework.registerModule(HudModuleS,HudModuleC,null);
+        MFramework.registerModule(HudModuleS, HudModuleC, null);
         // MFramework.registerModule(NpcModuleS, NpcModuleC, null);
         MFramework.enterGame();
     }
