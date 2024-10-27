@@ -7,6 +7,8 @@ import { BagManagerModuleData, BagItemBase, ItemType, eventType} from "./BagMana
 
 import { GameConfig } from "../../configs/GameConfig";
 import WeaponScript from "../weaponModule/WeaponScript";
+import JewelryScript from "../jewelryModule/JewelryScript";
+import ArmorScript from "../armorModule/ArmorScript";
 
 export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModuleData> {
     
@@ -19,7 +21,6 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
      * @effect 只在服务端调用生效
      */
     protected onStart(): void {
-        console.log("BagModuleS onStart");
         this.listenButtonClick = new Map<number, mw.MulticastDelegate<eventType>>;
     }
     /**
@@ -46,7 +47,6 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
      * @param player usage: 玩家
      */
     protected onPlayerJoined(player: mw.Player): void {
-        console.log("BagModuleS onPlayerJoined");
     }
     /**
      * @groups 基类/C&S拓展
@@ -55,7 +55,6 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
      * @param player usage: 玩家
      */
     protected onPlayerLeft(player: mw.Player): void {
-        console.log("BagModuleS onPlayerLeft");
     }
     /**
      * @groups 基类/C&S拓展
@@ -64,7 +63,6 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
      * @param player usage: 玩家
      */
     protected onPlayerEnterGame(player: mw.Player): void {
-        console.log("BagModuleS onPlayerEnterGame");
         let data = this.getPlayerData(player);
         data.initData();
     }
@@ -73,7 +71,7 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
 
         let items : BagItemBase = {uuid: inUuid, typeId: inTypeId, count: inCount, itemtype: inItemType};
 
-        console.log("BagModuleS addItem");
+        console.log("BagModuleS addItem : " + JSON.stringify(items));
         let data = this.getPlayerData(player);
         if(data.addItem(items))
         {
@@ -130,21 +128,41 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
     net_TestAddItem(player: mw.Player): void {
         console.log("BagModuleS net_TestAddItem");
         
+        let res = null;
         player.character.getComponent(WeaponScript).addWeapon(1001);
-        let res = player.character.getComponent(WeaponScript).getAllWeapon();
-        console.log("all weapon number : " + res.length);
-
-        let excelData = GameConfig.WeaponObj.getElement(res[0].wid);
+        player.character.getComponent(WeaponScript).addWeapon(1002);
+        player.character.getComponent(WeaponScript).addWeapon(2001);
+        player.character.getComponent(WeaponScript).addWeapon(2002);
+        player.character.getComponent(WeaponScript).addWeapon(3001);
+        player.character.getComponent(WeaponScript).addWeapon(3002);
+        res = player.character.getComponent(WeaponScript).getAllWeapon();
+        for(let i = 0; i < res.length; i++)
+        {
+            this.addItem(player, res[i].uuid, ItemType.Weapon, res[i].wid, 1);
+        }
         
-        console.log("weapon 0, uuid : " + res[0].uuid);
-        console.log("weapon 0, name : " + excelData.name);
 
-        
-        this.addItem(player, res[0].uuid, ItemType.Weapon, res[0].wid, 1);
+        player.character.getComponent(JewelryScript).addJewelry(10001);
+        player.character.getComponent(JewelryScript).addJewelry(20001);
+        player.character.getComponent(JewelryScript).addJewelry(20002);
+        player.character.getComponent(JewelryScript).addJewelry(30001);
+        res = player.character.getComponent(JewelryScript).getAllJewelry();
+        for(let i = 0; i < res.length; i++)
+        {
+            this.addItem(player, res[i].uuid, ItemType.Jewelry, res[i].aid, 1);
+        }
 
-        this.addButtonClickListen(res[0].wid, (inWid : number) => {
-            console.warn("!!!!!!!!!!!!!!!!!!!! wid : " + inWid + ", buttonClick");
-        });
+
+        player.character.getComponent(ArmorScript).addArmor(10001);
+        player.character.getComponent(ArmorScript).addArmor(20001);
+        player.character.getComponent(ArmorScript).addArmor(20002);
+        player.character.getComponent(ArmorScript).addArmor(30001);
+        player.character.getComponent(ArmorScript).addArmor(40001);
+        res = player.character.getComponent(ArmorScript).getAllArmor();
+        for(let i = 0; i < res.length; i++)
+        {
+            this.addItem(player, res[i].uuid, ItemType.Armor, res[i].aid, 1);
+        }
     }
 
     // 测试代码

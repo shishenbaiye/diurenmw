@@ -1,3 +1,4 @@
+import { ConfigBase } from "../../configs/ConfigBase";
 import { GameConfig } from "../../configs/GameConfig";
 
 // 事件类型
@@ -98,6 +99,38 @@ export class BagManagerModuleData extends Subdata {
         return 0;
     }
 
+    findAllItemIndex(inItemType : ItemType, inUuid : string) : Array<number> {
+        let tempItems = new Array<number>();
+        let bagTypeList = this.itemList.get(inItemType);
+        if(bagTypeList)
+        {
+            for(let i = 0; i < bagTypeList.length; i++)
+            {
+                if(bagTypeList[i].uuid == inUuid)
+                {
+                    tempItems.push(i);
+                }
+            }
+        }
+        return tempItems;
+    }
+
+    findAllItem(inItemType : ItemType, inUuid : string) : Array<BagItemBase> {
+        let tempItems = new Array<BagItemBase>();
+        let bagTypeList = this.itemList.get(inItemType);
+        if(bagTypeList)
+        {
+            for(let item of bagTypeList)
+            {
+                if(item.uuid == inUuid)
+                {
+                    tempItems.push(item);
+                }
+            }
+        }
+        return tempItems;
+    }
+
     findItem(inItemType : ItemType, inUuid : string) : BagItemBase {
         let bagTypeList = this.itemList.get(inItemType);
         if(bagTypeList)
@@ -121,7 +154,57 @@ export class BagManagerModuleData extends Subdata {
     }
 
     removeItem(inUuid : string, inItemType : ItemType, inCount : number) : boolean {
-        let BagItem = this.findItem(inItemType, inUuid);
+        let itemIndexs = this.findAllItemIndex(inItemType, inUuid);
+        let removedIndexs = new Array<number>;
+        let itemNum = 0;
+        for(let i = 0; i < itemIndexs.length; i++)
+        {
+            // 计算现有物品数量
+            itemNum += this.findItemByIndex(inItemType, itemIndexs[i]).count;
+        }
+        if(itemNum < inCount)
+        {
+            console.log("removeItem itemNum < inCount, itemNum : " + itemNum + ", inCount : " + inCount);
+            return false;
+        }
+        
+        for(let i = 0; i < itemIndexs.length; i++)
+        {
+            let BagItem = this.findItemByIndex(inItemType, itemIndexs[i]);
+            if(BagItem)
+            {
+                if(BagItem.count < inCount)
+                {
+                    inCount -= BagItem.count;
+                    removedIndexs.push(i);
+                }
+                else
+                {
+                    BagItem.count -= inCount;
+                    if(BagItem.count == 0)
+                    {
+                        removedIndexs.push(i);
+                    }
+                }
+            }
+        }
+
+        let bagTypeList = this.itemList.get(inItemType);
+        for(let i = 0; i < removedIndexs.length; i++)
+        {
+            bagTypeList.splice(removedIndexs[i], 1);
+        }
+
+        if(SystemUtil.isServer())
+        {
+            this.save(false);
+        }
+        return true;
+    }
+
+    removeItemByIndex(inUuid : string, inItemType : ItemType, inCount : number, inIndex : number) : boolean {
+        let BagItem = this.findItemByIndex(inItemType, inIndex);
+        let bagTypeList = this.itemList.get(inItemType);
         if(BagItem)
         {
             if(BagItem.count < inCount)
@@ -132,10 +215,9 @@ export class BagManagerModuleData extends Subdata {
             BagItem.count -= inCount;
             if(BagItem.count == 0)
             {
-                let bagTypeList = this.itemList.get(inItemType);
-                let index = bagTypeList.indexOf(BagItem);
-                bagTypeList.splice(index, 1);
+                bagTypeList.splice(inIndex, 1);
             }
+
             if(SystemUtil.isServer())
             {
                 this.save(false);
@@ -145,37 +227,135 @@ export class BagManagerModuleData extends Subdata {
         return false;
     }
 
-    addItem(items : BagItemBase) : boolean {
-        let BagItem = this.findItem(items.itemtype, items.uuid);
-        let weaponConfig = GameConfig.WeaponObj.getElement(items.typeId);
-        if(!weaponConfig)
+    getItemStackMax(itemtype: ItemType, typeId: number) : number {
+        switch(itemtype)
         {
-           console.error("addItem weaponConfig is null");
-           return false;
+            case ItemType.Weapon:
+                return GameConfig.WeaponObj.getElement(typeId).stackMax;
+                break;
+            case ItemType.Armor:
+                return GameConfig.ArmorObj.getElement(typeId).stackMax;
+                break;
+            case ItemType.Jewelry:
+                return GameConfig.JewelryObj.getElement(typeId).stackMax;
+                break;
+            // case ItemType.Consumables:
+            //     GameConfig.ConsumablesObj.getElement(typeId).stackMax;
+            //     break;
+            // case ItemType.Materials:
+            //     GameConfig.MaterialsObj.getElement(typeId).stackMax;
+            //     break;
+            default:
+                console.error("getItenStackMax itemtype error : " + itemtype.toString());
+                return 0;
         }
+    }
+
+    getItemName(itemtype: ItemType, typeId: number) : string {
+        switch(itemtype)
+        {
+            case ItemType.Weapon:
+                return GameConfig.WeaponObj.getElement(typeId).name;
+                break;
+            case ItemType.Armor:
+                return GameConfig.ArmorObj.getElement(typeId).name;
+                break;
+            case ItemType.Jewelry:
+                return GameConfig.JewelryObj.getElement(typeId).name;
+                break;
+            // case ItemType.Consumables:
+            //     GameConfig.ConsumablesObj.getElement(typeId).name;
+            //     break;
+            // case ItemType.Materials:
+            //     GameConfig.MaterialsObj.getElement(typeId).name;
+            //     break;
+            default:
+                console.error("getItemName itemtype error : " + itemtype.toString());
+                return "";
+        }
+    }
+
+    getItemIcon(itemtype: ItemType, typeId: number) : string {
+        switch(itemtype)
+        {
+            case ItemType.Weapon:
+                return  GameConfig.WeaponObj.getElement(typeId).icon;
+                break;
+            case ItemType.Armor:
+                return GameConfig.ArmorObj.getElement(typeId).icon;
+                break;
+            case ItemType.Jewelry:
+                return GameConfig.JewelryObj.getElement(typeId).icon;
+                break;
+            // case ItemType.Consumables:
+            //     GameConfig.ConsumablesObj.getElement(typeId).icon;
+            //     break;
+            // case ItemType.Materials:
+            //     GameConfig.MaterialsObj.getElement(typeId).icon;
+            //     break;
+            default:
+                console.error("getItemIcon itemtype error : " + itemtype.toString());
+                return "";
+        }
+    }
+
+    addItem(items : BagItemBase) : boolean {
+        let stackMax = this.getItemStackMax(items.itemtype, items.typeId);
+        let stackNum = 0;
+        let NotStackNum = 0;
         
+        let BagItem = this.findItem(items.itemtype, items.uuid);
         if(BagItem)
         {
-            if(weaponConfig.stackMax < items.count + BagItem.count)
+            // 已有相同物品，判断是否可叠加
+            if(stackMax < items.count + BagItem.count)
             {
-                console.log("addItem weaponConfig weaponConfig.stackMax is over");
-                return false;
+                stackNum = stackMax - BagItem.count;
+                NotStackNum = items.count + BagItem.count - stackMax;
             }
-            BagItem.count += items.count;
+            else
+            {
+                stackNum = items.count;
+                NotStackNum = 0;
+            }
         }
         else
         {
-            if(weaponConfig.stackMax < items.count)
-            {
-                console.log("addItem weaponConfig weaponConfig.stackMax is over");
-                return false;
-            }
-            this.itemList.get(items.itemtype).push(items);
+            stackNum = 0;
+            NotStackNum = items.count;
         }
+        if(BagItem)
+        {
+            BagItem.count += stackNum;
+        }
+        if(NotStackNum)
+        {
+            items.count = NotStackNum;
+            if(!this.addItemNotStack(items))
+            {
+                // 添加失败，回滚
+                if(BagItem)
+                {
+                    BagItem.count -= stackNum;
+                }
+            }
+        }
+
         if(SystemUtil.isServer())
         {
             this.save(false);
         }
+        return true;
+    }
+
+    private addItemNotStack(items : BagItemBase) : boolean {
+        if(this.bagTypeCapacity.get(items.itemtype) <= this.itemList.get(items.itemtype).length)
+        {
+            console.log("addItemNotStack bagTypeCapacity is over : " + JSON.stringify(items));
+            return false;
+        }
+
+        this.itemList.get(items.itemtype).push(items);
         return true;
     }
 }

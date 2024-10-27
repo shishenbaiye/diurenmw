@@ -1,7 +1,11 @@
 
+import { GameConfig } from "../../../configs/GameConfig";
 import EquipmentUI_Generate from "../../../ui-generate/Bag/EquipmentUI_generate";
+import ArmorScript from "../../armorModule/ArmorScript";
 import { ArmorPart } from "../../armorModule/ArmorType";
+import JewelryScript from "../../jewelryModule/JewelryScript";
 import { JewelryPart } from "../../jewelryModule/JewelryType";
+import WeaponScript from "../../weaponModule/WeaponScript";
 import { ItemType } from "../BagManagerModuleData";
 
 export enum EquipmentType
@@ -51,46 +55,90 @@ export default class EquipmentUI extends EquipmentUI_Generate {
 	}
 
 	updateIcon() {
+		let excelData = null;
 		switch (this.mEquipmentType) {
 			case EquipmentType.Weapon:
-				this.setMaskButtonImage("153939");
+				let equipWeapon = mw.Player.localPlayer.character.getComponent(WeaponScript).getEquipWeapon();
+				if(!equipWeapon)
+				{
+					this.itemName.text = "武器";
+					return;
+				}
+				excelData = GameConfig.WeaponObj.getElement(equipWeapon.wid);
 				break;
 			case EquipmentType.Ring:
-				this.setMaskButtonImage("142702");
+				let equepRing = mw.Player.localPlayer.character.getComponent(JewelryScript).getEquepJewelry(JewelryPart.Ring);
+				if(!equepRing)
+				{
+					this.itemName.text = "戒指";
+					return;
+				}
+				excelData = GameConfig.JewelryObj.getElement(equepRing.aid);
 				break;
 			case EquipmentType.Necklace:
-				this.setMaskButtonImage("153939");
+				let equepNecklace = mw.Player.localPlayer.character.getComponent(JewelryScript).getEquepJewelry(JewelryPart.Necklace);
+				if(!equepNecklace)
+				{
+					this.itemName.text = "项链";
+					return;
+				}
+				excelData = GameConfig.JewelryObj.getElement(equepNecklace.aid);
 				break;
 			case EquipmentType.Bracelet:
-				this.setMaskButtonImage("153939");
+				let equepBracelet = mw.Player.localPlayer.character.getComponent(JewelryScript).getEquepJewelry(JewelryPart.Bracelet);
+				if(!equepBracelet)
+				{
+					this.itemName.text = "手镯";
+					return;
+				}
+				excelData = GameConfig.JewelryObj.getElement(equepBracelet.aid);
 				break;
 			case EquipmentType.Head:
-				this.setMaskButtonImage("153939");
+				let equepHead = mw.Player.localPlayer.character.getComponent(ArmorScript).getEquepArmor(ArmorPart.Head);
+				if(!equepHead)
+				{
+					this.itemName.text = "头部";
+					return;
+				}
+				excelData = GameConfig.JewelryObj.getElement(equepHead.aid);
 				break;
 			case EquipmentType.Body:
-				this.setMaskButtonImage("153939");
+				let equepBody = mw.Player.localPlayer.character.getComponent(ArmorScript).getEquepArmor(ArmorPart.Body);
+				if(!equepBody)
+				{
+					this.itemName.text = "身体";
+					return;
+				}
+				excelData = GameConfig.JewelryObj.getElement(equepBody.aid);
 				break;
 			case EquipmentType.Leg:
-				this.setMaskButtonImage("153939");
+				let equepLeg = mw.Player.localPlayer.character.getComponent(ArmorScript).getEquepArmor(ArmorPart.Leg);
+				if(!equepLeg)
+				{
+					this.itemName.text = "腿部";
+					return;
+				}
+				excelData = GameConfig.JewelryObj.getElement(equepLeg.aid);
 				break;
 			case EquipmentType.Foot:
-				this.setMaskButtonImage("153939");
+				let equepFoot = mw.Player.localPlayer.character.getComponent(ArmorScript).getEquepArmor(ArmorPart.Foot);
+				if(!equepFoot)
+				{
+					this.itemName.text = "脚部";
+					return;
+				}
+				excelData = GameConfig.JewelryObj.getElement(equepFoot.aid);
 				break;
 		}
+		this.setButtonImage(excelData.icon);
+		this.itemName.text = excelData.name;
 	}
 
-	setMaskButtonImage(image: string) { 
+	setButtonImage(image: string) { 
 		this.button.normalImageGuid = image;
 		this.button.disableImageGuid = image;
 		this.button.pressedImageGuid = image;
 		this.button.normalImageColor = new mw.LinearColor(1, 1, 1, 1);
-	}
-
-	setDefaultButtonImage(image: string) {
-		this.button.normalImageGuid = image;
-		this.button.disableImageGuid = image;
-		this.button.pressedImageGuid = image;
-		this.button.normalImageColor = new mw.LinearColor(1, 1, 1, 0.5);
 	}
 
 	getEquipmentType(inType: ItemType, inPart: number): EquipmentType {

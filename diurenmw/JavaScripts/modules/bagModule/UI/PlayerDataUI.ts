@@ -55,6 +55,7 @@ export default class PlayerDataUI extends PlayerDataUI_Generate {
 
 	createEquipment(inType : ItemType, inPart : number, position : Vector2): EquipmentUI {
 		let inEquipmentUI = UIService.create(EquipmentUI);
+		inEquipmentUI.init(inType, inPart);
 		this.uiWidgetBase.rootContent.addChild(inEquipmentUI.uiObject);
 		inEquipmentUI.uiObject.position = position;
 		inEquipmentUI.uiObject.size = new mw.Vector2(this.size, this.size);

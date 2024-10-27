@@ -17,10 +17,10 @@ export default class EquipmentUI_Generate extends UIScript {
 		}
 		return this.image_Internal
 	}
-	private button_Internal: mw.MaskButton
-	public get button(): mw.MaskButton {
+	private button_Internal: mw.Button
+	public get button(): mw.Button {
 		if(!this.button_Internal&&this.uiWidgetBase) {
-			this.button_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/RootCanvas/button') as mw.MaskButton
+			this.button_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/RootCanvas/button') as mw.Button
 		}
 		return this.button_Internal
 	}
@@ -48,6 +48,9 @@ export default class EquipmentUI_Generate extends UIScript {
 		
 		//按钮添加点击
 		
+		this.button.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
 
 		//按钮多语言
 		

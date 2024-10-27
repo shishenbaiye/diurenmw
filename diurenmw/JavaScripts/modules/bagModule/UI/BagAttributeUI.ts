@@ -177,6 +177,7 @@ export default class BagAttributeUI extends BagAttributeUI_Generate {
     static str:number = 0;
     static changeStr(value:number){
         BagAttributeUI.str = value;
+        this.changeAtk(BagAttributeUI.atk);
         if (BagAttributeUI.instance)
         {
             BagAttributeUI.instance.mStr.text = `${BagAttributeUI.str}`;
@@ -186,6 +187,7 @@ export default class BagAttributeUI extends BagAttributeUI_Generate {
     static int:number = 0;
     static changeInt(value:number){
         BagAttributeUI.int = value;
+        this.changeMAtk(BagAttributeUI.mAtk);
         if (BagAttributeUI.instance)
         {
             BagAttributeUI.instance.mInt.text = `${BagAttributeUI.int}`;
@@ -206,7 +208,7 @@ export default class BagAttributeUI extends BagAttributeUI_Generate {
         BagAttributeUI.atk = value;
         if (BagAttributeUI.instance)
         {
-            BagAttributeUI.instance.mAtk.text = `${BagAttributeUI.atk}`;
+            BagAttributeUI.instance.mAtk.text = `${BagAttributeUI.atk + BagAttributeUI.str * 5}`;
         }
     }
 
@@ -215,7 +217,7 @@ export default class BagAttributeUI extends BagAttributeUI_Generate {
         BagAttributeUI.mAtk = value;
         if (BagAttributeUI.instance)
         {
-            BagAttributeUI.instance.mMAtk.text = `${BagAttributeUI.mAtk}`;
+            BagAttributeUI.instance.mMAtk.text = `${BagAttributeUI.mAtk  + BagAttributeUI.int * 5}`;
         }
     }
 

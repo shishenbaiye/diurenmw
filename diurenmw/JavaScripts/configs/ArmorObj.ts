@@ -1,5 +1,5 @@
 import { ConfigBase, IElementBase } from "./ConfigBase";
-const EXCELDATA:Array<Array<any>> = [["id","name","body","type","quality","def","vit","str","int","effect1","effect2","effect3","effect4"],["","","","","","","","","","","","",""],[10001,"普通布甲头盔",1,3,1,15,16,[12,20],[50,100],null,null,null,null],[20001,"锁子甲",2,1,1,22,100,[100,150],[20,50],null,null,null,null],[20002,"银鳞胸甲",2,2,5,1600,1000,[600,800],[100,120],"效果1描述","效果1描述","效果1描述","效果1描述"],[30001,"普通布甲下装",3,3,1,16,10,[13,22],[77,98],null,null,null,null],[40001,"普通重甲鞋子",4,1,1,5,10,[5,8],[16,21],null,null,null,null]];
+const EXCELDATA:Array<Array<any>> = [["id","name","body","type","quality","def","vit","str","int","effect1","effect2","effect3","effect4","icon","stackMax"],["","","","","","","","","","","","","","",""],[10001,"普通布甲头盔",1,3,1,15,16,[12,20],[50,100],null,null,null,null,"95598",1],[20001,"锁子甲",2,1,1,22,100,[100,150],[20,50],null,null,null,null,"336185",1],[20002,"银鳞胸甲",2,2,5,1600,1000,[600,800],[100,120],"效果1描述","效果1描述","效果1描述","效果1描述","336185",1],[30001,"普通布甲下装",3,3,1,16,10,[13,22],[77,98],null,null,null,null,"314966",1],[40001,"普通重甲鞋子",4,1,1,5,10,[5,8],[16,21],null,null,null,null,"95590",1]];
 export interface IArmorObjElement extends IElementBase{
  	/**ID*/
 	id:number
@@ -39,6 +39,10 @@ export interface IArmorObjElement extends IElementBase{
 	effect3:string
 	/**效果4描述*/
 	effect4:string
+	/**图标资源id*/
+	icon:string
+	/**堆叠数量上限*/
+	stackMax:number
  } 
 export class ArmorObjConfig extends ConfigBase<IArmorObjElement>{
 	constructor(){
