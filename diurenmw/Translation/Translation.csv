@@ -1,0 +1,127 @@
+﻿Key,English,ChineseSimplified,ChineseTraditional,Spanish,French,Russian,Portuguese,Japanese,Korean
+等级：,Level:,等级：,,,,,,学年：,등급:
+经验：,EXP:,经验：,,,,,,経験：,경험:
+物理攻击：,Physical Attack:,物理攻击：,,,,,,物理攻撃:,물리 공격:
+魔法攻击：,Magic Attack:,魔法攻击：,,,,,,魔法攻撃:,마법 공격:
+力量：,Strength:,力量：,,,,,,強さ：,힘:
+暴击率：,Crit Rate:,暴击率：,,,,,,クリティカルヒット率：,치명타율:
+智力：,Intelligence:,智力：,,,,,,知能：,지능:
+体力：,Stamina:,体力：,,,,,,体力：,체력:
+防御：,Defense:,防御：,,,,,,防御：,방어:
+伤害增加：,Damage Increase:,伤害增加：,,,,,,ダメージ増加:,피해량 증가:
+技能攻击力：,ATK:,技能攻击力：,,,,,,スキル攻撃力：,스킬공격력 :
+暴击伤害：,Crit Damage:,暴击伤害：,,,,,,クリティカルダメージ:,치명적인 손상:
+1,1,1,,,,,,1,1
+0,0,0,,,,,,0,0
+10,10,10,,,,,,10,10
+20,20,20,,,,,,20,20
+30,30,30,,,,,,30,30
+40,40,40,,,,,,40,40
+50,50,50,,,,,,50,50
+60,60,60,,,,,,60,60
+70,70,70,,,,,,70,70
+80,80,80,,,,,,80,80
+150,150,150,,,,,,150,150
+100/100,100/100,100/100,,,,,,100/100,100/100
+生命值：,HP:,生命值：,,,,,,HP:,HP:
+魔法值：,Mana:,魔法值：,,,,,,魔法の値:,마법의 가치:
+0/0,0/0,0/0,,,,,,0/0,0/0
+名称,Name,名称,,,,,,名称,이름
+Text,Text,Text,,,,,,Text,Text
+000/000,000/000,000/000,,,,,,000/000,000/000
+当前/上限,Current/Upper Limit,当前/上限,,,,,,電流/上限,전류/상한
+9999,9999,9999,,,,,,9999,9999
+NameX32,NameX32,NameX32,,,,,,NameX32,NameX32
+Name,Name,Name,,,,,,Name,Name
+3,3,3,,,,,,3,3
+Confirm,Confirm,Confirm,,,,,,Confirm,Confirm
+Descriptions...,Descriptions...,Descriptions...,,,,,,Descriptions...,Descriptions...
+Purchase,Purchase,Purchase,,,,,,Purchase,Purchase
+Cancel,Cancel,Cancel,,,,,,Cancel,Cancel
+99999,99999,99999,,,,,,99999,99999
+100,100,100,,,,,,100,100
+Purchase Succeeds,Purchase Succeeds,Purchase Succeeds,,,,,,Purchase Succeeds,Purchase Succeeds
+Use,Use,Use,,,,,,Use,Use
+Rankings,Rankings,Rankings,,,,,,Rankings,Rankings
+Settings,Settings,Settings,,,,,,Settings,Settings
+Music,Music,Music,,,,,,Music,Music
+Sound Effect,Sound Effect,Sound Effect,,,,,,Sound Effect,Sound Effect
+Vibration,Vibration,Vibration,,,,,,Vibration,Vibration
+On,On,On,,,,,,On,On
+93,93,93,,,,,,93,93
+999,999,999,,,,,,999,999
+936,936,936,,,,,,936,936
+全服连杀排行榜,Server-Wide Kill Leaderboard,全服连杀排行榜,,,,,,サーバー全体のキルストリークランキング,서버 전체 킬 연속 순위
+11,11,11,,,,,,11,11
+180800,180800,180800,,,,,,180800,180800
+价值,Value,价值,,,,,,価値,값
+初始化相机,Initialize Camera,初始化相机,,,,,,カメラを初期化する,카메라 초기화
+相机已存在,Camera already exists,相机已存在,,,,,,カメラはすでに存在します,카메라가 이미 존재합니다.
+相机创建失败,Camera creation failed,相机创建失败,,,,,,カメラの作成に失敗しました,카메라 생성 실패
+相机不存在,Camera does not exist,相机不存在,,,,,,カメラが存在しません,카메라가 존재하지 않습니다
+普通布甲头盔,Common Cloth Armor Helmet,普通布甲头盔,,,,,,普通の布製ヘルメット,일반 천 헬멧
+锁子甲,Lock Armor,锁子甲,,,,,,チェーンメイル,체인 메일
+银鳞胸甲,Silver Scale Chest,银鳞胸甲,,,,,,シルバースケールの胸当て,은비늘 흉갑
+效果1描述,Effect 1 Description,效果1描述,,,,,,エフェクト1の説明,효과 1 설명
+普通布甲下装,Common Cloth Armor Bottoms,普通布甲下装,,,,,,普通の布製の鎧底,일반 천 갑옷 하의
+普通重甲鞋子,Common Armor Shoes,普通重甲鞋子,,,,,,普通の重装甲靴,일반 중갑옷 신발
+戒指,Ring,戒指,,,,,,指輪,반지
+项链,Necklace,项链,,,,,,ネックレス,목걸이
+牛b项链,Cow B Necklace,牛b项链,,,,,,牛Bのネックレス,암소 b 목걸이
+手镯,Bracelet,手镯,,,,,,ブレスレット,팔찌
+旋风斩,Cyclone Slash,旋风斩,,,,,,旋風,선풍
+初学者手册开始-进入宠物引导,Beginner's Manual - Pet Guide,初学者手册开始-进入宠物引导,,,,,,ビギナーズマニュアル - ペット指導入門,초보자 매뉴얼 - 애완동물 안내 시작하기
+【获取宠物引导】看向宠物NPC,[Get Pet Guide] Look to Pet NPC,【获取宠物引导】看向宠物NPC,,,,,,【ペットの案内を受ける】ペットNPCを見てみる,[펫 안내 받기] 펫 NPC를 보세요
+生锈的铁剑,Rusty Iron Sword,生锈的铁剑,,,,,,錆びた鉄の剣,녹슨 철검
+石中剑,Sword in the Stone,石中剑,,,,,,石の中の剣,돌 속의 검
+技能伤增加15％,Skill Damage +15%,技能伤增加15％,,,,,,スキルダメージが15%増加,스킬 데미지 15% 증가
+攻击力增加15％,ATK +15%,攻击力增加15％,,,,,,攻撃力15%増加,공격력 15% 증가
+防御力增加15％,Defense +15%,防御力增加15％,,,,,,防御力が15%増加,방어력 15% 증가
+血量增加15％,Health +15%,血量增加15％,,,,,,HPが15%増加,HP 15% 증가
+树枝,Branch,树枝,,,,,,枝,가지
+陨星杖,Meteorite Staff,陨星杖,,,,,,メテオスタッフ,유성 지팡이
+技能伤增加20％,Skill Damage +20%,技能伤增加20％,,,,,,スキルダメージ20%増加,스킬 데미지 20% 증가
+技能CD减少20％,20% reduction in skill cooldown,技能CD减少20％,,,,,,スキルCDが20%減少,스킬 CD가 20% 감소했습니다.
+释放技能时10％几率召唤陨石,10% chance to summon a meteorite when releasing a skill.,释放技能时10％几率召唤陨石,,,,,,スキル解放時に10%の確率で隕石を召喚,스킬 발동 시 10% 확률로 운석 소환
+释放技能时1％几率召唤大陨石,1% chance to summon a meteorite when releasing skills.,释放技能时1％几率召唤大陨石,,,,,,スキル解放時、1%の確率で大型隕石を召喚,스킬 발동 시 1% 확률로 대형 운석 소환
+随时会断的弓,A bow that can break at any time.,随时会断的弓,,,,,,いつでも折れる弓,언제든지 부러질 수 있는 활
+月神的弓弦,Luna's Bow,月神的弓弦,,,,,,ルナの弓弦,루나의 활시위
+攻击速度增加10％,Attack speed +10%,攻击速度增加10％,,,,,,攻撃速度10%増加,공격 속도 10% 증가
+攻击力增加20％,ATK +20%,攻击力增加20％,,,,,,攻撃力20%増加,공격력 20% 증가
+命中时使敌人减速10％,Slow down enemies by 10% upon hit.,命中时使敌人减速10％,,,,,,ヒット時に敵の動きを10%遅くする,적중 시 적의 속도가 10% 감소합니다.
+箭矢附带冰蓝色拖尾,Arrow with Ice Blue Trail,箭矢附带冰蓝色拖尾,,,,,,矢にはアイスブルーの尾が付いています,화살표에는 얼음 파란색 꼬리가 있습니다.
+武器,Weapons,武器,,,,,,武器,무기
+装备,Equipment,装备,,,,,,装置,장비
+首饰,Jewelry,首饰,,,,,,ジュエリー,보석류
+消耗品,Consumables,消耗品,,,,,,消耗品,소모품
+材料,MATERIAL,材料,,,,,,材料,재료
+${gameAbility.name}技能标签不能为空,${gameAbility.name} Skill Tag cannot be empty,${gameAbility.name}技能标签不能为空,,,,,,${gameAbility.name}スキルタグを空にすることはできません,${gameAbility.name}기술 태그는 비워둘 수 없습니다.
+${ability.name}技能标签不能为空,${ability.name} Skill Tag cannot be empty,${ability.name}技能标签不能为空,,,,,,${ability.name}スキルタグを空にすることはできません,${ability.name}기술 태그는 비워둘 수 없습니다.
+技能名字为空,Skill Name is Empty,技能名字为空,,,,,,スキル名が空です,스킬 이름이 비어 있습니다.
+没有找到name为${abilityName}的技能,Skill with name ${abilityName} not found,没有找到name为${abilityName}的技能,,,,,,名前が見つかりません ${abilityName}スキル,이름을 찾을 수 없습니다 ${abilityName}기술
+没有找到tag为${abilityName}的技能,Skill with tag ${abilityName} not found,没有找到tag为${abilityName}的技能,,,,,,タグ $ が見つかりません{abilityName}スキル,$ 태그를 찾을 수 없습니다.{abilityName}기술
+技能标签为空,Skill tab is empty,技能标签为空,,,,,,スキルタグが空です,스킬 태그가 비어 있습니다.
+没有找到tag为${tag}的技能,Skill with tag ${tag} not found,没有找到tag为${tag}的技能,,,,,,タグ $ が見つかりません{tag}スキル,$ 태그를 찾을 수 없습니다.{tag}기술
+无法创建${abilityName}的技能,Cannot create ${abilityName} skill,无法创建${abilityName}的技能,,,,,,$を作成できません{abilityName}スキル,$을(를) 생성할 수 없습니다.{abilityName}기술
+Trigger没有找到类为${abilityName}的技能,Trigger couldn't find any skills with class ${abilityName}.,Trigger没有找到类为${abilityName}的技能,,,,,,クラス $ のトリガーが見つかりません{abilityName}スキル,$ 클래스에 대한 트리거를 찾을 수 없습니다.{abilityName}기술
+"当前效果不是持续时间类型,无法获取剩余时间","Current effect is not of duration type, cannot get remaining time","当前效果不是持续时间类型,无法获取剩余时间",,,,,,現在の効果は持続型ではないため、残り時間を取得できません,현재 효과는 지속시간형이 아니며 남은 시간을 획득할 수 없습니다.
+开始新手引导,Start Tutorial,开始新手引导,,,,,,初心者指導開始,초보자 안내 시작
+结束新手引导,Finish,结束新手引导,,,,,,初心者ガイドの終了,초보자 가이드 끝
+新手引导${id}不存在,Beginner's Guide ${id} does not exist,新手引导${id}不存在,,,,,,初心者ガイド ${id}存在しません,초보자 가이드 ${id}존재하지 않는다
+技能伤害增加15%,Skill Damage +15%,技能伤害增加15%,,,,,,スキルダメージが15%増加,스킬 데미지 15% 증가
+攻击力增加15%,ATK +15%,攻击力增加15%,,,,,,攻撃力15%増加,공격력 15% 증가
+防御力增加15%,Defense +15%,防御力增加15%,,,,,,防御力が15%増加,방어력 15% 증가
+血量增加15%,Health +15%,血量增加15%,,,,,,血液量を15%増加,혈액량 15% 증가
+主动加载资源异常，可能是Util.AssetUtil.asyncDownloadAsset不好使，需要寻找代替方法:${error},"Active resource loading is abnormal, maybe Util.AssetUtil.asyncDownloadAsset is not working well, need to find an alternative way: ${error}",主动加载资源异常，可能是Util.AssetUtil.asyncDownloadAsset不好使，需要寻找代替方法:${error},,,,,,リソースのアクティブな読み込みが異常です。Util.AssetUtil.asyncDownloadAsset が正常に機能していない可能性があります。代替メソッドを見つける必要があります。{error},리소스의 활성 로딩이 비정상적입니다. Util.AssetUtil.asyncDownloadAsset이 제대로 작동하지 않는 것일 수 있습니다. ${error}
+加载资源不成功：guid:${ass.guid},Failed to load resource:guid:${ass.guid},加载资源不成功：guid:${ass.guid},,,,,,リソースのロードに失敗しました: guid:${ass.guid},리소스를 로드하지 못했습니다: guid:${ass.guid}
+不知道什么原因中断加载:${error},Unknown reason to interrupt loading: ${error},不知道什么原因中断加载:${error},,,,,,読み込みが中断された理由がわかりません: ${error},로딩이 중단된 이유를 모르겠습니다: ${error}
+解析客户端数据,Parse Client Data,解析客户端数据,,,,,,クライアントデータを解析する,클라이언트 데이터 구문 분석
+你好我是帮助机器人,"Hello, I'm a helper robot.",你好我是帮助机器人,,,,,,こんにちは、私はヘルプボットです,안녕하세요 헬프봇입니다
+你好！,Hello!,你好！,,,,,,こんにちは！,안녕하세요!
+广场行为,Square Behavior,广场行为,,,,,,スクエアな動作,정사각형 동작
+准备跳转到游戏,Ready to jump to the game,准备跳转到游戏,,,,,,ゲームに参加する準備をしましょう,게임에 뛰어들 준비를 하세요
+初始化声音工具,Initialize Sound Tools,初始化声音工具,,,,,,サウンドツールの初期化,사운드 도구 초기화
+播放背景音乐${assets},Play background music ${assets},播放背景音乐${assets},,,,,,バックグラウンド ミュージックを再生する${assets},배경 음악 재생${assets}
+播放背景音乐失败,Failed to play background music.,播放背景音乐失败,,,,,,BGMの再生に失敗しました,배경음악을 재생하지 못했습니다.
+播放音效${assetId},Play ${assetId},播放音效${assetId},,,,,,効果音を再生する${assetId},음향 효과 재생${assetId}
+

@@ -86,6 +86,7 @@ export class WeaponModuleS extends ModuleS<WeaponModuleC, WeaponModuleData> {
     unEquipWeapon(player: mw.Player) {
         let data = this.getPlayerData(player);
         data.unEquipWeapon();
+        GameEventBus.emit(`WeaponModule_UnEquipWeapon`,player);
     }
 
 }

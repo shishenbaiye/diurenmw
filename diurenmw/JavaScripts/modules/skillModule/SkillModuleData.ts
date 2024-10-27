@@ -17,6 +17,12 @@ export class SkillModuleData extends Subdata{
     @Decorator.persistence()
     haveSkills: Array<number>;
 
+    @Decorator.persistence()
+    weaponNormalSkillList: Map<number,Array<number>>;
+
+    @Decorator.persistence()
+    weaponSkillList: Map<number,Array<number>>
+
     protected initDefaultData(): void {
         this.normalSkillList = [];
         this.skill1 = null;
@@ -24,6 +30,8 @@ export class SkillModuleData extends Subdata{
         this.skill3 = null;
         this.skill4 = null;
         this.haveSkills = []
+        this.weaponNormalSkillList = new Map<number,Array<number>>();
+        this.weaponSkillList = new Map<number,Array<number>>();
         this.save(true);
     }
 }

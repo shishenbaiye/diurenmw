@@ -3,6 +3,9 @@ import BagUI_Generate from "../../../ui-generate/Bag/BagUI_generate"
 import BagItemUI from "./BagItemUI"
 import { BagManagerModuleData, ItemType, eventType } from "../BagManagerModuleData";
 import ItemTypeUI from "./ItemTypeUI";
+import { PlayerAttributeSet } from "../../AttributeModule/PlayerAttributeSet";
+import BagAttributeUI from "./BagAttributeUI";
+import PlayerDataUI from "./PlayerDataUI";
 
 @UIBind('UI/Bag/BagUI.ui')
 export default class BagManagerUI extends BagUI_Generate {
@@ -11,6 +14,8 @@ export default class BagManagerUI extends BagUI_Generate {
 	ItemTypeUIs : Array<ItemTypeUI>;
 
 	onButtonClickEvents: mw.MulticastDelegate<eventType>;
+	bagAttributeUIObj : BagAttributeUI;
+	playerDataUIObj : PlayerDataUI;
 
 	private exitButton_Internal: mw.Button
 	public get exitButton(): mw.Button {
@@ -71,6 +76,29 @@ export default class BagManagerUI extends BagUI_Generate {
 		
 		this.updateItemTypeUI();
 		this.updateCurrentTypePage();
+		this.updateAttributeUI();
+		this.updatePlayerDataUI();
+	}
+	updatePlayerDataUI() {
+		if(!this.playerDataUIObj)
+		{
+			this.playerDataUIObj = UIService.create(PlayerDataUI);
+			this.uiWidgetBase.rootContent.addChild(this.playerDataUIObj.uiObject);
+			this.playerDataUIObj.uiObject.position = new mw.Vector2(450, 140);
+			this.playerDataUIObj.uiObject.size = new mw.Vector2(700, 700);
+			this.playerDataUIObj.uiObject.visibility = mw.SlateVisibility.Visible;
+		}
+	}
+
+	updateAttributeUI() {
+		if(!this.bagAttributeUIObj)
+		{
+			this.bagAttributeUIObj = UIService.create(BagAttributeUI);
+			this.uiWidgetBase.rootContent.addChild(this.bagAttributeUIObj.uiObject);
+			this.bagAttributeUIObj.uiObject.position = new mw.Vector2(0, 140);
+			this.bagAttributeUIObj.uiObject.size = new mw.Vector2(450, 600);
+			this.bagAttributeUIObj.uiObject.visibility = mw.SlateVisibility.Visible;
+		}
 	}
 
 	protected addItemTypeUI(inItemType : ItemType, inTypeText : string) {
@@ -155,12 +183,10 @@ export default class BagManagerUI extends BagUI_Generate {
 		{
 			this.BagItemObjs[i].uiObject.visibility = mw.SlateVisibility.Visible;
 			this.BagItemObjs[i].updateItemUI(i, this.currentTypePage);
-			console.log("BagUI ShowNumberItemObj Visible : " + i);
 		}
 		for(let i = num; i < this.BagItemObjs.length; ++i)
 		{
 			this.BagItemObjs[i].uiObject.visibility = mw.SlateVisibility.Collapsed;
-			console.log("BagUI ShowNumberItemObj Collapsed : " + i);
 		}
 	}
 

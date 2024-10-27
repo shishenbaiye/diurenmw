@@ -1,5 +1,6 @@
 import { GameEventBus } from "../../common/eventBus/EventBus";
 import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
+import WeaponScript from "../weaponModule/WeaponScript";
 import PlayerSkillScrpit from "./PlayerSkillScrpit";
 import { SkillManager } from "./SkillManager";
 import { SkillModuleC } from "./SkillModuleC";
@@ -8,6 +9,8 @@ import { SkillModuleData } from "./SkillModuleData";
 export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
     protected onAwake(): void {
         GameEventBus.on(`AttributeModule_Ready`, this.onAttributeAllReady.bind(this))
+        GameEventBus.on(`WeaponModule_EquipWeapon`, this.onEquipWeapon.bind(this));
+        GameEventBus.on(`WeaponModule_UnEquipWeapon`, this.onUnEquipWeapon.bind(this));
     }
 
     onAttributeAllReady(player: mw.Player) {
@@ -32,9 +35,7 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
             if (skillData.normalSkillList.length > 0) {
                 skillScript.normalAttack = skillData.normalSkillList;
             }
-            console.log(`开始设置技能1：${skillData.skill1}`);
             if (skillData.skill1) {
-                console.log(`设置技能1：${skillData.skill1}`);
                 skillScript.skill1 = skillData.skill1;
             }
 
@@ -56,7 +57,8 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
     addSkill(player: mw.Player, skillId: number) {
         let skillData = this.getPlayerData(player);
         let res = SkillManager.instance.getSkillById(skillId);
-        if (res) {
+        let have = skillData.haveSkills.indexOf(skillId);
+        if (res && have == -1) {
             let asc = player.character.getComponent(AbilitySystemComponent);
             asc.giveAbility(res);
             skillData.haveSkills.push(skillId);
@@ -66,32 +68,102 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
 
     setNormalSkill(player: mw.Player, skillList: number[]) {
         let skillData = this.getPlayerData(player);
+        let weapon = player.character.getComponent(WeaponScript).getEquipWeapon().getData();
+        if(!weapon) return;
+
         skillData.normalSkillList = skillList;
-        let skillScript = player.character.getComponent(PlayerSkillScrpit);
-        if (skillScript) {
-            skillScript.setNormalAttack(skillList);
-        }
+        skillData.weaponNormalSkillList.set(weapon.wtid,skillList);
+        skillData.save(true);
     }
 
-    setSkill(player: mw.Player, skillId: number, index: number) {
+    setSkill(player: mw.Player, skillId: number, index: number): boolean {
         let skillData = this.getPlayerData(player);
         let res = SkillManager.instance.getSkillById(skillId);
-        if (res) {
+        let weapon = player.character.getComponent(WeaponScript).getEquipWeapon().getData();
+        if (res && weapon) {
             switch (index) {
                 case 0:
                     skillData.skill1 = skillId;
+                    if(skillData.weaponSkillList.get(weapon.wtid)){
+                        skillData.weaponSkillList.get(weapon.wtid)[0] = skillId;
+                    }else{
+                        skillData.weaponSkillList.set(weapon.wtid,[skillId,-1,-1,-1]);
+                    }
                     break;
                 case 1:
                     skillData.skill2 = skillId;
+                    if(skillData.weaponSkillList.get(weapon.wtid)){
+                        skillData.weaponSkillList.get(weapon.wtid)[1] = skillId;
+                    }else{
+                        skillData.weaponSkillList.set(weapon.wtid,[-1,skillId,-1,-1]);
+                    }
                     break;
                 case 2:
                     skillData.skill3 = skillId;
+                    if(skillData.weaponSkillList.get(weapon.wtid)){
+                        skillData.weaponSkillList.get(weapon.wtid)[2] = skillId;
+                    }else{
+                        skillData.weaponSkillList.set(weapon.wtid,[-1,-1,skillId,-1]);
+                    }
                     break;
                 case 3:
                     skillData.skill4 = skillId;
+                    if(skillData.weaponSkillList.get(weapon.wtid)){
+                        skillData.weaponSkillList.get(weapon.wtid)[3] = skillId;
+                    }else{
+                        skillData.weaponSkillList.set(weapon.wtid,[-1,-1,-1,skillId]);
+                    }
                     break;
             }
             skillData.save(true);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    onEquipWeapon(player: mw.Player, weaponId: number) {
+        console.log(`装备武器`, weaponId);
+        let skillData = this.getPlayerData(player);
+        let weaponSkillList = skillData.weaponSkillList.get(weaponId);
+        if(!weaponSkillList) weaponSkillList = [];
+        let weaponNormalSkillList = skillData.weaponNormalSkillList.get(weaponId);
+        if(!weaponNormalSkillList) weaponNormalSkillList = [];
+        let skillScript = player.character.getComponent(PlayerSkillScrpit);
+        if (skillScript) {
+            if (weaponSkillList) {
+                if (weaponSkillList[0]) {
+                    skillScript.setSkill(weaponSkillList[0], 0);
+                }
+
+                if (weaponSkillList[1]) {
+                    skillScript.setSkill(weaponSkillList[1], 1);
+                }
+
+                if (weaponSkillList[2]) {
+                    skillScript.setSkill(weaponSkillList[2], 2);
+                }
+
+                if (weaponSkillList[3]) {
+                    skillScript.setSkill(weaponSkillList[3], 3);
+                }
+            }
+            if (weaponNormalSkillList) {
+                skillScript.setNormalAttack(weaponNormalSkillList);
+            }
+        }
+    }
+
+    onUnEquipWeapon(player: mw.Player) {
+        let skillScript = player.character.getComponent(PlayerSkillScrpit);
+        if (skillScript) {
+            let skillData = this.getPlayerData(player);
+            skillData.normalSkillList = [];
+            skillData.skill1 = -1;
+            skillData.skill2 = -1;
+            skillData.skill3 = -1;
+            skillData.skill4 = -1;
+            skillScript.removeCurrentSkill();
         }
     }
 
@@ -102,6 +174,14 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
         let skillScript = player.character.getComponent(PlayerSkillScrpit);
         if (skillScript) {
             skillScript.activeSkill(index);
+        }
+    }
+
+    net_activeNormalSkill() {
+        let player = this.currentPlayer;
+        let skillScript = player.character.getComponent(PlayerSkillScrpit);
+        if (skillScript) {
+            skillScript.activeNormalAttack();
         }
     }
 }

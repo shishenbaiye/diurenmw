@@ -1,0 +1,50 @@
+﻿{
+	"IsHorizontal": true,
+	"name": "runrun测试",
+	"packageName": "b1eb6f3a.4b058091.2846c2a8.bd4bbb80",
+	"foldername": "diurenmw",
+	"mainScene": 1,
+	"scenePublic": 1,
+	"intro": "1233123",
+	"notes": "1233123",
+	"editorVersion": "v0.40.0.0",
+	"parentGameIdentity": "",
+	"parentGameId": "",
+	"extra": "{\"attribute\":2,\"IsHorizontal\":true,\"useAvatar\":0}",
+	"devEnv": 4,
+	"needToMgs": 0,
+	"attribute": 2,
+	"autoSubmitAudit": false,
+	"lightZipIgnore":
+	{
+		"suffixMatches": [
+			".meta",
+			".ts",
+			".ui",
+			".uimap",
+			".mat"
+		],
+		"fullMatches": [
+			"Asset_Data_List"
+		],
+		"prefixMatches": [
+			"AutoBackup/",
+			"JavaScripts/",
+			"Plugins/"
+		]
+	},
+	"files": [
+		{
+			"type": "Game_Thumbnail",
+			"path": "Pictures/Game_Thumbnail.jpg"
+		},
+		{
+			"type": "GameSetting",
+			"path": "Config/GameSetting.ini"
+		},
+		{
+			"type": "Asset_Data_List",
+			"path": "Asset_Data_List"
+		}
+	]
+}

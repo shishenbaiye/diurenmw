@@ -2,6 +2,9 @@ import { BagManagerModuleData, BagItemBase, ItemType, eventType } from "./BagMan
 import { BagManagerModuleS } from "./BagManagerModuleS";
 import BagManagerUI from "./UI/BagManagerUI";
 import BagItemUI from "./UI/BagItemUI";
+import { PlayerAttributeSet } from "../AttributeModule/PlayerAttributeSet";
+import { GameEventBus } from "../../common/eventBus/EventBus";
+import BagAttributeUI from "./UI/BagAttributeUI";
 
 export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModuleData> {
     bagManagerUIObj : BagManagerUI;
@@ -13,12 +16,12 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
      * @effect 只在客户端调用生效
      */
     protected onAwake(): void {
+        GameEventBus.on("AttributeModule_Change", BagAttributeUI.onChangeAttribute);
         this.onButtonClickEvents = new mw.MulticastDelegate<eventType>;
         this.onButtonClickEvents.add(this.onButtonClickEvent.bind(this));
     }
 
     onAttributeAllReady(player:mw.Player){
-        
     }
 
     /**

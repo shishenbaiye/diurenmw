@@ -175,6 +175,23 @@ export class AbilitySystemComponent extends Script {
             this.log.error(`没有找到name为${abilityName}的技能`);
             return false;
         }
+
+        for(let i = 0; i < gameAbilitys.length; i++){
+            let gameAbilityInstance = MFramework.createObject<GameAbility>(gameAbilitys[i]);
+            if (gameAbilityInstance) {
+                gameAbilityInstance.owner = this.gameObject;
+                if (!gameAbilityInstance.canActivate(this, this.gameObject)) return false;
+                gameAbilityInstance.id = this.randomId++;
+                gameAbilityInstance.preActive(this);
+                this.activatedAbilitys.push(gameAbilityInstance);
+                gameAbilityInstance.active(this);
+            } else {
+                this.log.error(`没有找到name为${abilityName}的技能`);
+                return false;
+            }
+        }
+        return true;
+
         gameAbilitys.forEach((gameAbility) => {
             let gameAbilityInstance = MFramework.createObject<GameAbility>(gameAbility);
             if (gameAbilityInstance) {

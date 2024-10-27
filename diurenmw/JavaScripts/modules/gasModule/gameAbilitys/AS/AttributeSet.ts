@@ -13,4 +13,8 @@ export abstract class AttributeSet extends Script{
     abstract preAttributeChange(attribute:AttributeSetData,newValue:number): void;
     /**属性修改后回调 */
     abstract postAttributeChange(attribute:AttributeSetData,oldValue:number,newValue:number): void;
+
+    getAttr(attrName:string):AttributeSetData{
+        return this[attrName];
+    }
 }
