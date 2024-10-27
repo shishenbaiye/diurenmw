@@ -1,24 +1,23 @@
 import { Singleton } from "../../tools/Singleton";
-import { ICharacterInfo } from "./base/ICharacterInfo";
+import { ICharacterBase } from "./interface/ICharacterBase";
 
 export class AIManager extends Singleton {
 
-    /** ai  同步脚本 */
-    private aiScriptMap: Map<number, ICharacterInfo>;
+    private aiScriptMap: Map<number, ICharacterBase>;
 
-    setScript(id: number, script: ICharacterInfo) {
+    public setScript(id: number, script: ICharacterBase) {
         this.aiScriptMap.set(id, script);
     }
 
-    delScript(id: number) {
+    public delScript(id: number) {
         this.aiScriptMap.delete(id);
     }
 
-    getScript(id: number): ICharacterInfo {
+    public getScript(id: number): ICharacterBase {
         return this.aiScriptMap.get(id);
     }
 
-    getAllScripts(): ICharacterInfo[] {
+    public getAllScripts(): ICharacterBase[] {
         return Array.from(this.aiScriptMap.values());
     }
 
