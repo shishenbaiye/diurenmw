@@ -1,4 +1,5 @@
 
+import { GameEventBus } from "../../../common/eventBus/EventBus";
 import { GameConfig } from "../../../configs/GameConfig";
 import EquipmentUI_Generate from "../../../ui-generate/Bag/EquipmentUI_generate";
 import ArmorScript from "../../armorModule/ArmorScript";
@@ -6,33 +7,14 @@ import { ArmorPart } from "../../armorModule/ArmorType";
 import JewelryScript from "../../jewelryModule/JewelryScript";
 import { JewelryPart } from "../../jewelryModule/JewelryType";
 import WeaponScript from "../../weaponModule/WeaponScript";
-import { ItemType } from "../BagManagerModuleData";
-
-export enum EquipmentType
-{
-    // 武器
-    Weapon,
-    // 戒指
-	Ring,
-	// 项链
-	Necklace,
-	// 手镯
-	Bracelet,
-	// 头部
-	Head,
-	// 身体
-	Body,
-	// 腿部
-	Leg,
-	// 脚部
-	Foot,
-}
+import { EquipmentType, ItemType, BagItemBase } from "../BagManagerModuleData";
 
 @UIBind('UI/Bag/EquipmentUI.ui')
 export default class EquipmentUI extends EquipmentUI_Generate {
 	type : ItemType;
 	part : number;
 	mEquipmentType : EquipmentType;
+	isEquipped : boolean;
 
 	/**
 	* onStart 之前触发一次
@@ -52,10 +34,18 @@ export default class EquipmentUI extends EquipmentUI_Generate {
 		this.part = inPart;
 		this.mEquipmentType = this.getEquipmentType(inType, inPart);
 		this.updateIcon();
+		this.button.onClicked.add(this.onButtonClick.bind(this));
+	}
+
+	onButtonClick()
+	{
+		let items : BagItemBase = {uuid: "", typeId: this.part, count: 1, itemtype: this.type};
+		GameEventBus.emit("BagModule_EquipmentClick", items);
 	}
 
 	updateIcon() {
 		let excelData = null;
+		this.isEquipped = false;
 		switch (this.mEquipmentType) {
 			case EquipmentType.Weapon:
 				let equipWeapon = mw.Player.localPlayer.character.getComponent(WeaponScript).getEquipWeapon();
@@ -132,6 +122,7 @@ export default class EquipmentUI extends EquipmentUI_Generate {
 		}
 		this.setButtonImage(excelData.icon);
 		this.itemName.text = excelData.name;
+		this.isEquipped = true;
 	}
 
 	setButtonImage(image: string) { 

@@ -8,7 +8,6 @@ import BagAttributeUI from "./UI/BagAttributeUI";
 
 export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModuleData> {
     bagManagerUIObj : BagManagerUI;
-    onButtonClickEvents: mw.MulticastDelegate<eventType>;
 
     /**
      * @groups 基类/C&S拓展
@@ -17,8 +16,7 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
      */
     protected onAwake(): void {
         GameEventBus.on("AttributeModule_Change", BagAttributeUI.onChangeAttribute);
-        this.onButtonClickEvents = new mw.MulticastDelegate<eventType>;
-        this.onButtonClickEvents.add(this.onButtonClickEvent.bind(this));
+        GameEventBus.on("BagModule_ItemClick", this.onButtonClickEvent.bind(this));
     }
 
     onAttributeAllReady(player:mw.Player){
@@ -77,11 +75,10 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
     // 打开背包
     protected onBagOpen(): void {
         this.bagManagerUIObj = UIService.show(BagManagerUI);
-        new mw.MulticastDelegate<eventType>
-        this.bagManagerUIObj.init(this.data, this.onButtonClickEvents);
+        this.bagManagerUIObj.init(this.data);
     }
 
-    onButtonClickEvent(typeId : number)
+    onButtonClickEvent(typeId : BagItemBase)
     {
         this.server.net_OnButtonClick(mw.Player.localPlayer, typeId);
     }

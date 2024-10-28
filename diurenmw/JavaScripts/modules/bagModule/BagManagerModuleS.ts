@@ -116,11 +116,11 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
         }
     }
 
-    net_OnButtonClick(player: mw.Player, typeId : number)
+    net_OnButtonClick(player: mw.Player, typeId : BagItemBase)
     {
-        if(this.listenButtonClick.has(typeId))
+        if(this.listenButtonClick.has(typeId.typeId))
         {
-            this.listenButtonClick.get(typeId).broadcast(typeId);
+            this.listenButtonClick.get(typeId.typeId).broadcast(typeId);
         }
     }
 
@@ -179,9 +179,5 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
 
         
         this.removeItem(player, res[0].uuid, ItemType.Weapon, 1);
-
-        this.addButtonClickListen(res[0].wid, (inWid : number) => {
-            console.warn("!!!!!!!!!!!!!!!!!!!! wid : " + inWid + ", buttonClick");
-        });
     }
 }

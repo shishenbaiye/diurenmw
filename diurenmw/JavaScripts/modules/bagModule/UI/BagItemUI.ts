@@ -4,14 +4,13 @@ import BagItemUI_Generate from "../../../ui-generate/Bag/BagItemUI_generate"
 import { BagManagerModuleData, ItemType, eventType } from "../BagManagerModuleData";
 
 import WeaponScript from "../../weaponModule/WeaponScript";
+import { GameEventBus } from "../../../common/eventBus/EventBus";
 
 @UIBind('UI/Bag/BagItemUI.ui')
 export default class BagItemUI extends BagItemUI_Generate {
 	index : number;
 	itemType : ItemType;
 	bagData : BagManagerModuleData;
-
-	onButtonClickEvents: mw.MulticastDelegate<eventType>;
 
 	private image_Internal: mw.Image
 	public get image(): mw.Image {
@@ -65,10 +64,9 @@ export default class BagItemUI extends BagItemUI_Generate {
 		console.log("BagItemUI OnDestory, index is " + this.index);
 	}
 
-	public init(inIndex : number, inItemType : ItemType, inBagData : BagManagerModuleData, inOnButtonClickEvents : mw.MulticastDelegate<eventType>) {
+	public init(inIndex : number, inItemType : ItemType, inBagData : BagManagerModuleData) {
 		this.bagData = inBagData;
 		this.updateItemUI(inIndex, inItemType);
-		this.onButtonClickEvents = inOnButtonClickEvents;
 	}
 
 	public updateItemUI(inIndex : number, inItemType : ItemType) {
@@ -121,7 +119,7 @@ export default class BagItemUI extends BagItemUI_Generate {
 
 	protected buttonClick() {
 		let bagItemObj = this.bagData.findItemByIndex(this.itemType, this.index)
-		this.onButtonClickEvents.broadcast(bagItemObj.typeId);
+		GameEventBus.emit("BagModule_ItemClick", bagItemObj);
 	}
 }
  

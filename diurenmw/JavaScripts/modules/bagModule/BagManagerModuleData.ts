@@ -2,7 +2,27 @@ import { ConfigBase } from "../../configs/ConfigBase";
 import { GameConfig } from "../../configs/GameConfig";
 
 // 事件类型
-export type eventType = (wid : number)=>void;
+export type eventType = (inItem : BagItemBase)=>void;
+
+export enum EquipmentType
+{
+    // 武器
+    Weapon = 0,
+    // 戒指
+	Ring = 1,
+	// 项链
+	Necklace = 2,
+	// 手镯
+	Bracelet = 3,
+	// 头部
+	Head = 4,
+	// 身体
+	Body = 5,
+	// 腿部
+	Leg = 6,
+	// 脚部
+	Foot = 7,
+}
 
 export enum ItemType
 {
