@@ -20,6 +20,8 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
         player.character.addComponent(AbilitySystemComponent);
         // 注册技能
         this.registerAbilitys();
+        // 初始化玩家标签
+        this.initPlayerGameTags(player);
         // 初始化玩家技能
         this.initPlayerAbilitys(player);
         // 初始化玩家属性
@@ -33,7 +35,14 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
     }
 
     private registerAbilitys() {
+        
+    }
 
+    private initPlayerGameTags(player: mw.Player) {
+        let component = player.character.getComponent(AbilitySystemComponent);
+        if (component) {
+            component.preTags(["Club.Player"])
+        }
     }
 
     private initPlayerAbilitys(player: mw.Player) {

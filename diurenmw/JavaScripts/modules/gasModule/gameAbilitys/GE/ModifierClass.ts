@@ -3,6 +3,7 @@ import { EGameCustomModOp } from "./GameEffectType";
 import { GameModifierInfo } from "./GameModifierInfo";
 
 export abstract class ModifierClass{
+    /**计算方式 */
     abstract modifyOp:EGameCustomModOp;
     modify(sourceModifierInfo:GameModifierInfo,context:{sourceASC:AbilitySystemComponent,targetASC:AbilitySystemComponent}){
         let attr = context.targetASC.attributeSet.getAttr(sourceModifierInfo.modifierName);

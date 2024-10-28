@@ -25,6 +25,7 @@ export class TestModuleS extends ModuleS<TestModuleC,null>{
         let asc = npc.addComponent(AbilitySystemComponent);
         if(asc){
             asc.addAttributeSet(MonsterAttributeSet)
+            // asc.preTags(["Club.Player"])
         }
     }
 

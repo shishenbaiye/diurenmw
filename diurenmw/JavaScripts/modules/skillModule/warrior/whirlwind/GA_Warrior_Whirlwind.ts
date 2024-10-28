@@ -21,7 +21,7 @@ export class GA_Warrior_Whirlwind extends GameAbility{
     activationRequiredTags: string[];
     activationBlockedTags: string[];
     targetRequiredTags: string[];
-    targetBlockedTags: string[];
+    targetBlockedTags: string[] = ["Club.Player","State.Dead","State.Stun"];
     trigger: { tag: string; sourceType: EGameAbilityTriggerSourceType; }[];
 
     cd: Constructor<CoolDownByGameEffect> = GE_CoolDown_Warrior_Whirlwind;
@@ -45,11 +45,10 @@ export class GA_Warrior_Whirlwind extends GameAbility{
         .addEvent(0.2,()=>{
             let res = this.checkHit();
             if(res.length > 0){
-                console.log(`res`,res);
                 res.forEach((obj:Character)=>{
                     let asc = obj.getComponent(AbilitySystemComponent);
-                    console.log(`asc`,asc);
                     if(asc){
+                        if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
                         this.applyGameEffectToTarget(GE_Damage_Warrior_Whirlwind,obj);
                         obj.loadAnimation("268673").play();
                         EffectService.playOnGameObject("13595",obj,{scale:new Vector(5)})
@@ -64,6 +63,8 @@ export class GA_Warrior_Whirlwind extends GameAbility{
                 res.forEach((obj:Character)=>{
                     let asc = obj.getComponent(AbilitySystemComponent);
                     if(asc){
+                        if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
+                        this.applyGameEffectToTarget(GE_Damage_Warrior_Whirlwind,obj);
                         obj.loadAnimation("268673").play();
                         EffectService.playOnGameObject("13595",obj,{scale:new Vector(5)})
                     }
@@ -77,6 +78,8 @@ export class GA_Warrior_Whirlwind extends GameAbility{
                 res.forEach((obj:Character)=>{
                     let asc = obj.getComponent(AbilitySystemComponent);
                     if(asc){
+                        if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
+                        this.applyGameEffectToTarget(GE_Damage_Warrior_Whirlwind,obj);
                         obj.loadAnimation("268673").play();
                         EffectService.playOnGameObject("13595",obj,{scale:new Vector(5)})
                     }
@@ -90,6 +93,8 @@ export class GA_Warrior_Whirlwind extends GameAbility{
                 res.forEach((obj:Character)=>{
                     let asc = obj.getComponent(AbilitySystemComponent);
                     if(asc){
+                        if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
+                        this.applyGameEffectToTarget(GE_Damage_Warrior_Whirlwind,obj);
                         obj.loadAnimation("268673").play();
                         EffectService.playOnGameObject("13595",obj,{scale:new Vector(5)})
                     }

@@ -30,10 +30,16 @@ export class AbilitySystemComponent extends Script {
             if (!this._gameTag) {
                 this._gameTag = this.gameObject.addComponent(GameTags);
                 this._gameTag.Gas_GameTags_Name = "ASC_GameTags";
+                if(this.preTags){
+                    this._gameTag.preTags = this._preTags;
+                }
             }
             if(!this._blockTag){
                 this._blockTag = this.gameObject.addComponent(GameTags);
                 this._blockTag.Gas_GameTags_Name = "ASC_BlockTags";
+                if(this._preBlockTags){
+                    this._blockTag.preTags = this._preBlockTags;
+                }
             }
         }else{
             let findGameTag = true;
@@ -96,6 +102,18 @@ export class AbilitySystemComponent extends Script {
         });
 
         this.onGameEventAction.add(this.onListenGameEvent, this)
+    }
+
+    private _preTags: string[];
+    /**预注册tags */
+    preTags(tags: string[]) {
+        this._preTags = tags;
+    }
+
+    private _preBlockTags: string[];
+    /**预注册锁定tags */
+    preBlockTags(tags: string[]) {
+        this._preBlockTags = tags;
     }
     // #endregion
     

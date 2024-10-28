@@ -22,6 +22,7 @@ export class GameTags extends Script {
     addTagAction: Action1<string> = new Action1<string>();
     removeTagAction: Action1<string> = new Action1<string>();
 
+    preTags: string[];
 
     private tagTree: TagTree = null;
     init() {
@@ -30,6 +31,12 @@ export class GameTags extends Script {
         this.tags.forEach(tag => {
             this.tagTree.addTag(tag);
         })
+
+        if(this.preTags){
+            this.preTags.forEach(tag => {
+                this.addTag(tag);
+            })
+        }
     }
     protected onStart(): void {
         console.warn('GameTags onStart');

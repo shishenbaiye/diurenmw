@@ -117,6 +117,7 @@ export abstract class WeaponBase extends MObject{
 
         if(this.model){
             this.model.destroy();
+            this.model = null;
         }
 
         //Todo:添加进背包
