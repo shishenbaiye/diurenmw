@@ -1,6 +1,6 @@
-import { GameConfig } from "../../../configs/GameConfig";
-import { MPlugin } from "../../../framework/DI/MContainer";
-import { GE_CoolDownBase } from "../cdBase/GE_CoolDownBase";
+import { GameConfig } from "../../../../configs/GameConfig";
+import { MPlugin } from "../../../../framework/DI/MContainer";
+import { GE_CoolDownBase } from "../../cdBase/GE_CoolDownBase";
 
 @MPlugin()
 export class GE_CoolDown_Warrior_Whirlwind extends GE_CoolDownBase{

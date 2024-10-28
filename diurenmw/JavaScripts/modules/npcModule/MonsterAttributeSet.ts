@@ -39,7 +39,7 @@ export class  MonsterAttributeSet extends AttributeSet{
     }
 
     onHpChanged(oldValue: number, newValue: number): void {
-        // throw new Error("Method not implemented.");
+        console.warn("怪物生命值变化",oldValue,newValue);
     }
 
     onMaxHpChanged(oldValue: number, newValue: number): void {

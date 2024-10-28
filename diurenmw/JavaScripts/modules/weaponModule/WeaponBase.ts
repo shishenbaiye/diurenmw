@@ -63,12 +63,12 @@ export abstract class WeaponBase extends MObject{
 
     async equip(){
         let playerAtk = this.ownerAttribute.atk.getCurrent();
-        let playerMatk = this.ownerAttribute.magicAtk.getCurrent();
+        let playerMatk = this.ownerAttribute.matk.getCurrent();
         let playerStr = this.ownerAttribute.str.getCurrent();
         let playerInt = this.ownerAttribute.int.getCurrent();
         
         this.ownerAttribute.atk.setCurrent(playerAtk + this.atk);
-        this.ownerAttribute.magicAtk.setCurrent(playerMatk + this.matk);
+        this.ownerAttribute.matk.setCurrent(playerMatk + this.matk);
         this.ownerAttribute.str.setCurrent(playerStr + this.str);
         this.ownerAttribute.int.setCurrent(playerInt + this.int);
 
@@ -93,12 +93,12 @@ export abstract class WeaponBase extends MObject{
 
     unEquip():void{
         let playerAtk = this.ownerAttribute.atk.getCurrent();
-        let playerMatk = this.ownerAttribute.magicAtk.getCurrent();
+        let playerMatk = this.ownerAttribute.matk.getCurrent();
         let playerStr = this.ownerAttribute.str.getCurrent();
         let playerInt = this.ownerAttribute.int.getCurrent();
         
         this.ownerAttribute.atk.setCurrent(playerAtk - this.atk);
-        this.ownerAttribute.magicAtk.setCurrent(playerMatk - this.matk);
+        this.ownerAttribute.matk.setCurrent(playerMatk - this.matk);
         this.ownerAttribute.str.setCurrent(playerStr - this.str);
         this.ownerAttribute.int.setCurrent(playerInt - this.int);
 

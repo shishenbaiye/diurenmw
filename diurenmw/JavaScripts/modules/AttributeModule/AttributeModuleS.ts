@@ -65,7 +65,7 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
             AttributeDataInit(as, "vit", excelData.vitality);
 
             AttributeDataInit(as, "atk", excelData.atk);
-            AttributeDataInit(as, "magicAtk", excelData.matk);
+            AttributeDataInit(as, "matk", excelData.matk);
             AttributeDataInit(as, "def", excelData.armor);
 
             AttributeDataInit(as, "skillDamage", 1);
@@ -118,7 +118,7 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
                 as.exp.setCurrent(0);
 
                 as.atk.add(newData.atk- oldData.atk);
-                as.magicAtk.add(newData.matk - oldData.matk);
+                as.matk.add(newData.matk - oldData.matk);
                 as.def.add(newData.armor - oldData.armor);
                 as.hp.add(newData.hp - oldData.hp);
                 as.maxHp.add(newData.hp - oldData.hp);
@@ -162,7 +162,7 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
 
             console.warn(`造成伤害：`, MathTool.damageFormula(1, 2.6,
                 attr.atk.getCurrent(),
-                attr.magicAtk.getCurrent(),
+                attr.matk.getCurrent(),
                 attr.str.getCurrent(),
                 attr.int.getCurrent(),
                 attr.damage.getCurrent(),
@@ -184,7 +184,7 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
 
             console.warn(`造成伤害：`, MathTool.damageFormula(1, 2.6,
                 attr.atk.getCurrent(),
-                attr.magicAtk.getCurrent(),
+                attr.matk.getCurrent(),
                 attr.str.getCurrent(),
                 attr.int.getCurrent(),
                 attr.damage.getCurrent(),

@@ -21,3 +21,31 @@ export enum EGameEffectPeriodicInhibitionPolicy{
 	ResetPeriod,
 	ExecuteAndResetPeriod,
 }
+
+export enum EGameModOp{
+	/** 加 */
+	Add = 1,
+	/** 减 */
+	Subtract = 2,
+	/** 乘 */
+	Multiply = 3,
+	/** 除 */
+	Divide = 4,
+	/** 设置 */
+	Set = 5,
+	/** 自定义 */
+	Custom = 6,
+}
+
+export enum EGameCustomModOp{
+	/** 加 */
+	Add = 1,
+	/** 减 */
+	Subtract = 2,
+	/** 乘 */
+	Multiply = 3,
+	/** 除 */
+	Divide = 4,
+	/** 设置 */
+	Set	= 5,
+}

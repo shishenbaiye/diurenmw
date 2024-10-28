@@ -79,7 +79,7 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
     setSkill(player: mw.Player, skillId: number, index: number): boolean {
         let skillData = this.getPlayerData(player);
         let res = SkillManager.instance.getSkillById(skillId);
-        let weapon = player.character.getComponent(WeaponScript).getEquipWeapon().getData();
+        let weapon = player.character.getComponent(WeaponScript).getEquipWeapon()?.getData();
         if (res && weapon) {
             switch (index) {
                 case 0:

@@ -291,6 +291,7 @@ export class AbilitySystemComponent extends Script {
     applyGameEffectToTarget(gameEffect: Constructor<GameEffect>,target: GameObject) {
         let targetAsc = target.getComponent<AbilitySystemComponent>(AbilitySystemComponent);
         if(!targetAsc){
+            this.log.error(`目标没有ASC组件，无法应用效果`);
             return;
         }
         let gameEffectInstance = MFramework.createObject<GameEffect>(gameEffect);
@@ -299,7 +300,9 @@ export class AbilitySystemComponent extends Script {
             gameEffectInstance.init();
             targetAsc.gameEffect.push(gameEffectInstance);
             gameEffectInstance.active()
-        }  
+        }else{
+            this.log.error(`无法应用效果`);
+        }
     }
 
     /**应用效果给自己 */

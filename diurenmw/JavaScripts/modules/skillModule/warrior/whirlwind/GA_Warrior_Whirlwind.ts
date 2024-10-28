@@ -1,14 +1,15 @@
-import { Constructor, MPlugin } from "../../../framework/DI/MContainer";
-import { AbilitySystemComponent } from "../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
-import { AT_PlayAnimation } from "../../gasModule/gameAbilitys/AT/customAT/AT_PlayAnimation";
-import { GameAbility } from "../../gasModule/gameAbilitys/GA/GameAbility";
-import { EGameAbilityTriggerSourceType } from "../../gasModule/gameAbilitys/GA/GameAbilityType";
-import { CoolDownByGameEffect } from "../../gasModule/gameAbilitys/GE/GESpecial/CoolDownByGameEffect";
-import { CostByGameEffect } from "../../gasModule/gameAbilitys/GE/GESpecial/CostByGameEffect";
-import { RegisterSkill } from "../SkillManager";
-import { ESkillType } from "../SkillType";
+import { Constructor, MPlugin } from "../../../../framework/DI/MContainer";
+import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
+import { AT_PlayAnimation } from "../../../gasModule/gameAbilitys/AT/customAT/AT_PlayAnimation";
+import { GameAbility } from "../../../gasModule/gameAbilitys/GA/GameAbility";
+import { EGameAbilityTriggerSourceType } from "../../../gasModule/gameAbilitys/GA/GameAbilityType";
+import { CoolDownByGameEffect } from "../../../gasModule/gameAbilitys/GE/GESpecial/CoolDownByGameEffect";
+import { CostByGameEffect } from "../../../gasModule/gameAbilitys/GE/GESpecial/CostByGameEffect";
+import { RegisterSkill } from "../../SkillManager";
+import { ESkillType } from "../../SkillType";
 import { GE_CoolDown_Warrior_Whirlwind } from "./GE_CoolDown_Warrior_Whirlwind";
 import { GE_Cost_Warrior_Whirlwind } from "./GE_Cost_Warrior_Whirlwind";
+import { GE_Damage_Warrior_Whirlwind } from "./GE_Damage_Warrior_Whirlwind";
 
 @RegisterSkill(1001,ESkillType.GreatSword)
 @MPlugin()
@@ -49,6 +50,7 @@ export class GA_Warrior_Whirlwind extends GameAbility{
                     let asc = obj.getComponent(AbilitySystemComponent);
                     console.log(`asc`,asc);
                     if(asc){
+                        this.applyGameEffectToTarget(GE_Damage_Warrior_Whirlwind,obj);
                         obj.loadAnimation("268673").play();
                         EffectService.playOnGameObject("13595",obj,{scale:new Vector(5)})
                     }

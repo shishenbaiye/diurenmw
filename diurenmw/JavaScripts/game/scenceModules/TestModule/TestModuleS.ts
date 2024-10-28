@@ -1,5 +1,6 @@
 import { AttributeModuleS } from "../../../modules/AttributeModule/AttributeModuleS";
 import { AbilitySystemComponent } from "../../../modules/gasModule/gameAbilitys/ASC/AbilitySystemComponent";
+import { MonsterAttributeSet } from "../../../modules/npcModule/MonsterAttributeSet";
 import PlayerSkillScrpit from "../../../modules/skillModule/PlayerSkillScrpit";
 import WeaponScript from "../../../modules/weaponModule/WeaponScript";
 import { TestModuleC } from "./TestModuleC";
@@ -21,7 +22,10 @@ export class TestModuleS extends ModuleS<TestModuleC,null>{
 
 
         let npc = GameObject.findGameObjectById(`27A625FD`);
-        npc.addComponent(AbilitySystemComponent);
+        let asc = npc.addComponent(AbilitySystemComponent);
+        if(asc){
+            asc.addAttributeSet(MonsterAttributeSet)
+        }
     }
 
     net_AddExp(exp:number){

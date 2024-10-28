@@ -2,6 +2,7 @@ import { AttributeSet } from "../../AS/AttributeSet";
 import { GameEffect } from "../GameEffect";
 import { GameEffectComponent } from "../GameEffectComponent";
 import { EGameEffectDurationType, EGameEffectCalculationType, EGameEffectPeriodicInhibitionPolicy } from "../GameEffectType";
+import { GameModifierInfo } from "../GameModifierInfo";
 
 export abstract class CostByGameEffect extends GameEffect {
 
@@ -19,7 +20,7 @@ export abstract class CostByGameEffect extends GameEffect {
     periodInstant: boolean;
     periodicInhibitionPolicy: EGameEffectPeriodicInhibitionPolicy;
     geComponent: GameEffectComponent[];
-    geAttribute: { [key: string]: number; }[];
+    modifiers: GameModifierInfo[];
     
     init(){
        super.init();

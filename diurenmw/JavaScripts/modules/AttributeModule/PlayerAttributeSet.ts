@@ -36,7 +36,7 @@ export class PlayerAttributeSet extends AttributeSet {
     public atk: AttributeSetData;
 
     @Property({ displayName: "魔法攻击力", replicated: true, onChanged: "onMAtkChanged" })
-    public magicAtk: AttributeSetData;
+    public matk: AttributeSetData;
 
     @Property({ displayName: "防御力", replicated: true, onChanged: "onDefChanged" })
     public def: AttributeSetData;
@@ -96,7 +96,7 @@ export class PlayerAttributeSet extends AttributeSet {
     }
 
     onMAtkChanged(oldValue: number, newValue: number): void {
-        ModuleService.getModule(AttributeModuleC).onChangeAttribute("matk", this.magicAtk.getCurrent(),this.magicAtk.ownerGameObjectId);
+        ModuleService.getModule(AttributeModuleC).onChangeAttribute("matk", this.matk.getCurrent(),this.matk.ownerGameObjectId);
     }
 
     onDefChanged(oldValue: number, newValue: number): void {
@@ -130,6 +130,13 @@ export class PlayerAttributeSet extends AttributeSet {
     postAttributeChange(attribute: AttributeSetData, oldValue: number, newValue: number): void {
         if (attribute.name == "vit") {
             this.refreshAttribute(true);
+        }
+
+        if(attribute.name == "hp"){
+            if(newValue <= 0){
+                attribute.setCurrent(0);
+                this.ownerAsc.gameTag.addTag("State.Dead");
+            }
         }
 
         if(attribute.name == "mp"){
