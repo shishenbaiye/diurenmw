@@ -1,5 +1,6 @@
 import { GameConfig } from "../../../configs/GameConfig";
 import SkillMainUI_Generate from "../../../ui-generate/Skill/SkillMainUI_generate";
+import { WeaponModuleData } from "../../weaponModule/WeaponModuleData";
 import { SkillModuleC } from "../SkillModuleC";
 import { SkillModuleData } from "../SkillModuleData";
 import { SkillDetailPanel } from "./SkillDetailPanel";
@@ -34,8 +35,15 @@ export class SkillMainPanel extends SkillMainUI_Generate{
         let skill2 = DataCenterC.getData(SkillModuleData).skill2;
         let skill3 = DataCenterC.getData(SkillModuleData).skill3;
         let skill4 = DataCenterC.getData(SkillModuleData).skill4;
+        let weapon = DataCenterC.getData(WeaponModuleData).getEquipedWeapon();
+        if(!weapon){
+            console.error("未装备武器");
+            return;
+        }
         haveSkillList.forEach((item,index)=>{
             if(item == skill1 || item == skill2 || item == skill3 || item == skill4) return;
+            let config = GameConfig.SkillObj.getElement(item);
+            if(config.weaponType != weapon.wtid) return;
             let skillItem = UIService.create(SkillListItem);
             skillItem.init(this,item);
             this.mCanvas_SkillList.addChild(skillItem.uiObject);
@@ -75,6 +83,9 @@ export class SkillMainPanel extends SkillMainUI_Generate{
                 this.mImage_change.visibility = SlateVisibility.Collapsed;
                 this.isChooseSkill = false;
             }else{
+                if(DataCenterC.getData(SkillModuleData).skill1 == -1){
+                    return;
+                }
                 this.showSkillDetail(DataCenterC.getData(SkillModuleData).skill1,2,0);
             }
         })
@@ -85,6 +96,9 @@ export class SkillMainPanel extends SkillMainUI_Generate{
                 this.mImage_change.visibility = SlateVisibility.Collapsed;
                 this.isChooseSkill = false;
             }else{
+                if(DataCenterC.getData(SkillModuleData).skill1 == -1){
+                    return;
+                }
                 this.showSkillDetail(DataCenterC.getData(SkillModuleData).skill2,2,1);
             }
         })
@@ -95,6 +109,9 @@ export class SkillMainPanel extends SkillMainUI_Generate{
                 this.mImage_change.visibility = SlateVisibility.Collapsed;
                 this.isChooseSkill = false;
             }else{
+                if(DataCenterC.getData(SkillModuleData).skill1 == -1){
+                    return;
+                }
                 this.showSkillDetail(DataCenterC.getData(SkillModuleData).skill3,2,2);
             }
         })
@@ -105,6 +122,9 @@ export class SkillMainPanel extends SkillMainUI_Generate{
                 this.mImage_change.visibility = SlateVisibility.Collapsed;
                 this.isChooseSkill = false;
             }else{
+                if(DataCenterC.getData(SkillModuleData).skill1 == -1){
+                    return;
+                }
                 this.showSkillDetail(DataCenterC.getData(SkillModuleData).skill4,2,3);
             }
         })
