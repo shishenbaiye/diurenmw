@@ -1,5 +1,5 @@
 import BagMainShowSelect_Generate from "../../../ui-generate/Bag/BagMainShowSelect_generate";
-import { BagItemBase } from "../BagManagerModuleData";
+import { BagItemBase, EquipmentType } from "../BagManagerModuleData";
 import BagShowSelect from "./BagShowSelect";
 
 @UIBind('UI/Bag/BagMainShowSelect.ui')
@@ -37,9 +37,10 @@ export default class BagMainShowSelect extends BagMainShowSelect_Generate {
 		
 	}
 
-	init(inEquipment : boolean, inItem : BagItemBase = null) {
+	init(inEquipment : boolean, inItem : BagItemBase = null, inEquipmentType : EquipmentType = null) {
 		this.isEquipment = inEquipment;
-		
+		this.leftShowSelectUI.init(true, null, inEquipmentType);
+		this.rightShowSelectUI.init(false, inItem);
 	}
 
 	onExit(): void
