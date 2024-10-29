@@ -1,6 +1,4 @@
-import { ICharacterFightBase } from "../interface/ICharacterBase";
-import { isInState } from "../scirpt/NpcTool";
-import { CanNotAIControlState } from "../type/AIType";
+import { MonsterAttributeSet } from "../MonsterAttributeSet";
 
 //默认停止跟随距离
 const stopDis: number = 50
@@ -30,7 +28,7 @@ export class FollowBase {
         return this._points[this._curIndex];
     }
 
-    public constructor(protected _character: mw.Character, private _FightBase: ICharacterFightBase) { }
+    public constructor(protected _character: mw.Character, private _FightBase: MonsterAttributeSet) { }
 
     public addPath(points: Vector[]) {
         this._points = points.slice(0);
@@ -52,7 +50,7 @@ export class FollowBase {
         //停止当前寻路
         this.stopFollow();
         //是否非跟随状态
-        if (isInState(this._FightBase.playerState, CanNotAIControlState)) return;
+        //TODO 状态检查
         //下次寻路
         this.navFindPath();
 
@@ -75,7 +73,7 @@ export class FollowBase {
 
     /** 路径刷新 */
     public updatePath(dt: number) {
-        if (isInState(this._FightBase.playerState, CanNotAIControlState)) return;
+        //TODO 状态检查
         if (this._followTarget && this._followTarget.worldTransform) {
             this._timer += dt;
             if (this._timer < 0.2) return;
@@ -129,7 +127,7 @@ export class FollowBase {
             () => {
                 setTimeout(() => {
                     try {
-                        if (isInState(this._FightBase.playerState, CanNotAIControlState)) return;
+                        //TODO 状态检查
                         this.resetPos();
                         this.nearPointMove();
                     } catch (error) {
