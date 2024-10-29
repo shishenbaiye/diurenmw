@@ -1,3 +1,4 @@
+import { GameConfig } from "../../../../configs/GameConfig";
 import { MPlugin } from "../../../../framework/DI/MContainer";
 import { EPlayerAttributeSetType } from "../../../AttributeModule/PlayerAttributeSetType";
 import { CostByGameEffect } from "../../../gasModule/gameAbilitys/GE/GESpecial/CostByGameEffect";
@@ -5,5 +6,5 @@ import { CostByGameEffect } from "../../../gasModule/gameAbilitys/GE/GESpecial/C
 @MPlugin()
 export class GE_Cost_Warrior_Whirlwind extends CostByGameEffect{
     costAttr: string = EPlayerAttributeSetType.mp;
-    costValue: number = 60;
+    costValue: number = GameConfig.SkillObj.getElement(1001).cost;
 }

@@ -8,8 +8,11 @@ export class HudModuleC extends ModuleC<HudModuleS,null>{
         if(CurrentScence.currentScenceName == "diurenmw"){
             this.initDiurenmwHud();
         }
+        if(CurrentScence.currentScenceName == "dungeon01"){
+            this.initDungeon01();
+        }
     }
-
+    // #region DiurenmwHud
     public diurenmwHudPanel:MainHudPanel;
     initDiurenmwHud(){
         if(!this.diurenmwHudPanel){
@@ -52,8 +55,14 @@ export class HudModuleC extends ModuleC<HudModuleS,null>{
         }
 
     }
+    //#endregion
 
+    //#region Dungeon01
+    public dungeon01HudPanel:MainHudPanel;
+    initDungeon01(){
 
+    }
+    //#endregion
     net_setSkillCD(cd: number, index: number){
         if(!this.diurenmwHudPanel){
             this.initDiurenmwHud();

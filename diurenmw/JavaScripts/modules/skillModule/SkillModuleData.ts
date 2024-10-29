@@ -25,10 +25,10 @@ export class SkillModuleData extends Subdata{
 
     protected initDefaultData(): void {
         this.normalSkillList = [];
-        this.skill1 = null;
-        this.skill2 = null;
-        this.skill3 = null;
-        this.skill4 = null;
+        this.skill1 = -1;
+        this.skill2 = -1;
+        this.skill3 = -1;
+        this.skill4 = -1;
         this.haveSkills = []
         this.weaponNormalSkillList = new Map<number,Array<number>>();
         this.weaponSkillList = new Map<number,Array<number>>();

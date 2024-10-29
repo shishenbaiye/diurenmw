@@ -3,6 +3,7 @@ import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySys
 import { HudModuleC } from "../hudModule/HudModuleC";
 import { HudModuleS } from "../hudModule/HudModuleS";
 import { SkillManager } from "./SkillManager";
+import { SkillModuleC } from "./SkillModuleC";
 import { SkillModuleS } from "./SkillModuleS";
 
 @Component
@@ -132,21 +133,25 @@ export default class PlayerSkillScrpit extends Script {
 
     onSetSkill1(){
         if(this.gameObject.gameObjectId != Player.localPlayer.character.gameObjectId) return;
+        ModuleService.getModule(SkillModuleC).setSkillUI(this.skill1,0);
         ModuleService.getModule(HudModuleC).setSkill(this.skill1,0);
     }
 
     onSetSkill2(){
         if(this.gameObject.gameObjectId != Player.localPlayer.character.gameObjectId) return;
+        ModuleService.getModule(SkillModuleC).setSkillUI(this.skill2,1);
         ModuleService.getModule(HudModuleC).setSkill(this.skill2,1);
     }
 
     onSetSkill3(){
         if(this.gameObject.gameObjectId != Player.localPlayer.character.gameObjectId) return;
+        ModuleService.getModule(SkillModuleC).setSkillUI(this.skill3,2);
         ModuleService.getModule(HudModuleC).setSkill(this.skill3,2);
     }
 
     onSetSkill4(){
         if(this.gameObject.gameObjectId != Player.localPlayer.character.gameObjectId) return;
+        ModuleService.getModule(SkillModuleC).setSkillUI(this.skill4,3);
         ModuleService.getModule(HudModuleC).setSkill(this.skill4,3);
     }
 }

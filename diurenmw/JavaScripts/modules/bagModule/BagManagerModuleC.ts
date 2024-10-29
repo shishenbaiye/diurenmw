@@ -73,7 +73,7 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
     }
 
     // 打开背包
-    protected onBagOpen(): void {
+    onBagOpen(): void {
         this.bagManagerUIObj = UIService.show(BagManagerUI);
         this.bagManagerUIObj.init(this.data);
     }

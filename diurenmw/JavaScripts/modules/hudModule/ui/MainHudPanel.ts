@@ -1,5 +1,7 @@
 import { GameConfig } from "../../../configs/GameConfig";
 import MainHud_Generate from "../../../ui-generate/Hud/MainHud_generate";
+import SkillMainUI_Generate from "../../../ui-generate/Skill/SkillMainUI_generate";
+import { BagManagerModuleC } from "../../bagModule/BagManagerModuleC";
 import { SkillModuleC } from "../../skillModule/SkillModuleC";
 import { SkillModuleS } from "../../skillModule/SkillModuleS";
 
@@ -198,6 +200,14 @@ export class MainHudPanel extends MainHud_Generate{
             if(this._skill4 != null){
                 ModuleService.getModule(SkillModuleC).activeSkill(3);
             }
+        })
+
+        this.mButton_Bag.onClicked.add(()=>{
+            ModuleService.getModule(BagManagerModuleC).onBagOpen();
+        })
+
+        this.mButton_Skill.onClicked.add(()=>{
+            ModuleService.getModule(SkillModuleC).showSkillMainPanel();
         })
     }
 }

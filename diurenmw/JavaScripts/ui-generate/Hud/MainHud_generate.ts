@@ -122,6 +122,34 @@ export default class MainHud_Generate extends UIScript {
 		}
 		return this.mMaskButton_skill4_Internal
 	}
+	private mButton_Bag_Internal: mw.Button
+	public get mButton_Bag(): mw.Button {
+		if(!this.mButton_Bag_Internal&&this.uiWidgetBase) {
+			this.mButton_Bag_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/Canvas_Funtion/mButton_Bag') as mw.Button
+		}
+		return this.mButton_Bag_Internal
+	}
+	private mTextBlock_Bag_Internal: mw.TextBlock
+	public get mTextBlock_Bag(): mw.TextBlock {
+		if(!this.mTextBlock_Bag_Internal&&this.uiWidgetBase) {
+			this.mTextBlock_Bag_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/Canvas_Funtion/mButton_Bag/mTextBlock_Bag') as mw.TextBlock
+		}
+		return this.mTextBlock_Bag_Internal
+	}
+	private mButton_Skill_Internal: mw.Button
+	public get mButton_Skill(): mw.Button {
+		if(!this.mButton_Skill_Internal&&this.uiWidgetBase) {
+			this.mButton_Skill_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/Canvas_Funtion/mButton_Skill') as mw.Button
+		}
+		return this.mButton_Skill_Internal
+	}
+	private mTextBlock_Skill_Internal: mw.TextBlock
+	public get mTextBlock_Skill(): mw.TextBlock {
+		if(!this.mTextBlock_Skill_Internal&&this.uiWidgetBase) {
+			this.mTextBlock_Skill_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/Canvas_Funtion/mButton_Skill/mTextBlock_Skill') as mw.TextBlock
+		}
+		return this.mTextBlock_Skill_Internal
+	}
 
 
  
@@ -154,11 +182,23 @@ export default class MainHud_Generate extends UIScript {
 		this.mButton_skill4.touchMethod = (ButtonTouchMethod.PreciseTap);
 		
 	
+		this.mButton_Bag.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mButton_Skill.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
 
 		//按钮多语言
 		
 		//文本多语言
 		
+		this.initLanguage(this.mTextBlock_Bag)
+		
+	
+		this.initLanguage(this.mTextBlock_Skill)
+		
+	
 		//文本多语言
 		
 

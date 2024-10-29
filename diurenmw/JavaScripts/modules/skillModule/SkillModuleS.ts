@@ -77,11 +77,17 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
     }
 
     setSkill(player: mw.Player, skillId: number, index: number): boolean {
-        let skillData = this.getPlayerData(player);
-        let have = skillData.haveSkills.indexOf(skillId);
-        let res = SkillManager.instance.getSkillById(skillId);
+        let skillData = this.getPlayerData(player);  
+        let ress = false;
+        if(skillId == -1){
+            ress = true;
+        }else{
+            let res = SkillManager.instance.getSkillById(skillId);
+            let have = skillData.haveSkills.indexOf(skillId);
+            if(res && have != -1) ress = true;
+        }
         let weapon = player.character.getComponent(WeaponScript).getEquipWeapon()?.getData();
-        if (res && weapon && have != -1) {
+        if (ress && weapon) {
             switch (index) {
                 case 0:
                     skillData.skill1 = skillId;
@@ -183,6 +189,23 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
         let skillScript = player.character.getComponent(PlayerSkillScrpit);
         if (skillScript) {
             skillScript.activeNormalAttack();
+        }
+    }
+
+    //从UI来的装备
+    net_equipSkill(skillId: number, index: number) {
+        let player = this.currentPlayer;
+        let skillScript = player.character.getComponent(PlayerSkillScrpit);
+        if (skillScript) {
+            skillScript.setSkill(skillId, index);
+        }
+    }
+
+    net_unequipSkill(index: number) {
+        let player = this.currentPlayer;
+        let skillScript = player.character.getComponent(PlayerSkillScrpit);
+        if (skillScript) {
+            skillScript.setSkill(-1, index);
         }
     }
 }
