@@ -170,6 +170,7 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
             skillData.skill2 = -1;
             skillData.skill3 = -1;
             skillData.skill4 = -1;
+            skillData.save(true);
             skillScript.removeCurrentSkill();
         }
     }

@@ -13,7 +13,7 @@ export class SkillDetailPanel extends SkillDetailUI_Generate{
             this._skillId = skillId;
             this._type = type;
             if(type == 2) this._index = index;
-            this.mTextBlock_Type.text = type == 1 ? "装备" : "卸下";
+            this.mTextBlock_button.text = type == 1 ? "装备" : "卸下";
             this.mImage_Icon.imageGuid = config.iconGuid;
             this.mTextBlock_name.text = config.name;
             this.mTextBlock_Type.text = config.type == 1 ? "主动" : "被动";
