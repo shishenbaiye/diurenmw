@@ -1,7 +1,7 @@
 import { PlayerBase } from "./PlayerBase";
 import { PlayerData } from "./PlayerData";
 import { PlayerModuleS } from "./PlayerModuleS";
-import { PlayerHeadUI } from "./ui/PlayerHeadUI,";
+import { PlayerHeadUI } from "./ui/PlayerHeadUI";
 
 @Component
 export default class PlayerScript extends Script {

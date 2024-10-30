@@ -1,53 +1,53 @@
-export class UIPool<T extends mw.UIScript>{
-    private readonly pool:T[]
-    private creator:()=>T
-    private resetItemFunction:(item:T)=>void
-    private poolGetFunction:(item:T)=>void
+export class UIPool<T extends mw.UIScript> {
+    private readonly pool: T[]
+    private creator: () => T
+    private resetItemFunction: (item: T) => void
+    private poolGetFunction: (item: T) => void
 
-    constructor(creator?:()=>T) {
+    constructor(creator?: () => T) {
         this.pool = []
         this.creator = creator
     }
 
-    get count():number{
-        if(!this.pool) return 0
+    get count(): number {
+        if (!this.pool) return 0
         let count = 0
         for (let item of this.pool) {
-            if(item.uiObject.visibility == mw.SlateVisibility.Collapsed)continue
+            if (item.uiObject.visibility == mw.SlateVisibility.Collapsed) continue
             count++
         }
         return count
     }
 
-    get firstActiveItem():T|undefined{
+    get firstActiveItem(): T | undefined {
         for (let t of this.pool) {
-            if(t.uiObject.visibility == mw.SlateVisibility.Hidden) continue
+            if (t.uiObject.visibility == mw.SlateVisibility.Hidden) continue
             return t
         }
     }
 
-    byIndex(index:number):T|undefined{
+    byIndex(index: number): T | undefined {
         return this.pool[index]
     }
 
-    setCreator(func:()=>T){
+    setCreator(func: () => T) {
         this.creator = func
     }
 
     // 重新激活处理 
-    setPoolGetFunction(func:(item:T)=>void){
+    setPoolGetFunction(func: (item: T) => void) {
         this.poolGetFunction = func
     }
 
-    setResetItemFunction(resetItemFunction:(item:T)=>void){
+    setResetItemFunction(resetItemFunction: (item: T) => void) {
         this.resetItemFunction = resetItemFunction
     }
 
-    get():T{
+    get(): T {
         for (let item of this.pool) {
-            if(item.uiObject.visibility == mw.SlateVisibility.Collapsed){
+            if (item.uiObject.visibility == mw.SlateVisibility.Collapsed) {
                 item.uiObject.visibility = mw.SlateVisibility.Visible
-                if(this.poolGetFunction) this.poolGetFunction(item)
+                if (this.poolGetFunction) this.poolGetFunction(item)
                 return item
             }
         }
@@ -57,67 +57,67 @@ export class UIPool<T extends mw.UIScript>{
         return result
     }
 
-    giveBack(item:T){
+    giveBack(item: T) {
         item.uiObject.visibility = mw.SlateVisibility.Collapsed
-        if(this.resetItemFunction) this.resetItemFunction(item)
+        if (this.resetItemFunction) this.resetItemFunction(item)
     }
 
-    resetAll(){
+    resetAll() {
         for (let item of this.pool) {
             this.giveBack(item)
         }
     }
 
-    eachVisibleItem(action:(item:T)=>void){
+    eachVisibleItem(action: (item: T) => void) {
         for (let t of this.pool) {
-            if(t.uiObject.visibility == mw.SlateVisibility.Collapsed) continue
+            if (t.uiObject.visibility == mw.SlateVisibility.Collapsed) continue
             action(t)
         }
     }
 
-    eachVisibleItemWithIndex(action:(item:T, index:number)=>void){
+    eachVisibleItemWithIndex(action: (item: T, index: number) => void) {
         let index = 0
         for (let t of this.pool) {
-            if(t.uiObject.visibility == mw.SlateVisibility.Collapsed) continue
+            if (t.uiObject.visibility == mw.SlateVisibility.Collapsed) continue
             action(t, index)
-            index ++
+            index++
         }
     }
 }
 
-export class UIElementPool<T extends mw.Widget>{
-    private creator:()=>T
-    private resetItemFunction:(item:T)=>void
+export class UIElementPool<T extends mw.Widget> {
+    private creator: () => T
+    private resetItemFunction: (item: T) => void
 
-    private readonly pool:T[]
+    private readonly pool: T[]
 
-    constructor(creator?:()=>T) {
+    constructor(creator?: () => T) {
         this.pool = []
         this.creator = creator
     }
 
-    get count():number{
-        return this.pool?this.pool.length : 0
+    get count(): number {
+        return this.pool ? this.pool.length : 0
     }
 
-    get firstActiveItem():T{
+    get firstActiveItem(): T {
         for (let t of this.pool) {
-            if(t.visibility == mw.SlateVisibility.Hidden) continue
+            if (t.visibility == mw.SlateVisibility.Hidden) continue
             return t
         }
     }
 
-    setCreator(func:()=>T){
+    setCreator(func: () => T) {
         this.creator = func
     }
-    setResetItemFunction(resetItemFunction:(item:T)=>void){
+    setResetItemFunction(resetItemFunction: (item: T) => void) {
         this.resetItemFunction = resetItemFunction
     }
 
 
-    get():T{
+    get(): T {
         for (let i of this.pool) {
-            if(i.visibility == mw.SlateVisibility.Hidden){
+            if (i.visibility == mw.SlateVisibility.Hidden) {
                 i.visibility = mw.SlateVisibility.Visible
                 return i
             }
@@ -128,56 +128,56 @@ export class UIElementPool<T extends mw.Widget>{
         return result
     }
 
-    giveBack(item:T){
+    giveBack(item: T) {
         item.visibility = (mw.SlateVisibility.Hidden)
-        if(this.resetItemFunction) this.resetItemFunction(item)
+        if (this.resetItemFunction) this.resetItemFunction(item)
     }
 
-    resetAll(){
+    resetAll() {
         for (let item of this.pool) {
             this.giveBack(item)
         }
     }
 
-    eachVisibleItem(action:(item:T)=>void){
+    eachVisibleItem(action: (item: T) => void) {
         for (let t of this.pool) {
-            if(t.visibility == mw.SlateVisibility.Hidden) continue
+            if (t.visibility == mw.SlateVisibility.Hidden) continue
             action(t)
         }
     }
 }
 
-export type WorldUIPoolItem = { uiWidget:mw.UIWidget, stage:boolean }
-export class WorldUIPool<T extends WorldUIPoolItem>{
-    private creator:()=>T
-    private readonly pool:T[]
-    private resetItemFunction:(item:T)=>void
-    private poolGetFunction:(item:T)=>void
+export type WorldUIPoolItem = { uiWidget: mw.UIWidget, stage: boolean }
+export class WorldUIPool<T extends WorldUIPoolItem> {
+    private creator: () => T
+    private readonly pool: T[]
+    private resetItemFunction: (item: T) => void
+    private poolGetFunction: (item: T) => void
 
-    constructor(creatorFunc:()=>T) {
+    constructor(creatorFunc: () => T) {
         this.pool = []
-        if(creatorFunc) this.creator = creatorFunc
+        if (creatorFunc) this.creator = creatorFunc
     }
 
-    setPoolGetFunction(func:(item:T)=>void){
+    setPoolGetFunction(func: (item: T) => void) {
         this.poolGetFunction = func
     }
 
-    setResetItemFunction(resetItemFunction:(item:T)=>void){
+    setResetItemFunction(resetItemFunction: (item: T) => void) {
         this.resetItemFunction = resetItemFunction
     }
 
-    eachVisibleItem(action:(item:T)=>void){
+    eachVisibleItem(action: (item: T) => void) {
         for (let t of this.pool) {
-            if(!t.stage) continue
+            if (!t.stage) continue
             action(t)
         }
     }
 
-    get():T{
+    get(): T {
         for (let item of this.pool) {
-            if(item.stage) continue
-            if(this.poolGetFunction) this.poolGetFunction(item)
+            if (item.stage) continue
+            if (this.poolGetFunction) this.poolGetFunction(item)
             item.uiWidget.setVisibility(mw.PropertyStatus.On)
             item.stage = true
             return item
@@ -189,14 +189,14 @@ export class WorldUIPool<T extends WorldUIPoolItem>{
         return result
     }
 
-    giveBack(item:T){
-        if(this.resetItemFunction) this.resetItemFunction(item)
+    giveBack(item: T) {
+        if (this.resetItemFunction) this.resetItemFunction(item)
         item.stage = false
         item.uiWidget.setVisibility(mw.PropertyStatus.Off)
         item.uiWidget.parent = null
     }
 
-    resetAll(){
+    resetAll() {
         for (let item of this.pool) {
             this.giveBack(item)
         }

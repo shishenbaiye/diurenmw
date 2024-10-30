@@ -116,6 +116,15 @@ export default class BagShowSelect_Generate extends UIScript {
 	
 		//文本多语言
 		
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/selectShow/singleSelect/leftButton/TextBlock") as any);
+		
+	
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/selectShow/singleSelect/rightButton/TextBlock_1") as any);
+		
+	
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/selectShow/doubleSelect/singleButton/TextBlock_2") as any);
+		
+	
 
 	}
 
