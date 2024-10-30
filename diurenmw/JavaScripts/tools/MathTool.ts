@@ -173,23 +173,23 @@ export class MathTool {
 	public static damageFormula(type: number, skill: number, atk: number, matk: number, str: number, int: number, damage: number, skillDamage: number, crit: number, critDamage: number): number {
 		if (type == 1) {
 			// 力量兑换物理攻击值
-			const strAdd = str*5;
+			const strAdd = str * 5;
 			const isCrit = Math.random() < crit;
-			const res = (atk + strAdd) * skill * skillDamage * damage * (isCrit ? 1.5*critDamage : 1);
+			const res = (atk + strAdd) * skill * skillDamage * damage * (isCrit ? 1.5 * critDamage : 1);
 			// 取整
 			return Math.round(res);
 		}
 		if (type == 2) {
 			// 智力兑换魔法攻击值
-			const intAdd = int*5;
+			const intAdd = int * 5;
 			const isCrit = Math.random() < crit;
-			const res = (matk + intAdd) * skill * skillDamage * damage * (isCrit ? 1.5*critDamage : 1);
+			const res = (matk + intAdd) * skill * skillDamage * damage * (isCrit ? 1.5 * critDamage : 1);
 			// 取整
 			return Math.round(res);
 		}
 		if (type == 3) {
 			const isCrit = Math.random() < crit;
-			const res = skill * skillDamage * damage * (isCrit ? 2*critDamage : 1);
+			const res = skill * skillDamage * damage * (isCrit ? 2 * critDamage : 1);
 			return Math.round(res);
 		}
 	}
@@ -198,7 +198,7 @@ export class MathTool {
 	public static calculateActualDamage(damage: number, monsterDef: number, monsterLevel: number, K = 1000): number {
 
 		// 计算实际伤害 ActualDamage
-		const actualDamage = damage *(1-(monsterDef/(monsterDef+K+monsterLevel*40)))
+		const actualDamage = damage * (1 - (monsterDef / (monsterDef + K + monsterLevel * 40)))
 
 		// 确保实际伤害不为负数,取整
 		return Math.round(actualDamage)
@@ -215,4 +215,14 @@ export class MathTool {
 		// 确保实际伤害不为负数
 		return Math.round(Math.max(actualDamage, 0));
 	}
+
+	// [0-1]
+	public static pingPong(t: number): number {
+		return Math.abs(t % 1 - 0.5) * 2
+	}
+
+	public static lerp(a: number, b: number, t: number): number {
+		return (b - a) * t + a
+	}
+
 }

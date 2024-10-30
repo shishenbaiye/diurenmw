@@ -1,9 +1,12 @@
 import { AttributeDataInit } from "../gasModule/gameAbilitys/AS/AttributeHelper";
 import { AttributeSet } from "../gasModule/gameAbilitys/AS/AttributeSet";
 import { AttributeSetData } from "../gasModule/gameAbilitys/AS/AttributeSetData";
+import { DamageDigit } from "../PlayerModule/ui/DamageDigit";
 import { AnimationExController } from "./anim/AnimationExController";
 import { FollowBase } from "./anim/FollowData";
 import { NpcExitType } from "./type/AIType";
+
+const MaxDamage: number = 999999;
 
 @Component
 export class MonsterAttributeSet extends AttributeSet {
@@ -56,6 +59,12 @@ export class MonsterAttributeSet extends AttributeSet {
 
     onHpChanged(oldValue: number, newValue: number): void {
         console.warn("怪物生命值变化", oldValue, newValue);
+        let val = oldValue - newValue;
+        DamageDigit.showDamage(view => {
+            if (val > 1e5) val = MaxDamage;
+            view.ui.txt_context.text = `-${MaxDamage}`;
+            view.playTween(this.gameObject.worldTransform.position)
+        })
     }
 
     onMaxHpChanged(oldValue: number, newValue: number): void {
@@ -109,5 +118,6 @@ export class MonsterAttributeSet extends AttributeSet {
     public getSpawnPos(): Vector[] {
         return;
     }
+
 
 }

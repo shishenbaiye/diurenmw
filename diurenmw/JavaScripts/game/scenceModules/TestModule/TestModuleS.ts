@@ -1,11 +1,10 @@
 import { AttributeModuleS } from "../../../modules/AttributeModule/AttributeModuleS";
-import { AbilitySystemComponent } from "../../../modules/gasModule/gameAbilitys/ASC/AbilitySystemComponent";
-import { MonsterAttributeSet } from "../../../modules/npcModule/MonsterAttributeSet";
+import { RobotManager } from "../../../modules/npcModule/RobotManager";
 import PlayerSkillScrpit from "../../../modules/skillModule/PlayerSkillScrpit";
 import WeaponScript from "../../../modules/weaponModule/WeaponScript";
 import { TestModuleC } from "./TestModuleC";
 
-export class TestModuleS extends ModuleS<TestModuleC,null>{
+export class TestModuleS extends ModuleS<TestModuleC, null> {
     protected onStart(): void {
         // let obj = <Trigger>GameObject.findGameObjectById(`27E26E19`);
         // obj.onEnter.add((obj: GameObject) => {
@@ -21,49 +20,46 @@ export class TestModuleS extends ModuleS<TestModuleC,null>{
         // })
 
 
-        let npc = GameObject.findGameObjectById(`27A625FD`);
-        let asc = npc.addComponent(AbilitySystemComponent);
-        if(asc){
-            asc.addAttributeSet(MonsterAttributeSet)
-            // asc.preTags(["Club.Player"])
-        }
+        let npc = GameObject.findGameObjectById(`27A625FD`) as Character;
+        // let asc = npc.addComponent(AbilitySystemComponent);
+        RobotManager.instance.getRobot(npc);
     }
 
-    net_AddExp(exp:number){
+    net_AddExp(exp: number) {
         let player = this.currentPlayer;
-        ModuleService.getModule(AttributeModuleS).addExp(player,exp);
+        ModuleService.getModule(AttributeModuleS).addExp(player, exp);
     }
 
-    net_AddWeapon(){
+    net_AddWeapon() {
         let player = this.currentPlayer;
         let weaponScript = player.character.getComponent(WeaponScript);
-        if(weaponScript){
+        if (weaponScript) {
             let res = weaponScript.addWeapon(1002)
             weaponScript.equepWeapon(res.uuid);
         }
     }
 
-    net_unEquipWeapon(){
+    net_unEquipWeapon() {
         let player = this.currentPlayer;
         let weaponScript = player.character.getComponent(WeaponScript);
-        if(weaponScript){
+        if (weaponScript) {
             weaponScript.unEquipWeapon();
         }
     }
 
-    net_AddSkill(){
+    net_AddSkill() {
         let player = this.currentPlayer;
         let skillScript = player.character.getComponent(PlayerSkillScrpit);
-        if(skillScript){
+        if (skillScript) {
             skillScript.addSkill(1001);
-            skillScript.setSkill(1001,0)
+            skillScript.setSkill(1001, 0)
         }
     }
 
-    net_activeSkill(){
+    net_activeSkill() {
         let player = this.currentPlayer;
         let skillScript = player.character.getComponent(PlayerSkillScrpit);
-        if(skillScript){
+        if (skillScript) {
             skillScript.activeSkill(0);
         }
     }
