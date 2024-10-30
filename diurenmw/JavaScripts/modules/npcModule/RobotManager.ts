@@ -4,6 +4,7 @@ import { MObject } from "../../framework/Object/MObject";
 import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { MonsterAttributeSet } from "./MonsterAttributeSet";
 import { NpcBase } from "./NpcBase";
+import { NpcData } from "./NpcData";
 import NpcScript from "./NpcScript";
 
 
@@ -29,6 +30,8 @@ export class RobotManager extends MObject {
      */
     public async getRobot(char?: Character): Promise<Character> {
         if (char && this.playerMap.has(char)) {
+            //刷新数据
+            // this.playerMap.get(char).refreshData();
             return char;
         }
         if (!char) {
@@ -36,6 +39,8 @@ export class RobotManager extends MObject {
         }
         await char.asyncReady();
         this.initRobot(char);
+        //刷新数据
+        // this.playerMap.get(char).refreshData();
         return char;
     }
 
@@ -46,7 +51,9 @@ export class RobotManager extends MObject {
     private initRobot(char: Character): void {
         //base
         if (!this.playerMap.has(char)) {
-            this.playerMap.set(char, MFramework.createObject(NpcBase));
+            let base = MFramework.createObject(NpcBase) as NpcBase;
+            base.initData(new NpcData());
+            this.playerMap.set(char, base);
         }
         //添加能力系统
         let abs = char.getComponent(AbilitySystemComponent);
