@@ -45,6 +45,13 @@ export default class BagShowSelect_Generate extends UIScript {
 		}
 		return this.data_Internal
 	}
+	private testData_Internal: mw.TextBlock
+	public get testData(): mw.TextBlock {
+		if(!this.testData_Internal&&this.uiWidgetBase) {
+			this.testData_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/selectShow/data/testData') as mw.TextBlock
+		}
+		return this.testData_Internal
+	}
 	private singleSelect_Internal: mw.Canvas
 	public get singleSelect(): mw.Canvas {
 		if(!this.singleSelect_Internal&&this.uiWidgetBase) {
@@ -112,6 +119,9 @@ export default class BagShowSelect_Generate extends UIScript {
 		//文本多语言
 		
 		this.initLanguage(this.name)
+		
+	
+		this.initLanguage(this.testData)
 		
 	
 		//文本多语言

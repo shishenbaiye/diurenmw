@@ -36,30 +36,41 @@ export default class BagShowSelect extends BagShowSelect_Generate {
 		this.item = inItem;
 		this.equipmentType = inEquipmentType;
 
-		if(!inEquipment)
+		if(inEquipment) {
+			this.item = DataCenterC.getData(BagManagerModuleData).equipmentItems[this.equipmentType];
+		}
+		let inTestData = "";
+
+		if(this.item.uuid)
 		{
-			switch(inItem.itemtype)
+			switch(this.item.itemtype)
 			{
 				case ItemType.Weapon:
-					let weaponData = DataCenterC.getData(WeaponModuleData).getWeaponData(inItem.uuid);
-					this.setData(inItem.itemtype, weaponData.wid);
+					let weaponData = DataCenterC.getData(WeaponModuleData).getWeaponData(this.item.uuid);
+					inTestData += "物理攻击 : " + weaponData.atk + "\n";
+					inTestData += "魔法攻击 : " + weaponData.matk + "\n";
+					inTestData += "力量 : " + weaponData.str + "\n";
+					inTestData += "智力 : " + weaponData.int + "\n";
+					this.setData(this.item.itemtype, weaponData.wid, inTestData);
 					break;
 				case ItemType.Jewelry:
-					let jewelryData = DataCenterC.getData(JewelryModuleData).getJewelryData(inItem.uuid);
-					this.setData(inItem.itemtype, jewelryData.aid);
+					let jewelryData = DataCenterC.getData(JewelryModuleData).getJewelryData(this.item.uuid);
+					inTestData += "防御力 : " + jewelryData.def + "\n";
+					inTestData += "力量 : " + jewelryData.str + "\n";
+					inTestData += "智力 : " + jewelryData.int + "\n";
+					this.setData(this.item.itemtype, jewelryData.aid, inTestData);
 					break;
 				case ItemType.Armor:
-					let armorData = DataCenterC.getData(ArmorModuleData).getArmorData(inItem.uuid);
-					this.setData(inItem.itemtype, armorData.aid);
+					let armorData = DataCenterC.getData(ArmorModuleData).getArmorData(this.item.uuid);
+					inTestData += "防御力 : " + armorData.def + "\n";
+					inTestData += "体力 : " + armorData.vit + "\n";
+					inTestData += "力量 : " + armorData.str + "\n";
+					inTestData += "智力 : " + armorData.int + "\n";
+					this.setData(this.item.itemtype, armorData.aid, inTestData);
 					break;
 			}
 		}
-		else
-		{
-			this.item = DataCenterC.getData(BagManagerModuleData).equipmentItems[this.equipmentType];
-			this.setData(this.item.itemtype, this.item.typeId);
-		}
-
+		
 		if(this.isEquipment)
 		{
 			this.doubleSelect.visibility = mw.SlateVisibility.Hidden;
@@ -72,11 +83,12 @@ export default class BagShowSelect extends BagShowSelect_Generate {
 		}
 	}
 
-	setData(itemtype : ItemType, typeId : number) {
+	setData(itemtype : ItemType, typeId : number, inTestData : string) {
 		if(typeId)
 		{
 			this.name.text = BagManagerModuleData.getItemName(itemtype, typeId);
 			this.icon.imageGuid = BagManagerModuleData.getItemIcon(itemtype, typeId);
+			this.testData.text = inTestData;
 		}
 	}
 
