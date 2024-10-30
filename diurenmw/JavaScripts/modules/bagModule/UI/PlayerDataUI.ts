@@ -56,5 +56,9 @@ export default class PlayerDataUI extends PlayerDataUI_Generate {
 		inEquipmentUI.uiObject.visibility = mw.SlateVisibility.Visible;
 		return inEquipmentUI;
 	}
+
+	updateEquipmentUI(inEquipmentType : EquipmentType) {
+		this.equipmentUI[inEquipmentType].updateIcon();
+	}
 }
  

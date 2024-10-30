@@ -52,19 +52,12 @@ export default class BagShowSelect_Generate extends UIScript {
 		}
 		return this.singleSelect_Internal
 	}
-	private leftButton_Internal: mw.Button
-	public get leftButton(): mw.Button {
-		if(!this.leftButton_Internal&&this.uiWidgetBase) {
-			this.leftButton_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/selectShow/singleSelect/leftButton') as mw.Button
+	private singleButton_Internal: mw.Button
+	public get singleButton(): mw.Button {
+		if(!this.singleButton_Internal&&this.uiWidgetBase) {
+			this.singleButton_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/selectShow/singleSelect/singleButton') as mw.Button
 		}
-		return this.leftButton_Internal
-	}
-	private rightButton_Internal: mw.Button
-	public get rightButton(): mw.Button {
-		if(!this.rightButton_Internal&&this.uiWidgetBase) {
-			this.rightButton_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/selectShow/singleSelect/rightButton') as mw.Button
-		}
-		return this.rightButton_Internal
+		return this.singleButton_Internal
 	}
 	private doubleSelect_Internal: mw.Canvas
 	public get doubleSelect(): mw.Canvas {
@@ -73,12 +66,19 @@ export default class BagShowSelect_Generate extends UIScript {
 		}
 		return this.doubleSelect_Internal
 	}
-	private singleButton_Internal: mw.Button
-	public get singleButton(): mw.Button {
-		if(!this.singleButton_Internal&&this.uiWidgetBase) {
-			this.singleButton_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/selectShow/doubleSelect/singleButton') as mw.Button
+	private leftButton_Internal: mw.Button
+	public get leftButton(): mw.Button {
+		if(!this.leftButton_Internal&&this.uiWidgetBase) {
+			this.leftButton_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/selectShow/doubleSelect/leftButton') as mw.Button
 		}
-		return this.singleButton_Internal
+		return this.leftButton_Internal
+	}
+	private rightButton_Internal: mw.Button
+	public get rightButton(): mw.Button {
+		if(!this.rightButton_Internal&&this.uiWidgetBase) {
+			this.rightButton_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/selectShow/doubleSelect/rightButton') as mw.Button
+		}
+		return this.rightButton_Internal
 	}
 
 
@@ -97,13 +97,13 @@ export default class BagShowSelect_Generate extends UIScript {
 		
 		//按钮添加点击
 		
+		this.singleButton.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
 		this.leftButton.touchMethod = (ButtonTouchMethod.PreciseTap);
 		
 	
 		this.rightButton.touchMethod = (ButtonTouchMethod.PreciseTap);
-		
-	
-		this.singleButton.touchMethod = (ButtonTouchMethod.PreciseTap);
 		
 	
 
@@ -116,13 +116,13 @@ export default class BagShowSelect_Generate extends UIScript {
 	
 		//文本多语言
 		
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/selectShow/singleSelect/leftButton/TextBlock") as any);
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/selectShow/singleSelect/singleButton/TextBlock_2") as any);
 		
 	
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/selectShow/singleSelect/rightButton/TextBlock_1") as any);
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/selectShow/doubleSelect/leftButton/TextBlock") as any);
 		
 	
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/selectShow/doubleSelect/singleButton/TextBlock_2") as any);
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/selectShow/doubleSelect/rightButton/TextBlock_1") as any);
 		
 	
 

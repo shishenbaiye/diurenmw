@@ -1,4 +1,4 @@
-import { BagManagerModuleData, BagItemBase, ItemType, eventType } from "./BagManagerModuleData";
+import { BagManagerModuleData, BagItemBase, ItemType, eventType, EquipmentType } from "./BagManagerModuleData";
 import { BagManagerModuleS } from "./BagManagerModuleS";
 import BagManagerUI from "./UI/BagManagerUI";
 import BagItemUI from "./UI/BagItemUI";
@@ -17,9 +17,10 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
     protected onAwake(): void {
         GameEventBus.on("AttributeModule_Change", BagAttributeUI.onChangeAttribute);
         GameEventBus.on("BagModule_ItemClick", this.onButtonClickEvent.bind(this));
-    }
-
-    onAttributeAllReady(player:mw.Player){
+        
+		GameEventBus.on("BagModule_UnEquipmentItem", this.onUnEquipmentItem.bind(this));
+		GameEventBus.on("BagModule_EquipmentItem", this.onEquipmentItem.bind(this));
+		GameEventBus.on("BagModule_RemoveItem", this.onRemoveItem.bind(this));
     }
 
     /**
@@ -28,7 +29,9 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
      * @effect 只在客户端调用生效
      */
     protected onStart(): void {
-        
+        Player.asyncGetLocalPlayer().then((player: Player) => { 
+            this.data.owner = player;
+        });
     }
 
     /**
@@ -102,4 +105,26 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
             }); 
         }
     }
+
+    net_OnUnEquipmentItemUpdate(inItem : BagItemBase, inEquipmentType : EquipmentType) {
+        this.data.equipmentItems[inEquipmentType] = {uuid: "", typeId: 0, count: 1, itemtype: inItem.itemtype};
+        this.bagManagerUIObj.playerDataUIObj.updateEquipmentUI(inEquipmentType);
+    }
+
+    net_OnEquipmentItemUpdate(inItem : BagItemBase, inEquipmentType : EquipmentType) {
+        this.data.equipmentItems[inEquipmentType] = inItem;
+        this.bagManagerUIObj.playerDataUIObj.updateEquipmentUI(inEquipmentType);
+    }
+
+	protected onUnEquipmentItem(inItem : BagItemBase, inEquipmentType : EquipmentType) {
+		this.server.net_OnUnEquipmentItem(mw.Player.localPlayer, inItem, inEquipmentType);
+	}
+
+	protected onEquipmentItem(inItem : BagItemBase, inEquipmentType : EquipmentType) {
+		this.server.net_OnEquipmentItem(mw.Player.localPlayer, inItem, inEquipmentType);
+	}
+
+	protected onRemoveItem(inItem : BagItemBase) {
+		this.server.net_OnRemoveItem(mw.Player.localPlayer, inItem);
+	}
 }

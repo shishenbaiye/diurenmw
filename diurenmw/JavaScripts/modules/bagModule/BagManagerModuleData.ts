@@ -1,5 +1,10 @@
 import { ConfigBase } from "../../configs/ConfigBase";
 import { GameConfig } from "../../configs/GameConfig";
+import ArmorScript from "../armorModule/ArmorScript";
+import { ArmorPart } from "../armorModule/ArmorType";
+import JewelryScript from "../jewelryModule/JewelryScript";
+import { JewelryPart } from "../jewelryModule/JewelryType";
+import WeaponScript from "../weaponModule/WeaponScript";
 
 // 事件类型
 export type eventType = (inItem : BagItemBase)=>void;
@@ -56,7 +61,12 @@ export class BagManagerModuleData extends Subdata {
     @Decorator.persistence()
     bagTypeCapacity : Map<ItemType, number>;
 
-    initData(): void {
+    // 正在装备的物品
+    @Decorator.persistence()
+    equipmentItems : Array<BagItemBase>;
+
+    initData(inPlayer : Player): void {
+        this.owner = inPlayer;
         console.log("BagManagerModuleData initData");
         if(!this.itemList)
         {
@@ -107,7 +117,26 @@ export class BagManagerModuleData extends Subdata {
         {
             this.bagTypeCapacity.set(ItemType.Materials, 100);
         }
-        this.save(true);
+
+        if (!this.equipmentItems)
+        {
+            this.equipmentItems = new Array<BagItemBase>();
+        }
+        if(this.equipmentItems.length < EquipmentType.Foot)
+        {
+            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Weapon});
+            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Jewelry});
+            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Jewelry});
+            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Jewelry});
+            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Armor});
+            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Armor});
+            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Armor});
+            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Armor});
+        }
+        if(SystemUtil.isServer())
+        {
+            this.save(true);
+        }
     }
 
     getTypeItemNumber(itemType: ItemType) : number {
@@ -196,14 +225,14 @@ export class BagManagerModuleData extends Subdata {
                 if(BagItem.count < inCount)
                 {
                     inCount -= BagItem.count;
-                    removedIndexs.push(i);
+                    removedIndexs.push(itemIndexs[i]);
                 }
                 else
                 {
                     BagItem.count -= inCount;
                     if(BagItem.count == 0)
                     {
-                        removedIndexs.push(i);
+                        removedIndexs.push(itemIndexs[i]);
                     }
                 }
             }
@@ -245,6 +274,52 @@ export class BagManagerModuleData extends Subdata {
             return true;
         }
         return false;
+    }
+
+    equipmentItem(inItem : BagItemBase, inEquipmentType : EquipmentType) : boolean {
+        // 装备物品
+        switch(inItem.itemtype)
+        {
+            case ItemType.Weapon:
+                this.owner.character.getComponent(WeaponScript).equepWeapon(inItem.uuid);
+                break;
+            case ItemType.Jewelry:
+                this.owner.character.getComponent(JewelryScript).equepJewelry(BagManagerModuleData.getTypeId(inEquipmentType), inItem.uuid);
+                break;
+            case ItemType.Armor:
+                this.owner.character.getComponent(ArmorScript).equepArmor(BagManagerModuleData.getTypeId(inEquipmentType), inItem.uuid);
+                break;
+        }
+        this.equipmentItems[inEquipmentType] = inItem;
+        
+        if(SystemUtil.isServer())
+        {
+            this.save(false);
+        }
+        return true;
+    }
+
+    unEquipmentItem(inItem : BagItemBase, inEquipmentType : EquipmentType) : boolean {
+        // 卸载装备
+        switch(inItem.itemtype)
+        {
+            case ItemType.Weapon:
+                this.owner.character.getComponent(WeaponScript).unEquipWeapon();
+                break;
+            case ItemType.Jewelry:
+                this.owner.character.getComponent(JewelryScript).unEquipJewelry(BagManagerModuleData.getTypeId(inEquipmentType));
+                break;
+            case ItemType.Armor:
+                this.owner.character.getComponent(ArmorScript).unEquipArmor(BagManagerModuleData.getTypeId(inEquipmentType));
+                break;
+        }
+        this.equipmentItems[inEquipmentType] = {uuid: "", typeId: 0, count: 1, itemtype: inItem.itemtype};
+
+        if(SystemUtil.isServer())
+        {
+            this.save(false);
+        }
+        return true;
     }
 
     static getItemStackMax(itemtype: ItemType, typeId: number) : number {
@@ -319,6 +394,55 @@ export class BagManagerModuleData extends Subdata {
         }
     }
 
+    static getTypeId(inEquipmentType : EquipmentType) : number {
+        switch(inEquipmentType)
+        {
+            case EquipmentType.Weapon:
+                return 0;
+            case EquipmentType.Ring:
+                return JewelryPart.Ring;
+            case EquipmentType.Necklace:
+                return JewelryPart.Necklace;
+            case EquipmentType.Bracelet:
+                return JewelryPart.Bracelet;
+            case EquipmentType.Head:
+                return ArmorPart.Head;
+            case EquipmentType.Body:
+                return ArmorPart.Body;
+            case EquipmentType.Leg:
+                return ArmorPart.Leg;
+            case EquipmentType.Foot:
+                return ArmorPart.Foot;
+        }
+    }
+
+    static getEquipmentType(inType: ItemType, inPart: number): EquipmentType {
+        switch(inType) {
+            case ItemType.Weapon:
+                return EquipmentType.Weapon;
+            case ItemType.Jewelry:
+                switch(inPart) {
+                    case JewelryPart.Ring:
+                        return EquipmentType.Ring;
+                    case JewelryPart.Necklace:
+                        return EquipmentType.Necklace;
+                    case JewelryPart.Bracelet:
+                        return EquipmentType.Bracelet;
+                }
+            case ItemType.Armor:
+                switch(inPart) {
+                    case ArmorPart.Head:
+                        return EquipmentType.Head;
+                    case ArmorPart.Body:
+                        return EquipmentType.Body;
+                    case ArmorPart.Leg:
+                        return EquipmentType.Leg;
+                    case ArmorPart.Foot:
+                        return EquipmentType.Foot;
+                }
+        }
+    }
+
     addItem(items : BagItemBase) : boolean {
         let stackMax = BagManagerModuleData.getItemStackMax(items.itemtype, items.typeId);
         let stackNum = 0;
@@ -327,6 +451,8 @@ export class BagManagerModuleData extends Subdata {
         let BagItem = this.findItem(items.itemtype, items.uuid);
         if(BagItem)
         {
+            // 暂时不允许叠加物品，得把uuid和typeid敲定用什么为维度再考虑。用uuid的话，需要删除原本叠加的物品
+            return false;
             // 已有相同物品，判断是否可叠加
             if(stackMax < items.count + BagItem.count)
             {
@@ -358,6 +484,7 @@ export class BagManagerModuleData extends Subdata {
                 {
                     BagItem.count -= stackNum;
                 }
+                return false;
             }
         }
 
@@ -371,7 +498,7 @@ export class BagManagerModuleData extends Subdata {
     private addItemNotStack(items : BagItemBase) : boolean {
         if(this.bagTypeCapacity.get(items.itemtype) <= this.itemList.get(items.itemtype).length)
         {
-            console.log("addItemNotStack bagTypeCapacity is over : " + JSON.stringify(items));
+            console.warn("addItemNotStack bagTypeCapacity is over : " + JSON.stringify(items));
             return false;
         }
 
