@@ -85,9 +85,9 @@ export default class BagItemUI extends BagItemUI_Generate {
 			return;
 		}
 
-		let stackMax = this.bagData.getItemStackMax(inItemType, bagItemObj.typeId);
-		let icon = this.bagData.getItemIcon(inItemType, bagItemObj.typeId);
-		let name = this.bagData.getItemName(inItemType, bagItemObj.typeId);
+		let stackMax = BagManagerModuleData.getItemStackMax(inItemType, bagItemObj.typeId);
+		let icon = BagManagerModuleData.getItemIcon(inItemType, bagItemObj.typeId);
+		let name = BagManagerModuleData.getItemName(inItemType, bagItemObj.typeId);
 
 		this.setVisibility(mw.SlateVisibility.Visible);
 

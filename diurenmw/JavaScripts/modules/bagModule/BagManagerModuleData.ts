@@ -247,7 +247,7 @@ export class BagManagerModuleData extends Subdata {
         return false;
     }
 
-    getItemStackMax(itemtype: ItemType, typeId: number) : number {
+    static getItemStackMax(itemtype: ItemType, typeId: number) : number {
         switch(itemtype)
         {
             case ItemType.Weapon:
@@ -271,7 +271,7 @@ export class BagManagerModuleData extends Subdata {
         }
     }
 
-    getItemName(itemtype: ItemType, typeId: number) : string {
+    static getItemName(itemtype: ItemType, typeId: number) : string {
         switch(itemtype)
         {
             case ItemType.Weapon:
@@ -295,7 +295,7 @@ export class BagManagerModuleData extends Subdata {
         }
     }
 
-    getItemIcon(itemtype: ItemType, typeId: number) : string {
+    static getItemIcon(itemtype: ItemType, typeId: number) : string {
         switch(itemtype)
         {
             case ItemType.Weapon:
@@ -320,7 +320,7 @@ export class BagManagerModuleData extends Subdata {
     }
 
     addItem(items : BagItemBase) : boolean {
-        let stackMax = this.getItemStackMax(items.itemtype, items.typeId);
+        let stackMax = BagManagerModuleData.getItemStackMax(items.itemtype, items.typeId);
         let stackNum = 0;
         let NotStackNum = 0;
         

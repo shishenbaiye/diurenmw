@@ -1,7 +1,7 @@
 
 import BagUI_Generate from "../../../ui-generate/Bag/BagUI_generate"
 import BagItemUI from "./BagItemUI"
-import { BagItemBase, BagManagerModuleData, ItemType, eventType } from "../BagManagerModuleData";
+import { BagItemBase, BagManagerModuleData, EquipmentType, ItemType, eventType } from "../BagManagerModuleData";
 import ItemTypeUI from "./ItemTypeUI";
 import { PlayerAttributeSet } from "../../AttributeModule/PlayerAttributeSet";
 import BagAttributeUI from "./BagAttributeUI";
@@ -242,9 +242,9 @@ export default class BagManagerUI extends BagUI_Generate {
 		this.mainShowSelectUI.uiObject.visibility = mw.SlateVisibility.Visible;
 	}
 
-	protected onEquipmentClick(inItem : BagItemBase) {
+	protected onEquipmentClick(inItem : BagItemBase, inEquipmentType : EquipmentType) {
 		this.mainShowSelectUI = UIService.show(BagMainShowSelect);
-		this.mainShowSelectUI.init(true, inItem);
+		this.mainShowSelectUI.init(true, inItem, inEquipmentType);
 		this.uiWidgetBase.rootContent.addChild(this.mainShowSelectUI.uiObject);
 		this.mainShowSelectUI.uiObject.position = new mw.Vector2(0, 0);
 		this.mainShowSelectUI.uiObject.size = new mw.Vector2(1920, 1080);
