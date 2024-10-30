@@ -12,30 +12,26 @@ export class PlayerModuleS extends ModuleS<PlayerModuleC, PlayerModuleData> {
     }
 
     net_initPlayer(name: string): void {
-        this.getPlayerData(this.currentPlayer).playerName = name;
-        let playerInfo = this.currentPlayer.character.addComponent(PlayerScript);
+        this.getPlayerData(this.currentPlayer).refreshName(name);
+        let playerInfo = this.currentPlayer.character.getComponent(PlayerScript);
         if (playerInfo) {
-            playerInfo.refreshAttr(this.currentPlayer);
+            playerInfo.headInfo = this.getPlayerBase(this.currentPlayer).ownerData;
         }
     }
 
     onAttributeAllReady(player: mw.Player) {
         let playerInfo = player.character.addComponent(PlayerScript);
-        let data = this.getPlayerData(player);
-        let playerData: PlayerData = new PlayerData();
-        playerData.name = data.playerName;
         if (playerInfo) {
-            playerInfo.refreshInfo(player)
-            playerInfo.refreshAttr(player);
+            playerInfo.headInfo = this.getPlayerBase(player).ownerData;
         }
     }
 
-    addPlayerBase(player: Player): PlayerBase {
+    getPlayerBase(player: Player): PlayerBase {
         let playerInfo = PlayerManager.instance.createNew(player);
         let data = this.getPlayerData(player);
-        let playerData: PlayerData = new PlayerData();
-        playerData.name = data.playerName;
-        playerInfo.initByData(playerData);
+        if (!playerInfo.ownerData) playerInfo.initData(new PlayerData());
+        playerInfo.ownerData.name = data.playerName;
+        playerInfo.ownerData.vip = false;
         return playerInfo;
     }
 }

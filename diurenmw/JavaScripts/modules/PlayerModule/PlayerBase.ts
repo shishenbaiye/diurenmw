@@ -9,28 +9,27 @@ export abstract class PlayerBase extends MObject {
     owner: Player;
     /**持有者属性 */
     ownerAttribute: PlayerAttributeSet;
-
-    initByData(data: PlayerData): void { }
-
-    private name: string
-
-    private isVip: boolean
+    /**持有者数据 */
+    ownerData: PlayerData;
 
     init() { }
 
+    /** 初始数据 */
     initData(data: PlayerData) {
-        this.name = data.name;
-        this.isVip = data.vip;
+        this.ownerData = data;
+    }
+
+    /** 刷新数据 */
+    refreshData(data: PlayerData): void {
+        this.ownerData.name = data.name;
+        this.ownerData.vip = data.vip;
+    }
+
+    /** 获取克隆数据 */
+    getData(): PlayerData {
+        return this.ownerData.copy();
     }
 
     abstract refresh(): void;
 
-
-    //生成持久化数据体
-    getData(): PlayerData {
-        let data = new PlayerData();
-        data.name = this.name;
-        data.vip = this.isVip;
-        return data;
-    }
 }

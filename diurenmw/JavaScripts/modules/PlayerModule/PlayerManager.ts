@@ -41,12 +41,12 @@ export class PlayerManager extends MObject {
         if (PlayerManager.instance.playerMap.has(owner.playerId)) {
             let playerInfo = MFramework.createObject(PlayerManager.instance.playerMap.get(owner.playerId)) as T;
             playerInfo.ownerAttribute = as;
-            playerInfo.initByData(data);
+            playerInfo.initData(data);
             return playerInfo;
         }
         let playerInfo = MFramework.createObject(PlayerBase) as T;
         playerInfo.ownerAttribute = as;
-        playerInfo.initByData(data);
+        playerInfo.initData(data);
         return playerInfo;
     }
 }

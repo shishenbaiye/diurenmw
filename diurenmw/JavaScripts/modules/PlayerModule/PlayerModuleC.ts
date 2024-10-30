@@ -4,7 +4,9 @@ import { PlayerModuleS } from "./PlayerModuleS";
 export class PlayerModuleC extends ModuleC<PlayerModuleS, PlayerModuleData> {
 
     protected onStart(): void {
-        this.server.net_initPlayer(AccountService.getNickName())
+        let name = AccountService.getNickName();
+        if (SystemUtil.isPIE) name = `player:${this.localPlayer.playerId}`;
+        this.server.net_initPlayer(name)
     }
 
 }

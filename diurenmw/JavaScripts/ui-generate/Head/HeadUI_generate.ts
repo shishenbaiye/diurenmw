@@ -59,6 +59,13 @@ export default class HeadUI_Generate extends UIScript {
 		}
 		return this.progressBar_blood_Internal
 	}
+	private txt_hp_Internal: mw.TextBlock
+	public get txt_hp(): mw.TextBlock {
+		if(!this.txt_hp_Internal&&this.uiWidgetBase) {
+			this.txt_hp_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/con_hp/txt_hp') as mw.TextBlock
+		}
+		return this.txt_hp_Internal
+	}
 
 
  
@@ -85,6 +92,9 @@ export default class HeadUI_Generate extends UIScript {
 		
 	
 		this.initLanguage(this.txt_rank_exp)
+		
+	
+		this.initLanguage(this.txt_hp)
 		
 	
 		//文本多语言
