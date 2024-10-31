@@ -34,7 +34,7 @@ export default class EquipmentUI extends EquipmentUI_Generate {
 	init(inType : ItemType, inPart : number) {
 		this.type = inType;
 		this.part = inPart;
-		this.mEquipmentType = this.getEquipmentType(inType, inPart);
+		this.mEquipmentType = BagManagerModuleData.getEquipmentType(inType, inPart);
 		this.updateIcon();
 	}
 
@@ -134,33 +134,6 @@ export default class EquipmentUI extends EquipmentUI_Generate {
 		this.button.disableImageGuid = image;
 		this.button.pressedImageGuid = image;
 		this.button.normalImageColor = new mw.LinearColor(1, 1, 1, 1);
-	}
-
-	getEquipmentType(inType: ItemType, inPart: number): EquipmentType {
-		switch(inType) {
-			case ItemType.Weapon:
-				return EquipmentType.Weapon;
-			case ItemType.Jewelry:
-				switch(inPart) {
-					case JewelryPart.Ring:
-						return EquipmentType.Ring;
-					case JewelryPart.Necklace:
-						return EquipmentType.Necklace;
-					case JewelryPart.Bracelet:
-						return EquipmentType.Bracelet;
-				}
-			case ItemType.Armor:
-				switch(inPart) {
-					case ArmorPart.Head:
-						return EquipmentType.Head;
-					case ArmorPart.Body:
-						return EquipmentType.Body;
-					case ArmorPart.Leg:
-						return EquipmentType.Leg;
-					case ArmorPart.Foot:
-						return EquipmentType.Foot;
-				}
-		}
 	}
 }
  

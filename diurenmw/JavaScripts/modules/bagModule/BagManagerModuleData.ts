@@ -443,6 +443,21 @@ export class BagManagerModuleData extends Subdata {
         }
     }
 
+    static getEquipmentTypeByTypeId(inType: ItemType, inTypeId: number): EquipmentType {
+        switch(inType)
+        {
+            case ItemType.Weapon:
+                return  BagManagerModuleData.getEquipmentType(inType, GameConfig.WeaponObj.getElement(inTypeId).type);
+                break;
+            case ItemType.Armor:
+                return BagManagerModuleData.getEquipmentType(inType, GameConfig.ArmorObj.getElement(inTypeId).body);
+                break;
+            case ItemType.Jewelry:
+                return BagManagerModuleData.getEquipmentType(inType, GameConfig.JewelryObj.getElement(inTypeId).part);
+                break;
+        }
+    }
+
     addItem(items : BagItemBase) : boolean {
         let stackMax = BagManagerModuleData.getItemStackMax(items.itemtype, items.typeId);
         let stackNum = 0;

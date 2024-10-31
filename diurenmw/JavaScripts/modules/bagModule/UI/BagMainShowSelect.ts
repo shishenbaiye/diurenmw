@@ -52,7 +52,7 @@ export default class BagMainShowSelect extends BagMainShowSelect_Generate {
 		}
 		else
 		{
-			inEquipmentType = BagManagerModuleData.getEquipmentType(inItem.itemtype, inItem.typeId);
+			inEquipmentType = BagManagerModuleData.getEquipmentTypeByTypeId(inItem.itemtype, inItem.typeId);
 			this.leftShowSelectUI.init(true, null, inEquipmentType);
 			this.rightShowSelectUI.init(false, inItem, inEquipmentType);
 		}
