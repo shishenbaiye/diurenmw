@@ -9,7 +9,7 @@ import { RegisterSkill } from "../../SkillManager";
 import { ESkillType } from "../../SkillType";
 import { GE_CoolDown_Warrior_Whirlwind } from "./GE_CoolDown_Warrior_Whirlwind";
 import { GE_Cost_Warrior_Whirlwind } from "./GE_Cost_Warrior_Whirlwind";
-import { GE_Damage_Warrior_Whirlwind1, GE_Damage_Warrior_Whirlwind5 } from "./GE_Damage_Warrior_Whirlwind";
+import { GE_Damage_Warrior_Whirlwind1 } from "./GE_Damage_Warrior_Whirlwind";
 
 @RegisterSkill(1008,ESkillType.GreatSword)
 @MPlugin()
@@ -57,14 +57,7 @@ export class GA_Warrior_Whirlwind extends GameAbility{
                     let asc = obj.getComponent(AbilitySystemComponent);
                     if(asc){
                         if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
-                        if(this.num == 5){
-                            this.applyGameEffectToTarget(GE_Damage_Warrior_Whirlwind5,obj);
-                        }else{
-                            this.applyGameEffectToTarget(GE_Damage_Warrior_Whirlwind1,obj);
-                        }
-                        
-                        obj.loadAnimation("268673").play();
-                        EffectService.playOnGameObject("13595",obj,{scale:new Vector(5)})
+                        this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_Whirlwind1});
                     }
                     
                 })

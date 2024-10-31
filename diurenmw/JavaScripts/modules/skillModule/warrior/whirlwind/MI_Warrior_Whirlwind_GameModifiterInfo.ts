@@ -3,15 +3,17 @@ import { MathTool } from "../../../../tools/MathTool";
 import { PlayerAttributeSet } from "../../../AttributeModule/PlayerAttributeSet";
 import { EPlayerAttributeSetType } from "../../../AttributeModule/PlayerAttributeSetType";
 import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
+import { GameEffect } from "../../../gasModule/gameAbilitys/GE/GameEffect";
 import { EGameCustomModOp, EGameModOp } from "../../../gasModule/gameAbilitys/GE/GameEffectType";
 import { GameModifierInfo } from "../../../gasModule/gameAbilitys/GE/GameModifierInfo";
 import { ModifierClass } from "../../../gasModule/gameAbilitys/GE/ModifierClass";
 import { MonsterAttributeSet } from "../../../npcModule/MonsterAttributeSet";
 import { EMonsterAttributeSetType } from "../../../npcModule/MonsterAttributeSetType";
+import { GE_Damage_Base } from "../../common/GE_Damage_Base";
 
 
 export class MI_Warrior_Whirlwind_GameModifiterInfo1 extends GameModifierInfo{
-
+    
     static New(): MI_Warrior_Whirlwind_GameModifiterInfo1 {
         return new MI_Warrior_Whirlwind_GameModifiterInfo1();
     }
@@ -19,76 +21,17 @@ export class MI_Warrior_Whirlwind_GameModifiterInfo1 extends GameModifierInfo{
     modifierName: string = EMonsterAttributeSetType.hp;
     modifierOp: EGameModOp = EGameModOp.Custom;
     modifierValue: number;
-    modifierClass: ModifierClass = MI_Warrior_Whirlwind_ModifierClass.New({id:1008,index:1});
+    modifierClass: ModifierClass;
     sourceMustNeedTags: string[];
     sourceMustNotNeedTags: string[];
     targetMustNeedTags: string[];
     targetMustNotNeedTags: string[];
-}
 
-export class MI_Warrior_Whirlwind_GameModifiterInfo2 extends GameModifierInfo{
-
-    static New(): MI_Warrior_Whirlwind_GameModifiterInfo2 {
-        return new MI_Warrior_Whirlwind_GameModifiterInfo2();
+    init(): void {
+        this.modifierClass = MI_Warrior_Whirlwind_ModifierClass.New({id:1001,index:0});
+        
     }
-
-    modifierName: string = EMonsterAttributeSetType.hp;
-    modifierOp: EGameModOp = EGameModOp.Custom;
-    modifierValue: number;
-    modifierClass: ModifierClass = MI_Warrior_Whirlwind_ModifierClass.New({id:1008,index:2});
-    sourceMustNeedTags: string[];
-    sourceMustNotNeedTags: string[];
-    targetMustNeedTags: string[];
-    targetMustNotNeedTags: string[];
-}
-
-
-export class MI_Warrior_Whirlwind_GameModifiterInfo3 extends GameModifierInfo{
-
-    static New(): MI_Warrior_Whirlwind_GameModifiterInfo3 {
-        return new MI_Warrior_Whirlwind_GameModifiterInfo3();
-    }
-
-    modifierName: string = EMonsterAttributeSetType.hp;
-    modifierOp: EGameModOp = EGameModOp.Custom;
-    modifierValue: number;
-    modifierClass: ModifierClass = MI_Warrior_Whirlwind_ModifierClass.New({id:1008,index:3});
-    sourceMustNeedTags: string[];
-    sourceMustNotNeedTags: string[];
-    targetMustNeedTags: string[];
-    targetMustNotNeedTags: string[];
-}
-
-export class MI_Warrior_Whirlwind_GameModifiterInfo4 extends GameModifierInfo{
-
-    static New(): MI_Warrior_Whirlwind_GameModifiterInfo4 {
-        return new MI_Warrior_Whirlwind_GameModifiterInfo4();
-    }
-
-    modifierName: string = EMonsterAttributeSetType.hp;
-    modifierOp: EGameModOp = EGameModOp.Custom;
-    modifierValue: number;
-    modifierClass: ModifierClass = MI_Warrior_Whirlwind_ModifierClass.New({id:1008,index:4});
-    sourceMustNeedTags: string[];
-    sourceMustNotNeedTags: string[];
-    targetMustNeedTags: string[];
-    targetMustNotNeedTags: string[];
-}
-
-export class MI_Warrior_Whirlwind_GameModifiterInfo5 extends GameModifierInfo{
-
-    static New(): MI_Warrior_Whirlwind_GameModifiterInfo5 {
-        return new MI_Warrior_Whirlwind_GameModifiterInfo5();
-    }
-
-    modifierName: string = EMonsterAttributeSetType.hp;
-    modifierOp: EGameModOp = EGameModOp.Custom;
-    modifierValue: number;
-    modifierClass: ModifierClass = MI_Warrior_Whirlwind_ModifierClass.New({id:1008,index:5});
-    sourceMustNeedTags: string[];
-    sourceMustNotNeedTags: string[];
-    targetMustNeedTags: string[];
-    targetMustNotNeedTags: string[];
+    
 }
 
 export class MI_Warrior_Whirlwind_ModifierClass extends ModifierClass{
@@ -115,11 +58,12 @@ export class MI_Warrior_Whirlwind_ModifierClass extends ModifierClass{
             sourceAttr.getAttr(EPlayerAttributeSetType.critDamage).getCurrent()        
         )
 
-        let finalDamage = MathTool.calculateActualDamage(damage,
+        let finalDamage = MathTool.calculateActualDamage(damage.damage,
             targetAttr.getAttr(EMonsterAttributeSetType.def).getCurrent(),
             targetAttr.getAttr(EMonsterAttributeSetType.level).getCurrent()
         );
-        console.warn("造成伤害",finalDamage);
+        (sourceModifierInfo.ownerEffect as GE_Damage_Base).isCrit = damage.isCrit;
+        (sourceModifierInfo.ownerEffect as GE_Damage_Base).damageValue = finalDamage;
         return finalDamage;
     }
     

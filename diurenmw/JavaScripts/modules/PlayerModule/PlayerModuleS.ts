@@ -1,4 +1,6 @@
 import { GameEventBus } from "../../common/eventBus/EventBus";
+import { MPropertiesInject } from "../../framework/DI/MContainer";
+import { PlayerAnimationMgr } from "../animationModule/PlayerAnimationMgr";
 import { PlayerBase } from "./PlayerBase";
 import { PlayerData } from "./PlayerData";
 import { PlayerManager } from "./PlayerManager";
@@ -7,7 +9,12 @@ import { PlayerModuleData } from "./PlayerModuleData";
 import PlayerScript from "./PlayerScript";
 
 export class PlayerModuleS extends ModuleS<PlayerModuleC, PlayerModuleData> {
+
+    @MPropertiesInject(PlayerAnimationMgr)
+    private playerAnimationMgr: PlayerAnimationMgr;
+
     protected onAwake(): void {
+        this.playerAnimationMgr.init();
         GameEventBus.on(`AttributeModule_Ready`, this.onAttributeAllReady.bind(this))
     }
 

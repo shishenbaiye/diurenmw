@@ -1,9 +1,11 @@
 import { AbilitySystemComponent } from "../ASC/AbilitySystemComponent";
+import { GameEffect } from "./GameEffect";
 import { EGameModOp } from "./GameEffectType";
 import { ModifierClass } from "./ModifierClass";
 
 export abstract class GameModifierInfo{
 
+    ownerEffect:GameEffect;
     /**属性名称 */
     abstract modifierName:string;
     /**计算方式 */
@@ -20,6 +22,8 @@ export abstract class GameModifierInfo{
     abstract targetMustNeedTags:string[];
     /**目标不能有的标签 */
     abstract targetMustNotNeedTags:string[];
+
+    init():void{}
 
     canApply(context:{sourceASC:AbilitySystemComponent,targetASC:AbilitySystemComponent}):boolean{
         if(!this.modifierName) return false;

@@ -57,6 +57,9 @@ export abstract class GameAbility extends MObject {
 
     /**gameEvent带的数据 */
     public payload: Payload|null = null;
+
+    /**CD技能实例 */
+    private cdEffect: CoolDownByGameEffect;
     protected init() {
 
     }
@@ -165,7 +168,7 @@ export abstract class GameAbility extends MObject {
     active(asc: AbilitySystemComponent) {
         this.ownerAsc = asc;
         this.isActivate = true;
-        this.applyCDEffectToSelf(this.ownerAsc,this.cd);
+        this.cdEffect = this.applyCDEffectToSelf(this.ownerAsc,this.cd);
         this.applyCostEffectToSelf(this.ownerAsc,this.cost);
         this.onActive(this.ownerAsc, this.owner, this.target);
     }
@@ -202,8 +205,8 @@ export abstract class GameAbility extends MObject {
     }
 
     /**应用效果 */
-    applyGameEffectToTarget(gameEffect:Constructor<GameEffect>, target: GameObject) {
-        this.ownerAsc.applyGameEffectToTarget( gameEffect, target);
+    applyGameEffectToTarget(gameEffect:Constructor<GameEffect>, target: GameObject):GameEffect {
+        return this.ownerAsc.applyGameEffectToTarget( gameEffect, target);
     }
 
     /**应用CD */
@@ -212,7 +215,14 @@ export abstract class GameAbility extends MObject {
             if(MFramework.createObject<CoolDownByGameEffect>(gameEffect).time == 0){
                 return;
             }
-            ownerAsc.applyGameEffectToSelf(gameEffect);
+            return ownerAsc.applyGameEffectToSelf(gameEffect) as CoolDownByGameEffect;
+        }
+    }
+
+    /**获取CD */
+    getCD():CoolDownByGameEffect{
+        if(this.cdEffect){
+            return this.cdEffect;
         }
     }
 
