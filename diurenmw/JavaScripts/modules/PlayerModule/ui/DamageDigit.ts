@@ -1,15 +1,28 @@
-import { MathTool } from "../../../tools/MathTool"
-import { WorldUIPool } from "../../../tools/UIPool"
-import DamageDigitView_Generate from "../../../ui-generate/Attribute/DamageDigitView_generate"
+import { MathTool } from "../../../tools/MathTool";
+import { WorldUIPool } from "../../../tools/UIPool";
+import DamageDigitView_Generate from "../../../ui-generate/Attribute/DamageDigitView_generate";
+
+const MaxDamage: number = 1e10;
 
 export class DamageDigit {
     private static pool: WorldUIPool<DamageDigitView>
 
-    static showDamage(action: (view: DamageDigitView) => void) {
+    public static showDamage(action: (view: DamageDigitView) => void) {
         this.checkPool()
         let view = this.pool.get()
         action(view)
     }
+
+    public static showObjDamage(damage: number, obj: GameObject) {
+        this.checkPool()
+        let view = this.pool.get()
+        let tips = `${damage >= 0 ? `+` : `-`}${Math.abs(damage) >= MaxDamage ? MaxDamage : Math.abs(damage)}`;
+        let star = obj.worldTransform.position;
+        star.z += (obj.getBoundingBox().z / 2)
+        view.ui.txt_context.text = tips;
+        view.playTween(star);
+    }
+
 
     private static checkPool() {
         if (DamageDigit.pool) return
@@ -26,9 +39,12 @@ class DamageDigitView {
     private startPosition: mw.Vector
     private readonly endPosition: mw.Vector
     private readonly currentScale: mw.Vector2
-    private tween1: Tween<{ x: number }>
-    private tween2: Tween<{ x: number }>
-    private tween3: Tween<{ x: number }>
+    //缩放动画
+    private tween1: Tween<{ s: number }>
+    //位移动画
+    private tween2: Tween<{ z: number }>
+    //透明度动画
+    private tween3: Tween<{ o: number }>
 
     constructor() {
         this.ui = UIService.create(DamageDigitView_Generate)
@@ -40,21 +56,27 @@ class DamageDigitView {
         this.endPosition = new Vector()
         this.currentScale = new Vector2()
 
-        this.tween3 = new Tween({ x: 1 }).to({ x: 0 }, 300).onUpdate(obj => {
-            this.ui.txt_context.renderOpacity = obj.x
+        this.tween3 = new Tween({ o: 1 }).to({ o: 0 }, 300).onUpdate(obj => {
+            this.ui.txt_context.renderOpacity = obj.o
         }).onComplete(() => {
             this.stage = false
             this.uiWidget.setVisibility(mw.PropertyStatus.Off)
         })
-        this.tween2 = new Tween({ x: 0 }).to({ x: 1 }, 500).onUpdate(obj => {
-            this.uiWidget.worldTransform.position = mw.Vector.lerp(this.startPosition, this.endPosition, obj.x)
-        }).chain(this.tween3)
-        this.tween1 = new Tween({ x: 0 }).to({ x: 1 }, 400).onUpdate(obj => {
-            let s = MathTool.lerp(1, 0.5, MathTool.pingPong(obj.x))
-            this.currentScale.x = s
-            this.currentScale.y = s
-            this.ui.txt_context.renderScale = this.currentScale
-        }).chain(this.tween2)
+        this.tween2 = new Tween({ z: 0 }).to({ z: 1 }, 300)
+            .onStart(() => {
+                this.ui.txt_context.contentColor = LinearColor.red;
+            }).onUpdate(obj => {
+                this.uiWidget.worldTransform.position = mw.Vector.lerp(this.startPosition, this.endPosition, obj.z)
+            }).chain(this.tween3)
+        this.tween1 = new Tween({ s: 0 }).to({ s: 1 }, 400).easing(TweenUtil.Easing.Elastic.InOut)
+            .onStart(() => {
+                this.ui.txt_context.contentColor = LinearColor.white;
+            }).onUpdate(obj => {
+                let s = MathTool.lerp(0.3, 1, obj.s)
+                this.currentScale.x = s
+                this.currentScale.y = s
+                this.ui.txt_context.renderScale = this.currentScale
+            }).chain(this.tween2)
     }
 
     playTween(startPosition: mw.Vector) {
@@ -63,7 +85,6 @@ class DamageDigitView {
         this.endPosition.y = this.startPosition.y
         this.endPosition.z = this.startPosition.z + 110
         this.uiWidget.worldTransform.position = startPosition
-
         this.ui.txt_context.renderOpacity = 1
         this.tween1.start()
     }

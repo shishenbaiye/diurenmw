@@ -1,4 +1,4 @@
-import { MonsterAttributeSet } from "../MonsterAttributeSet";
+import NpcScript from "../NpcScript";
 
 //默认停止跟随距离
 const stopDis: number = 50
@@ -28,7 +28,7 @@ export class FollowBase {
         return this._points[this._curIndex];
     }
 
-    public constructor(protected _character: mw.Character, private _FightBase: MonsterAttributeSet) { }
+    public constructor(protected _character: mw.Character, private _FightBase: NpcScript) { }
 
     public addPath(points: Vector[]) {
         this._points = points.slice(0);

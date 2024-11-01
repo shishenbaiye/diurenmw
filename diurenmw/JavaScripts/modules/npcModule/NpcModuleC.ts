@@ -1,10 +1,10 @@
-import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
-import { MonsterAttributeSet } from "./MonsterAttributeSet";
+import { DamageDigit } from "../PlayerModule/ui/DamageDigit";
 import { NpcModuleS } from "./NpcModuleS";
 
 export class NpcModuleC extends ModuleC<NpcModuleS, null> {
 
     protected onStart(): void {
+
 
     }
 
