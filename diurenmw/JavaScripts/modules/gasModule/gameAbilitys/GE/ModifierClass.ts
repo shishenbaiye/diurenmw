@@ -5,7 +5,9 @@ import { GameModifierInfo } from "./GameModifierInfo";
 export abstract class ModifierClass{
     /**计算方式 */
     abstract modifyOp:EGameCustomModOp;
+    ownerContext:{sourceASC:AbilitySystemComponent,targetASC:AbilitySystemComponent};
     modify(sourceModifierInfo:GameModifierInfo,context:{sourceASC:AbilitySystemComponent,targetASC:AbilitySystemComponent}){
+        this.ownerContext = context;
         let attr = context.targetASC.attributeSet.getAttr(sourceModifierInfo.modifierName);
         let oldValue = attr.getCurrent();
         let customValue = this.customModifyFunction(sourceModifierInfo,context);

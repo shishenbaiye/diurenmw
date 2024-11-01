@@ -306,7 +306,7 @@ export class AbilitySystemComponent extends Script {
     }
 
     /**应用效果 */
-    applyGameEffectToTarget(gameEffect: Constructor<GameEffect>,target: GameObject) {
+    applyGameEffectToTarget(gameEffect: Constructor<GameEffect>,target: GameObject): GameEffect {
         let targetAsc = target.getComponent<AbilitySystemComponent>(AbilitySystemComponent);
         if(!targetAsc){
             this.log.error(`目标没有ASC组件，无法应用效果`);
@@ -314,24 +314,28 @@ export class AbilitySystemComponent extends Script {
         }
         let gameEffectInstance = MFramework.createObject<GameEffect>(gameEffect);
         gameEffectInstance.geContext = {sourceASC:this,targetASC:targetAsc,sourceEffect:gameEffectInstance};
+        gameEffectInstance.init();
         if(gameEffectInstance.canApply()){
-            gameEffectInstance.init();
             targetAsc.gameEffect.push(gameEffectInstance);
             gameEffectInstance.active()
+            return gameEffectInstance;
         }else{
             this.log.error(`无法应用效果`);
+            return null;
         }
     }
 
     /**应用效果给自己 */
-    applyGameEffectToSelf(gameEffect: Constructor<GameEffect>) {
+    applyGameEffectToSelf(gameEffect: Constructor<GameEffect>):GameEffect {
         let gameEffectInstance = MFramework.createObject<GameEffect>(gameEffect);
         gameEffectInstance.geContext = {sourceASC:this,targetASC:this,sourceEffect:gameEffectInstance};
+        gameEffectInstance.init();
         if(gameEffectInstance.canApply()){
-            gameEffectInstance.init();
             this.gameEffect.push(gameEffectInstance);
             gameEffectInstance.active();
+            return gameEffectInstance;
         }  
+        return null;
     }
 
     /**添加AS */

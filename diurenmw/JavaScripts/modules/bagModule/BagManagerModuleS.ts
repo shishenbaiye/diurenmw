@@ -3,7 +3,7 @@ import { UuidCreater } from "../../tools/UuidCreater";
 import { PlayerAttributeSet } from "../AttributeModule/PlayerAttributeSet";
 import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { BagManagerModuleC } from "./BagManagerModuleC";
-import { BagManagerModuleData, BagItemBase, ItemType, eventType} from "./BagManagerModuleData";
+import { BagManagerModuleData, BagItemBase, ItemType, eventType, EquipmentType} from "./BagManagerModuleData";
 
 import { GameConfig } from "../../configs/GameConfig";
 import WeaponScript from "../weaponModule/WeaponScript";
@@ -64,7 +64,7 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
      */
     protected onPlayerEnterGame(player: mw.Player): void {
         let data = this.getPlayerData(player);
-        data.initData();
+        data.initData(player);
     }
 
     addItem(player: mw.Player, inUuid : string, inItemType : ItemType, inTypeId : number, inCount : number): boolean {
@@ -123,6 +123,25 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
             this.listenButtonClick.get(typeId.typeId).broadcast(typeId);
         }
     }
+
+    net_OnUnEquipmentItem(player: mw.Player, inItem : BagItemBase, inEquipmentType : EquipmentType) {
+		// 卸载装备
+        this.getPlayerData(player).unEquipmentItem(inItem, inEquipmentType);
+        this.addItem(player, inItem.uuid, inItem.itemtype, inItem.typeId, inItem.count);
+        this.getClient(player).net_OnUnEquipmentItemUpdate(inItem, inEquipmentType);
+	}
+
+	net_OnEquipmentItem(player: mw.Player, inItem : BagItemBase, inEquipmentType : EquipmentType) {
+		// 装备物品
+        this.getPlayerData(player).equipmentItem(inItem, inEquipmentType);
+        this.removeItem(player, inItem.uuid, inItem.itemtype, inItem.count);
+        this.getClient(player).net_OnEquipmentItemUpdate(inItem, inEquipmentType);
+	}
+
+	net_OnRemoveItem(player: mw.Player, inItem : BagItemBase) {
+		// 删除物品
+        this.removeItem(player, inItem.uuid, inItem.itemtype, inItem.count);
+	}
 
     // 测试代码
     net_TestAddItem(player: mw.Player): void {

@@ -170,14 +170,14 @@ export class MathTool {
 	 * @param critDamage 暴击伤害
 	 * @returns 伤害值
 	 */
-	public static damageFormula(type: number, skill: number, atk: number, matk: number, str: number, int: number, damage: number, skillDamage: number, crit: number, critDamage: number): number {
+	public static damageFormula(type: number, skill: number, atk: number, matk: number, str: number, int: number, damage: number, skillDamage: number, crit: number, critDamage: number): {damage:number,isCrit:boolean} {
 		if (type == 1) {
 			// 力量兑换物理攻击值
 			const strAdd = str * 5;
 			const isCrit = Math.random() < crit;
 			const res = (atk + strAdd) * skill * skillDamage * damage * (isCrit ? 1.5 * critDamage : 1);
 			// 取整
-			return Math.round(res);
+			return {damage:Math.round(res),isCrit};
 		}
 		if (type == 2) {
 			// 智力兑换魔法攻击值
@@ -185,12 +185,12 @@ export class MathTool {
 			const isCrit = Math.random() < crit;
 			const res = (matk + intAdd) * skill * skillDamage * damage * (isCrit ? 1.5 * critDamage : 1);
 			// 取整
-			return Math.round(res);
+			return {damage:Math.round(res),isCrit};
 		}
 		if (type == 3) {
 			const isCrit = Math.random() < crit;
 			const res = skill * skillDamage * damage * (isCrit ? 2 * critDamage : 1);
-			return Math.round(res);
+			return {damage:Math.round(res),isCrit};
 		}
 	}
 

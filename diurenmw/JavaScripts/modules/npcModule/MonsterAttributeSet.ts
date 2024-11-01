@@ -40,7 +40,7 @@ export class MonsterAttributeSet extends AttributeSet {
         // throw new Error("Method not implemented.");
     }
 
-    onHpChanged(oldValue: number, newValue: number): void {
+    onHpChanged(path: string, newValue: number, oldValue: number): void {
         console.warn("怪物生命值变化", oldValue, newValue);
         DamageDigit.showObjDamage(oldValue - newValue, this.gameObject)
     }

@@ -9,9 +9,9 @@ import { RegisterSkill } from "../../SkillManager";
 import { ESkillType } from "../../SkillType";
 import { GE_CoolDown_Warrior_Whirlwind } from "./GE_CoolDown_Warrior_Whirlwind";
 import { GE_Cost_Warrior_Whirlwind } from "./GE_Cost_Warrior_Whirlwind";
-import { GE_Damage_Warrior_Whirlwind } from "./GE_Damage_Warrior_Whirlwind";
+import { GE_Damage_Warrior_Whirlwind1 } from "./GE_Damage_Warrior_Whirlwind";
 
-@RegisterSkill(1001,ESkillType.GreatSword)
+@RegisterSkill(1008,ESkillType.GreatSword)
 @MPlugin()
 export class GA_Warrior_Whirlwind extends GameAbility{
     tag: string = "GA.Warrior.Whirlwind";
@@ -33,11 +33,19 @@ export class GA_Warrior_Whirlwind extends GameAbility{
     private effect1:number;
     private effect2:number;
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
+        this.animation(asc,owner,target);
+    }
+
+    private num:number = 0;
+    animation(asc: AbilitySystemComponent, owner: GameObject, target: GameObject){
         let char = owner as Character;
+        this.num++;
         let aim = char.loadAnimation("298003");
         aim.blendInTime = 0;
-        // aim.blendOutTime = 0;
-        AT_PlayAnimation.New(this,aim,3.33,char)
+        aim.blendOutTime = 0;
+        aim.startTime = 0.3;
+        let ani = AT_PlayAnimation.New(this,aim,3.03,char);
+        ani
         .addEvent(0.1,()=>{
             this.effect1 = EffectService.playOnGameObject("84942",owner,{scale:new Vector(1.5),slotType:HumanoidSlotType.Root});
             this.effect2 = EffectService.playOnGameObject("123627",owner,{scale:new Vector(1.5),position:new Vector(0,0,-owner.getBoundingBox().z/2)});
@@ -49,70 +57,19 @@ export class GA_Warrior_Whirlwind extends GameAbility{
                     let asc = obj.getComponent(AbilitySystemComponent);
                     if(asc){
                         if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
-                        this.applyGameEffectToTarget(GE_Damage_Warrior_Whirlwind,obj);
-                        obj.loadAnimation("268673").play();
-                        EffectService.playOnGameObject("13595",obj,{scale:new Vector(5)})
+                        this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_Whirlwind1});
                     }
                     
                 })
             }
         })
-        .addEvent(0.7,()=>{
-            let res = this.checkHit();
-            if(res.length > 0){
-                res.forEach((obj:Character)=>{
-                    let asc = obj.getComponent(AbilitySystemComponent);
-                    if(asc){
-                        if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
-                        this.applyGameEffectToTarget(GE_Damage_Warrior_Whirlwind,obj);
-                        obj.loadAnimation("268673").play();
-                        EffectService.playOnGameObject("13595",obj,{scale:new Vector(5)})
-                    }
-                    
-                })
-            }
-        })
-        .addEvent(1.2,()=>{
-            let res = this.checkHit();
-            if(res.length > 0){
-                res.forEach((obj:Character)=>{
-                    let asc = obj.getComponent(AbilitySystemComponent);
-                    if(asc){
-                        if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
-                        this.applyGameEffectToTarget(GE_Damage_Warrior_Whirlwind,obj);
-                        obj.loadAnimation("268673").play();
-                        EffectService.playOnGameObject("13595",obj,{scale:new Vector(5)})
-                    }
-                    
-                })
-            }
-        })
-        .addEvent(1.7,()=>{
-            let res = this.checkHit();
-            if(res.length > 0){
-                res.forEach((obj:Character)=>{
-                    let asc = obj.getComponent(AbilitySystemComponent);
-                    if(asc){
-                        if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
-                        this.applyGameEffectToTarget(GE_Damage_Warrior_Whirlwind,obj);
-                        obj.loadAnimation("268673").play();
-                        EffectService.playOnGameObject("13595",obj,{scale:new Vector(5)})
-                    }
-                    
-                })
-            }
-        })
-        .addEvent(2.5,()=>{
-            EffectService.stop(this.effect1);
-            char.maxWalkSpeed -= 600;
-            char.rotateRate -= 5000;
-        })
-        .addEvent(3.1,()=>{
-            setTimeout(() => {
-                this.end();
-            }, 300);
+        .addEvent(0.3,()=>{
+            ani.cancelTask();
+            this.animation(asc,owner,target);
         }).activate();
     }
+
+
     protected onCancel(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         // throw new Error("Method not implemented.");
     }
@@ -149,7 +106,7 @@ export class GA_Warrior_Whirlwind extends GameAbility{
 
     checkHit(): GameObject[] {
         let vector = this.owner.worldTransform.position.clone()
-        let res = QueryUtil.sphereOverlap(vector, 200, true, undefined, false, this.owner);
+        let res = QueryUtil.sphereOverlap(vector, 400, true, undefined, false, this.owner);
         let characterArray = []
         for (let i = 0; i < res.length; i++) {
             if (res[i] instanceof Character) {

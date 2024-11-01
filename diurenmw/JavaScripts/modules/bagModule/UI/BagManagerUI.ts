@@ -243,7 +243,7 @@ export default class BagManagerUI extends BagUI_Generate {
 	}
 
 	protected onEquipmentClick(inItem : BagItemBase, inEquipmentType : EquipmentType) {
-		this.mainShowSelectUI = UIService.show(BagMainShowSelect);
+		this.mainShowSelectUI = UIService.create(BagMainShowSelect);
 		this.mainShowSelectUI.init(true, inItem, inEquipmentType);
 		this.uiWidgetBase.rootContent.addChild(this.mainShowSelectUI.uiObject);
 		this.mainShowSelectUI.uiObject.position = new mw.Vector2(0, 0);
