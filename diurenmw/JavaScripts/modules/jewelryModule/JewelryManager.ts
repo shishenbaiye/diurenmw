@@ -65,3 +65,10 @@ export class JewelryManager extends MObject{
     }
 
 }
+
+
+export function registerJewelry(jid: number) {
+    return function (target: any) {
+        JewelryManager.instance.jewelryMap.set(jid, target);
+    }
+}

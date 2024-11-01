@@ -65,3 +65,9 @@ export class ArmorManager extends MObject{
     }
 
 }
+
+export function registerArmor(Aid: number) {
+    return function (target: any) {
+        ArmorManager.instance.armorMap.set(Aid, target);
+    }
+}

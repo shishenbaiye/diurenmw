@@ -65,7 +65,7 @@ export class JewelryModuleS extends ModuleS<JewelryModuleC,JewelryModuleData>{
     equepJewelry(player: mw.Player, uuid: string): JewelryBase {
         let data = this.getPlayerData(player);
         let jewelryData = data.getJewelryData(uuid);
-        if(jewelryData = null){
+        if(jewelryData == null){
             console.error(`玩家${player.userId}没有这个首饰`);
             return null;
         }
