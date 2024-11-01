@@ -58,7 +58,7 @@ export default class BagShowSelect extends BagShowSelect_Generate {
 					inTestData += "防御力 : " + jewelryData.def + "\n";
 					inTestData += "力量 : " + jewelryData.str + "\n";
 					inTestData += "智力 : " + jewelryData.int + "\n";
-					this.setData(this.item.itemtype, jewelryData.aid, inTestData);
+					this.setData(this.item.itemtype, jewelryData.jid, inTestData);
 					break;
 				case ItemType.Armor:
 					let armorData = DataCenterC.getData(ArmorModuleData).getArmorData(this.item.uuid);

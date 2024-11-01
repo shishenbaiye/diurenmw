@@ -1,4 +1,6 @@
 import { GameEventBus } from "../../common/eventBus/EventBus";
+import { ItemType } from "../bagModule/BagManagerModuleData";
+import { BagManagerModuleS } from "../bagModule/BagManagerModuleS";
 import { ArmorBase } from "./ArmorBase";
 import { ArmorData } from "./ArmorData";
 import { ArmorManager } from "./ArmorManager";
@@ -55,6 +57,13 @@ export class ArmorModuleS extends ModuleS<ArmorModuleC, ArmorModuleData> {
         let armor = ArmorManager.instance.createNew(player, aid);
         let data = this.getPlayerData(player);
         data.addArmor(armor.getData());
+        if(armor){
+            let res = ModuleService.getModule(BagManagerModuleS).addItem(player,armor.uuid,ItemType.Armor,armor.aid,1);
+            if(!res){
+                console.error(`玩家背包${player.userId}添加防具失败`);
+                return null;
+            }
+        }
         console.log(`玩家${player.userId}获得防具${armor.getData().uuid}`);
         return armor;
     }

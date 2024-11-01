@@ -60,7 +60,7 @@ export default class PlayerSkillScrpit extends Script {
     private timeOutId: number = null;
     activeNormalAttack() {
         if (this.normalAttack.length == 0) return;
-        if (this.ownerAsc.hasMatchingGameTag(["State.NormalAttack"])) return;
+        if (this.ownerAsc.hasMatchingGameTag(["State.Player.NormalAttack"])) return;
         let skill = SkillManager.instance.getSkillById(this.normalAttack[this.currentNormalAttackIndex]);
         if (!skill) return;
         let res = this.ownerAsc.tryActiveGameAbilityByClassOrName(skill);
@@ -74,8 +74,8 @@ export default class PlayerSkillScrpit extends Script {
             this.currentNormalAttackIndex = 0;
         } else {
             this.timeOutId = setTimeout(() => {
-                this.activeNormalAttack();
-            }, 500);
+                this.currentNormalAttackIndex = 0;
+            }, 2000);
         }
     }
 

@@ -21,14 +21,14 @@ export class JewelryManager extends MObject{
     jewelryMap:Map<number,Constructor<JewelryBase>> = new Map<number,Constructor<JewelryBase>>();
 
     /**创建一件新防具 */
-    createNew<T extends JewelryBase>(owner:Player,aid:number):T{
+    createNew<T extends JewelryBase>(owner:Player,jid:number):T{
         let as = owner.character.getComponent(AbilitySystemComponent).attributeSet as PlayerAttributeSet;
         if(!as) return null;
-        let jewelryConfig = GameConfig.JewelryObj.getElement(aid);
+        let jewelryConfig = GameConfig.JewelryObj.getElement(jid);
         if(!jewelryConfig) return null;
-        if(JewelryManager.instance.jewelryMap.has(aid)){
-            let jewelry = MFramework.createObject(JewelryManager.instance.jewelryMap.get(aid)) as T;
-            jewelry.aid = aid;
+        if(JewelryManager.instance.jewelryMap.has(jid)){
+            let jewelry = MFramework.createObject(JewelryManager.instance.jewelryMap.get(jid)) as T;
+            jewelry.jid = jid;
             jewelry.owner = owner;
             jewelry.ownerAttribute = as;
             jewelry.uuid = UuidCreater.create();
@@ -36,7 +36,7 @@ export class JewelryManager extends MObject{
             return jewelry;
         }
         let jewelry = MFramework.createObject(JewelryBase) as T;
-        jewelry.aid = aid;
+        jewelry.jid = jid;
         jewelry.owner = owner;
         jewelry.ownerAttribute = as;
         jewelry.uuid = UuidCreater.create();
@@ -48,16 +48,16 @@ export class JewelryManager extends MObject{
     createByData<T extends JewelryBase>(owner:Player,data:JewelryData):T{
         let as = owner.character.getComponent(AbilitySystemComponent).attributeSet as PlayerAttributeSet;
         if(!as) return null;
-        if(JewelryManager.instance.jewelryMap.has(data.aid)){
-            let jewelry = MFramework.createObject(JewelryManager.instance.jewelryMap.get(data.aid)) as T;
-            jewelry.aid = data.aid;
+        if(JewelryManager.instance.jewelryMap.has(data.jid)){
+            let jewelry = MFramework.createObject(JewelryManager.instance.jewelryMap.get(data.jid)) as T;
+            jewelry.jid = data.jid;
             jewelry.owner = owner;
             jewelry.ownerAttribute = as;
             jewelry.initByData(data);
             return jewelry;
         }
         let jewelry = MFramework.createObject(JewelryBase) as T;
-        jewelry.aid = data.aid;
+        jewelry.jid = data.jid;
         jewelry.owner = owner;
         jewelry.ownerAttribute = as;
         jewelry.initByData(data);

@@ -2,11 +2,14 @@
 import { GameEventBus } from "../../common/eventBus/EventBus";
 import { GameConfig } from "../../configs/GameConfig";
 import { MathTool } from "../../tools/MathTool";
+import { PlayerAnimationMgr } from "../animationModule/PlayerAnimationMgr";
 import ArmorScript from "../armorModule/ArmorScript";
 import { ArmorPart } from "../armorModule/ArmorType";
 import { AttributeDataInit } from "../gasModule/gameAbilitys/AS/AttributeHelper";
 import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { GA_Trigger_NotFullMp } from "../skillModule/common/GA_Trigger_NotFullMp";
+import { GA_Warrior_NormalAttack1 } from "../skillModule/warrior/normalAttack/GA_Warrior_NormalAttack1";
+import { GA_Warrior_NormalAttack2 } from "../skillModule/warrior/normalAttack/GA_Warrior_NormalAttack2";
 import { WeaponModuleS } from "../weaponModule/WeaponModuleS";
 import WeaponScript from "../weaponModule/WeaponScript";
 import { AttributeModuleC } from "./AttributeModuleC";
@@ -20,6 +23,8 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
         player.character.addComponent(AbilitySystemComponent);
         // 注册技能
         this.registerAbilitys();
+        // 初始化添加脚本
+        this.initPlayerOtherScript(player);
         // 初始化玩家标签
         this.initPlayerGameTags(player);
         // 初始化玩家技能
@@ -38,6 +43,10 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
         
     }
 
+    private initPlayerOtherScript(player: mw.Player) {
+        player.character.addComponent(PlayerAnimationMgr)
+    }
+
     private initPlayerGameTags(player: mw.Player) {
         let component = player.character.getComponent(AbilitySystemComponent);
         if (component) {
@@ -49,7 +58,8 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
         let component = player.character.getComponent(AbilitySystemComponent);
         if(component){
             component.giveAbility(GA_Trigger_NotFullMp);
-            // component.giveAbility(GA_CancelProp);
+            component.giveAbility(GA_Warrior_NormalAttack1);
+            component.giveAbility(GA_Warrior_NormalAttack2);
         }
     }
 

@@ -31,7 +31,10 @@ export class GA_Trigger_Monster_OnHurt extends GameAbility {
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         let ownerChar = owner as Character;
         if(!asc.hasMatchingGameTag(["State.Monster.Stun"])){
-            ownerChar.loadAnimation("268673").play();
+            
+            let anim = ownerChar.loadAnimation("268673");
+            anim.blendInTime = 0;
+            anim.play();
             EffectService.playOnGameObject("13595", ownerChar, { scale: new Vector(5) })
         }
         let customData = this.payload.customData as {damageGE:Constructor<GameEffect>}

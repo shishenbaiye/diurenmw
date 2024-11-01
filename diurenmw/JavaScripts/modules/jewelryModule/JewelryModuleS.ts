@@ -1,4 +1,6 @@
 import { GameEventBus } from "../../common/eventBus/EventBus";
+import { ItemType } from "../bagModule/BagManagerModuleData";
+import { BagManagerModuleS } from "../bagModule/BagManagerModuleS";
 import { JewelryBase } from "./JewelryBase";
 import { JewelryData } from "./JewelryData";
 import { JewelryManager } from "./JewelryManager";
@@ -48,6 +50,13 @@ export class JewelryModuleS extends ModuleS<JewelryModuleC,JewelryModuleData>{
         let jewelry = JewelryManager.instance.createNew(player, aid);
         let data = this.getPlayerData(player);
         data.addJewelry(jewelry.getData());
+        if(jewelry){
+            let res = ModuleService.getModule(BagManagerModuleS).addItem(player,jewelry.uuid,ItemType.Jewelry,jewelry.jid,1);
+            if(!res){
+                console.error(`玩家背包${player.userId}添加首饰失败`);
+                return null;
+            }
+        }
         console.log(`玩家${player.userId}获得首饰${jewelry.getData().uuid}`);
         return jewelry;
     }

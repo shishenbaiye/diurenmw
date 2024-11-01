@@ -16,9 +16,9 @@ export abstract class JewelryBase extends MObject{
         /**首饰uuid */
         public uuid:string;
         /**首饰id */
-        abstract aid:number;
+        abstract jid:number;
         /**首饰部位id */
-        private aPid:JewelryPart;
+        private jPid:JewelryPart;
         /**品级 */
         private quality:number;
         // 防御力
@@ -30,8 +30,8 @@ export abstract class JewelryBase extends MObject{
     
         initByData(data:JewelryData):void{
             this.uuid = data.uuid;
-            this.aid = data.aid;
-            this.aPid = data.aPid;
+            this.jid = data.jid;
+            this.jPid = data.jPid;
             this.quality = data.quality;
             this.def = data.def;
             this.str = data.str;
@@ -43,8 +43,8 @@ export abstract class JewelryBase extends MObject{
         }
     
         init(){
-            let armorConfig = GameConfig.JewelryObj.getElement(this.aid);
-            this.aPid = armorConfig.part;
+            let armorConfig = GameConfig.JewelryObj.getElement(this.jid);
+            this.jPid = armorConfig.part;
             this.quality = armorConfig.quality;
             this.def = armorConfig.def;
 
@@ -120,8 +120,8 @@ export abstract class JewelryBase extends MObject{
         getData():JewelryData{
             let data = new JewelryData();
             data.uuid = this.uuid;
-            data.aid = this.aid;
-            data.aPid = this.aPid;
+            data.jid = this.jid;
+            data.jPid = this.jPid;
             data.quality = this.quality;
             data.def = this.def;
             data.str = this.str;

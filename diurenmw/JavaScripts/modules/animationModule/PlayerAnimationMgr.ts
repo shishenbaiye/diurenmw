@@ -1,41 +1,74 @@
 import { GameEventBus } from "../../common/eventBus/EventBus";
-import { MSingletonPlugin } from "../../framework/DI/MContainer";
-import { MObject } from "../../framework/Object/MObject";
+import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import WeaponScript from "../weaponModule/WeaponScript";
 
 
 
 
-@MSingletonPlugin()
-export class PlayerAnimationMgr extends MObject {
+@Component
+export class PlayerAnimationMgr extends Script {
+
+    protected onStart(): void {
+        this.useUpdate = true;
+        this.init();
+    }
+
+    private animMove:SubStance;
+    private animIdle:SubStance;
+
+
     init() {
         console.log(`PlayerAnimationMgr init`);
         GameEventBus.on(`WeaponModule_EquipWeapon`, this.onEquipWeapon.bind(this));
         GameEventBus.on(`WeaponModule_UnEquipWeapon`, this.onUnEquipWeapon.bind(this));
+
+        let char = this.gameObject as Character;
+
+        this.animIdle = char.loadSubStance("303259");
+        this.animIdle.blendMode = StanceBlendMode.WholeBody;
+
+        this.animMove = char.loadSubStance("303175");
+        this.animIdle.blendMode = StanceBlendMode.WholeBody;
+
     }
 
-    private playerMainAnimMap: Map<string, SubStance> = new Map();
+
+
+    private isEquipWeaponOfSword = false;
+
+
     onEquipWeapon(player: mw.Player) {
+        if(player.character.gameObjectId != this.gameObject.gameObjectId) return;
         let weaponScript = player.character.getComponent(WeaponScript);
         if(weaponScript){
             let weapon = weaponScript.getEquipWeapon().getData();
             if(weapon){
                 if(weapon.wtid == 1){
-                    if(this.playerMainAnimMap.has(player.userId)){
-                        let anim = this.playerMainAnimMap.get(player.userId);
-                        anim.play();
-                    }else{
-                        console.log(`玩家${player.userId}播放动画`);
-                        let anim = player.character.loadSubStance("303259");
-                        anim.blendMode = StanceBlendMode.BlendUpper;
-                        anim.play();
-                        this.playerMainAnimMap.set(player.userId,anim);
-                    }
+                    console.log(`装备了剑`);
+                    this.isEquipWeaponOfSword = true;
                 }
             }
         }
     }
     onUnEquipWeapon(player: mw.Player) {
+        this.isEquipWeaponOfSword = false;
+    }
+
+    private ownerAsc:AbilitySystemComponent;
+    protected onUpdate(dt: number): void {
+        let char = this.gameObject as Character;
+        if(!this.ownerAsc){
+            this.ownerAsc = char.getComponent(AbilitySystemComponent);
+        }
+        if(char.isMoving && this.isEquipWeaponOfSword == true ){
+            this.animMove?.play();
+            return;
+        }
+        if(!char.isMoving && this.isEquipWeaponOfSword == true ){
+            this.animIdle?.play();
+            return;
+        }
+        char.currentSubStance?.stop();
 
     }
 }

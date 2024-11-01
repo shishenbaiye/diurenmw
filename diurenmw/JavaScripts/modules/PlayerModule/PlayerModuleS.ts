@@ -10,11 +10,7 @@ import PlayerScript from "./PlayerScript";
 
 export class PlayerModuleS extends ModuleS<PlayerModuleC, PlayerModuleData> {
 
-    @MPropertiesInject(PlayerAnimationMgr)
-    private playerAnimationMgr: PlayerAnimationMgr;
-
     protected onAwake(): void {
-        this.playerAnimationMgr.init();
         GameEventBus.on(`AttributeModule_Ready`, this.onAttributeAllReady.bind(this))
     }
 

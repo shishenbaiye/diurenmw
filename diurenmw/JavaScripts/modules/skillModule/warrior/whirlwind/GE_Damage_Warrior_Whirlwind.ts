@@ -7,15 +7,6 @@ import { MI_Warrior_Whirlwind_GameModifiterInfo1 } from "./MI_Warrior_Whirlwind_
 
 @MPlugin()
 export class GE_Damage_Warrior_Whirlwind1 extends GE_Damage_Base{
-    durationPolicy: EGameEffectDurationType = EGameEffectDurationType.Instant;
-    durationCalculationType: EGameEffectCalculationType;
-    duration: number;
-    period: number;
-    periodInstant: boolean;
-    periodicInhibitionPolicy: EGameEffectPeriodicInhibitionPolicy;
-    geComponent: GameEffectComponent[];
-    modifiers: GameModifierInfo[] = []
-    
     init(): void {
         super.init();
 

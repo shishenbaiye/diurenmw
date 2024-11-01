@@ -5,7 +5,7 @@ import { registerJewelry } from "../JewelryManager";
 @registerJewelry(30001)
 @MPlugin()
 export class CaoShouLian_Bracelet extends JewelryBase{
-    aid: number;
+    jid: number = 30001
     refesh(): void {
         
     }
@@ -13,7 +13,7 @@ export class CaoShouLian_Bracelet extends JewelryBase{
     effect1Desc: string = "移速增加5%"
     private addSpeed: number = 0;
     excuteEffet1(): void {
-        this.addSpeed = this.owner.character.maxWalkSpeed * 0.05;
+        this.addSpeed = this.owner.character.maxWalkSpeed * 0.5;
         this.owner.character.maxWalkSpeed += this.addSpeed;
     }
     unExcuteEffet1(): void {

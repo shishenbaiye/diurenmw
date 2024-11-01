@@ -5,6 +5,8 @@ import GMPanel from "./ui/GMPanel";
 import WeaponScript from "../weaponModule/WeaponScript";
 import { AttributeModuleS } from "../AttributeModule/AttributeModuleS";
 import PlayerSkillScrpit from "../skillModule/PlayerSkillScrpit";
+import ArmorScript from "../armorModule/ArmorScript";
+import JewelryScript from "../jewelryModule/JewelryScript";
 
 export class GMManager extends Singleton {
 
@@ -16,6 +18,22 @@ export class GMManager extends Singleton {
             }, (player: mw.Player, itemId: string) => {
                 let weaponScript = player.character.getComponent(WeaponScript);
                 weaponScript.addWeapon(parseInt(itemId));
+            }
+        );
+        AddGMCommand(
+            "增加防具", (player: Player, itemId: string) => {
+
+            }, (player: mw.Player, itemId: string) => {
+                let armorScript = player.character.getComponent(ArmorScript);
+                armorScript.addArmor(parseInt(itemId));
+            }
+        );
+        AddGMCommand(
+            "增加首饰", (player: Player, itemId: string) => {
+
+            }, (player: mw.Player, itemId: string) => {
+                let jewelryScript = player.character.getComponent(JewelryScript);
+                jewelryScript.addJewelry(parseInt(itemId));
             }
         );
         AddGMCommand(

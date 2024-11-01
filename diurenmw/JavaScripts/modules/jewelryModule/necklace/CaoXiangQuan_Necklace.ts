@@ -6,7 +6,7 @@ import { registerJewelry } from "../JewelryManager";
 @registerJewelry(20001)
 @MPlugin()
 export class CaoXiangQuan_Necklace extends JewelryBase {
-    aid: number = 20001;
+    jid: number = 20001;
     refesh(): void {
 
     }

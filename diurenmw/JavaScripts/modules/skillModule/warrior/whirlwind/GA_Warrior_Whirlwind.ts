@@ -1,4 +1,5 @@
 import { Constructor, MPlugin } from "../../../../framework/DI/MContainer";
+import { MathTool } from "../../../../tools/MathTool";
 import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { AT_PlayAnimation } from "../../../gasModule/gameAbilitys/AT/customAT/AT_PlayAnimation";
 import { GameAbility } from "../../../gasModule/gameAbilitys/GA/GameAbility";
@@ -11,13 +12,13 @@ import { GE_CoolDown_Warrior_Whirlwind } from "./GE_CoolDown_Warrior_Whirlwind";
 import { GE_Cost_Warrior_Whirlwind } from "./GE_Cost_Warrior_Whirlwind";
 import { GE_Damage_Warrior_Whirlwind1 } from "./GE_Damage_Warrior_Whirlwind";
 
-@RegisterSkill(1008,ESkillType.GreatSword)
+@RegisterSkill(1010,ESkillType.GreatSword)
 @MPlugin()
 export class GA_Warrior_Whirlwind extends GameAbility{
     tag: string = "GA.Warrior.Whirlwind";
     cancelTags: string[];
     blockTags: string[];
-    activationOwnedTags: string[] = [];
+    activationOwnedTags: string[] = ["State.Player.Skilling"];
     activationRequiredTags: string[];
     activationBlockedTags: string[];
     targetRequiredTags: string[];
@@ -51,7 +52,7 @@ export class GA_Warrior_Whirlwind extends GameAbility{
             this.effect2 = EffectService.playOnGameObject("123627",owner,{scale:new Vector(1.5),position:new Vector(0,0,-owner.getBoundingBox().z/2)});
         })
         .addEvent(0.2,()=>{
-            let res = this.checkHit();
+            let res = MathTool.checkHit(owner as Character,350);
             if(res.length > 0){
                 res.forEach((obj:Character)=>{
                     let asc = obj.getComponent(AbilitySystemComponent);
@@ -65,7 +66,11 @@ export class GA_Warrior_Whirlwind extends GameAbility{
         })
         .addEvent(0.3,()=>{
             ani.cancelTask();
-            this.animation(asc,owner,target);
+            if(this.num == 5){
+                this.end();
+            }else{
+                this.animation(asc,owner,target);
+            }
         }).activate();
     }
 
@@ -74,45 +79,6 @@ export class GA_Warrior_Whirlwind extends GameAbility{
         // throw new Error("Method not implemented.");
     }
     protected onEnd(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-        let char = owner as Character;
         this.effect1 = null;
-        char.maxWalkSpeed += 600;
-        char.rotateRate += 5000;
-    }
-
-    checkHitByDistance(): GameObject[] {
-        let owner = this.owner as Character;
-        let ownerLocation = owner.worldTransform.position.clone();
-        let allPlayer = Player.getAllPlayers();
-        let characterArray = [];
-        allPlayer.forEach((player) => {
-            if (player.character.gameObjectId != owner.gameObjectId) {
-                let targetLocation = player.character.worldTransform.position.clone();
-                let distance = Vector.distance(ownerLocation, targetLocation);
-                if (distance < 150) {
-                    let ownerForward = owner.worldTransform.getForwardVector().normalize();
-                    let ownerForwardXY = new Vector2(ownerForward.x, ownerForward.y);
-                    let ownerToTarget = targetLocation.subtract(ownerLocation).normalize();
-                    let ownerToTargetXY = new Vector2(ownerToTarget.x, ownerToTarget.y);
-                    let angle = Vector2.angle(ownerForwardXY, ownerToTargetXY);
-                    if (angle < 60) {
-                        characterArray.push(player.character);
-                    }
-                }
-            }
-        })
-        return characterArray;
-    }
-
-    checkHit(): GameObject[] {
-        let vector = this.owner.worldTransform.position.clone()
-        let res = QueryUtil.sphereOverlap(vector, 400, true, undefined, false, this.owner);
-        let characterArray = []
-        for (let i = 0; i < res.length; i++) {
-            if (res[i] instanceof Character) {
-                characterArray.push(res[i]);
-            }
-        }
-        return characterArray;
     }
 }

@@ -6,3 +6,8 @@ export enum ESkillType{
     /**法杖 */
     Staff = 2,
 }
+
+export class WeaponNormalAttack{
+    static GreatSword = [1001,1002];
+    static Staff = [];
+}

@@ -55,7 +55,7 @@ export class JewelryModuleData extends Subdata{
     equipJewelry(uuId: string): boolean {
         let jewelryData = this.getJewelryData(uuId);
         if(jewelryData) {
-            switch(jewelryData.aPid) {
+            switch(jewelryData.jPid) {
                 case 1:
                     this.equipedRing = uuId;
                     break;

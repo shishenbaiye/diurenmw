@@ -6,5 +6,5 @@ import { CostByGameEffect } from "../../../gasModule/gameAbilitys/GE/GESpecial/C
 @MPlugin()
 export class GE_Cost_Warrior_Whirlwind extends CostByGameEffect{
     costAttr: string = EPlayerAttributeSetType.mp;
-    costValue: number = 10//GameConfig.SkillObj.getElement(1001).cost;
+    costValue: number = GameConfig.SkillObj.getElement(1010).cost;
 }

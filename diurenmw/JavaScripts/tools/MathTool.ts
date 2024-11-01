@@ -225,4 +225,49 @@ export class MathTool {
 		return (b - a) * t + a
 	}
 
+
+	/**
+	 * 距离+角度检测
+	 * @param owner 
+	 * @param dis 距离
+	 * @param angle 角度，例如60度：60
+	 * @returns 
+	 */
+	static checkHitByDistance(owner:Character,dis:number,angle:number): GameObject[] {
+        let ownerLocation = owner.worldTransform.position.clone();
+		let charArr = this.checkHit(owner,dis);
+        let characterArray = [];
+        charArr.forEach((character) => {
+            if (character.gameObjectId != owner.gameObjectId) {
+				let targetLocation = character.worldTransform.position.clone();
+				let ownerForward = owner.worldTransform.getForwardVector().normalize();
+				let ownerForwardXY = new Vector2(ownerForward.x, ownerForward.y);
+				let ownerToTarget = targetLocation.subtract(ownerLocation).normalize();
+				let ownerToTargetXY = new Vector2(ownerToTarget.x, ownerToTarget.y);
+				let a = Vector2.angle(ownerForwardXY, ownerToTargetXY);
+				if (a < angle) {
+					characterArray.push(character);
+				}
+            }
+        })
+        return characterArray;
+    }
+
+	/**
+	 * 圆形范围检测
+	 * @param owner 
+	 * @param dis 
+	 * @returns 
+	 */
+	static checkHit(owner:Character,dis:number): Character[] {
+        let vector = owner.worldTransform.position.clone()
+        let res = QueryUtil.sphereOverlap(vector, dis, true, undefined, false, owner);
+        let characterArray = []
+        for (let i = 0; i < res.length; i++) {
+            if (res[i] instanceof Character) {
+                characterArray.push(res[i]);
+            }
+        }
+        return characterArray;
+    }
 }

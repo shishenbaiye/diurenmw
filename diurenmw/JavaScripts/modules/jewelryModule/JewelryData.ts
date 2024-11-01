@@ -4,9 +4,9 @@ export class JewelryData {
     /**首饰uuid */
     public uuid: string;
     /**首饰id */
-    public aid: number;
+    public jid: number;
     /**防具部位：1.戒指 2.项链 3.手镯*/
-    public aPid: JewelryPart;
+    public jPid: JewelryPart;
     /**品级 */
     public quality: number;
     // 防御力
