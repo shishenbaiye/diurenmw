@@ -1,3 +1,4 @@
+import { GameEventBus } from "../../common/eventBus/EventBus";
 import { AnimationExController } from "./anim/AnimationExController";
 import { FollowBase } from "./anim/FollowData";
 import { NpcBase } from "./NpcBase";
@@ -46,6 +47,15 @@ export default class NpcScript extends Script {
 
     protected onStart(): void {
         this.init();
+        if (SystemUtil.isClient()) {
+            GameEventBus.on("AttributeNpc_Change", (attrName: string, val: number, onlyId: string) => {
+                if (onlyId !== this.owner.gameObjectId) return
+                if (attrName !== `hp` && attrName !== `maxHp`) return;
+                this.init().then(() => {
+                    this.npc_head_c.refreshHp();
+                })
+            });
+        }
     }
 
     protected onDestroy(): void {
@@ -76,6 +86,8 @@ export default class NpcScript extends Script {
                 this.npc_head_c = new NpcHeadUI();
                 this.npc_head_c.initInfo(this.owner);
             }
+
+
         }
     }
 

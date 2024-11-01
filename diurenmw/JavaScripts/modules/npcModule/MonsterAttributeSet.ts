@@ -1,3 +1,4 @@
+import { GameEventBus } from "../../common/eventBus/EventBus";
 import { AttributeDataInit } from "../gasModule/gameAbilitys/AS/AttributeHelper";
 import { AttributeSet } from "../gasModule/gameAbilitys/AS/AttributeSet";
 import { AttributeSetData } from "../gasModule/gameAbilitys/AS/AttributeSetData";
@@ -41,12 +42,17 @@ export class MonsterAttributeSet extends AttributeSet {
     }
 
     onHpChanged(path: string, newValue: number, oldValue: number): void {
-        console.warn("怪物生命值变化", oldValue, newValue);
+        //飘字
         DamageDigit.showObjDamage(oldValue - newValue, this.gameObject)
+        //事件派发
+        GameEventBus.emit("AttributeNpc_Change", `hp`, this.hp.getCurrent(), this.hp.ownerGameObjectId);
+
+        
     }
 
     onMaxHpChanged(oldValue: number, newValue: number): void {
-        // throw new Error("Method not implemented.");
+        //事件派发
+        GameEventBus.emit("AttributeNpc_Change", `maxHp`, this.maxHp.getCurrent(), this.maxHp.ownerGameObjectId);
     }
 
     onMpChanged(oldValue: number, newValue: number): void {
