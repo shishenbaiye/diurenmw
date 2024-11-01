@@ -235,7 +235,7 @@ export default class BagAttributeUI extends BagAttributeUI_Generate {
         BagAttributeUI.skillDamage = value;
         if (BagAttributeUI.instance)
         {
-            BagAttributeUI.instance.mSkillDamage.text = `${(BagAttributeUI.skillDamage-1)*100}%`;
+            BagAttributeUI.instance.mSkillDamage.text = `${Math.round((BagAttributeUI.skillDamage-1)*100)}%`;
         }
     }
 
@@ -244,7 +244,7 @@ export default class BagAttributeUI extends BagAttributeUI_Generate {
         BagAttributeUI.damage = value;
         if (BagAttributeUI.instance)
         {
-            BagAttributeUI.instance.mDamage.text = `${(BagAttributeUI.damage-1)*100}%`;
+            BagAttributeUI.instance.mDamage.text = `${Math.round((BagAttributeUI.damage-1)*100)}%`;
         }
     }
 
@@ -253,7 +253,7 @@ export default class BagAttributeUI extends BagAttributeUI_Generate {
         BagAttributeUI.crit = value;
         if (BagAttributeUI.instance)
         {
-            BagAttributeUI.instance.mCrit.text = `${(BagAttributeUI.crit)*100}%`;
+            BagAttributeUI.instance.mCrit.text = `${Math.round((BagAttributeUI.crit)*100)}%`;
         }
     }
 
@@ -262,7 +262,7 @@ export default class BagAttributeUI extends BagAttributeUI_Generate {
         BagAttributeUI.critDamage = value;
         if (BagAttributeUI.instance)
         {
-            BagAttributeUI.instance.mCritDamage.text = `${(BagAttributeUI.critDamage-1)*100}%`;
+            BagAttributeUI.instance.mCritDamage.text = `${Math.round((BagAttributeUI.critDamage-1)*100)}%`;
         }
     }
 }

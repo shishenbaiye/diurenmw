@@ -87,11 +87,13 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
     }
 
     net_addItem(bagItemBase : BagItemBase): void {
+        console.log("BagManagerModuleC net_addItem: " + JSON.stringify(bagItemBase));
         this.data.addItem(bagItemBase);
         this.updateBagData(bagItemBase.itemtype);
     }
 
     net_removeItem(inUuid : string, inItemType : ItemType, inCount : number): void {
+        console.log("BagManagerModuleC net_removeItem: " + inUuid + " " + inItemType + " " + inCount);
         this.data.removeItem(inUuid, inItemType, inCount);
         this.updateBagData(inItemType);
     }
@@ -107,11 +109,13 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
     }
 
     net_OnUnEquipmentItemUpdate(inItem : BagItemBase, inEquipmentType : EquipmentType) {
+        console.log("BagManagerModuleC net_OnUnEquipmentItemUpdate: " + JSON.stringify(inItem));
         this.data.equipmentItems[inEquipmentType] = {uuid: "", typeId: 0, count: 1, itemtype: inItem.itemtype};
         this.bagManagerUIObj.playerDataUIObj.updateEquipmentUI(inEquipmentType);
     }
 
     net_OnEquipmentItemUpdate(inItem : BagItemBase, inEquipmentType : EquipmentType) {
+        console.log("BagManagerModuleC net_OnEquipmentItemUpdate: " + JSON.stringify(inItem));
         this.data.equipmentItems[inEquipmentType] = inItem;
         this.bagManagerUIObj.playerDataUIObj.updateEquipmentUI(inEquipmentType);
     }

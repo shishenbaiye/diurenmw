@@ -236,19 +236,33 @@ export default class BagManagerUI extends BagUI_Generate {
 	protected onItemClick(inItem : BagItemBase) {
 		this.mainShowSelectUI = UIService.create(BagMainShowSelect);
 		this.mainShowSelectUI.init(false, inItem);
-		this.uiWidgetBase.rootContent.addChild(this.mainShowSelectUI.uiObject);
-		this.mainShowSelectUI.uiObject.position = new mw.Vector2(0, 0);
-		this.mainShowSelectUI.uiObject.size = new mw.Vector2(1920, 1080);
-		this.mainShowSelectUI.uiObject.visibility = mw.SlateVisibility.Visible;
+		if(this.uiWidgetBase)
+		{
+			this.uiWidgetBase.rootContent.addChild(this.mainShowSelectUI.uiObject);
+			this.mainShowSelectUI.uiObject.position = new mw.Vector2(0, 0);
+			this.mainShowSelectUI.uiObject.size = new mw.Vector2(1920, 1080);
+			this.mainShowSelectUI.uiObject.visibility = mw.SlateVisibility.Visible;
+		}
+		else
+		{
+			this.mainShowSelectUI.uiObject.visibility = mw.SlateVisibility.Collapsed;
+		}
 	}
 
 	protected onEquipmentClick(inItem : BagItemBase, inEquipmentType : EquipmentType) {
 		this.mainShowSelectUI = UIService.create(BagMainShowSelect);
 		this.mainShowSelectUI.init(true, inItem, inEquipmentType);
-		this.uiWidgetBase.rootContent.addChild(this.mainShowSelectUI.uiObject);
-		this.mainShowSelectUI.uiObject.position = new mw.Vector2(0, 0);
-		this.mainShowSelectUI.uiObject.size = new mw.Vector2(1920, 1080);
-		this.mainShowSelectUI.uiObject.visibility = mw.SlateVisibility.Visible;
+		if(this.uiWidgetBase)
+		{
+			this.uiWidgetBase.rootContent.addChild(this.mainShowSelectUI.uiObject);
+			this.mainShowSelectUI.uiObject.position = new mw.Vector2(0, 0);
+			this.mainShowSelectUI.uiObject.size = new mw.Vector2(1920, 1080);
+			this.mainShowSelectUI.uiObject.visibility = mw.SlateVisibility.Visible;
+		}
+		else
+		{
+			this.mainShowSelectUI.uiObject.visibility = mw.SlateVisibility.Collapsed;
+		}
 	}
 }
  

@@ -94,7 +94,7 @@ export default class EquipmentUI extends EquipmentUI_Generate {
 					this.setButtonImage(this.defaultIconUuid);
 					return;
 				}
-				excelData = GameConfig.JewelryObj.getElement(typeId);
+				excelData = GameConfig.ArmorObj.getElement(typeId);
 				break;
 			case EquipmentType.Body:
 				if(!typeId)
@@ -103,7 +103,7 @@ export default class EquipmentUI extends EquipmentUI_Generate {
 					this.setButtonImage(this.defaultIconUuid);
 					return;
 				}
-				excelData = GameConfig.JewelryObj.getElement(typeId);
+				excelData = GameConfig.ArmorObj.getElement(typeId);
 				break;
 			case EquipmentType.Leg:
 				if(!typeId)
@@ -112,7 +112,7 @@ export default class EquipmentUI extends EquipmentUI_Generate {
 					this.setButtonImage(this.defaultIconUuid);
 					return;
 				}
-				excelData = GameConfig.JewelryObj.getElement(typeId);
+				excelData = GameConfig.ArmorObj.getElement(typeId);
 				break;
 			case EquipmentType.Foot:
 				if(!typeId)
@@ -121,7 +121,7 @@ export default class EquipmentUI extends EquipmentUI_Generate {
 					this.setButtonImage(this.defaultIconUuid);
 					return;
 				}
-				excelData = GameConfig.JewelryObj.getElement(typeId);
+				excelData = GameConfig.ArmorObj.getElement(typeId);
 				break;
 		}
 		this.setButtonImage(excelData.icon);

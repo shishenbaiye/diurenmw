@@ -126,6 +126,7 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
 
     net_OnUnEquipmentItem(player: mw.Player, inItem : BagItemBase, inEquipmentType : EquipmentType) {
 		// 卸载装备
+        console.log("net_OnUnEquipmentItem : " + JSON.stringify(inItem));
         this.getPlayerData(player).unEquipmentItem(inItem, inEquipmentType);
         this.addItem(player, inItem.uuid, inItem.itemtype, inItem.typeId, inItem.count);
         this.getClient(player).net_OnUnEquipmentItemUpdate(inItem, inEquipmentType);
@@ -133,6 +134,7 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
 
 	net_OnEquipmentItem(player: mw.Player, inItem : BagItemBase, inEquipmentType : EquipmentType) {
 		// 装备物品
+        console.log("net_OnEquipmentItem : " + JSON.stringify(inItem));
         this.getPlayerData(player).equipmentItem(inItem, inEquipmentType);
         this.removeItem(player, inItem.uuid, inItem.itemtype, inItem.count);
         this.getClient(player).net_OnEquipmentItemUpdate(inItem, inEquipmentType);
@@ -140,6 +142,7 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
 
 	net_OnRemoveItem(player: mw.Player, inItem : BagItemBase) {
 		// 删除物品
+        console.log("net_OnRemoveItem : " + JSON.stringify(inItem));
         this.removeItem(player, inItem.uuid, inItem.itemtype, inItem.count);
 	}
 
@@ -154,10 +157,10 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
         player.character.getComponent(WeaponScript).addWeapon(2002);
         player.character.getComponent(WeaponScript).addWeapon(3001);
         player.character.getComponent(WeaponScript).addWeapon(3002);
-        res = player.character.getComponent(WeaponScript).getAllWeapon();
-        for(let i = 0; i < res.length; i++)
+        let weaponRes = player.character.getComponent(WeaponScript).getAllWeapon();
+        for(let i = 0; i < weaponRes.length; i++)
         {
-            this.addItem(player, res[i].uuid, ItemType.Weapon, res[i].wid, 1);
+            this.addItem(player, weaponRes[i].uuid, ItemType.Weapon, weaponRes[i].wid, 1);
         }
         
 
@@ -165,10 +168,10 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
         player.character.getComponent(JewelryScript).addJewelry(20001);
         player.character.getComponent(JewelryScript).addJewelry(20002);
         player.character.getComponent(JewelryScript).addJewelry(30001);
-        res = player.character.getComponent(JewelryScript).getAllJewelry();
-        for(let i = 0; i < res.length; i++)
+        let jewelryRes = player.character.getComponent(JewelryScript).getAllJewelry();
+        for(let i = 0; i < jewelryRes.length; i++)
         {
-            this.addItem(player, res[i].uuid, ItemType.Jewelry, res[i].aid, 1);
+            this.addItem(player, jewelryRes[i].uuid, ItemType.Jewelry, jewelryRes[i].jid, 1);
         }
 
 
@@ -177,10 +180,10 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
         player.character.getComponent(ArmorScript).addArmor(20002);
         player.character.getComponent(ArmorScript).addArmor(30001);
         player.character.getComponent(ArmorScript).addArmor(40001);
-        res = player.character.getComponent(ArmorScript).getAllArmor();
-        for(let i = 0; i < res.length; i++)
+        let armorRes = player.character.getComponent(ArmorScript).getAllArmor();
+        for(let i = 0; i < armorRes.length; i++)
         {
-            this.addItem(player, res[i].uuid, ItemType.Armor, res[i].aid, 1);
+            this.addItem(player, armorRes[i].uuid, ItemType.Armor, armorRes[i].aid, 1);
         }
     }
 
