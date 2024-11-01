@@ -1,5 +1,8 @@
+import { AnimationExController } from "./anim/AnimationExController";
+import { FollowBase } from "./anim/FollowData";
 import { NpcBase } from "./NpcBase";
 import { NpcData } from "./NpcData";
+import { NpcExitType } from "./type/AIType";
 import { NpcHeadUI } from "./ui/NpcHeadUI";
 
 @Component
@@ -12,6 +15,34 @@ export default class NpcScript extends Script {
     public npc_head_c: NpcHeadUI;
     public npc_base_s: NpcBase;
 
+    /** 寻路数据 */
+    public followBase: FollowBase;
+    /** 状态时间 */
+    public stateCdMap: Map<NpcExitType, number> = new Map();
+    /** 状态保存时间 */
+    public stateTimeMap: Map<NpcExitType, number> = new Map();
+    /** 巡逻点位 */
+    private patrols: Vector[] = [];
+    /** 动画播放管理 */
+    public animExController: AnimationExController;
+
+    private initState(): void {
+        this.stateCdMap.set(NpcExitType.Other, 0);
+        this.stateCdMap.set(NpcExitType.BossCd, 0);
+        this.stateCdMap.set(NpcExitType.UnHurt, 0);
+        this.stateCdMap.set(NpcExitType.OutRange, 0);
+        this.stateCdMap.set(NpcExitType.DamageHp, 0);
+    }
+
+    private initFollow(): void {
+        if (!this.followBase) this.followBase = new FollowBase(this.gameObject as Character, this);
+        this.followBase.stopFollow();
+        this.followBase.addPath(this.patrols);
+    }
+
+    public getSpawnPos(): Vector[] {
+        return;
+    }
 
     protected onStart(): void {
         this.init();

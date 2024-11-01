@@ -2,11 +2,6 @@ import { AttributeDataInit } from "../gasModule/gameAbilitys/AS/AttributeHelper"
 import { AttributeSet } from "../gasModule/gameAbilitys/AS/AttributeSet";
 import { AttributeSetData } from "../gasModule/gameAbilitys/AS/AttributeSetData";
 import { DamageDigit } from "../PlayerModule/ui/DamageDigit";
-import { AnimationExController } from "./anim/AnimationExController";
-import { FollowBase } from "./anim/FollowData";
-import { NpcExitType } from "./type/AIType";
-
-const MaxDamage: number = 999999;
 
 @Component
 export class MonsterAttributeSet extends AttributeSet {
@@ -32,18 +27,6 @@ export class MonsterAttributeSet extends AttributeSet {
     @Property({ displayName: "攻击力", replicated: true, onChanged: "onAtkChanged" })
     public atk: AttributeSetData;
 
-
-    /** 寻路数据 */
-    public followBase: FollowBase;
-    /** 状态时间 */
-    public stateCdMap: Map<NpcExitType, number> = new Map();
-    /** 状态保存时间 */
-    public stateTimeMap: Map<NpcExitType, number> = new Map();
-    /** 巡逻点位 */
-    private patrols: Vector[] = [];
-    /** 动画播放管理 */
-    public animExController: AnimationExController;
-
     //#region  属性处理
 
     preAttributeChange(attribute: AttributeSetData, newValue: number): void {
@@ -59,12 +42,7 @@ export class MonsterAttributeSet extends AttributeSet {
 
     onHpChanged(oldValue: number, newValue: number): void {
         console.warn("怪物生命值变化", oldValue, newValue);
-        let val = oldValue - newValue;
-        DamageDigit.showDamage(view => {
-            if (val > 1e5) val = MaxDamage;
-            view.ui.txt_context.text = `-${MaxDamage}`;
-            view.playTween(this.gameObject.worldTransform.position)
-        })
+        DamageDigit.showObjDamage(oldValue - newValue, this.gameObject)
     }
 
     onMaxHpChanged(oldValue: number, newValue: number): void {
@@ -101,23 +79,6 @@ export class MonsterAttributeSet extends AttributeSet {
     }
 
 
-    private initState(): void {
-        this.stateCdMap.set(NpcExitType.Other, 0);
-        this.stateCdMap.set(NpcExitType.BossCd, 0);
-        this.stateCdMap.set(NpcExitType.UnHurt, 0);
-        this.stateCdMap.set(NpcExitType.OutRange, 0);
-        this.stateCdMap.set(NpcExitType.DamageHp, 0);
-    }
-
-    private initFollow(): void {
-        if (!this.followBase) this.followBase = new FollowBase(this.gameObject as Character, this);
-        this.followBase.stopFollow();
-        this.followBase.addPath(this.patrols);
-    }
-
-    public getSpawnPos(): Vector[] {
-        return;
-    }
 
 
 }
