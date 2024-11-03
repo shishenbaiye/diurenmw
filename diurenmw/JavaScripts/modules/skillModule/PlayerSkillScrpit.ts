@@ -75,7 +75,7 @@ export default class PlayerSkillScrpit extends Script {
         } else {
             this.timeOutId = setTimeout(() => {
                 this.currentNormalAttackIndex = 0;
-            }, 2000);
+            }, 4000);
         }
     }
 

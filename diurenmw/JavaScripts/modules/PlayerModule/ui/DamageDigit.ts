@@ -14,12 +14,15 @@ export class DamageDigit {
     }
 
     public static showObjDamage(damage: number, obj: GameObject) {
+        console.log(`DamageDigit.showObjDamage: ${damage}, ${obj}`);
+        if(Number.isNaN(damage)) return
         this.checkPool()
         let view = this.pool.get()
-        let tips = `${damage >= 0 ? `+` : `-`}${Math.abs(damage) >= MaxDamage ? MaxDamage : Math.abs(damage)}`;
+        let tips = /**`${damage >= 0 ? `+` : `-`}`+*/`${Math.abs(damage) >= MaxDamage ? MaxDamage : Math.abs(damage)}`;
         let star = obj.worldTransform.position;
         star.z += (obj.getBoundingBox().z / 2)
         view.ui.txt_context.text = tips;
+        view.ui.txt_context2.text = tips;
         view.playTween(star);
     }
 
@@ -38,11 +41,12 @@ class DamageDigitView {
     stage: boolean
     private startPosition: mw.Vector
     private readonly endPosition: mw.Vector
+    private readonly endPosition2: mw.Vector
     private readonly currentScale: mw.Vector2
     //缩放动画
-    private tween1: Tween<{ s: number }>
+    private tween1: Tween<{ z: number }>
     //位移动画
-    private tween2: Tween<{ z: number }>
+    private tween2: Tween<{ zz: number }>
     //透明度动画
     private tween3: Tween<{ o: number }>
 
@@ -54,38 +58,77 @@ class DamageDigitView {
         this.uiWidget.occlusionEnable = false
 
         this.endPosition = new Vector()
+        this.endPosition2 = new Vector()
         this.currentScale = new Vector2()
 
-        this.tween3 = new Tween({ o: 1 }).to({ o: 0 }, 300).onUpdate(obj => {
+        // this.tween3 = new Tween({ o: 1 }).to({ o: 0 }, 300).onUpdate(obj => {
+        //     this.ui.txt_context.renderOpacity = obj.o
+        // }).onComplete(() => {
+        //     this.stage = false
+        //     this.uiWidget.setVisibility(mw.PropertyStatus.Off)
+        // })
+
+        // this.tween2 = new Tween({ z: 0 }).to({ z: 1 }, 300)
+        //     .onStart(() => {
+        //         this.ui.txt_context.contentColor = LinearColor.red;
+        //     }).onUpdate(obj => {
+        //         this.uiWidget.worldTransform.position = mw.Vector.lerp(this.startPosition, this.endPosition, obj.z)
+        //     }).chain(this.tween3)
+
+
+        // this.tween1 = new Tween({ s: 0 }).to({ s: 1 }, 400).easing(TweenUtil.Easing.Elastic.InOut)
+        //     .onStart(() => {
+        //         this.ui.txt_context.contentColor = LinearColor.white;
+        //     }).onUpdate(obj => {
+        //         let s = MathTool.lerp(0.3, 1, obj.s)
+        //         this.currentScale.x = s
+        //         this.currentScale.y = s
+        //         this.ui.txt_context.renderScale = this.currentScale
+        //     }).chain(this.tween2)
+
+        this.tween3 = new Tween({ o: 1 }).to({ o: 0 }, 80).onUpdate(obj => {
             this.ui.txt_context.renderOpacity = obj.o
         }).onComplete(() => {
+            this.tween2.stop();
             this.stage = false
             this.uiWidget.setVisibility(mw.PropertyStatus.Off)
         })
-        this.tween2 = new Tween({ z: 0 }).to({ z: 1 }, 300)
+
+        this.tween2 = new Tween({ zz: 0 }).to({ zz: 1 }, 150)
             .onStart(() => {
-                this.ui.txt_context.contentColor = LinearColor.red;
+                
             }).onUpdate(obj => {
+                this.uiWidget.worldTransform.position = mw.Vector.lerp(this.endPosition, this.endPosition2, obj.zz)
+            })
+
+        
+        this.tween1 = new Tween({ z: 0 }).to({ z: 1 }, 800)
+            .delay(300)
+            .onStart(() => {
+                this.ui.txt_context.renderOpacity = 1;
+                this.ui.txt_context2.renderOpacity = 0;
+            })
+            .onUpdate(obj => {
                 this.uiWidget.worldTransform.position = mw.Vector.lerp(this.startPosition, this.endPosition, obj.z)
-            }).chain(this.tween3)
-        this.tween1 = new Tween({ s: 0 }).to({ s: 1 }, 400).easing(TweenUtil.Easing.Elastic.InOut)
-            .onStart(() => {
-                this.ui.txt_context.contentColor = LinearColor.white;
-            }).onUpdate(obj => {
-                let s = MathTool.lerp(0.3, 1, obj.s)
-                this.currentScale.x = s
-                this.currentScale.y = s
-                this.ui.txt_context.renderScale = this.currentScale
-            }).chain(this.tween2)
+            }).onComplete(() => {
+                this.tween2.start()
+                this.tween3.start()
+            })
+        
+        
     }
 
     playTween(startPosition: mw.Vector) {
         this.startPosition = startPosition
         this.endPosition.x = this.startPosition.x
         this.endPosition.y = this.startPosition.y
-        this.endPosition.z = this.startPosition.z + 110
+        this.endPosition.z = this.startPosition.z + 5;
+        this.endPosition2.x = this.startPosition.x
+        this.endPosition2.y = this.startPosition.y
+        this.endPosition2.z = this.endPosition.z + 100;
         this.uiWidget.worldTransform.position = startPosition
-        this.ui.txt_context.renderOpacity = 1
+        this.ui.txt_context.renderOpacity = 0
+        this.ui.txt_context2.renderOpacity = 1
         this.tween1.start()
     }
 }

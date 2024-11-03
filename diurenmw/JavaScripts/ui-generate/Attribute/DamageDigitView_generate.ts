@@ -17,6 +17,13 @@ export default class DamageDigitView_Generate extends UIScript {
 		}
 		return this.txt_context_Internal
 	}
+	private txt_context2_Internal: mw.TextBlock
+	public get txt_context2(): mw.TextBlock {
+		if(!this.txt_context2_Internal&&this.uiWidgetBase) {
+			this.txt_context2_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/txt_context2') as mw.TextBlock
+		}
+		return this.txt_context2_Internal
+	}
 
 
  
@@ -40,6 +47,9 @@ export default class DamageDigitView_Generate extends UIScript {
 		//文本多语言
 		
 		this.initLanguage(this.txt_context)
+		
+	
+		this.initLanguage(this.txt_context2)
 		
 	
 		//文本多语言
