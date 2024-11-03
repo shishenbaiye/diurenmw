@@ -31,6 +31,13 @@ export default class BagSelectDataItem_Generate extends UIScript {
 		}
 		return this.effectInfo_Internal
 	}
+	private onlyEffect_Internal: mw.TextBlock
+	public get onlyEffect(): mw.TextBlock {
+		if(!this.onlyEffect_Internal&&this.uiWidgetBase) {
+			this.onlyEffect_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/onlyEffect') as mw.TextBlock
+		}
+		return this.onlyEffect_Internal
+	}
 
 
  
@@ -60,6 +67,9 @@ export default class BagSelectDataItem_Generate extends UIScript {
 		
 	
 		this.initLanguage(this.effectInfo)
+		
+	
+		this.initLanguage(this.onlyEffect)
 		
 	
 		//文本多语言
