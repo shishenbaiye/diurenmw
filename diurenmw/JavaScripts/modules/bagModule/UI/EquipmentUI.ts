@@ -54,8 +54,7 @@ export default class EquipmentUI extends EquipmentUI_Generate {
 			case EquipmentType.Weapon:
 				if(!typeId)
 				{
-					this.itemName.text = "武器";
-					this.setButtonImage(this.defaultIconUuid);
+					this.setDefaultData("武器");
 					return;
 				}
 				excelData = GameConfig.WeaponObj.getElement(typeId);
@@ -63,8 +62,7 @@ export default class EquipmentUI extends EquipmentUI_Generate {
 			case EquipmentType.Ring:
 				if(!typeId)
 				{
-					this.itemName.text = "戒指";
-					this.setButtonImage(this.defaultIconUuid);
+					this.setDefaultData("戒指");
 					return;
 				}
 				excelData = GameConfig.JewelryObj.getElement(typeId);
@@ -72,8 +70,7 @@ export default class EquipmentUI extends EquipmentUI_Generate {
 			case EquipmentType.Necklace:
 				if(!typeId)
 				{
-					this.itemName.text = "项链";
-					this.setButtonImage(this.defaultIconUuid);
+					this.setDefaultData("项链");
 					return;
 				}
 				excelData = GameConfig.JewelryObj.getElement(typeId);
@@ -81,8 +78,7 @@ export default class EquipmentUI extends EquipmentUI_Generate {
 			case EquipmentType.Bracelet:
 				if(!typeId)
 				{
-					this.itemName.text = "手镯";
-					this.setButtonImage(this.defaultIconUuid);
+					this.setDefaultData("手镯");
 					return;
 				}
 				excelData = GameConfig.JewelryObj.getElement(typeId);
@@ -90,8 +86,7 @@ export default class EquipmentUI extends EquipmentUI_Generate {
 			case EquipmentType.Head:
 				if(!typeId)
 				{
-					this.itemName.text = "头部";
-					this.setButtonImage(this.defaultIconUuid);
+					this.setDefaultData("头部");
 					return;
 				}
 				excelData = GameConfig.ArmorObj.getElement(typeId);
@@ -99,8 +94,7 @@ export default class EquipmentUI extends EquipmentUI_Generate {
 			case EquipmentType.Body:
 				if(!typeId)
 				{
-					this.itemName.text = "身体";
-					this.setButtonImage(this.defaultIconUuid);
+					this.setDefaultData("身体");
 					return;
 				}
 				excelData = GameConfig.ArmorObj.getElement(typeId);
@@ -108,8 +102,7 @@ export default class EquipmentUI extends EquipmentUI_Generate {
 			case EquipmentType.Leg:
 				if(!typeId)
 				{
-					this.itemName.text = "腿部";
-					this.setButtonImage(this.defaultIconUuid);
+					this.setDefaultData("腿部");
 					return;
 				}
 				excelData = GameConfig.ArmorObj.getElement(typeId);
@@ -117,8 +110,7 @@ export default class EquipmentUI extends EquipmentUI_Generate {
 			case EquipmentType.Foot:
 				if(!typeId)
 				{
-					this.itemName.text = "脚部";
-					this.setButtonImage(this.defaultIconUuid);
+					this.setDefaultData("脚部");
 					return;
 				}
 				excelData = GameConfig.ArmorObj.getElement(typeId);
@@ -134,6 +126,12 @@ export default class EquipmentUI extends EquipmentUI_Generate {
 		this.button.disableImageGuid = image;
 		this.button.pressedImageGuid = image;
 		this.button.normalImageColor = new mw.LinearColor(1, 1, 1, 1);
+		this.button.visibility = mw.SlateVisibility.Visible;
+	}
+
+	setDefaultData(inName : string) {
+		this.itemName.text = inName;
+		this.button.visibility = mw.SlateVisibility.Collapsed;
 	}
 }
  
