@@ -31,9 +31,9 @@ export default class ArmorScript extends Script {
      * @param armor 
      */
     equepArmor(part: ArmorPart, uuid:string) :boolean{
+        this.unEquipArmor(part);
         let armor = ModuleService.getModule(ArmorModuleS).equepArmor((this.gameObject as Character).player, uuid);
         if(armor){
-            this.unEquipArmor(part);
             armor.equip();
             switch (part) {
                 case 1:

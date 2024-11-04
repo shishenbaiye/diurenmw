@@ -27,9 +27,10 @@ export default class JewelryScript extends Script {
      * @param armor 
      */
     equepJewelry(part: JewelryPart, uuid:string) :boolean{
+        this.unEquipJewelry(part);
         let jewelry = ModuleService.getModule(JewelryModuleS).equepJewelry((this.gameObject as Character).player, uuid);
         if(jewelry){
-            this.unEquipJewelry(part);
+            
             jewelry.equip();
             switch (part) {
                 case 1:
