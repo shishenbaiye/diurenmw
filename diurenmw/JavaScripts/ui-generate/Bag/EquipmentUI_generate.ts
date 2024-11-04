@@ -27,7 +27,7 @@ export default class EquipmentUI_Generate extends UIScript {
 	private itemName_Internal: mw.TextBlock
 	public get itemName(): mw.TextBlock {
 		if(!this.itemName_Internal&&this.uiWidgetBase) {
-			this.itemName_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/RootCanvas/button/itemName') as mw.TextBlock
+			this.itemName_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/RootCanvas/itemName') as mw.TextBlock
 		}
 		return this.itemName_Internal
 	}
