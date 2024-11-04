@@ -43,7 +43,7 @@ export class SkillMainPanel extends SkillMainUI_Generate{
         haveSkillList.forEach((item,index)=>{
             if(item == skill1 || item == skill2 || item == skill3 || item == skill4) return;
             let config = GameConfig.SkillObj.getElement(item);
-            if(config.weaponType != weapon.wtid) return;
+            if(config.weaponType != weapon.wtid && config.weaponType != 0) return;
             let skillItem = UIService.create(SkillListItem);
             skillItem.init(this,item);
             this.mCanvas_SkillList.addChild(skillItem.uiObject);
