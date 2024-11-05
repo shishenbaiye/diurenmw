@@ -45,15 +45,13 @@ export default class NpcScript extends Script {
         return;
     }
 
-    protected onStart(): void {
-        this.init();
+    protected async onStart(): Promise<void> {
+        await this.init();
         if (SystemUtil.isClient()) {
             GameEventBus.on("AttributeNpc_Change", (attrName: string, val: number, onlyId: string) => {
                 if (onlyId !== this.owner.gameObjectId) return
                 if (attrName !== `hp` && attrName !== `maxHp`) return;
-                this.init().then(() => {
-                    this.npc_head_c.refreshHp();
-                })
+                this.npc_head_c.refreshHp();
             });
         }
     }

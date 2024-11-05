@@ -1,5 +1,4 @@
 import HeadUI_Enemy_Generate from "../../../ui-generate/Head/HeadUI_Enemy_generate";
-import { AbilitySystemComponent } from "../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { MonsterAttributeSet } from "../MonsterAttributeSet";
 import NpcScript from "../NpcScript";
 
@@ -8,7 +7,7 @@ export class NpcHeadUI {
 
     private targetCharacter: Character;
     private targetUI: HeadUI_Enemy_Generate;
-    private targetAbs: AbilitySystemComponent;
+    private attributeSet: MonsterAttributeSet;
     private targetPlayer: NpcScript;
 
     public initInfo(player: Character) {
@@ -31,9 +30,9 @@ export class NpcHeadUI {
     }
 
     public refreshHp() {
-        if (!this.targetAbs) this.targetAbs = this.targetCharacter.getComponent(AbilitySystemComponent)
-        if (this.targetAbs.attributeSet) {
-            let as = this.targetAbs.attributeSet as MonsterAttributeSet;
+        if (!this.attributeSet) this.attributeSet = this.targetCharacter.getComponent(MonsterAttributeSet)
+        if (this.attributeSet) {
+            let as = this.attributeSet as MonsterAttributeSet;
             this.targetUI.progressBar_blood.currentValue = as.hp.getCurrent() / as.maxHp.getCurrent();
         }
     }
