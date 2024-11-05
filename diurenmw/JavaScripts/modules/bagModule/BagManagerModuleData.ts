@@ -48,6 +48,7 @@ export interface BagItemBase {
     typeId: number;
     count: number;
     itemtype: ItemType;
+    isNew : boolean;
 }
 
 export class BagManagerModuleData extends Subdata {
@@ -124,14 +125,14 @@ export class BagManagerModuleData extends Subdata {
         }
         if(this.equipmentItems.length < EquipmentType.Foot)
         {
-            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Weapon});
-            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Jewelry});
-            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Jewelry});
-            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Jewelry});
-            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Armor});
-            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Armor});
-            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Armor});
-            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Armor});
+            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Weapon, isNew: true});
+            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Jewelry, isNew: true});
+            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Jewelry, isNew: true});
+            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Jewelry, isNew: true});
+            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Armor, isNew: true});
+            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Armor, isNew: true});
+            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Armor, isNew: true});
+            this.equipmentItems.push({uuid: "", typeId: 0, count: 1, itemtype: ItemType.Armor, isNew: true});
         }
         if(SystemUtil.isServer())
         {
@@ -313,7 +314,7 @@ export class BagManagerModuleData extends Subdata {
                 this.owner.character.getComponent(ArmorScript).unEquipArmor(BagManagerModuleData.getTypeId(inEquipmentType));
                 break;
         }
-        this.equipmentItems[inEquipmentType] = {uuid: "", typeId: 0, count: 1, itemtype: inItem.itemtype};
+        this.equipmentItems[inEquipmentType] = {uuid: "", typeId: 0, count: 1, itemtype: inItem.itemtype, isNew: true};
 
         if(SystemUtil.isServer())
         {
@@ -517,7 +518,20 @@ export class BagManagerModuleData extends Subdata {
             return false;
         }
 
-        this.itemList.get(items.itemtype).push(items);
+        this.itemList.get(items.itemtype).unshift(items);
         return true;
+    }
+
+    // 点击了某个物品，设置物品为非新物品
+    onItemClick(inItem : BagItemBase) {
+        let BagItem = this.findItem(inItem.itemtype, inItem.uuid);
+        if(BagItem)
+        {
+            BagItem.isNew = false;
+        }
+        if(SystemUtil.isServer())
+        {
+            this.save(false);
+        }
     }
 }

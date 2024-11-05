@@ -21,6 +21,7 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
 		GameEventBus.on("BagModule_UnEquipmentItem", this.onUnEquipmentItem.bind(this));
 		GameEventBus.on("BagModule_EquipmentItem", this.onEquipmentItem.bind(this));
 		GameEventBus.on("BagModule_RemoveItem", this.onRemoveItem.bind(this));
+        GameEventBus.on("BagModule_ItemClick", this.onItemClick.bind(this));
     }
 
     /**
@@ -110,7 +111,7 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
 
     net_OnUnEquipmentItemUpdate(inItem : BagItemBase, inEquipmentType : EquipmentType) {
         console.log("BagManagerModuleC net_OnUnEquipmentItemUpdate: " + JSON.stringify(inItem));
-        this.data.equipmentItems[inEquipmentType] = {uuid: "", typeId: 0, count: 1, itemtype: inItem.itemtype};
+        this.data.equipmentItems[inEquipmentType] = {uuid: "", typeId: 0, count: 1, itemtype: inItem.itemtype, isNew: true};
         this.bagManagerUIObj.playerDataUIObj.updateEquipmentUI(inEquipmentType);
     }
 
@@ -131,4 +132,8 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
 	protected onRemoveItem(inItem : BagItemBase) {
 		this.server.net_OnRemoveItem(mw.Player.localPlayer, inItem);
 	}
+
+    onItemClick(inItem : BagItemBase) {
+        this.server.net_OnItemClick(mw.Player.localPlayer, inItem);
+    }
 }
