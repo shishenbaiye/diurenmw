@@ -22,7 +22,7 @@ export class GA_Warrior_Whirlwind extends GameAbility{
     activationRequiredTags: string[];
     activationBlockedTags: string[];
     targetRequiredTags: string[];
-    targetBlockedTags: string[] = ["Club.Player","State.Dead","State.Stun"];
+    targetBlockedTags: string[] = ["Club.Player","State.Monster.Dead","State.Monster.Invincible"];
     trigger: { tag: string; sourceType: EGameAbilityTriggerSourceType; }[];
 
     cd: Constructor<CoolDownByGameEffect> = GE_CoolDown_Warrior_Whirlwind;

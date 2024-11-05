@@ -63,6 +63,8 @@ export class HudModuleC extends ModuleC<HudModuleS,null>{
 
     }
     //#endregion
+
+
     net_setSkillCD(cd: number, index: number){
         if(!this.diurenmwHudPanel){
             this.initDiurenmwHud();
@@ -73,6 +75,12 @@ export class HudModuleC extends ModuleC<HudModuleS,null>{
     protected onUpdate(dt: number): void {
         if(this.diurenmwHudPanel){
             this.diurenmwHudPanel.update(dt);
+        }
+    }
+
+    getCurrentHudPanel(){
+        if(CurrentScence.currentScenceName == "diurenmw"){
+            return this.diurenmwHudPanel;
         }
     }
 }

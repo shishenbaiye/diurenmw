@@ -52,13 +52,9 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
                 skillScript.skill4 = skillData.skill4;
             }
 
-            if(!skillData.weaponNormalSkillList.has(EWeaponType.GreatSword)){
-                skillData.weaponNormalSkillList.set(EWeaponType.GreatSword,WeaponNormalAttack.GreatSword);
-            }
-
-            if(!skillData.weaponNormalSkillList.has(EWeaponType.Staff)){
-                skillData.weaponNormalSkillList.set(EWeaponType.Staff,WeaponNormalAttack.Staff);
-            }
+            //给武器添加普通攻击
+            skillData.weaponNormalSkillList.set(EWeaponType.GreatSword,WeaponNormalAttack.GreatSword);
+            skillData.weaponNormalSkillList.set(EWeaponType.Staff,WeaponNormalAttack.Staff);
             skillData.save(true);
         }
     }

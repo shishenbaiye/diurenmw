@@ -10,6 +10,7 @@ import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySys
 import { GA_Trigger_NotFullMp } from "../skillModule/common/GA_Trigger_NotFullMp";
 import { GA_Warrior_NormalAttack1 } from "../skillModule/warrior/normalAttack/GA_Warrior_NormalAttack1";
 import { GA_Warrior_NormalAttack2 } from "../skillModule/warrior/normalAttack/GA_Warrior_NormalAttack2";
+import { GA_Warrior_NormalAttack3 } from "../skillModule/warrior/normalAttack/GA_Warrior_NormalAttack3";
 import { WeaponModuleS } from "../weaponModule/WeaponModuleS";
 import WeaponScript from "../weaponModule/WeaponScript";
 import { AttributeModuleC } from "./AttributeModuleC";
@@ -60,6 +61,7 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
             component.giveAbility(GA_Trigger_NotFullMp);
             component.giveAbility(GA_Warrior_NormalAttack1);
             component.giveAbility(GA_Warrior_NormalAttack2);
+            component.giveAbility(GA_Warrior_NormalAttack3);
         }
     }
 

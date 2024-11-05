@@ -13,10 +13,10 @@ import { GE_Damage_Warrior_NormalAttack1 } from "./GE_Damage_Warrior_NormalAttac
 import { GE_Damage_Warrior_NormalAttack2 } from "./GE_Damage_Warrior_NormalAttack2";
 import { GE_Damage_Warrior_NormalAttack3 } from "./GE_Damage_Warrior_NormalAttack3";
 
-@RegisterSkill(1002, ESkillType.GreatSword)
+@RegisterSkill(1003, ESkillType.GreatSword)
 @MPlugin()
-export class GA_Warrior_NormalAttack2 extends GameAbility {
-    tag: string = "GA.Warrior.NormalAttack2";
+export class GA_Warrior_NormalAttack3 extends GameAbility {
+    tag: string = "GA.Warrior.NormalAttack3";
     cancelTags: string[];
     blockTags: string[] = [];
     activationOwnedTags: string[] = ["State.Player.NormalAttack"]
@@ -36,38 +36,68 @@ export class GA_Warrior_NormalAttack2 extends GameAbility {
     }
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         let char = owner as Character;
-        let aim = char.loadAnimation("269040");
+        let aim = char.loadAnimation("269254");
         aim.blendInTime = 0;
-        aim.startTime = 0.95;
-        let animTask = AT_PlayAnimation.New(this, aim, 1.2, char);
+        let animTask = AT_PlayAnimation.New(this,aim,1.5,char);
 
         this.skillHelper.changePlayerCanMove(char.player,false);
 
 
-        animTask.addEvent(0.4, () => {
-            let arr = MathTool.checkHitByDistance(owner as Character,150,120);
+        animTask.addEvent(0.6,()=>{
+            let arr = MathTool.checkHitByDistance(owner as Character,350,120);
             arr.forEach((obj:Character)=>{
                 let asc = obj.getComponent(AbilitySystemComponent);
                 if(asc){
-                    this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_NormalAttack2});
+                    this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_NormalAttack3});
                 }
             })
+           
         })
 
-        animTask.onFinished(()=>{
-            this.end();
-        })
 
-        animTask.addEvent(0.3,()=>{
+
+        animTask.addEvent(0.4,()=>{
             this.skillHelper.callPlayerMove(char.player,true);
         })
-        animTask.addEvent(0.5,()=>{
+        animTask.addEvent(0.6,()=>{
             this.skillHelper.callPlayerMove(char.player,false);
         })
 
 
 
+        animTask.onFinished(()=>{
+            this.end();
+        })
         animTask.activate()
+        // let char = owner as Character;
+        // let aim = char.loadAnimation("269040");
+        // let animTask = AT_PlayAnimation.New(this, aim, 2.1, char);
+
+        // animTask.addEvent(0.6, () => {
+        //     let arr = MathTool.checkHitByDistance(owner as Character,350,120);
+        //     arr.forEach((obj:Character)=>{
+        //         let asc = obj.getComponent(AbilitySystemComponent);
+        //         if(asc){
+        //             this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_NormalAttack2});
+        //         }
+        //     })
+        // })
+
+
+        // animTask.addEvent(1.3, () => {
+        //     let arr = MathTool.checkHitByDistance(owner as Character,350,120);
+        //     arr.forEach((obj:Character)=>{
+        //         let asc = obj.getComponent(AbilitySystemComponent);
+        //         if(asc){
+        //             this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_NormalAttack3});
+        //         }
+        //     })
+        // })
+
+        // animTask.addEvent(2, () => {
+        //     this.end();
+        // });
+        // animTask.activate()
     }
     protected onCancel(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
 

@@ -8,6 +8,6 @@ export enum ESkillType{
 }
 
 export class WeaponNormalAttack{
-    static GreatSword = [1001,1002];
+    static GreatSword = [1001,1002,1003];
     static Staff = [];
 }

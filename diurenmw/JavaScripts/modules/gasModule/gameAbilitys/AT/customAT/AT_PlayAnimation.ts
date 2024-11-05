@@ -39,6 +39,11 @@ export class AT_PlayAnimation extends AbilityTask{
         return this;
     }
 
+    private endEvent:()=>void;
+    onFinished(callback:()=>void){
+        this.endEvent = callback;
+    }
+
     private animationFunc:(dt:number)=>void;
     private currentTime:number = 0;
     private totalTime:number = 0;
@@ -62,6 +67,9 @@ export class AT_PlayAnimation extends AbilityTask{
         TimeUtil.onEnterFrame.add(this.animationFunc);
     }
     protected onTaskEnd(ownerGameAbility: GameAbility): void {
+        if(this.endEvent){
+            this.endEvent();
+        }
         this.currentAnim.stop();
         this.eventList = [];
         this.currentAnim = null;
