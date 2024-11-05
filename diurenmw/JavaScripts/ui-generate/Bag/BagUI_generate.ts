@@ -17,6 +17,20 @@ export default class BagUI_Generate extends UIScript {
 		}
 		return this.exit_Internal
 	}
+	private attributeCanvas_Internal: mw.Canvas
+	public get attributeCanvas(): mw.Canvas {
+		if(!this.attributeCanvas_Internal&&this.uiWidgetBase) {
+			this.attributeCanvas_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/attributeCanvas') as mw.Canvas
+		}
+		return this.attributeCanvas_Internal
+	}
+	private playerDataCanvas_Internal: mw.Canvas
+	public get playerDataCanvas(): mw.Canvas {
+		if(!this.playerDataCanvas_Internal&&this.uiWidgetBase) {
+			this.playerDataCanvas_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/playerDataCanvas') as mw.Canvas
+		}
+		return this.playerDataCanvas_Internal
+	}
 
 
  
