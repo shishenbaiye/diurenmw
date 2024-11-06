@@ -2,6 +2,7 @@ import { GameConfig } from "../../../configs/GameConfig";
 import { WeaponBase } from "../WeaponBase";
 import { registerWeapon } from "../WeaponManager";
 import { MPlugin } from "../../../framework/DI/MContainer";
+import { AbilitySystemComponent } from "../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 
 @MPlugin()
 @registerWeapon(1002)

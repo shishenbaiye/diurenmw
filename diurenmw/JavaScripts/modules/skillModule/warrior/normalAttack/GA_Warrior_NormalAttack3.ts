@@ -16,14 +16,14 @@ import { GE_Damage_Warrior_NormalAttack3 } from "./GE_Damage_Warrior_NormalAttac
 @RegisterSkill(1003, ESkillType.GreatSword)
 @MPlugin()
 export class GA_Warrior_NormalAttack3 extends GameAbility {
-    tag: string = "GA.Warrior.NormalAttack3";
+    tag: string = "GA.Warrior.NormalAttack.Three";
     cancelTags: string[];
     blockTags: string[] = [];
     activationOwnedTags: string[] = ["State.Player.NormalAttack"]
     activationRequiredTags: string[];
-    activationBlockedTags: string[];
+    activationBlockedTags: string[] = ["State.Player.Skilling","State.Player.BackJump"]
     targetRequiredTags: string[];
-    targetBlockedTags: string[];
+    targetBlockedTags: string[] = ["Club.Player","State.Monster.Dead","State.Monster.Invincible"];
     trigger: { tag: string; sourceType: EGameAbilityTriggerSourceType; }[];
     cd: Constructor<CoolDownByGameEffect>;
     cost: Constructor<CostByGameEffect>;
@@ -38,16 +38,17 @@ export class GA_Warrior_NormalAttack3 extends GameAbility {
         let char = owner as Character;
         let aim = char.loadAnimation("269254");
         aim.blendInTime = 0;
+        aim.speed = 1.2;
         let animTask = AT_PlayAnimation.New(this,aim,1.5,char);
-
         this.skillHelper.changePlayerCanMove(char.player,false);
 
 
         animTask.addEvent(0.6,()=>{
-            let arr = MathTool.checkHitByDistance(owner as Character,350,120);
+            let arr = MathTool.checkHitByCharacter(owner as Character,200,160);
             arr.forEach((obj:Character)=>{
                 let asc = obj.getComponent(AbilitySystemComponent);
                 if(asc){
+                    if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
                     this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_NormalAttack3});
                 }
             })
@@ -57,7 +58,7 @@ export class GA_Warrior_NormalAttack3 extends GameAbility {
 
 
         animTask.addEvent(0.4,()=>{
-            this.skillHelper.callPlayerMove(char.player,true);
+            this.skillHelper.callPlayerMove(char.player,true,char.worldTransform.getForwardVector().normalize().multiply(0.1));
         })
         animTask.addEvent(0.6,()=>{
             this.skillHelper.callPlayerMove(char.player,false);
@@ -100,7 +101,7 @@ export class GA_Warrior_NormalAttack3 extends GameAbility {
         // animTask.activate()
     }
     protected onCancel(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-
+        this.skillHelper.callPlayerMove((owner as Character).player,false);
     }
     protected onEnd(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         this.skillHelper.changePlayerCanMove((owner as Character).player,true);

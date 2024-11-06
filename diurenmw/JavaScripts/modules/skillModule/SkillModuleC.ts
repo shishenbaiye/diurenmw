@@ -38,4 +38,16 @@ export class SkillModuleC extends ModuleC<SkillModuleS,SkillModuleData>{
     activeNormalSkill() {
         this.server.net_activeNormalSkill();
     }
+
+
+
+    net_drowCheckHitByBoxOverlap(posCenter: mw.Vector, boxExtent: mw.Vector) {
+        console.log("net_drowCheckHitByBoxOverlap",posCenter,boxExtent);
+        QueryUtil.boxOverlap(posCenter, boxExtent, true, undefined, false,Player.localPlayer.character);
+    }
+
+    net_drowCheckHitByBoxTrace(start: mw.Vector, end: mw.Vector, boxExtent: mw.Vector, dir: mw.Rotation) {
+        // console.log("net_drowCheckHitByBoxTrace",start,end,boxExtent,dir);
+        QueryUtil.boxTrace(start, end, boxExtent, dir, true,true,undefined,false,Player.localPlayer.character);
+    }
 }

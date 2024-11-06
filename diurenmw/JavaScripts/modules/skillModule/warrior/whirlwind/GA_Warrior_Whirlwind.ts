@@ -16,11 +16,11 @@ import { GE_Damage_Warrior_Whirlwind1 } from "./GE_Damage_Warrior_Whirlwind";
 @MPlugin()
 export class GA_Warrior_Whirlwind extends GameAbility{
     tag: string = "GA.Warrior.Whirlwind";
-    cancelTags: string[];
+    cancelTags: string[] = ["GA.Warrior"]
     blockTags: string[];
     activationOwnedTags: string[] = ["State.Player.Skilling"];
     activationRequiredTags: string[];
-    activationBlockedTags: string[];
+    activationBlockedTags: string[] = ["State.Player.BackJump"]
     targetRequiredTags: string[];
     targetBlockedTags: string[] = ["Club.Player","State.Monster.Dead","State.Monster.Invincible"];
     trigger: { tag: string; sourceType: EGameAbilityTriggerSourceType; }[];

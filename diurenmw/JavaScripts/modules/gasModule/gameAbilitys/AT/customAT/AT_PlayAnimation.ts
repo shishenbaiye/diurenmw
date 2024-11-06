@@ -25,7 +25,9 @@ export class AT_PlayAnimation extends AbilityTask{
 
     private owner:Character;
     private currentAnim: Animation;
+    private currentAnimSpeed:number = 1;
     initAnimantion(){
+        this.currentAnimSpeed = this.currentAnim.speed;
         this.totalTime = this.ainmationTime/this.currentAnim.speed;
     }   
 
@@ -57,7 +59,7 @@ export class AT_PlayAnimation extends AbilityTask{
                 return;
             }
             this.eventList.forEach((event)=>{
-                if(this.currentTime >= event.time && !event.isCalled){
+                if(this.currentTime >= event.time/this.currentAnimSpeed && !event.isCalled){
                     event.event();
                     event.isCalled = true;
                 }

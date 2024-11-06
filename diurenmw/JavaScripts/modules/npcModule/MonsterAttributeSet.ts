@@ -47,7 +47,7 @@ export class MonsterAttributeSet extends AttributeSet {
         //事件派发
         GameEventBus.emit("AttributeNpc_Change", `hp`, this.hp.getCurrent(), this.hp.ownerGameObjectId);
 
-        
+
     }
 
     onMaxHpChanged(oldValue: number, newValue: number): void {
@@ -82,6 +82,10 @@ export class MonsterAttributeSet extends AttributeSet {
         AttributeDataInit(this, "maxMp", 100000);
         AttributeDataInit(this, "def", 100);
         AttributeDataInit(this, "atk", 100);
+
+        InputUtil.onKeyDown(Keys.E, () => {
+            DamageDigit.showObjDamage(999999, this.gameObject)
+        });
     }
 
 

@@ -213,4 +213,13 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
             skillScript.setSkill(-1, index);
         }
     }
+
+
+    drowCheckHitByBoxOverlap(owner: mw.Character, posCenter: mw.Vector, boxExtent: mw.Vector) {
+        this.getClient(owner.player).net_drowCheckHitByBoxOverlap(posCenter, boxExtent);
+    }
+
+    drowCheckHitByBoxTrace(owner: mw.Character, start: mw.Vector, end:Vector, boxExtent: mw.Vector, dir: mw.Rotation) {
+        this.getClient(owner.player).net_drowCheckHitByBoxTrace(start, end, boxExtent, dir);
+    }
 }

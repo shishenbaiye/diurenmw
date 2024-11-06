@@ -25,6 +25,18 @@ export class TestModuleS extends ModuleS<TestModuleC, null> {
         RobotManager.instance.getRobot(npc);
     }
 
+    protected onPlayerEnterGame(player: mw.Player): void {
+        // setTimeout(() => {
+        //     let res = player.character.getComponent(WeaponScript).addWeapon(1002);
+        //     player.character.getComponent(WeaponScript).equepWeapon(res.uuid);
+
+        //     let skillScript = player.character.getComponent(PlayerSkillScrpit);
+        //     skillScript.addSkill(1010);
+        //     skillScript.addSkill(1004);
+        //     skillScript.addSkill(1005);
+        // }, 10000);
+    }
+
     net_AddExp(exp: number) {
         let player = this.currentPlayer;
         ModuleService.getModule(AttributeModuleS).addExp(player, exp);
@@ -63,4 +75,6 @@ export class TestModuleS extends ModuleS<TestModuleC, null> {
             skillScript.activeSkill(0);
         }
     }
+
+
 }

@@ -1,3 +1,6 @@
+import { MContainer, RpcPlugin } from "../framework/DI/MContainer";
+import { SkillModuleS } from "../modules/skillModule/SkillModuleS";
+
 export class MathTool {
 
 
@@ -233,7 +236,7 @@ export class MathTool {
 	 * @param angle 角度，例如60度：60
 	 * @returns 
 	 */
-	static checkHitByDistance(owner:Character,dis:number,angle:number): GameObject[] {
+	static checkHitByCharacter(owner:Character,dis:number,angle:number): GameObject[] {
         let ownerLocation = owner.worldTransform.position.clone();
 		let charArr = this.checkHit(owner,dis);
         let characterArray = [];
@@ -252,6 +255,46 @@ export class MathTool {
         })
         return characterArray;
     }
+
+	/**指定位置的范围检测(圆形) */
+	static checkHitByPosition(owner:Character,pos:Vector,dis:number): GameObject[] {
+		let vector = pos.clone();
+        let res = QueryUtil.sphereOverlap(vector, dis, true, undefined, false, owner);
+        let characterArray = []
+        for (let i = 0; i < res.length; i++) {
+            if (res[i] instanceof Character) {
+                characterArray.push(res[i]);
+            }
+        }
+        return characterArray;
+	}
+	/**指定位置的范围检测（矩形） */
+	static checkHitByBoxOverlap(owner:Character,posCenter:Vector,boxExtent:Vector): GameObject[] {
+		let vector = posCenter.clone();
+        let res = QueryUtil.boxOverlap(vector, boxExtent, true, undefined, false, owner);
+		ModuleService.getModule(SkillModuleS).drowCheckHitByBoxOverlap(owner,posCenter,boxExtent)
+        let characterArray = []
+        for (let i = 0; i < res.length; i++) {
+            if (res[i] instanceof Character) {
+                characterArray.push(res[i]);
+            }
+        }
+        return characterArray;
+	}
+
+	/**指定位置的范围检测（盒体检测） */
+	static checkHitByBoxTrace(owner:Character,start:Vector,end:Vector,boxExtent:Vector,direction:Rotation): GameObject[] {
+		let vector = start.clone();
+		let res = QueryUtil.boxTrace(vector, end, boxExtent, direction, true, false,undefined,false, owner);
+		// ModuleService.getModule(SkillModuleS).drowCheckHitByBoxTrace(owner,start,end,boxExtent,direction);
+		let characterArray = []
+		for (let i = 0; i < res.length; i++) {
+			if (res[i].gameObject instanceof Character) {
+				characterArray.push(res[i].gameObject);
+			}
+		}
+		return characterArray;
+	}
 
 	/**
 	 * 圆形范围检测

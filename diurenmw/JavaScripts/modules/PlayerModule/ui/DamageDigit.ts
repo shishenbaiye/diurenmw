@@ -7,6 +7,8 @@ const MaxDamage: number = 1e10;
 export class DamageDigit {
     private static pool: WorldUIPool<DamageDigitView>
 
+    private static num: number = 0;
+
     public static showDamage(action: (view: DamageDigitView) => void) {
         this.checkPool()
         let view = this.pool.get()
@@ -15,7 +17,7 @@ export class DamageDigit {
 
     public static showObjDamage(damage: number, obj: GameObject) {
         console.log(`DamageDigit.showObjDamage: ${damage}, ${obj}`);
-        if(Number.isNaN(damage)) return
+        if (Number.isNaN(damage)) return
         this.checkPool()
         let view = this.pool.get()
         let tips = /**`${damage >= 0 ? `+` : `-`}`+*/`${Math.abs(damage) >= MaxDamage ? MaxDamage : Math.abs(damage)}`;
@@ -23,7 +25,8 @@ export class DamageDigit {
         star.z += (obj.getBoundingBox().z / 2)
         view.ui.txt_context.text = tips;
         view.ui.txt_context2.text = tips;
-        view.playTween(star);
+        DamageDigit.num++;
+        view.playTween(star, DamageDigit.num);
     }
 
 
@@ -56,6 +59,7 @@ class DamageDigitView {
         this.uiWidget.setTargetUIWidget(this.ui.uiWidgetBase)
         this.uiWidget.widgetSpace = mw.WidgetSpaceMode.Screen
         this.uiWidget.occlusionEnable = false
+
 
         this.endPosition = new Vector()
         this.endPosition2 = new Vector()
@@ -96,12 +100,12 @@ class DamageDigitView {
 
         this.tween2 = new Tween({ zz: 0 }).to({ zz: 1 }, 150)
             .onStart(() => {
-                
+
             }).onUpdate(obj => {
                 this.uiWidget.worldTransform.position = mw.Vector.lerp(this.endPosition, this.endPosition2, obj.zz)
             })
 
-        
+
         this.tween1 = new Tween({ z: 0 }).to({ z: 1 }, 800)
             .delay(300)
             .onStart(() => {
@@ -114,11 +118,11 @@ class DamageDigitView {
                 this.tween2.start()
                 this.tween3.start()
             })
-        
-        
+
+
     }
 
-    playTween(startPosition: mw.Vector) {
+    playTween(startPosition: mw.Vector, mask: number) {
         this.startPosition = startPosition
         this.endPosition.x = this.startPosition.x
         this.endPosition.y = this.startPosition.y
@@ -130,5 +134,6 @@ class DamageDigitView {
         this.ui.txt_context.renderOpacity = 0
         this.ui.txt_context2.renderOpacity = 1
         this.tween1.start()
+        this.uiWidget.translucentSortPriority = mask;
     }
 }
