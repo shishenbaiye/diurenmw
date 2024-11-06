@@ -1,1 +1,1 @@
-﻿{"Version":1,"ContentList":[{"FilePath":"UI/Bag/PlayerDataUI.ui","AssetType":"GameUI","FileType":"json","LocalAssetList":[{"LocalAsset":"E033BF43EFBBE3EDED7AD7F7288474D57EDC489E","Type":"Local_UITexture"}]}]}
+﻿{"Version":1,"ContentList":[{"FilePath":"LocalUIAsset","AssetType":"GameUI","FileType":"json","LocalAssetList":[{"LocalAsset":"E033BF43EFBBE3EDED7AD7F7288474D57EDC489E","Type":"Local_UITexture"}]}]}

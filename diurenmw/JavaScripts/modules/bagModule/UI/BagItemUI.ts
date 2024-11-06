@@ -1,7 +1,7 @@
 
 import { GameConfig } from "../../../configs/GameConfig";
 import BagItemUI_Generate from "../../../ui-generate/Bag/BagItemUI_generate"
-import { BagManagerModuleData, ItemType, eventType } from "../BagManagerModuleData";
+import { BagItemBase, BagManagerModuleData, ItemType, eventType } from "../BagManagerModuleData";
 
 import WeaponScript from "../../weaponModule/WeaponScript";
 import { GameEventBus } from "../../../common/eventBus/EventBus";
@@ -11,6 +11,7 @@ export default class BagItemUI extends BagItemUI_Generate {
 	index : number;
 	itemType : ItemType;
 	bagData : BagManagerModuleData;
+	itemData : BagItemBase;
 
 	private image_Internal: mw.Image
 	public get image(): mw.Image {
@@ -78,21 +79,21 @@ export default class BagItemUI extends BagItemUI_Generate {
 			this.setVisibility(mw.SlateVisibility.Hidden);
 			return;
 		}
-		let bagItemObj = this.bagData.findItemByIndex(inItemType, inIndex)
-		if(!bagItemObj)
+		this.itemData = this.bagData.findItemByIndex(inItemType, inIndex)
+		if(!this.itemData)
 		{
 			this.setVisibility(mw.SlateVisibility.Hidden);
 			return;
 		}
 
-		let stackMax = BagManagerModuleData.getItemStackMax(inItemType, bagItemObj.typeId);
-		let icon = BagManagerModuleData.getItemIcon(inItemType, bagItemObj.typeId);
-		let name = BagManagerModuleData.getItemName(inItemType, bagItemObj.typeId);
+		let stackMax = BagManagerModuleData.getItemStackMax(inItemType, this.itemData.typeId);
+		let icon = BagManagerModuleData.getItemIcon(inItemType, this.itemData.typeId);
+		let name = BagManagerModuleData.getItemName(inItemType, this.itemData.typeId);
 
 		this.setVisibility(mw.SlateVisibility.Visible);
 
 		this.itemNameObj.text = name;
-		this.itemNum.text = bagItemObj.count.toString();
+		this.itemNum.text = this.itemData.count.toString();
 		if(stackMax == 1)
 		{
 			this.itemNum.visibility = mw.SlateVisibility.Hidden;
@@ -100,6 +101,14 @@ export default class BagItemUI extends BagItemUI_Generate {
 		this.button.normalImageGuid = icon;
 		this.button.disableImageGuid = icon;
 		this.button.pressedImageGuid = icon;
+		if(this.itemData.isNew)
+		{
+			this.isNew.visibility = mw.SlateVisibility.Visible;
+		}
+		else
+		{
+			this.isNew.visibility = mw.SlateVisibility.Hidden;
+		}
 	}
 
 	protected setVisibility(inVisibility : mw.SlateVisibility)
@@ -118,6 +127,8 @@ export default class BagItemUI extends BagItemUI_Generate {
 	}
 
 	protected buttonClick() {
+		this.bagData.onItemClick(this.itemData);
+		this.isNew.visibility = mw.SlateVisibility.Hidden;
 		let bagItemObj = this.bagData.findItemByIndex(this.itemType, this.index)
 		GameEventBus.emit("BagModule_ItemClick", bagItemObj);
 	}

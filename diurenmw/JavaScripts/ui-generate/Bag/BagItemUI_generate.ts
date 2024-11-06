@@ -24,6 +24,13 @@ export default class BagItemUI_Generate extends UIScript {
 		}
 		return this.itemNum_Internal
 	}
+	private isNew_Internal: mw.Image
+	public get isNew(): mw.Image {
+		if(!this.isNew_Internal&&this.uiWidgetBase) {
+			this.isNew_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/Button/isNew') as mw.Image
+		}
+		return this.isNew_Internal
+	}
 
 
  

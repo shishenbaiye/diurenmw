@@ -40,7 +40,7 @@ export default class EquipmentUI extends EquipmentUI_Generate {
 
 	onButtonClick()
 	{
-		let items : BagItemBase = {uuid: "", typeId: this.part, count: 1, itemtype: this.type};
+		let items : BagItemBase = {uuid: "", typeId: this.part, count: 1, itemtype: this.type, isNew: false};
 		GameEventBus.emit("BagModule_EquipmentClick", items, this.mEquipmentType);
 	}
 

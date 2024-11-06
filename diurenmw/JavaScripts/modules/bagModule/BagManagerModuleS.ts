@@ -67,9 +67,14 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
         data.initData(player);
     }
 
+    // 点击了某个物品
+    net_OnItemClick(player: mw.Player, inItem : BagItemBase) {
+        this.getPlayerData(player).onItemClick(inItem);
+    }
+
     addItem(player: mw.Player, inUuid : string, inItemType : ItemType, inTypeId : number, inCount : number): boolean {
 
-        let items : BagItemBase = {uuid: inUuid, typeId: inTypeId, count: inCount, itemtype: inItemType};
+        let items : BagItemBase = {uuid: inUuid, typeId: inTypeId, count: inCount, itemtype: inItemType, isNew: true};
 
         console.log("BagModuleS addItem : " + JSON.stringify(items));
         let data = this.getPlayerData(player);

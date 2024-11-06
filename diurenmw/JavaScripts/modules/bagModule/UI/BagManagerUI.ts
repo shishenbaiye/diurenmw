@@ -88,9 +88,9 @@ export default class BagManagerUI extends BagUI_Generate {
 		if(!this.playerDataUIObj)
 		{
 			this.playerDataUIObj = UIService.create(PlayerDataUI);
-			this.uiWidgetBase.rootContent.addChild(this.playerDataUIObj.uiObject);
-			this.playerDataUIObj.uiObject.position = new mw.Vector2(450, 140);
-			this.playerDataUIObj.uiObject.size = new mw.Vector2(700, 700);
+			this.playerDataCanvas.addChild(this.playerDataUIObj.uiObject);
+			this.playerDataUIObj.uiObject.position = new mw.Vector2(0, 0);
+			this.playerDataUIObj.uiObject.size = this.playerDataCanvas.size;
 			this.playerDataUIObj.uiObject.visibility = mw.SlateVisibility.Visible;
 		}
 	}
@@ -99,9 +99,9 @@ export default class BagManagerUI extends BagUI_Generate {
 		if(!this.bagAttributeUIObj)
 		{
 			this.bagAttributeUIObj = UIService.create(BagAttributeUI);
-			this.uiWidgetBase.rootContent.addChild(this.bagAttributeUIObj.uiObject);
-			this.bagAttributeUIObj.uiObject.position = new mw.Vector2(0, 140);
-			this.bagAttributeUIObj.uiObject.size = new mw.Vector2(450, 600);
+			this.attributeCanvas.addChild(this.bagAttributeUIObj.uiObject);
+			this.bagAttributeUIObj.uiObject.position = new mw.Vector2(0, 0);
+			this.bagAttributeUIObj.uiObject.size = this.attributeCanvas.size;
 			this.bagAttributeUIObj.uiObject.visibility = mw.SlateVisibility.Visible;
 		}
 	}
