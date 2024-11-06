@@ -136,4 +136,8 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
     onItemClick(inItem : BagItemBase) {
         this.server.net_OnItemClick(mw.Player.localPlayer, inItem);
     }
+
+    testBag(): void {
+        this.server.net_TestAddItem(mw.Player.localPlayer);
+    }
 }

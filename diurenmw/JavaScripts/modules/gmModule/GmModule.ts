@@ -7,6 +7,7 @@ import { AttributeModuleS } from "../AttributeModule/AttributeModuleS";
 import PlayerSkillScrpit from "../skillModule/PlayerSkillScrpit";
 import ArmorScript from "../armorModule/ArmorScript";
 import JewelryScript from "../jewelryModule/JewelryScript";
+import { BagManagerModuleS } from "../bagModule/BagManagerModuleS";
 
 export class GMManager extends Singleton {
 
@@ -70,6 +71,16 @@ export class GMManager extends Singleton {
                 let skillScript = player.character.getComponent(PlayerSkillScrpit);
                 if (skillScript) {
                     skillScript.setSkill(parseInt(itemId),0);
+                }
+            }
+        );
+        AddGMCommand(
+            "背包测试", (player: Player, itemId: string) => {
+
+            }, (player: mw.Player, itemId: string) => {
+                let bagModule = ModuleService.getModule(BagManagerModuleS);
+                if (bagModule) {
+                    bagModule.net_TestAddItem(player);
                 }
             }
         );

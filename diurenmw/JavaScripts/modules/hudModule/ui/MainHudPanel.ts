@@ -173,7 +173,7 @@ export class MainHudPanel extends MainHud_Generate{
         super.onAwake();
 
         this.mButton_normal.onClicked.add(()=>{
-            if(this._normalSkillList.length > 0){
+            if(this._normalSkillList && this._normalSkillList.length > 0){
                 ModuleService.getModule(SkillModuleC).activeNormalSkill();
             }
         })
