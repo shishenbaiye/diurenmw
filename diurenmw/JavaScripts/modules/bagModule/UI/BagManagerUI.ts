@@ -158,7 +158,8 @@ export default class BagManagerUI extends BagUI_Generate {
 
 	protected updateCurrentTypePage() {
 		let num = this.bagData.bagTypeCapacity.get(this.currentTypePage);
-
+		let currentItemNum : number = this.bagData.getTypeItemNumber(this.currentTypePage);
+		this.bagMaxNum.text = currentItemNum.toString() + "/" + num.toString();
 		
 		let newY = (Math.floor(num / this.itemNumPerLine) + 1) * BagItemUI.defaultY;
 		if(newY > this.content.size.y) {

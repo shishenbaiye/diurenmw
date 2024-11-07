@@ -48,73 +48,76 @@ export default class BagShowSelect extends BagShowSelect_Generate {
 			this.item = DataCenterC.getData(BagManagerModuleData).equipmentItems[this.equipmentType];
 		}
 
-		if(this.item.uuid)
+		if(!this.item.uuid)
 		{
-			switch(this.item.itemtype)
-			{
-				case ItemType.Weapon:
-					let weaponData = DataCenterC.getData(WeaponModuleData).getWeaponData(this.item.uuid);
-					let weaponConfig = GameConfig.WeaponObj.getElement(this.item.typeId);
-					this.addDataItem(weaponData.atk.toString(), "物理攻击");
-					this.addDataItem(weaponData.matk.toString(), "魔法攻击");
-					this.addDataItem(weaponData.str.toString(), "力量");
-					this.addDataItem(weaponData.int.toString(), "智力");
-					if(weaponData.useEffet1) {
-						this.addOnlyEffecItem(weaponConfig.effect1);
-					}
-					if(weaponData.useEffet2) {
-						this.addOnlyEffecItem(weaponConfig.effect2);
-					}
-					if(weaponData.useEffet3) {
-						this.addOnlyEffecItem(weaponConfig.effect3);
-					}
-					if(weaponData.useEffet4) {
-						this.addOnlyEffecItem(weaponConfig.effect4);
-					}
-					this.setData(this.item.itemtype, weaponData.wid, weaponConfig.quality);
-					break;
-				case ItemType.Jewelry:
-					let jewelryData = DataCenterC.getData(JewelryModuleData).getJewelryData(this.item.uuid);
-					let jewelryConfig = GameConfig.JewelryObj.getElement(this.item.typeId);
-					this.addDataItem(jewelryData.def.toString(), "防御力");
-					this.addDataItem(jewelryData.str.toString(), "力量");
-					this.addDataItem(jewelryData.int.toString(), "智力");
-					if(jewelryData.useEffet1) {
-						this.addOnlyEffecItem(jewelryConfig.effect1);
-					}
-					if(jewelryData.useEffet2) {
-						this.addOnlyEffecItem(jewelryConfig.effect2);
-					}
-					if(jewelryData.useEffet3) {
-						this.addOnlyEffecItem(jewelryConfig.effect3);
-					}
-					if(jewelryData.useEffet4) {
-						this.addOnlyEffecItem(jewelryConfig.effect4);
-					}
-					this.setData(this.item.itemtype, jewelryData.jid, jewelryConfig.quality);
-					break;
-				case ItemType.Armor:
-					let armorData = DataCenterC.getData(ArmorModuleData).getArmorData(this.item.uuid);
-					let armorConfig = GameConfig.ArmorObj.getElement(this.item.typeId);
-					this.addDataItem(armorData.def.toString(), "防御力");
-					this.addDataItem(armorData.vit.toString(), "体力");
-					this.addDataItem(armorData.str.toString(), "力量");
-					this.addDataItem(armorData.int.toString(), "智力");
-					if(armorData.useEffet1) {
-						this.addOnlyEffecItem(armorConfig.effect1);
-					}
-					if(armorData.useEffet2) {
-						this.addOnlyEffecItem(armorConfig.effect2);
-					}
-					if(armorData.useEffet3) {
-						this.addOnlyEffecItem(armorConfig.effect3);
-					}
-					if(armorData.useEffet4) {
-						this.addOnlyEffecItem(armorConfig.effect4);
-					}
-					this.setData(this.item.itemtype, armorData.aid, armorConfig.quality);
-					break;
-			}
+			this.visible = false;
+			return;
+		}
+
+		switch(this.item.itemtype)
+		{
+			case ItemType.Weapon:
+				let weaponData = DataCenterC.getData(WeaponModuleData).getWeaponData(this.item.uuid);
+				let weaponConfig = GameConfig.WeaponObj.getElement(this.item.typeId);
+				this.addDataItem(weaponData.atk.toString(), "物理攻击");
+				this.addDataItem(weaponData.matk.toString(), "魔法攻击");
+				this.addDataItem(weaponData.str.toString(), "力量");
+				this.addDataItem(weaponData.int.toString(), "智力");
+				if(weaponData.useEffet1) {
+					this.addOnlyEffecItem(weaponConfig.effect1);
+				}
+				if(weaponData.useEffet2) {
+					this.addOnlyEffecItem(weaponConfig.effect2);
+				}
+				if(weaponData.useEffet3) {
+					this.addOnlyEffecItem(weaponConfig.effect3);
+				}
+				if(weaponData.useEffet4) {
+					this.addOnlyEffecItem(weaponConfig.effect4);
+				}
+				this.setData(this.item.itemtype, weaponData.wid, weaponConfig.quality);
+				break;
+			case ItemType.Jewelry:
+				let jewelryData = DataCenterC.getData(JewelryModuleData).getJewelryData(this.item.uuid);
+				let jewelryConfig = GameConfig.JewelryObj.getElement(this.item.typeId);
+				this.addDataItem(jewelryData.def.toString(), "防御力");
+				this.addDataItem(jewelryData.str.toString(), "力量");
+				this.addDataItem(jewelryData.int.toString(), "智力");
+				if(jewelryData.useEffet1) {
+					this.addOnlyEffecItem(jewelryConfig.effect1);
+				}
+				if(jewelryData.useEffet2) {
+					this.addOnlyEffecItem(jewelryConfig.effect2);
+				}
+				if(jewelryData.useEffet3) {
+					this.addOnlyEffecItem(jewelryConfig.effect3);
+				}
+				if(jewelryData.useEffet4) {
+					this.addOnlyEffecItem(jewelryConfig.effect4);
+				}
+				this.setData(this.item.itemtype, jewelryData.jid, jewelryConfig.quality);
+				break;
+			case ItemType.Armor:
+				let armorData = DataCenterC.getData(ArmorModuleData).getArmorData(this.item.uuid);
+				let armorConfig = GameConfig.ArmorObj.getElement(this.item.typeId);
+				this.addDataItem(armorData.def.toString(), "防御力");
+				this.addDataItem(armorData.vit.toString(), "体力");
+				this.addDataItem(armorData.str.toString(), "力量");
+				this.addDataItem(armorData.int.toString(), "智力");
+				if(armorData.useEffet1) {
+					this.addOnlyEffecItem(armorConfig.effect1);
+				}
+				if(armorData.useEffet2) {
+					this.addOnlyEffecItem(armorConfig.effect2);
+				}
+				if(armorData.useEffet3) {
+					this.addOnlyEffecItem(armorConfig.effect3);
+				}
+				if(armorData.useEffet4) {
+					this.addOnlyEffecItem(armorConfig.effect4);
+				}
+				this.setData(this.item.itemtype, armorData.aid, armorConfig.quality);
+				break;
 		}
 		
 		if(this.isEquipment)

@@ -17,6 +17,13 @@ export default class BagUI_Generate extends UIScript {
 		}
 		return this.exit_Internal
 	}
+	private bagMaxNum_Internal: mw.TextBlock
+	public get bagMaxNum(): mw.TextBlock {
+		if(!this.bagMaxNum_Internal&&this.uiWidgetBase) {
+			this.bagMaxNum_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/Image_1/Canvas/bagMaxNum') as mw.TextBlock
+		}
+		return this.bagMaxNum_Internal
+	}
 	private attributeCanvas_Internal: mw.Canvas
 	public get attributeCanvas(): mw.Canvas {
 		if(!this.attributeCanvas_Internal&&this.uiWidgetBase) {
@@ -66,11 +73,11 @@ export default class BagUI_Generate extends UIScript {
 		
 		//文本多语言
 		
-		//文本多语言
-		
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/Image_1/Canvas/BagMaxNum") as any);
+		this.initLanguage(this.bagMaxNum)
 		
 	
+		//文本多语言
+		
 		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/Image_1/Canvas/TextBlock") as any);
 		
 	
