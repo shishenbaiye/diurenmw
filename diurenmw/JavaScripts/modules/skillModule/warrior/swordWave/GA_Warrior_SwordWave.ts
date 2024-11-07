@@ -48,7 +48,7 @@ export class GA_Warrior_SwordWave extends GameAbility{
         this.skillHelper.changePlayerCanMove(char.player,false);
 
         animTask.addEvent(1.0,()=>{
-            EffectService.playOnGameObject("123627",char,{scale:new Vector(1),slotType:HumanoidSlotType.Root,duration:0.5});
+            EffectService.playAtPosition("123627",char.getSlotWorldPosition(HumanoidSlotType.Root),{scale:new Vector(1),duration:0.5,});
         })
 
         animTask.addEvent(1.0,()=>{

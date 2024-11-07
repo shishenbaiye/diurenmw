@@ -41,6 +41,12 @@ export class AT_PlayAnimation extends AbilityTask{
         return this;
     }
 
+    setSpeed(speed:number){
+        this.currentAnimSpeed = speed;
+        this.totalTime = this.ainmationTime/speed;
+        this.currentAnim.speed = speed;
+    }
+
     private endEvent:()=>void;
     onFinished(callback:()=>void){
         this.endEvent = callback;

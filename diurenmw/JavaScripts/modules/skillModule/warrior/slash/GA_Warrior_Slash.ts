@@ -49,9 +49,9 @@ export class GA_Warrior_Slash extends GameAbility{
             let charPos = char.worldTransform.position.clone();
             charPos.z = char.getSlotWorldPosition(HumanoidSlotType.LeftFoot).z;
             let pos = charPos.add(forward.multiply(200));
-            EffectService.playAtPosition("27450",pos,{scale:new Vector(1.5)});
+            EffectService.playAtPosition("27450",pos,{scale:new Vector(2)});
 
-            let arr = MathTool.checkHitByPosition(owner as Character,pos,250);
+            let arr = MathTool.checkHitByPosition(owner as Character,pos,333);
             arr.forEach((obj:Character)=>{
                 let asc = obj.getComponent(AbilitySystemComponent);
                 if(asc){

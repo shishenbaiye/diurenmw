@@ -116,4 +116,32 @@ export class CameraManager extends MObject {
         //     .start();
     }
 
+
+    /**缓动到指定相机距离 */
+    moveCameraArmLength(_length: number, _duration: number = 500) {
+        let camera = Camera.currentCamera;
+        let currentLength = camera.springArm.length;
+        let armLength = camera.springArm.length + _length;
+        let tw = new mw.Tween({ length: currentLength })
+            .to({ length: armLength }, _duration)
+            .easing(TweenUtil.Easing.Exponential.InOut)
+            .onUpdate((obj) => {
+                try {
+                    camera.springArm.length = obj.length;
+                } catch (e) {
+                    tw.stop();
+                }
+            })
+            .start();
+    }
+
+    /**震屏 */
+    shakeCamera(duration:number = 1,xAmplitude:number = 10,yAmplitude:number = 10,xFrequency:number = 10,yFrequency:number = 10){ 
+        let shakeinfo = {} as CameraShakeInfo;
+        shakeinfo.positionXAmplitude = xAmplitude;
+        shakeinfo.positionYAmplitude = yAmplitude;
+        shakeinfo.positionXFrequency = xFrequency;
+        shakeinfo.positionYFrequency = yFrequency;
+        Camera.shake(shakeinfo,duration);
+    }
 }

@@ -129,7 +129,7 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
         if (!GameConfig.PlayerLevelAttribute.getElement(currentLevel).isMaxLevel) {
             playerData.level++;
             playerData.exp = 0;
-            EffectService.playOnGameObject("181022",player.character,{scale:new Vector(1.5)});
+            EffectService.playOnGameObject("181022",player.character,{scale:new Vector(1.5),position:new Vector(0,0,-player.character.getBoundingBox().z/2)});
             let as = (player.character.getComponent(AbilitySystemComponent).attributeSet as PlayerAttributeSet);
             if (as) {
                 as.level.setBase(playerData.level);

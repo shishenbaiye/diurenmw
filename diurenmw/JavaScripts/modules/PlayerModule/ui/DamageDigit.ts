@@ -6,7 +6,7 @@ const MaxDamage: number = 1e10;
 
 export class DamageDigit {
     private static pool: WorldUIPool<DamageDigitView>
-
+    public static view:number = 0;
     private static num: number = 0;
 
     public static showDamage(action: (view: DamageDigitView) => void) {
@@ -90,7 +90,7 @@ class DamageDigitView {
         //         this.ui.txt_context.renderScale = this.currentScale
         //     }).chain(this.tween2)
 
-        this.tween3 = new Tween({ o: 1 }).to({ o: 0 }, 80).onUpdate(obj => {
+        this.tween3 = new Tween({ o: 1 }).to({ o: 0 }, 50).onUpdate(obj => {
             this.ui.txt_context.renderOpacity = obj.o
         }).onComplete(() => {
             this.tween2.stop();
@@ -123,7 +123,12 @@ class DamageDigitView {
     }
 
     playTween(startPosition: mw.Vector, mask: number) {
-        this.startPosition = startPosition
+
+        let random1 = Math.random() * 50;
+        let random2 = Math.random() * 50;
+
+        this.startPosition = startPosition.add(new Vector(0,random1, random2))
+        
         this.endPosition.x = this.startPosition.x
         this.endPosition.y = this.startPosition.y
         this.endPosition.z = this.startPosition.z + 5;

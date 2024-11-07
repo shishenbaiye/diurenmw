@@ -36,7 +36,7 @@ export class GA_Warrior_BackJump extends GameAbility{
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         let char = owner as Character;
         let anim = char.loadAnimation("284609");
-        anim.speed = 1.5;
+        anim.speed = 1.2;
         anim.blendInTime = 0;
         // anim.blendOutTime = 0;
         let animTask = AT_PlayAnimation.New(this,anim,0.5,char);

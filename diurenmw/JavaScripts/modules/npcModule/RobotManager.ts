@@ -3,6 +3,7 @@ import { MFramework } from "../../framework/MFramework";
 import { MObject } from "../../framework/Object/MObject";
 import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { GA_Trigger_Monster_OnHurt } from "./GA_Trigger_Monster_OnHurt";
+import { GA_Trigger_Monster_OnHurtAnim } from "./GA_Trigger_Monster_OnHurtAnim";
 import { MonsterAttributeSet } from "./MonsterAttributeSet";
 import { NpcBase } from "./NpcBase";
 import { NpcData } from "./NpcData";
@@ -67,6 +68,7 @@ export class RobotManager extends MObject {
         }
         // 添加初始技能
         abs.giveAbility(GA_Trigger_Monster_OnHurt);
+        abs.giveAbility(GA_Trigger_Monster_OnHurtAnim);
         //同步脚本
         let npcInfo = char.getComponent(NpcScript);
         if (!npcInfo) {

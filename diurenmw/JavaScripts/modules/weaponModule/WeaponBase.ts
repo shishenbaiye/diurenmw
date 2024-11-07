@@ -33,7 +33,7 @@ export abstract class WeaponBase extends MObject{
     // 品级
     private quality:number;
 
-    protected model:Model;
+    public model:Model;
 
     initByData(data:WeaponData):void{
         this.uuid = data.uuid;

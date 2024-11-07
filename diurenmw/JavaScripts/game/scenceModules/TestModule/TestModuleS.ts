@@ -26,15 +26,16 @@ export class TestModuleS extends ModuleS<TestModuleC, null> {
     }
 
     protected onPlayerEnterGame(player: mw.Player): void {
-        // setTimeout(() => {
-        //     let res = player.character.getComponent(WeaponScript).addWeapon(1002);
-        //     player.character.getComponent(WeaponScript).equepWeapon(res.uuid);
+        setTimeout(() => {
+            let res = player.character.getComponent(WeaponScript).addWeapon(1002);
+            player.character.getComponent(WeaponScript).equepWeapon(res.uuid);
 
-        //     let skillScript = player.character.getComponent(PlayerSkillScrpit);
-        //     skillScript.addSkill(1010);
-        //     skillScript.addSkill(1004);
-        //     skillScript.addSkill(1005);
-        // }, 10000);
+            let skillScript = player.character.getComponent(PlayerSkillScrpit);
+            skillScript.addSkill(1010);
+            skillScript.addSkill(1004);
+            skillScript.addSkill(1005);
+            skillScript.addSkill(1014);
+        }, 10000);
     }
 
     net_AddExp(exp: number) {
