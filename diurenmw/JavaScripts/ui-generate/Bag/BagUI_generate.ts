@@ -31,6 +31,13 @@ export default class BagUI_Generate extends UIScript {
 		}
 		return this.playerDataCanvas_Internal
 	}
+	private testBag_Internal: mw.Button
+	public get testBag(): mw.Button {
+		if(!this.testBag_Internal&&this.uiWidgetBase) {
+			this.testBag_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/testBag') as mw.Button
+		}
+		return this.testBag_Internal
+	}
 
 
  
@@ -49,6 +56,9 @@ export default class BagUI_Generate extends UIScript {
 		//按钮添加点击
 		
 		this.exit.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.testBag.touchMethod = (ButtonTouchMethod.PreciseTap);
 		
 	
 

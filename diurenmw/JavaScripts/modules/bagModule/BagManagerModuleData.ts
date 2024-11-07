@@ -100,23 +100,23 @@ export class BagManagerModuleData extends Subdata {
         }
         if(!this.bagTypeCapacity.get(ItemType.Weapon))
         {
-            this.bagTypeCapacity.set(ItemType.Weapon, 100);
+            this.bagTypeCapacity.set(ItemType.Weapon, 50);
         }
         if(!this.bagTypeCapacity.get(ItemType.Armor))
         {
-            this.bagTypeCapacity.set(ItemType.Armor, 20);
+            this.bagTypeCapacity.set(ItemType.Armor, 50);
         }
         if(!this.bagTypeCapacity.get(ItemType.Jewelry))
         {
-            this.bagTypeCapacity.set(ItemType.Jewelry, 200);
+            this.bagTypeCapacity.set(ItemType.Jewelry, 50);
         }
         if(!this.bagTypeCapacity.get(ItemType.Consumables))
         {
-            this.bagTypeCapacity.set(ItemType.Consumables, 100);
+            this.bagTypeCapacity.set(ItemType.Consumables, 50);
         }
         if(!this.bagTypeCapacity.get(ItemType.Materials))
         {
-            this.bagTypeCapacity.set(ItemType.Materials, 100);
+            this.bagTypeCapacity.set(ItemType.Materials, 50);
         }
 
         if (!this.equipmentItems)

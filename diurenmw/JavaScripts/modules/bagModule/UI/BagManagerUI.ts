@@ -9,6 +9,7 @@ import PlayerDataUI from "./PlayerDataUI";
 import BagShowSelect from "./BagShowSelect";
 import BagMainShowSelect from "./BagMainShowSelect";
 import { GameEventBus } from "../../../common/eventBus/EventBus";
+import { BagManagerModuleC } from "../BagManagerModuleC";
 
 @UIBind('UI/Bag/BagUI.ui')
 export default class BagManagerUI extends BagUI_Generate {
@@ -65,6 +66,10 @@ export default class BagManagerUI extends BagUI_Generate {
         this.initButtons();
 		this.BagItemObjs = new Array<BagItemUI>;
 		this.ItemTypeUIs = new Array<ItemTypeUI>;
+
+		this.testBag.onClicked.add(() => {
+			ModuleService.getModule(BagManagerModuleC).testBag();
+		});
 
 		GameEventBus.on("BagModule_EquipmentClick", this.onEquipmentClick.bind(this));
 		GameEventBus.on("BagModule_ItemClick", this.onItemClick.bind(this));
