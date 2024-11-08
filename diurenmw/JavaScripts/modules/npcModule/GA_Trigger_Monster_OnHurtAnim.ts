@@ -1,5 +1,6 @@
 import { Constructor, MPlugin } from "../../framework/DI/MContainer";
 import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
+import { EAbilityTaskTimeType } from "../gasModule/gameAbilitys/AT/AbilityTaskType";
 import { AT_PlayAnimation } from "../gasModule/gameAbilitys/AT/customAT/AT_PlayAnimation";
 import { AT_WaitTime } from "../gasModule/gameAbilitys/AT/customAT/AT_WaitTime";
 import { GameAbility } from "../gasModule/gameAbilitys/GA/GameAbility";
@@ -33,33 +34,80 @@ export class GA_Trigger_Monster_OnHurtAnim extends GameAbility {
 
     private animTask:AT_PlayAnimation;
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
+        if(this.payload.customData){
+            if(this.payload.customData.onHurtType){
+
+                if(this.payload.customData.onHurtType == "Hurt"){
+                    this.playOnHurtAnim(asc,owner,target);
+                }
+
+                if(this.payload.customData.onHurtType == "Crit"){
+                    this.playOnCritAnim(asc,owner,target);
+                }
+
+
+            }else{
+                this.playOnHurtAnim(asc,owner,target);
+            }
+        }else{
+            this.playOnHurtAnim(asc,owner,target);
+        }
+
+        
+
+        
+    }
+
+    private playOnHurtAnim(asc: AbilitySystemComponent, owner: GameObject, target: GameObject){
         let ownerChar = owner as Character;
         let duringTime:number;
         if(this.payload.customData){
             duringTime = this.payload.customData.duringTime;
         }
-        console.log("duringTime:"+duringTime);
-
         let anim = ownerChar.loadAnimation("285427");
         anim.blendInTime = 0;
-        
+        anim.speed = 1.2;
+        anim.startTime = 0.2
+
         this.animTask = AT_PlayAnimation.New(this,anim,0.5,ownerChar);
         this.animTask.activate();
 
         if(duringTime){
-            AT_WaitTime.New(this,0.2).addEndListener(()=>{
-                console.warn("pause");
+            AT_WaitTime.New(this,2,EAbilityTaskTimeType.Frame).addEndListener(()=>{
+
                 this.animTask.pauseTask();
+
+                AT_WaitTime.New(this,duringTime).addEndListener(()=>{
+                    this.animTask.resumeTask();
+                }).activate();
+
             }).activate();
 
-            AT_WaitTime.New(this,duringTime).addEndListener(()=>{
-                console.warn("resume");
-                this.animTask.resumeTask();
-            }).activate();
+            
         }
-        
-        
     }
+
+    private playOnCritAnim(asc: AbilitySystemComponent, owner: GameObject, target: GameObject){
+        let ownerChar = owner as Character;
+        let anim = ownerChar.loadAnimation("364448");
+        anim.blendInTime = 0;
+        anim.speed = 0.8;
+
+
+        this.animTask = AT_PlayAnimation.New(this,anim,1.8,ownerChar);
+        this.animTask.activate();
+
+        AT_WaitTime.New(this,0.8).addEndListener(()=>{
+            console.warn("pause");
+            this.animTask.pauseTask();
+        }).activate();
+
+        AT_WaitTime.New(this,1.5).addEndListener(()=>{
+            console.warn("resume");
+            this.animTask.resumeTask();
+        }).activate();
+    }
+
     protected onCancel(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         this.animTask.cancelTask();
     }

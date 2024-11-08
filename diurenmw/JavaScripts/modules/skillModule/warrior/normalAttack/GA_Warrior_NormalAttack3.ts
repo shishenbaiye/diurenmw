@@ -50,6 +50,7 @@ export class GA_Warrior_NormalAttack3 extends GameAbility {
                 if(asc){
                     if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
                     this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_NormalAttack3});
+                    this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.5});
                 }
             })
            
@@ -58,7 +59,7 @@ export class GA_Warrior_NormalAttack3 extends GameAbility {
 
 
         animTask.addEvent(0.4,()=>{
-            this.skillHelper.callPlayerMove(char.player,true,char.worldTransform.getForwardVector().normalize().multiply(0.1));
+            this.skillHelper.callPlayerMove(char.player,true,char.worldTransform.getForwardVector().normalize().multiply(0.5));
         })
         animTask.addEvent(0.6,()=>{
             this.skillHelper.callPlayerMove(char.player,false);

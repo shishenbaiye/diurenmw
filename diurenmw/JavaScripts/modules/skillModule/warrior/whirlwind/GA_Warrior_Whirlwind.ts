@@ -20,7 +20,7 @@ export class GA_Warrior_Whirlwind extends GameAbility{
     blockTags: string[];
     activationOwnedTags: string[] = ["State.Player.Skilling"];
     activationRequiredTags: string[];
-    activationBlockedTags: string[] = ["State.Player.BackJump"]
+    activationBlockedTags: string[] = ["State.Player.BackJump","State.Player.NotCancel"]
     targetRequiredTags: string[];
     targetBlockedTags: string[] = ["Club.Player","State.Monster.Dead","State.Monster.Invincible"];
     trigger: { tag: string; sourceType: EGameAbilityTriggerSourceType; }[];
@@ -34,7 +34,99 @@ export class GA_Warrior_Whirlwind extends GameAbility{
     private effect1:number;
     private effect2:number;
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-        this.animation(asc,owner,target);
+        let char = owner as Character;
+        let aim = char.loadAnimation("298003");
+        aim.blendInTime = 0;
+        aim.blendOutTime = 0;
+        let animTask = AT_PlayAnimation.New(this,aim,3.33,char);
+
+        animTask.addEvent(0.1,()=>{
+            this.effect1 = EffectService.playOnGameObject("84942",owner,{scale:new Vector(1.5),slotType:HumanoidSlotType.Root});
+            this.effect2 = EffectService.playOnGameObject("123627",owner,{scale:new Vector(1.5),position:new Vector(0,0,-owner.getBoundingBox().z/2)});
+        })
+
+        animTask.addEvent(0.2,()=>{
+            let res = MathTool.checkHit(owner as Character,350);
+            if(res.length > 0){
+                res.forEach((obj:Character)=>{
+                    let asc = obj.getComponent(AbilitySystemComponent);
+                    if(asc){
+                        if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
+                        this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_Whirlwind1});
+                        this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.2});
+                    }
+                    
+                })
+            }
+        })
+
+        animTask.addEvent(0.6,()=>{
+            let res = MathTool.checkHit(owner as Character,350);
+            if(res.length > 0){
+                res.forEach((obj:Character)=>{
+                    let asc = obj.getComponent(AbilitySystemComponent);
+                    if(asc){
+                        if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
+                        this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_Whirlwind1});
+                        this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.2});
+                    }
+                    
+                })
+            }
+        })
+
+        animTask.addEvent(1,()=>{
+            let res = MathTool.checkHit(owner as Character,350);
+            if(res.length > 0){
+                res.forEach((obj:Character)=>{
+                    let asc = obj.getComponent(AbilitySystemComponent);
+                    if(asc){
+                        if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
+                        this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_Whirlwind1});
+                        this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.2});
+                    }
+                    
+                })
+            }
+        })
+
+        animTask.addEvent(1.4,()=>{
+            let res = MathTool.checkHit(owner as Character,350);
+            if(res.length > 0){
+                res.forEach((obj:Character)=>{
+                    let asc = obj.getComponent(AbilitySystemComponent);
+                    if(asc){
+                        if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
+                        this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_Whirlwind1});
+                        this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.2});
+                    }
+                    
+                })
+            }
+        })
+
+        animTask.addEvent(1.8,()=>{
+            let res = MathTool.checkHit(owner as Character,350);
+            if(res.length > 0){
+                res.forEach((obj:Character)=>{
+                    let asc = obj.getComponent(AbilitySystemComponent);
+                    if(asc){
+                        if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
+                        this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_Whirlwind1});
+                        this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.2});
+                    }
+                    
+                })
+            }
+        })
+
+        animTask.onFinished(()=>{
+            this.end();
+        })
+
+
+        animTask.activate();
+        // this.animation(asc,owner,target);
     }
 
     private num:number = 0;
@@ -59,6 +151,7 @@ export class GA_Warrior_Whirlwind extends GameAbility{
                     if(asc){
                         if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
                         this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_Whirlwind1});
+                        this.sendGameEvent(obj,"Event.Monster.OnHurtAnim");
                     }
                     
                 })

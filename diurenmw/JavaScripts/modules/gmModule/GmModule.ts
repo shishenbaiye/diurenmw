@@ -17,6 +17,7 @@ export class GMManager extends Singleton {
             "增加武器", (player: Player, itemId: string) => {
 
             }, (player: mw.Player, itemId: string) => {
+                console.log(`增加武器${itemId}`);
                 let weaponScript = player.character.getComponent(WeaponScript);
                 weaponScript.addWeapon(parseInt(itemId));
             }

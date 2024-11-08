@@ -14,7 +14,10 @@ import { RegisterSkill } from "../../SkillManager";
 import { ESkillType } from "../../SkillType";
 import { GE_CoolDown_Warrior_All4One } from "./GE_CoolDown_Warrior_All4One";
 import { GE_Cost_Warrior_All4One } from "./GE_Cost_Warrior_All4One";
-import { GE_Damage_Warrior_All4One } from "./GE_Damage_Warrior_All4One";
+import { GE_Damage_Warrior_All4One1 } from "./GE_Damage_Warrior_All4One1";
+import { GE_Damage_Warrior_All4One2 } from "./GE_Damage_Warrior_All4One2";
+import { GE_Damage_Warrior_All4One3 } from "./GE_Damage_Warrior_All4One3";
+import { GE_Damage_Warrior_All4One4 } from "./GE_Damage_Warrior_All4One4";
 
 
 @RegisterSkill(1013, ESkillType.GreatSword)
@@ -23,11 +26,11 @@ export class GA_Warrior_All4One extends GameAbility{
     tag: string = "GA.Warrior.All4One";
     cancelTags: string[];
     blockTags: string[];
-    activationOwnedTags: string[] = ["State.Player.Skilling","State.Player.Invincible"];
+    activationOwnedTags: string[] = ["State.Player.Skilling","State.Player.Invincible","State.Player.NotCancel"];
     activationRequiredTags: string[];
-    activationBlockedTags: string[];
+    activationBlockedTags: string[] = ["State.Player.BackJump"]
     targetRequiredTags: string[];
-    targetBlockedTags: string[];
+    targetBlockedTags: string[] = ["Club.Player","State.Monster.Dead","State.Monster.Invincible"];
     trigger: { tag: string; sourceType: EGameAbilityTriggerSourceType; }[];
     cd: Constructor<CoolDownByGameEffect> = GE_CoolDown_Warrior_All4One;
     cost: Constructor<CostByGameEffect> = GE_Cost_Warrior_All4One;
@@ -124,7 +127,7 @@ export class GA_Warrior_All4One extends GameAbility{
                 if(asc){
                     if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
                     onHurtArr.push(obj);
-                    this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_All4One});
+                    this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_All4One1});
                     this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:2});
                 }
             })
@@ -138,20 +141,20 @@ export class GA_Warrior_All4One extends GameAbility{
 
         animTask2.addEvent(0.7,()=>{
             onHurtArr.forEach((obj:Character)=>{
-                this.sendGameEvent(obj,"Event.Monster.OnHurtAnim");
-                this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_All4One});
+                this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{onHurtType:"Crit"});
+                this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_All4One2});
             })
         })
         animTask2.addEvent(0.8,()=>{
             onHurtArr.forEach((obj:Character)=>{
-                this.sendGameEvent(obj,"Event.Monster.OnHurtAnim");
-                this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_All4One});
+                this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{onHurtType:"Crit"});
+                this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_All4One3});
             })
         })
         animTask2.addEvent(0.9,()=>{
             onHurtArr.forEach((obj:Character)=>{
-                this.sendGameEvent(obj,"Event.Monster.OnHurtAnim");
-                this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_All4One});
+                this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{onHurtType:"Crit"});
+                this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_All4One4});
             })
         })
         animTask2.addEvent(0.7,()=>{

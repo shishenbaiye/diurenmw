@@ -78,7 +78,7 @@ export class SkillHelper extends MObject {
     }
 
     private startMove(forward: Vector) {
-        this.forward = forward.normalize();
+        this.forward = forward;
         Player.localPlayer.character.movementDirection = MovementDirection.AxisDirection;
 
         TimeUtil.onEnterFrame.add(this.move, this);

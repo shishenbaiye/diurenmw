@@ -7,11 +7,11 @@ import { GE_Damage_Base } from "../../common/GE_Damage_Base";
 import { MI_Player_Damage_ModifierClass } from "../../common/MI_Player_Damage_ModifierClass";
 
 @MPlugin()
-export class GE_Damage_Warrior_All4One extends GE_Damage_Base{
+export class GE_Damage_Warrior_All4One2 extends GE_Damage_Base{
     init(): void {
         super.init();
 
-        let modifier1 = MI_Warrior_All4One_GameModifiterInfo.New();
+        let modifier1 = MI_Warrior_All4One2_GameModifiterInfo.New();
         modifier1.ownerEffect = this;
         modifier1.init();
         if(!this.modifiers){
@@ -21,10 +21,10 @@ export class GE_Damage_Warrior_All4One extends GE_Damage_Base{
     }
 }
 
-export class MI_Warrior_All4One_GameModifiterInfo extends GameModifierInfo{
+export class MI_Warrior_All4One2_GameModifiterInfo extends GameModifierInfo{
     
-    static New(): MI_Warrior_All4One_GameModifiterInfo {
-        return new MI_Warrior_All4One_GameModifiterInfo();
+    static New(): MI_Warrior_All4One2_GameModifiterInfo {
+        return new MI_Warrior_All4One2_GameModifiterInfo();
     }
 
     modifierName: string = EMonsterAttributeSetType.hp;
@@ -37,7 +37,7 @@ export class MI_Warrior_All4One_GameModifiterInfo extends GameModifierInfo{
     targetMustNotNeedTags: string[];
 
     init(): void {
-        this.modifierClass = MI_Player_Damage_ModifierClass.New({id:1013,index:0});
+        this.modifierClass = MI_Player_Damage_ModifierClass.New({id:1013,index:1});
     }
     
 }

@@ -35,17 +35,18 @@ export class GA_Warrior_BackJump extends GameAbility{
     }
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         let char = owner as Character;
-        let anim = char.loadAnimation("284609");
-        anim.speed = 1.2;
+        let anim = char.loadAnimation("284782");
+
+        anim.speed = 1.5;
         anim.blendInTime = 0;
         // anim.blendOutTime = 0;
-        let animTask = AT_PlayAnimation.New(this,anim,0.5,char);
+        let animTask = AT_PlayAnimation.New(this,anim,1,char);
 
         this.skillHelper.changePlayerCanMove(char.player,false);
 
 
         animTask.addEvent(0.1,()=>{
-            this.skillHelper.addImpulse(char.player,char.worldTransform.getForwardVector().clone().multiply(800).multiply(-1).add(new Vector(0,0,150)));
+            this.skillHelper.addImpulse(char.player,char.worldTransform.getForwardVector().clone().multiply(800).multiply(-1).add(new Vector(0,0,200)));
         })
 
         animTask.onFinished(()=>{

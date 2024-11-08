@@ -21,7 +21,7 @@ export class GA_Warrior_Slash extends GameAbility{
     blockTags: string[];
     activationOwnedTags: string[] = ["State.Player.Skilling","State.Player.Stun"]
     activationRequiredTags: string[];
-    activationBlockedTags: string[] = ["State.Player.BackJump"]
+    activationBlockedTags: string[] = ["State.Player.BackJump","State.Player.NotCancel"]
     targetRequiredTags: string[];
     targetBlockedTags: string[] = ["Club.Player","State.Monster.Dead","State.Monster.Invincible"];
     trigger: { tag: string; sourceType: EGameAbilityTriggerSourceType; }[];
@@ -57,6 +57,7 @@ export class GA_Warrior_Slash extends GameAbility{
                 if(asc){
                     if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
                     this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_Slash});
+                    this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{onHurtType:"Crit"});
                 }
             })
         })
