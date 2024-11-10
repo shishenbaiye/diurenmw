@@ -73,6 +73,13 @@ export default class BagShowSelect_Generate extends UIScript {
 		}
 		return this.leftButton_Internal
 	}
+	private leftButtonText_Internal: mw.TextBlock
+	public get leftButtonText(): mw.TextBlock {
+		if(!this.leftButtonText_Internal&&this.uiWidgetBase) {
+			this.leftButtonText_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/selectShow/doubleSelect/leftButton/leftButtonText') as mw.TextBlock
+		}
+		return this.leftButtonText_Internal
+	}
 	private rightButton_Internal: mw.Button
 	public get rightButton(): mw.Button {
 		if(!this.rightButton_Internal&&this.uiWidgetBase) {
@@ -114,12 +121,12 @@ export default class BagShowSelect_Generate extends UIScript {
 		this.initLanguage(this.name)
 		
 	
+		this.initLanguage(this.leftButtonText)
+		
+	
 		//文本多语言
 		
 		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/selectShow/singleSelect/singleButton/TextBlock_2") as any);
-		
-	
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/selectShow/doubleSelect/leftButton/TextBlock") as any);
 		
 	
 		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/selectShow/doubleSelect/rightButton/TextBlock_1") as any);

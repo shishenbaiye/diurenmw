@@ -1,6 +1,8 @@
 import {ConfigBase, IElementBase} from "./ConfigBase";
 import {ArmorObjConfig} from "./ArmorObj";
+import {ConsumablesObjConfig} from "./ConsumablesObj";
 import {JewelryObjConfig} from "./JewelryObj";
+import {MaterialsObjConfig} from "./MaterialsObj";
 import {PlayerLevelAttributeConfig} from "./PlayerLevelAttribute";
 import {SkillObjConfig} from "./SkillObj";
 import {TaskConfig} from "./Task";
@@ -26,7 +28,9 @@ export class GameConfig{
 		return this.configMap.get(ConfigClass.name) as T;
 	}
 	public static get ArmorObj():ArmorObjConfig{ return this.getConfig(ArmorObjConfig) };
+	public static get ConsumablesObj():ConsumablesObjConfig{ return this.getConfig(ConsumablesObjConfig) };
 	public static get JewelryObj():JewelryObjConfig{ return this.getConfig(JewelryObjConfig) };
+	public static get MaterialsObj():MaterialsObjConfig{ return this.getConfig(MaterialsObjConfig) };
 	public static get PlayerLevelAttribute():PlayerLevelAttributeConfig{ return this.getConfig(PlayerLevelAttributeConfig) };
 	public static get SkillObj():SkillObjConfig{ return this.getConfig(SkillObjConfig) };
 	public static get Task():TaskConfig{ return this.getConfig(TaskConfig) };

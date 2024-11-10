@@ -335,14 +335,14 @@ export class BagManagerModuleData extends Subdata {
             case ItemType.Jewelry:
                 return GameConfig.JewelryObj.getElement(typeId).stackMax;
                 break;
-            // case ItemType.Consumables:
-            //     GameConfig.ConsumablesObj.getElement(typeId).stackMax;
-            //     break;
-            // case ItemType.Materials:
-            //     GameConfig.MaterialsObj.getElement(typeId).stackMax;
-            //     break;
+            case ItemType.Consumables:
+                return GameConfig.ConsumablesObj.getElement(typeId).stackMax;
+                break;
+            case ItemType.Materials:
+                return GameConfig.MaterialsObj.getElement(typeId).stackMax;
+                break;
             default:
-                console.error("getItenStackMax itemtype error : " + itemtype.toString());
+                console.error("getItenStackMax itemtype error : " + itemtype);
                 return 0;
         }
     }
@@ -359,14 +359,14 @@ export class BagManagerModuleData extends Subdata {
             case ItemType.Jewelry:
                 return GameConfig.JewelryObj.getElement(typeId).name;
                 break;
-            // case ItemType.Consumables:
-            //     GameConfig.ConsumablesObj.getElement(typeId).name;
-            //     break;
-            // case ItemType.Materials:
-            //     GameConfig.MaterialsObj.getElement(typeId).name;
-            //     break;
+            case ItemType.Consumables:
+                return GameConfig.ConsumablesObj.getElement(typeId).name;
+                break;
+            case ItemType.Materials:
+                return GameConfig.MaterialsObj.getElement(typeId).name;
+                break;
             default:
-                console.error("getItemName itemtype error : " + itemtype.toString());
+                console.error("getItemName itemtype error : " + itemtype);
                 return "";
         }
     }
@@ -383,14 +383,14 @@ export class BagManagerModuleData extends Subdata {
             case ItemType.Jewelry:
                 return GameConfig.JewelryObj.getElement(typeId).icon;
                 break;
-            // case ItemType.Consumables:
-            //     GameConfig.ConsumablesObj.getElement(typeId).icon;
-            //     break;
-            // case ItemType.Materials:
-            //     GameConfig.MaterialsObj.getElement(typeId).icon;
-            //     break;
+            case ItemType.Consumables:
+                return GameConfig.ConsumablesObj.getElement(typeId).icon;
+                break;
+            case ItemType.Materials:
+                return GameConfig.MaterialsObj.getElement(typeId).icon;
+                break;
             default:
-                console.error("getItemIcon itemtype error : " + itemtype.toString());
+                console.error("getItemIcon itemtype error : " + itemtype);
                 return "";
         }
     }

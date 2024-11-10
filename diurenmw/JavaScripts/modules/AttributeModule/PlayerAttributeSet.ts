@@ -227,6 +227,7 @@ export class PlayerAttributeSet extends AttributeSet {
         this.critDamage.setCurrent(newCritDamage);
     }
 
+
     protected onStart(): void {
 
     }

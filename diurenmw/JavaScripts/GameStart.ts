@@ -37,6 +37,12 @@ import { TutorialModuleS } from "./modules/tutorialModule/TutorialModuleS";
 import { WeaponModuleC } from "./modules/weaponModule/WeaponModuleC";
 import { WeaponModuleData } from "./modules/weaponModule/WeaponModuleData";
 import { WeaponModuleS } from "./modules/weaponModule/WeaponModuleS";
+import { ConsumableModuleS } from "./modules/consumableModule/ConsumableModuleS";
+import { ConsumableModuleC } from "./modules/consumableModule/ConsumableModuleC";
+import { ConsumableModuleData } from "./modules/consumableModule/ConsumableModuleData";
+import { MaterialModuleS } from "./modules/materialsModule/MaterialModuleS";
+import { MaterialModuleData } from "./modules/materialsModule/MaterialModuleData";
+import { MaterialModuleC } from "./modules/materialsModule/MaterialModuleC";
 
 
 @Component
@@ -117,6 +123,8 @@ class GameStart extends OdinGame {
         MFramework.registerModule(PlayerModuleS, PlayerModuleC, PlayerModuleData);
         MFramework.registerModule(WeaponModuleS, WeaponModuleC, WeaponModuleData);
         MFramework.registerModule(ArmorModuleS, ArmorModuleC, ArmorModuleData);
+        MFramework.registerModule(ConsumableModuleS, ConsumableModuleC, ConsumableModuleData);
+        MFramework.registerModule(MaterialModuleS, MaterialModuleC, MaterialModuleData);
         MFramework.registerModule(JewelryModuleS, JewelryModuleC, JewelryModuleData);
         MFramework.registerModule(SkillModuleS, SkillModuleC, SkillModuleData);
         MFramework.registerModule(RankModuleS, RankModuleC, null);

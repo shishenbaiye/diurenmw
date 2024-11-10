@@ -1,7 +1,7 @@
 import { GameEventBus } from "../../../common/eventBus/EventBus";
 import BagMainShowSelect_Generate from "../../../ui-generate/Bag/BagMainShowSelect_generate";
 import { WeaponModuleData } from "../../weaponModule/WeaponModuleData";
-import { BagItemBase, BagManagerModuleData, EquipmentType } from "../BagManagerModuleData";
+import { BagItemBase, BagManagerModuleData, EquipmentType, ItemType } from "../BagManagerModuleData";
 import BagShowSelect from "./BagShowSelect";
 
 @UIBind('UI/Bag/BagMainShowSelect.ui')
@@ -49,6 +49,11 @@ export default class BagMainShowSelect extends BagMainShowSelect_Generate {
 		{
 			this.leftShowSelectUI.init(true, null, inEquipmentType);
 			this.rightShowSelectUI.setVisible(false);
+		}
+		else if(inItem.itemtype == ItemType.Consumables || inItem.itemtype == ItemType.Materials)
+		{
+			this.leftShowSelectUI.visible = false;
+			this.rightShowSelectUI.init(false, inItem, inEquipmentType);
 		}
 		else
 		{

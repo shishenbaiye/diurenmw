@@ -3,8 +3,10 @@ import { GameConfig } from "../../../configs/GameConfig";
 import BagShowSelect_Generate from "../../../ui-generate/Bag/BagShowSelect_generate";
 import { ArmorModuleData } from "../../armorModule/ArmorModuleData";
 import ArmorScript from "../../armorModule/ArmorScript";
+import { ConsumableModuleData } from "../../consumableModule/ConsumableModuleData";
 import { JewelryModuleData } from "../../jewelryModule/JewelryModuleData";
 import JewelryScript from "../../jewelryModule/JewelryScript";
+import { MaterialModuleData } from "../../materialsModule/MaterialModuleData";
 import { WeaponModuleData } from "../../weaponModule/WeaponModuleData";
 import WeaponScript from "../../weaponModule/WeaponScript";
 import { BagItemBase, BagManagerModuleData, EquipmentType, ItemType } from "../BagManagerModuleData";
@@ -118,6 +120,40 @@ export default class BagShowSelect extends BagShowSelect_Generate {
 				}
 				this.setData(this.item.itemtype, armorData.aid, armorConfig.quality);
 				break;
+			case ItemType.Consumables:
+				let consumablesData = DataCenterC.getData(ConsumableModuleData).getConsumableData(this.item.uuid);
+				let consumableConfig = GameConfig.ConsumablesObj.getElement(this.item.typeId);
+				if(consumablesData.useEffet1) {
+					this.addOnlyEffecItem(consumableConfig.effect1);
+				}
+				if(consumablesData.useEffet2) {
+					this.addOnlyEffecItem(consumableConfig.effect2);
+				}
+				if(consumablesData.useEffet3) {
+					this.addOnlyEffecItem(consumableConfig.effect3);
+				}
+				if(consumablesData.useEffet4) {
+					this.addOnlyEffecItem(consumableConfig.effect4);
+				}
+				this.setData(this.item.itemtype, consumablesData.id, consumableConfig.quality);
+				break;
+			case ItemType.Materials:
+				let materialData = DataCenterC.getData(MaterialModuleData).getMaterialData(this.item.uuid);
+				let materialConfig = GameConfig.MaterialsObj.getElement(this.item.typeId);
+				if(materialData.useEffet1) {
+					this.addOnlyEffecItem(materialConfig.effect1);
+				}
+				if(materialData.useEffet2) {
+					this.addOnlyEffecItem(materialConfig.effect2);
+				}
+				if(materialData.useEffet3) {
+					this.addOnlyEffecItem(materialConfig.effect3);
+				}
+				if(materialData.useEffet4) {
+					this.addOnlyEffecItem(materialConfig.effect4);
+				}
+				this.setData(this.item.itemtype, materialData.id, materialConfig.quality);
+				break;
 		}
 		
 		if(this.isEquipment)
@@ -152,6 +188,14 @@ export default class BagShowSelect extends BagShowSelect_Generate {
 					this.grade.setImageColorByHex(QuantityColor.Epic);
 					break;
 			}
+		}
+		if(itemtype == ItemType.Consumables || itemtype == ItemType.Materials)
+		{
+			this.leftButtonText.text = "使用";
+		}
+		else
+		{
+			this.leftButtonText.text = "装备";
 		}
 	}
 
