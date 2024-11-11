@@ -72,6 +72,10 @@ export class GA_Trigger_Monster_OnHurtAnim extends GameAbility {
         this.animTask = AT_PlayAnimation.New(this,anim,0.5,ownerChar);
         this.animTask.activate();
 
+        if(this.payload.customData.force){
+            ownerChar.addImpulse(this.payload.customData.force,true);
+        }
+
         if(duringTime){
             AT_WaitTime.New(this,2,EAbilityTaskTimeType.Frame).addEndListener(()=>{
 
@@ -82,8 +86,6 @@ export class GA_Trigger_Monster_OnHurtAnim extends GameAbility {
                 }).activate();
 
             }).activate();
-
-            
         }
     }
 

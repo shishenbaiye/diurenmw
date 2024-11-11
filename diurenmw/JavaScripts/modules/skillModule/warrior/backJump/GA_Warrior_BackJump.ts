@@ -1,6 +1,7 @@
 import { Constructor, MPlugin, MPropertiesInject } from "../../../../framework/DI/MContainer";
 import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { AT_PlayAnimation } from "../../../gasModule/gameAbilitys/AT/customAT/AT_PlayAnimation";
+import { AT_WaitTime } from "../../../gasModule/gameAbilitys/AT/customAT/AT_WaitTime";
 import { GameAbility } from "../../../gasModule/gameAbilitys/GA/GameAbility";
 import { EGameAbilityTriggerSourceType } from "../../../gasModule/gameAbilitys/GA/GameAbilityType";
 import { CoolDownByGameEffect } from "../../../gasModule/gameAbilitys/GE/GESpecial/CoolDownByGameEffect";
@@ -35,25 +36,38 @@ export class GA_Warrior_BackJump extends GameAbility{
     }
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         let char = owner as Character;
-        let anim = char.loadAnimation("284782");
 
-        anim.speed = 1.5;
-        anim.blendInTime = 0;
-        // anim.blendOutTime = 0;
-        let animTask = AT_PlayAnimation.New(this,anim,1,char);
+        let waitTime = AT_WaitTime.New(this,0.1);
 
-        this.skillHelper.changePlayerCanMove(char.player,false);
-
-
-        animTask.addEvent(0.1,()=>{
+        waitTime.addEndListener(()=>{
             this.skillHelper.addImpulse(char.player,char.worldTransform.getForwardVector().clone().multiply(800).multiply(-1).add(new Vector(0,0,200)));
+
+            AT_WaitTime.New(this,0.3).addEndListener(()=>{
+                this.end();
+            }).activate();
         })
 
-        animTask.onFinished(()=>{
-            this.end();
-        })
+        waitTime.activate();
 
-        animTask.activate();
+        // let anim = char.loadAnimation("284782");
+
+        // anim.speed = 1.5;
+        // anim.blendInTime = 0;
+        // // anim.blendOutTime = 0;
+        // let animTask = AT_PlayAnimation.New(this,anim,1,char);
+
+        // this.skillHelper.changePlayerCanMove(char.player,false);
+
+
+        // animTask.addEvent(0.1,()=>{
+        //     this.skillHelper.addImpulse(char.player,char.worldTransform.getForwardVector().clone().multiply(800).multiply(-1).add(new Vector(0,0,200)));
+        // })
+
+        // animTask.onFinished(()=>{
+        //     this.end();
+        // })
+
+        // animTask.activate();
     }
     protected onCancel(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         // throw new Error("Method not implemented.");

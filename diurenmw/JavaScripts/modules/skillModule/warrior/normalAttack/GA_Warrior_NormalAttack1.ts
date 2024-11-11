@@ -2,6 +2,7 @@ import { Constructor, MPlugin, MPropertiesInject } from "../../../../framework/D
 import { MathTool } from "../../../../tools/MathTool";
 import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { AT_PlayAnimation } from "../../../gasModule/gameAbilitys/AT/customAT/AT_PlayAnimation";
+import { AT_WaitTime } from "../../../gasModule/gameAbilitys/AT/customAT/AT_WaitTime";
 import { GameAbility } from "../../../gasModule/gameAbilitys/GA/GameAbility";
 import { EGameAbilityTriggerSourceType } from "../../../gasModule/gameAbilitys/GA/GameAbilityType";
 import { CoolDownByGameEffect } from "../../../gasModule/gameAbilitys/GE/GESpecial/CoolDownByGameEffect";
@@ -49,10 +50,15 @@ export class GA_Warrior_NormalAttack1 extends GameAbility{
                 let asc = obj.getComponent(AbilitySystemComponent);
                 if(asc){
                     if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
+                    animTask.pauseTask();
                     this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_NormalAttack1});
-                    this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.5});
+                    let force = obj.worldTransform.position.clone().subtract(char.worldTransform.position).normalize().multiply(500);
+                    this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.5,force:force});
                 }
             })
+            AT_WaitTime.New(this,0.2).addEndListener(()=>{
+                animTask.resumeTask()
+            }).activate()
         })
 
 

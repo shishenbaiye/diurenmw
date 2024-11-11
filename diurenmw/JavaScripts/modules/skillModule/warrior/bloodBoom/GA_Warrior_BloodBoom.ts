@@ -10,80 +10,74 @@ import { CostByGameEffect } from "../../../gasModule/gameAbilitys/GE/GESpecial/C
 import { SkillHelper } from "../../SkillHelper";
 import { RegisterSkill } from "../../SkillManager";
 import { ESkillType } from "../../SkillType";
-import { GE_Damage_Warrior_NormalAttack1 } from "./GE_Damage_Warrior_NormalAttack1";
-import { GE_Damage_Warrior_NormalAttack2 } from "./GE_Damage_Warrior_NormalAttack2";
-import { GE_Damage_Warrior_NormalAttack3 } from "./GE_Damage_Warrior_NormalAttack3";
+import { GE_Damage_Warrior_JumpChop } from "../jumpChop/GE_Damage_Warrior_JumpChop";
+import { GE_CoolDown_Warrior_BloodBoom } from "./GE_CoolDown_Warrior_BloodBoom";
+import { GE_Cost_Warrior_BloodBoom } from "./GE_Cost_Warrior_BloodBoom";
+import { GE_Damage_Warrior_BloodBoom } from "./GE_Damage_Warrior_BloodBoom";
 
-@RegisterSkill(1002, ESkillType.GreatSword)
+@RegisterSkill(1006,ESkillType.GreatSword)
 @MPlugin()
-export class GA_Warrior_NormalAttack2 extends GameAbility {
-    tag: string = "GA.Warrior.NormalAttack.Two";
-    cancelTags: string[];
-    blockTags: string[] = [];
-    activationOwnedTags: string[] = ["State.Player.NormalAttack"]
+export class GA_Warrior_BloodBoom extends GameAbility{
+    tag: string = "GA.Warrior.BloodBoom"
+    cancelTags: string[] = ["GA.Warrior"]
+    blockTags: string[];
+    activationOwnedTags: string[] = ["State.Player.Skilling","State.Player.Stun"]
     activationRequiredTags: string[];
-    activationBlockedTags: string[] = ["State.Player.Skilling","State.Player.BackJump"]
+    activationBlockedTags: string[] = ["State.Player.BackJump","State.Player.NotCancel"]
     targetRequiredTags: string[];
     targetBlockedTags: string[] = ["Club.Player","State.Monster.Dead","State.Monster.Invincible"];
     trigger: { tag: string; sourceType: EGameAbilityTriggerSourceType; }[];
-    cd: Constructor<CoolDownByGameEffect>;
-    cost: Constructor<CostByGameEffect>;
+    cd: Constructor<CoolDownByGameEffect> = GE_CoolDown_Warrior_BloodBoom;
+    cost: Constructor<CostByGameEffect> = GE_Cost_Warrior_BloodBoom;
 
     @MPropertiesInject(SkillHelper)
     private skillHelper:SkillHelper;
 
     protected onPreActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-
+       
     }
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         let char = owner as Character;
-        let aim = char.loadAnimation("269040");
-        aim.blendInTime = 0;
-        aim.speed = 1.2;
-        aim.startTime = 0.95;
-        let animTask = AT_PlayAnimation.New(this, aim, 0.7, char);
+        let anim = char.loadAnimation("298329");
+        anim.speed = 1;
+        anim.blendInTime = 0;
+        let animTask = AT_PlayAnimation.New(this,anim,1.83,char);
 
         this.skillHelper.changePlayerCanMove(char.player,false);
 
+        animTask.addEvent(1,()=>{
+            let charPos = char.worldTransform.position.clone();
+            EffectService.playAtPosition("265665",charPos,{scale:new Vector(1.5,6,1)});
+            EffectService.playAtPosition("265666",charPos,{scale:new Vector(1)})
+            animTask.pauseTask();
 
-        animTask.addEvent(0.4, () => {
-            let arr = MathTool.checkHitByCharacter(owner as Character,200,120);
+            let arr = MathTool.checkHitByPosition(owner as Character,charPos,500);
             arr.forEach((obj:Character)=>{
                 let asc = obj.getComponent(AbilitySystemComponent);
                 if(asc){
                     if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
-                    animTask.pauseTask();
-                    this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_NormalAttack2});
-                    let force = obj.worldTransform.position.clone().subtract(char.worldTransform.position).normalize().multiply(500);
-                    this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.5,force:force});
+                    this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_BloodBoom});
+                    this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{onHurtType:"Crit",duringTime:0.5});
                 }
             })
-            AT_WaitTime.New(this,0.2).addEndListener(()=>{
-                animTask.resumeTask()
-            }).activate()
+
+            AT_WaitTime.New(this,0.6).addEndListener(()=>{
+                animTask.resumeTask();
+            }).activate();
         })
 
-
-        
         animTask.onFinished(()=>{
             this.end();
         })
 
-        animTask.addEvent(0.3,()=>{
-            this.skillHelper.callPlayerMove(char.player,true,char.worldTransform.getForwardVector().normalize().multiply(0.5));
-        })
-        animTask.addEvent(0.5,()=>{
-            this.skillHelper.callPlayerMove(char.player,false);
-        })
+        animTask.activate();
 
-
-
-        animTask.activate()
     }
     protected onCancel(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-        this.skillHelper.callPlayerMove((owner as Character).player,false);
+       
     }
     protected onEnd(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         this.skillHelper.changePlayerCanMove((owner as Character).player,true);
     }
+    
 }
