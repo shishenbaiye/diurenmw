@@ -67,10 +67,6 @@ export default class BagManagerUI extends BagUI_Generate {
 		this.BagItemObjs = new Array<BagItemUI>;
 		this.ItemTypeUIs = new Array<ItemTypeUI>;
 
-		this.testBag.onClicked.add(() => {
-			ModuleService.getModule(BagManagerModuleC).testBag();
-		});
-
 		GameEventBus.on("BagModule_EquipmentClick", this.onEquipmentClick.bind(this));
 		GameEventBus.on("BagModule_ItemClick", this.onItemClick.bind(this));
 	}
@@ -246,7 +242,7 @@ export default class BagManagerUI extends BagUI_Generate {
 		{
 			this.uiWidgetBase.rootContent.addChild(this.mainShowSelectUI.uiObject);
 			this.mainShowSelectUI.uiObject.position = new mw.Vector2(0, 0);
-			this.mainShowSelectUI.uiObject.size = new mw.Vector2(1920, 1080);
+			this.mainShowSelectUI.uiObject.size = this.uiWidgetBase.rootContent.size;
 			this.mainShowSelectUI.uiObject.visibility = mw.SlateVisibility.Visible;
 		}
 		else
@@ -262,7 +258,7 @@ export default class BagManagerUI extends BagUI_Generate {
 		{
 			this.uiWidgetBase.rootContent.addChild(this.mainShowSelectUI.uiObject);
 			this.mainShowSelectUI.uiObject.position = new mw.Vector2(0, 0);
-			this.mainShowSelectUI.uiObject.size = new mw.Vector2(1920, 1080);
+			this.mainShowSelectUI.uiObject.size = this.uiWidgetBase.rootContent.size;
 			this.mainShowSelectUI.uiObject.visibility = mw.SlateVisibility.Visible;
 		}
 		else
