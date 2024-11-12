@@ -28,7 +28,7 @@ export class GA_Warrior_All4One extends GameAbility{
     blockTags: string[];
     activationOwnedTags: string[] = ["State.Player.Skilling","State.Player.Invincible","State.Player.NotCancel"];
     activationRequiredTags: string[];
-    activationBlockedTags: string[] = ["State.Player.BackJump"]
+    activationBlockedTags: string[] = ["State.Player.BackJump","State.Player.NotCancel"]
     targetRequiredTags: string[];
     targetBlockedTags: string[] = ["Club.Player","State.Monster.Dead","State.Monster.Invincible"];
     trigger: { tag: string; sourceType: EGameAbilityTriggerSourceType; }[];

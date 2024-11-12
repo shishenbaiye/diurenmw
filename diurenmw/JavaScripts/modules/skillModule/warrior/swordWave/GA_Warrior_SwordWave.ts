@@ -1,4 +1,5 @@
 import { Constructor, MPlugin, MPropertiesInject } from "../../../../framework/DI/MContainer";
+import { EffectTool } from "../../../../tools/EffectTool";
 import { MathTool } from "../../../../tools/MathTool";
 import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { AT_PlayAnimation } from "../../../gasModule/gameAbilitys/AT/customAT/AT_PlayAnimation";
@@ -33,6 +34,8 @@ export class GA_Warrior_SwordWave extends GameAbility{
     @MPropertiesInject(SkillHelper)
     private skillHelper:SkillHelper;
 
+    @MPropertiesInject(EffectTool)
+    private effectTool:EffectTool;
 
     protected onPreActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         // throw new Error("Method not implemented.");
@@ -56,7 +59,7 @@ export class GA_Warrior_SwordWave extends GameAbility{
             let charPos = char.worldTransform.position.clone();
             charPos.z = char.getSlotWorldPosition(HumanoidSlotType.LeftFoot).z;
             let pos = charPos.add(forward.multiply(100));
-            EffectService.playAtPosition("168834",pos,{scale:new Vector(0.5),rotation:char.worldTransform.rotation});
+            this.effectTool.playAtPosition("168834",pos,{scale:new Vector(0.5),rotation:char.worldTransform.rotation,color:LinearColor.red});
 
             let forward2 = char.worldTransform.getForwardVector().clone();
             let start = char.worldTransform.position.clone().add(forward2.clone().multiply(100));

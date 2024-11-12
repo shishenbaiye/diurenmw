@@ -22,6 +22,23 @@ export class EffectTool extends MObject{
         return this.effectId;
     }
 
+    playAtPosition(assetId: string, position: mw.Vector, params?: {
+        slotType?: mw.HumanoidSlotType;
+        loopCount?: number;
+        duration?: number;
+        rotation?: mw.Rotation;
+        scale?: mw.Vector;
+        color?: mw.LinearColor;
+        transparencyFloat?: number;
+    }){
+        this.effectId++;
+        this.rpc.allClient(this,this.c_playAtPosition,this.effectId,assetId,position,params)
+        return this.effectId;
+    }
+
+
+
+
     stopEffect(id:number){
         this.rpc.allClient(this,this.c_stopEffect,id);
     }
@@ -32,7 +49,6 @@ export class EffectTool extends MObject{
         slotType?: mw.HumanoidSlotType;
         loopCount?: number;
         duration?: number;
-        position?: mw.Vector;
         rotation?: mw.Rotation;
         scale?: mw.Vector;
         color?: mw.LinearColor;
@@ -56,11 +72,45 @@ export class EffectTool extends MObject{
                 if(params.loopCount){
                     effect.loopCount = params.loopCount;
                 }
+                effect.loop = true;
                 effect.loopCount = params.loopCount || 1;
                 effect.duration = params.duration || 0;
-                effect.localTransform.position = params.position || new Vector(0,0,0);
                 effect.localTransform.rotation = params.rotation || new Rotation(0,0,0);
                 effect.localTransform.scale = params.scale || new Vector(1,1,1);
+                effect.play();
+                this.c_EffectMap.set(id,effect);
+            }
+        });
+    }
+
+    c_playAtPosition(id:number, assetId: string, position: mw.Vector,params?: {
+        slotType?: mw.HumanoidSlotType;
+        loopCount?: number;
+        duration?: number;
+        position?: mw.Vector;
+        rotation?: mw.Rotation;
+        scale?: mw.Vector;
+        color?: mw.LinearColor;
+        transparencyFloat?: number;
+    }){
+        console.log("c_playAtPosition",id,assetId,position,params);
+        GameObject.asyncSpawn(assetId).then((obj) => {
+            if(obj){
+                let effect = obj as mw.Effect;
+                effect.worldTransform.position = position.clone();
+                if(params.color){
+                    effect.setColor(`Color`,params.color);
+                }
+                if(params.transparencyFloat){
+                    effect.setFloat("Transparency",params.transparencyFloat);
+                }
+                if(params.loopCount){
+                    effect.loopCount = params.loopCount;
+                }
+                effect.loopCount = params.loopCount || 1;
+                // effect.duration = params.duration || 0;
+                effect.worldTransform.rotation = params.rotation || new Rotation(0,0,0);
+                effect.worldTransform.scale = params.scale || new Vector(1,1,1);
                 effect.play();
                 this.c_EffectMap.set(id,effect);
             }

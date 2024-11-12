@@ -1,4 +1,5 @@
 import { Constructor, MPlugin, MPropertiesInject } from "../../../../framework/DI/MContainer";
+import { MFramework } from "../../../../framework/MFramework";
 import { EffectTool } from "../../../../tools/EffectTool";
 import { MathTool } from "../../../../tools/MathTool";
 import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
@@ -11,15 +12,16 @@ import { CostByGameEffect } from "../../../gasModule/gameAbilitys/GE/GESpecial/C
 import { SkillHelper } from "../../SkillHelper";
 import { RegisterSkill } from "../../SkillManager";
 import { ESkillType } from "../../SkillType";
-import { GE_Damage_Warrior_JumpChop } from "../jumpChop/GE_Damage_Warrior_JumpChop";
-import { GE_CoolDown_Warrior_BloodBoom } from "./GE_CoolDown_Warrior_BloodBoom";
-import { GE_Cost_Warrior_BloodBoom } from "./GE_Cost_Warrior_BloodBoom";
-import { GE_Damage_Warrior_BloodBoom } from "./GE_Damage_Warrior_BloodBoom";
+import { GE_CoolDown_Warrior_RagingFury } from "./GE_CoolDown_Warrior_RagingFury";
+import { GE_Cost_Warrior_RagingFury } from "./GE_Cost_Warrior_RagingFury";
+import { GE_Damage_Warrior_RagingFuryOne } from "./GE_Damage_Warrior_RagingFuryOne";
+import { GE_Damage_Warrior_RagingFuryTwo } from "./GE_Damage_Warrior_RagingFuryTwo";
+import { RagingFuryObj } from "./RagingFuryObj";
 
-@RegisterSkill(1006,ESkillType.GreatSword)
+@RegisterSkill(1007,ESkillType.GreatSword)
 @MPlugin()
-export class GA_Warrior_BloodBoom extends GameAbility{
-    tag: string = "GA.Warrior.BloodBoom"
+export class GA_Warrior_RagingFury extends GameAbility{
+    tag: string = "GA.Warrior.RagingFury"
     cancelTags: string[] = ["GA.Warrior"]
     blockTags: string[];
     activationOwnedTags: string[] = ["State.Player.Skilling","State.Player.Stun"]
@@ -28,8 +30,8 @@ export class GA_Warrior_BloodBoom extends GameAbility{
     targetRequiredTags: string[];
     targetBlockedTags: string[] = ["Club.Player","State.Monster.Dead","State.Monster.Invincible"];
     trigger: { tag: string; sourceType: EGameAbilityTriggerSourceType; }[];
-    cd: Constructor<CoolDownByGameEffect> = GE_CoolDown_Warrior_BloodBoom;
-    cost: Constructor<CostByGameEffect> = GE_Cost_Warrior_BloodBoom;
+    cd: Constructor<CoolDownByGameEffect> = GE_CoolDown_Warrior_RagingFury;
+    cost: Constructor<CostByGameEffect> = GE_Cost_Warrior_RagingFury;
 
     @MPropertiesInject(SkillHelper)
     private skillHelper:SkillHelper;
@@ -42,44 +44,31 @@ export class GA_Warrior_BloodBoom extends GameAbility{
     }
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         let char = owner as Character;
-        let anim = char.loadAnimation("281036");
-        anim.speed = 1;
+        let anim = char.loadAnimation("269224");
+        anim.speed = 1.5;
         anim.blendInTime = 0;
-        let animTask = AT_PlayAnimation.New(this,anim,1.83,char);
 
         this.skillHelper.changePlayerCanMove(char.player,false);
 
-        animTask.addEvent(1,()=>{
-            let charPos = char.worldTransform.position.clone();
-            this.effectTool.playAtPosition("265665",charPos,{scale:new Vector(1.5,6,1),color:LinearColor.red});
-            this.effectTool.playAtPosition("265666",charPos,{scale:new Vector(1),color:LinearColor.red})
+        let animTask = AT_PlayAnimation.New(this,anim,1,char);
 
-            // animTask.pauseTask();
 
-            let arr = MathTool.checkHitByPosition(owner as Character,charPos,500);
-            arr.forEach((obj:Character)=>{
-                let asc = obj.getComponent(AbilitySystemComponent);
-                if(asc){
-                    if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
-                    this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_BloodBoom});
-                    this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{onHurtType:"Crit",duringTime:0.5});
-                }
-            })
+       
 
-            // AT_WaitTime.New(this,0.6).addEndListener(()=>{
-            //     animTask.resumeTask();
-            // }).activate();
+        animTask.addEvent(0,()=>{
+            let ragingFury = MFramework.createObject<RagingFuryObj>(RagingFuryObj);
+            ragingFury.init(asc,owner,target,this)
+            ragingFury.start();
         })
-
+        
         animTask.onFinished(()=>{
             this.end();
         })
 
         animTask.activate();
-
     }
     protected onCancel(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-       
+        
     }
     protected onEnd(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         this.skillHelper.changePlayerCanMove((owner as Character).player,true);
