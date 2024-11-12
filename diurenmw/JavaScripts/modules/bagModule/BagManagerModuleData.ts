@@ -192,6 +192,17 @@ export class BagManagerModuleData extends Subdata {
         return null;
     }
 
+    findItemByTypeId(inItemType : ItemType, inTypeId : number) : BagItemBase {
+        let bagTypeList = this.itemList.get(inItemType);
+        if(bagTypeList)
+        {
+            return bagTypeList.find((item) => {
+                return item.typeId == inTypeId;
+            });
+        }
+        return null;
+    }
+
     findItemByIndex(inItemType : ItemType, index : number) : BagItemBase {
         if(this.itemList.has(inItemType))
         {
@@ -464,11 +475,9 @@ export class BagManagerModuleData extends Subdata {
         let stackNum = 0;
         let NotStackNum = 0;
         
-        let BagItem = this.findItem(items.itemtype, items.uuid);
+        let BagItem = this.findItemByTypeId(items.itemtype, items.typeId);
         if(BagItem)
         {
-            // 暂时不允许叠加物品，得把uuid和typeid敲定用什么为维度再考虑。用uuid的话，需要删除原本叠加的物品
-            return false;
             // 已有相同物品，判断是否可叠加
             if(stackMax < items.count + BagItem.count)
             {
