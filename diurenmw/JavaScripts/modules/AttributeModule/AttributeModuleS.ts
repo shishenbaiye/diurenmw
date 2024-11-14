@@ -8,6 +8,8 @@ import { ArmorPart } from "../armorModule/ArmorType";
 import { AttributeDataInit } from "../gasModule/gameAbilitys/AS/AttributeHelper";
 import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { GA_Trigger_NotFullMp } from "../skillModule/common/GA_Trigger_NotFullMp";
+import { GA_Warrior_All4One } from "../skillModule/warrior/all4One/GA_Warrior_All4One";
+import { GA_Warrior_BackJump } from "../skillModule/warrior/backJump/GA_Warrior_BackJump";
 import { GA_Warrior_NormalAttack1 } from "../skillModule/warrior/normalAttack/GA_Warrior_NormalAttack1";
 import { GA_Warrior_NormalAttack2 } from "../skillModule/warrior/normalAttack/GA_Warrior_NormalAttack2";
 import { GA_Warrior_NormalAttack3 } from "../skillModule/warrior/normalAttack/GA_Warrior_NormalAttack3";
@@ -59,9 +61,12 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
         let component = player.character.getComponent(AbilitySystemComponent);
         if(component){
             component.giveAbility(GA_Trigger_NotFullMp);
+            // 大剑
             component.giveAbility(GA_Warrior_NormalAttack1);
             component.giveAbility(GA_Warrior_NormalAttack2);
             component.giveAbility(GA_Warrior_NormalAttack3);
+            component.giveAbility(GA_Warrior_BackJump);
+            component.giveAbility(GA_Warrior_All4One);
         }
     }
 

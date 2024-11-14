@@ -1,4 +1,5 @@
-import { Constructor, MPlugin, MPropertiesInject } from "../../../../framework/DI/MContainer";
+import { CameraManager } from "../../../../camera/CameraManager";
+import { Constructor, MPlugin, MPropertiesInject, RpcPlugin } from "../../../../framework/DI/MContainer";
 import { EffectTool } from "../../../../tools/EffectTool";
 import { MathTool } from "../../../../tools/MathTool";
 import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
@@ -36,6 +37,12 @@ export class GA_Warrior_JumpChop extends GameAbility{
     @MPropertiesInject(EffectTool)
     private effectTool:EffectTool;
 
+    @MPropertiesInject(CameraManager)
+    private cameraManager:CameraManager;
+
+    @MPropertiesInject(RpcPlugin)
+    private rpc:RpcPlugin;
+
     protected onPreActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         // throw new Error("Method not implemented.");
     }
@@ -44,7 +51,7 @@ export class GA_Warrior_JumpChop extends GameAbility{
         let anim = char.loadAnimation("279697");
         anim.speed = 1.3;
         anim.blendInTime = 0;
-        let animTask = AT_PlayAnimation.New(this,anim,1.6,char);
+        let animTask = AT_PlayAnimation.New(this,anim,1.5,char);
 
         this.skillHelper.changePlayerCanMove(char.player,false);
 
@@ -97,6 +104,8 @@ export class GA_Warrior_JumpChop extends GameAbility{
             let pos = charPos.add(forward.multiply(200));
             this.effectTool.playAtPosition("27450",pos,{scale:new Vector(2),color:LinearColor.red});
 
+            this.rpc.client(char.player,this,this.C_ShakeCamera,0.3,2);
+
             let arr = MathTool.checkHitByPosition(owner as Character,pos,333);
             arr.forEach((obj:Character)=>{
                 let asc = obj.getComponent(AbilitySystemComponent);
@@ -113,25 +122,6 @@ export class GA_Warrior_JumpChop extends GameAbility{
             }).activate()
         })
 
-        // animTask.addEvent(1.35,()=>{
-            
-        //     let forward = char.worldTransform.getForwardVector().clone();
-        //     let charPos = char.worldTransform.position.clone();
-        //     charPos.z = char.getSlotWorldPosition(HumanoidSlotType.Root).z;
-        //     let pos = charPos.add(forward.multiply(200));
-        //     EffectService.playAtPosition("295654",pos,{scale:new Vector(1)});
-
-        //     let arr = MathTool.checkHitByPosition(owner as Character,pos,333);
-        //     arr.forEach((obj:Character)=>{
-        //         let asc = obj.getComponent(AbilitySystemComponent);
-        //         if(asc){
-        //             if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
-        //             this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_JumpChop});
-        //             this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{onHurtType:"Crit",duringTime:0.5});
-        //         }
-        //     })
-        // })
-
         animTask.onFinished(()=>{
             this.end();
         })
@@ -145,4 +135,7 @@ export class GA_Warrior_JumpChop extends GameAbility{
         this.skillHelper.changePlayerCanMove((owner as Character).player,true);
     }
     
+    C_ShakeCamera(time:number,str:number){
+        this.cameraManager.shakeCamera(time,str,str,100,100);
+    }
 }

@@ -23,6 +23,10 @@ export class HudModuleC extends ModuleC<HudModuleS,null>{
         this.diurenmwHudPanel.mMaskButton_skill2.visibility = SlateVisibility.Collapsed;
         this.diurenmwHudPanel.mMaskButton_skill3.visibility = SlateVisibility.Collapsed;
         this.diurenmwHudPanel.mMaskButton_skill4.visibility = SlateVisibility.Collapsed;
+        this.diurenmwHudPanel.mMaskButton_skill5.visibility = SlateVisibility.Collapsed;
+        this.diurenmwHudPanel.mMaskButton_skillBack.visibility = SlateVisibility.Collapsed;
+        this.diurenmwHudPanel.mMaskButton_skillFinal.visibility = SlateVisibility.Collapsed;
+
         UIService.showUI(this.diurenmwHudPanel);
     }
 
@@ -31,6 +35,20 @@ export class HudModuleC extends ModuleC<HudModuleS,null>{
             this.initDiurenmwHud();
         }
         this.diurenmwHudPanel.setNormalSkill(skillId);
+    }
+
+    setBackSkill(skillId: number){
+        if(!this.diurenmwHudPanel){
+            this.initDiurenmwHud();
+        }
+        this.diurenmwHudPanel.setSkillBack(skillId);
+    }
+
+    setFinalSkill(skillId: number){
+        if(!this.diurenmwHudPanel){
+            this.initDiurenmwHud();
+        }
+        this.diurenmwHudPanel.setSkillFinal(skillId);
     }
 
     setSkill(skillId: number,index:number){
@@ -52,6 +70,9 @@ export class HudModuleC extends ModuleC<HudModuleS,null>{
 
         if(index == 3){
             this.diurenmwHudPanel.setSkill4(skillId);
+        }
+        if(index == 4){
+            this.diurenmwHudPanel.setSkill5(skillId);
         }
 
     }

@@ -52,9 +52,27 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
                 skillScript.skill4 = skillData.skill4;
             }
 
+            if (skillData.skill5) {
+                skillScript.skill5 = skillData.skill5;
+            }
+
+            if (skillData.skillBack) {
+                skillScript.skillBack = skillData.skillBack;
+            }
+
+            if (skillData.skillFinal) {
+                skillScript.skillFinal = skillData.skillFinal;
+            }
+
             //给武器添加普通攻击
             skillData.weaponNormalSkillList.set(EWeaponType.GreatSword,WeaponNormalAttack.GreatSword);
+            skillData.weaponBackSkillList.set(EWeaponType.GreatSword,WeaponNormalAttack.GreatSwordBack);
+            skillData.weaponFinalSkillList.set(EWeaponType.GreatSword,WeaponNormalAttack.GreatSwordFinal);
+
             skillData.weaponNormalSkillList.set(EWeaponType.Staff,WeaponNormalAttack.Staff);
+            skillData.weaponBackSkillList.set(EWeaponType.Staff,WeaponNormalAttack.StaffBack);
+            skillData.weaponFinalSkillList.set(EWeaponType.Staff,WeaponNormalAttack.StaffFinal);
+  
             skillData.save(true);
         }
     }
@@ -80,6 +98,26 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
         skillData.save(true);
     }
 
+    setBackSkill(player: mw.Player, skillId: number) {
+        let skillData = this.getPlayerData(player);
+        let weapon = player.character.getComponent(WeaponScript).getEquipWeapon().getData();
+        if(!weapon) return;
+
+        skillData.skillBack = skillId;
+        skillData.save(true);
+    }
+
+    setFinalSkill(player: mw.Player, skillId: number) {
+        let skillData = this.getPlayerData(player);
+        let weapon = player.character.getComponent(WeaponScript).getEquipWeapon().getData();
+        if(!weapon) return;
+
+        skillData.skillFinal = skillId;
+        skillData.save(true);
+    }
+
+    
+
     setSkill(player: mw.Player, skillId: number, index: number): boolean {
         let skillData = this.getPlayerData(player);  
         let ress = false;
@@ -98,7 +136,7 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
                     if(skillData.weaponSkillList.get(weapon.wtid.toString())){
                         skillData.weaponSkillList.get(weapon.wtid.toString())[0] = skillId;
                     }else{
-                        skillData.weaponSkillList.set(weapon.wtid.toString(),[skillId,-1,-1,-1]);
+                        skillData.weaponSkillList.set(weapon.wtid.toString(),[skillId,-1,-1,-1,-1]);
                     }
                     break;
                 case 1:
@@ -106,7 +144,7 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
                     if(skillData.weaponSkillList.get(weapon.wtid.toString())){
                         skillData.weaponSkillList.get(weapon.wtid.toString())[1] = skillId;
                     }else{
-                        skillData.weaponSkillList.set(weapon.wtid.toString(),[-1,skillId,-1,-1]);
+                        skillData.weaponSkillList.set(weapon.wtid.toString(),[-1,skillId,-1,-1,-1]);
                     }
                     break;
                 case 2:
@@ -114,7 +152,7 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
                     if(skillData.weaponSkillList.get(weapon.wtid.toString())){
                         skillData.weaponSkillList.get(weapon.wtid.toString())[2] = skillId;
                     }else{
-                        skillData.weaponSkillList.set(weapon.wtid.toString(),[-1,-1,skillId,-1]);
+                        skillData.weaponSkillList.set(weapon.wtid.toString(),[-1,-1,skillId,-1,-1]);
                     }
                     break;
                 case 3:
@@ -122,7 +160,15 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
                     if(skillData.weaponSkillList.get(weapon.wtid.toString())){
                         skillData.weaponSkillList.get(weapon.wtid.toString())[3] = skillId;
                     }else{
-                        skillData.weaponSkillList.set(weapon.wtid.toString(),[-1,-1,-1,skillId]);
+                        skillData.weaponSkillList.set(weapon.wtid.toString(),[-1,-1,-1,skillId,-1]);
+                    }
+                    break;
+                case 4:
+                    skillData.skill5 = skillId;
+                    if(skillData.weaponSkillList.get(weapon.wtid.toString())){
+                        skillData.weaponSkillList.get(weapon.wtid.toString())[4] = skillId;
+                    }else{
+                        skillData.weaponSkillList.set(weapon.wtid.toString(),[-1,-1,-1,-1,skillId]);
                     }
                     break;
             }
@@ -136,10 +182,20 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
     onEquipWeapon(player: mw.Player, weaponId: number) {
         console.log(`装备武器`, weaponId);
         let skillData = this.getPlayerData(player);
+
         let weaponSkillList = skillData.weaponSkillList.get(weaponId.toString());
         if(!weaponSkillList) weaponSkillList = [];
+
         let weaponNormalSkillList = skillData.weaponNormalSkillList.get(weaponId.toString());
         if(!weaponNormalSkillList) weaponNormalSkillList = [];
+
+        let weaponBackSkill = skillData.weaponBackSkillList.get(weaponId.toString());
+        if(!weaponBackSkill) weaponBackSkill = -1;
+
+        let weaponFinalSkillList = skillData.weaponFinalSkillList.get(weaponId.toString());
+        if(!weaponFinalSkillList) weaponFinalSkillList = [];
+
+
         let skillScript = player.character.getComponent(PlayerSkillScrpit);
         if (skillScript) {
             if (weaponSkillList) {
@@ -158,9 +214,19 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
                 if (weaponSkillList[3]) {
                     skillScript.setSkill(weaponSkillList[3], 3);
                 }
+
+                if (weaponSkillList[4]) {
+                    skillScript.setSkill(weaponSkillList[4], 4);
+                }
             }
             if (weaponNormalSkillList) {
                 skillScript.setNormalAttack(weaponNormalSkillList);
+            }
+            if (weaponBackSkill) {
+                skillScript.setBackSkill(weaponBackSkill);
+            }
+            if (weaponFinalSkillList) {
+                skillScript.setFinalSkill(weaponFinalSkillList[0]);
             }
         }
     }
@@ -174,6 +240,9 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
             skillData.skill2 = -1;
             skillData.skill3 = -1;
             skillData.skill4 = -1;
+            skillData.skill5 = -1;
+            skillData.skillFinal = -1;
+            skillData.skillBack = -1;
             skillData.save(true);
             skillScript.removeCurrentSkill();
         }

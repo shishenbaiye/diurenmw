@@ -101,11 +101,71 @@ export class MainHudPanel extends MainHud_Generate{
             }
         }
     }
+    
+    private _skill5: number;
+    setSkill5(skillId: number) {
+        this._skill5 = skillId;
+        if(skillId == -1){
+            this.mImage_skill5.visibility = SlateVisibility.Collapsed;
+            this.skill5Cd = null;
+            this.mMaskButton_skill5.visibility = SlateVisibility.Collapsed;
+        }else{
+            let config = GameConfig.SkillObj.getElement(skillId);
+            if(config){
+                this.mImage_skill5.visibility = SlateVisibility.SelfHitTestInvisible;
+                this.mImage_skill5.imageGuid = config.iconGuid;
+            }else{
+                console.warn("技能配置不存在",skillId);
+                this.mImage_skill5.visibility = SlateVisibility.Collapsed;
+            }
+        }
+    }
+
+    private _skillBack: number;
+    setSkillBack(skillId: number) {
+        this._skillBack = skillId;
+        if(skillId == -1){
+            this.mImage_skillBack.visibility = SlateVisibility.Collapsed;
+            this.skillBackCd = null;
+            this.mMaskButton_skillBack.visibility = SlateVisibility.Collapsed;
+        }else{
+            let config = GameConfig.SkillObj.getElement(skillId);
+            if(config){
+                this.mImage_skillBack.visibility = SlateVisibility.SelfHitTestInvisible;
+                this.mImage_skillBack.imageGuid = config.iconGuid;
+            }else{
+                console.warn("技能配置不存在",skillId);
+                this.mImage_skillBack.visibility = SlateVisibility.Collapsed;
+            }
+        }
+    }
+
+    private _skillFinal: number;
+    setSkillFinal(skillId: number) {
+        this._skillFinal = skillId;
+        if(skillId == -1){
+            this.mImage_skillFinal.visibility = SlateVisibility.Collapsed;
+            this.skillFinalCd = null;
+            this.mMaskButton_skillFinal.visibility = SlateVisibility.Collapsed;
+        }else{
+            let config = GameConfig.SkillObj.getElement(skillId);
+            if(config){
+                this.mImage_skillFinal.visibility = SlateVisibility.SelfHitTestInvisible;
+                this.mImage_skillFinal.imageGuid = config.iconGuid;
+            }else{
+                console.warn("技能配置不存在",skillId);
+                this.mImage_skillFinal.visibility = SlateVisibility.Collapsed;
+            }
+        }
+    }
 
     skill1Cd:number = null;
     skill2Cd:number = null;
     skill3Cd:number = null;
     skill4Cd:number = null;
+    skill5Cd:number = null;
+    skillBackCd:number = null;
+    skillFinalCd:number = null;
     setSkillCD(cd:number,index:number){
         if(cd == 0) return;
         if(index == 0){
@@ -119,6 +179,15 @@ export class MainHudPanel extends MainHud_Generate{
         }
         if(index == 3){
             this.skill4Cd = cd;
+        }
+        if(index == 4){
+            this.skill5Cd = cd;
+        }
+        if(index == 5){
+            this.skillBackCd = cd;
+        }
+        if(index == 6){
+            this.skillFinalCd = cd;
         }
     }
 
@@ -166,6 +235,39 @@ export class MainHudPanel extends MainHud_Generate{
                 this.mMaskButton_skill4.fanShapedValue = 1-(this.skill4Cd / GameConfig.SkillObj.getElement(this._skill4).cd)
             }
         }
+
+        if(this.skill5Cd){
+            this.skill5Cd -= dt;
+            if(this.skill5Cd <= 0){
+                this.skill5Cd = null;
+                this.mMaskButton_skill5.visibility = SlateVisibility.Collapsed;
+            }else{
+                this.mMaskButton_skill5.visibility = SlateVisibility.Visible;
+                this.mMaskButton_skill5.fanShapedValue = 1-(this.skill5Cd / GameConfig.SkillObj.getElement(this._skill5).cd)
+            }
+        }
+
+        if(this.skillBackCd){
+            this.skillBackCd -= dt;
+            if(this.skillBackCd <= 0){
+                this.skillBackCd = null;
+                this.mMaskButton_skillBack.visibility = SlateVisibility.Collapsed;
+            }else{
+                this.mMaskButton_skillBack.visibility = SlateVisibility.Visible;
+                this.mMaskButton_skillBack.fanShapedValue = 1-(this.skillBackCd / GameConfig.SkillObj.getElement(this._skillBack).cd)
+            }
+        }
+
+        if(this.skillFinalCd){
+            this.skillFinalCd -= dt;
+            if(this.skillFinalCd <= 0){
+                this.skillFinalCd = null;
+                this.mMaskButton_skillFinal.visibility = SlateVisibility.Collapsed;
+            }else{
+                this.mMaskButton_skillFinal.visibility = SlateVisibility.Visible;
+                this.mMaskButton_skillFinal.fanShapedValue = 1-(this.skillFinalCd / GameConfig.SkillObj.getElement(this._skillFinal).cd)
+            }
+        }
     }
     
 
@@ -199,6 +301,24 @@ export class MainHudPanel extends MainHud_Generate{
         this.mButton_skill4.onClicked.add(()=>{
             if(this._skill4 != null){
                 ModuleService.getModule(SkillModuleC).activeSkill(3);
+            }
+        })
+
+        this.mButton_skill5.onClicked.add(()=>{
+            if(this._skill5 != null){
+                ModuleService.getModule(SkillModuleC).activeSkill(4);
+            }
+        })
+
+        this.mButton_skillBack.onClicked.add(()=>{
+            if(this._skillBack != null){
+                ModuleService.getModule(SkillModuleC).activeSkill(5);
+            }
+        })
+
+        this.mButton_skillFinal.onClicked.add(()=>{
+            if(this._skillFinal != null){
+                ModuleService.getModule(SkillModuleC).activeSkill(6);
             }
         })
 

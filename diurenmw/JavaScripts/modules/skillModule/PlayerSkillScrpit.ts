@@ -19,6 +19,13 @@ export default class PlayerSkillScrpit extends Script {
     skill3: number = null
     @Property({displayName: "技能4",replicated:true,onChanged:"onSetSkill4"})
     skill4: number = null
+    @Property({displayName: "技能5",replicated:true,onChanged:"onSetSkill5"})
+    skill5: number = null
+    @Property({displayName: "技能大招",replicated:true,onChanged:"onSetSkillFinal"})
+    skillFinal: number = null
+    @Property({displayName: "技能后跳",replicated:true,onChanged:"onSetSkillBack"})
+    skillBack: number = null
+
 
 
 
@@ -39,6 +46,9 @@ export default class PlayerSkillScrpit extends Script {
                 case 3:
                     this.skill4 = skillId;
                     break;
+                case 4:
+                    this.skill5 = skillId;
+                    break;
             }
         }    
     }
@@ -48,12 +58,25 @@ export default class PlayerSkillScrpit extends Script {
         ModuleService.getModule(SkillModuleS).setNormalSkill((this.gameObject as Character).player, skill);
     }
 
+    setBackSkill(skill: number) {
+        this.skillBack = skill;
+        ModuleService.getModule(SkillModuleS).setBackSkill((this.gameObject as Character).player, skill);
+    }   
+
+    setFinalSkill(skill: number) {
+        this.skillFinal = skill;
+        ModuleService.getModule(SkillModuleS).setFinalSkill((this.gameObject as Character).player, skill);
+    }
+
     removeCurrentSkill(){
         this.normalAttack = [];
         this.skill1 = -1;
         this.skill2 = -1;
         this.skill3 = -1;
         this.skill4 = -1;
+        this.skill5 = -1;
+        this.skillFinal = -1;
+        this.skillBack = -1;
     }
 
     private currentNormalAttackIndex: number = 0;
@@ -75,7 +98,7 @@ export default class PlayerSkillScrpit extends Script {
         } else {
             this.timeOutId = setTimeout(() => {
                 this.currentNormalAttackIndex = 0;
-            }, 4000);
+            }, 3000);
         }
     }
 
@@ -120,6 +143,39 @@ export default class PlayerSkillScrpit extends Script {
                 return true;
             }
         }
+
+        if(index == 4){
+            let skill = SkillManager.instance.getSkillById(this.skill5);
+            if (!skill) return false;
+            let res = this.ownerAsc.tryActiveGameAbilityByClassOrName(skill);
+            if(res){
+                let cd = GameConfig.SkillObj.getElement(this.skill5).cd;
+                ModuleService.getModule(HudModuleS).setSkillCD(this.gameObject as Character,cd,4);
+                return true;
+            }
+        }
+
+        if(index == 5){
+            let skill = SkillManager.instance.getSkillById(this.skillBack);
+            if (!skill) return false;
+            let res = this.ownerAsc.tryActiveGameAbilityByClassOrName(skill);
+            if(res){
+                let cd = GameConfig.SkillObj.getElement(this.skillBack).cd;
+                ModuleService.getModule(HudModuleS).setSkillCD(this.gameObject as Character,cd,5);
+                return true;
+            }
+        }
+
+        if(index == 6){
+            let skill = SkillManager.instance.getSkillById(this.skillFinal);
+            if (!skill) return false;
+            let res = this.ownerAsc.tryActiveGameAbilityByClassOrName(skill);
+            if(res){
+                let cd = GameConfig.SkillObj.getElement(this.skillFinal).cd;
+                ModuleService.getModule(HudModuleS).setSkillCD(this.gameObject as Character,cd,6);
+                return true;
+            }
+        }
     }
 
     addSkill(skillid: number) {
@@ -129,6 +185,16 @@ export default class PlayerSkillScrpit extends Script {
     onSetNormalAttack(){
         if(this.gameObject.gameObjectId != Player.localPlayer.character.gameObjectId) return;
         ModuleService.getModule(HudModuleC).setNormalSkill(this.normalAttack);
+    }
+
+    onSetSkillBack(){
+        if(this.gameObject.gameObjectId != Player.localPlayer.character.gameObjectId) return;
+        ModuleService.getModule(HudModuleC).setBackSkill(this.skillBack);
+    }
+
+    onSetSkillFinal(){
+        if(this.gameObject.gameObjectId != Player.localPlayer.character.gameObjectId) return;
+        ModuleService.getModule(HudModuleC).setFinalSkill(this.skillFinal);
     }
 
     onSetSkill1(){
@@ -153,5 +219,11 @@ export default class PlayerSkillScrpit extends Script {
         if(this.gameObject.gameObjectId != Player.localPlayer.character.gameObjectId) return;
         ModuleService.getModule(SkillModuleC).setSkillUI(this.skill4,3);
         ModuleService.getModule(HudModuleC).setSkill(this.skill4,3);
+    }
+
+    onSetSkill5(){
+        if(this.gameObject.gameObjectId != Player.localPlayer.character.gameObjectId) return;
+        ModuleService.getModule(SkillModuleC).setSkillUI(this.skill5,4);
+        ModuleService.getModule(HudModuleC).setSkill(this.skill5,4);
     }
 }

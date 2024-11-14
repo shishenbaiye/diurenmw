@@ -1,4 +1,5 @@
-import { MPlugin, MPropertiesInject } from "../../../../framework/DI/MContainer";
+import { CameraManager } from "../../../../camera/CameraManager";
+import { MPlugin, MPropertiesInject, RpcPlugin } from "../../../../framework/DI/MContainer";
 import { MObject } from "../../../../framework/Object/MObject";
 import { EffectTool } from "../../../../tools/EffectTool";
 import { MathTool } from "../../../../tools/MathTool";
@@ -14,9 +15,15 @@ export class RagingFuryObj extends MObject{
     private owner:GameObject;
     private target:GameObject;
     private gameAbility:GameAbility;
+
+    @MPropertiesInject(RpcPlugin)
+    private rpc:RpcPlugin;
+
     @MPropertiesInject(EffectTool)
     private effectTool:EffectTool;
     
+    @MPropertiesInject(CameraManager)
+    private cameraManager:CameraManager;
 
     init(asc:AbilitySystemComponent,owner:GameObject,target:GameObject,ownerGameAbility:GameAbility){
         this.asc = asc;
@@ -43,14 +50,15 @@ export class RagingFuryObj extends MObject{
             }
         })
 
+        this.rpc.client(char.player,this,this.C_ShakeCamera,0.3,2);
+
         setTimeout(() => {
-            this.effectTool.playAtPosition("398532",this.charPos,{scale:new Vector(8,2,8),rotation:new Rotation(new Vector(90,0,0)),color:LinearColor.red});
+            this.effectTool.playAtPosition("398532",char.getSlotWorldPosition(HumanoidSlotType.Root).clone(),{scale:new Vector(8,2,8),rotation:new Rotation(new Vector(90,0,0)),color:LinearColor.red});
             this.effectTool.playAtPosition("15248",this.charPos,{scale:new Vector(8,8,1),color:LinearColor.red});
         }, 1500);
 
         setTimeout(() => {
-            let charPos = char.worldTransform.position.clone();
-            let arr = MathTool.checkHitByPosition(char,charPos,300);
+            let arr = MathTool.checkHitByPosition(char,this.charPos,300);
             arr.forEach((obj:Character)=>{
                 let asc = obj.getComponent(AbilitySystemComponent);
                 if(asc){
@@ -63,8 +71,7 @@ export class RagingFuryObj extends MObject{
 
         
         setTimeout(() => {
-            let charPos = char.worldTransform.position.clone();
-            let arr = MathTool.checkHitByPosition(char,charPos,300);
+            let arr = MathTool.checkHitByPosition(char,this.charPos,300);
             arr.forEach((obj:Character)=>{
                 let asc = obj.getComponent(AbilitySystemComponent);
                 if(asc){
@@ -76,8 +83,7 @@ export class RagingFuryObj extends MObject{
         }, 1600);
         
         setTimeout(() => {
-            let charPos = char.worldTransform.position.clone();
-            let arr = MathTool.checkHitByPosition(char,charPos,300);
+            let arr = MathTool.checkHitByPosition(char,this.charPos,300);
             arr.forEach((obj:Character)=>{
                 let asc = obj.getComponent(AbilitySystemComponent);
                 if(asc){
@@ -89,8 +95,7 @@ export class RagingFuryObj extends MObject{
         }, 1700);
 
         setTimeout(() => {
-            let charPos = char.worldTransform.position.clone();
-            let arr = MathTool.checkHitByPosition(char,charPos,300);
+            let arr = MathTool.checkHitByPosition(char,this.charPos,300);
             arr.forEach((obj:Character)=>{
                 let asc = obj.getComponent(AbilitySystemComponent);
                 if(asc){
@@ -100,19 +105,9 @@ export class RagingFuryObj extends MObject{
                 }
             })
         }, 1800);
+    }
 
-        setTimeout(() => {
-            let charPos = char.worldTransform.position.clone();
-            let arr = MathTool.checkHitByPosition(char,charPos,300);
-            arr.forEach((obj:Character)=>{
-                let asc = obj.getComponent(AbilitySystemComponent);
-                if(asc){
-                    if(asc.hasMatchingGameTag(this.gameAbility.targetBlockedTags)) return;
-                    this.gameAbility.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_RagingFuryTwo});
-                    this.gameAbility.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{onHurtType:"Crit",duringTime:0.5});
-                }
-            })
-        }, 1900);
-
+    C_ShakeCamera(time:number,str:number){
+        this.cameraManager.shakeCamera(time,str,str,100,100);
     }
 }

@@ -1,4 +1,5 @@
 import { Constructor, MPlugin, MPropertiesInject } from "../../../../framework/DI/MContainer";
+import { EffectTool } from "../../../../tools/EffectTool";
 import { MathTool } from "../../../../tools/MathTool";
 import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { AT_PlayAnimation } from "../../../gasModule/gameAbilitys/AT/customAT/AT_PlayAnimation";
@@ -31,6 +32,9 @@ export class GA_Warrior_Slash extends GameAbility{
     @MPropertiesInject(SkillHelper)
     private skillHelper:SkillHelper;
 
+    @MPropertiesInject(EffectTool)
+    private effectTool:EffectTool;
+
     protected onPreActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         // throw new Error("Method not implemented.");
     }
@@ -49,7 +53,7 @@ export class GA_Warrior_Slash extends GameAbility{
             let charPos = char.worldTransform.position.clone();
             charPos.z = char.getSlotWorldPosition(HumanoidSlotType.LeftFoot).z;
             let pos = charPos.add(forward.multiply(200));
-            EffectService.playAtPosition("27450",pos,{scale:new Vector(2)});
+            this.effectTool.playAtPosition("27450",pos,{scale:new Vector(2),color:LinearColor.red});
 
             let arr = MathTool.checkHitByPosition(owner as Character,pos,333);
             arr.forEach((obj:Character)=>{

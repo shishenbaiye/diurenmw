@@ -94,6 +94,20 @@ export default class SkillMainUI_Generate extends UIScript {
 		}
 		return this.mButton_Skill4_Internal
 	}
+	private mCanvas_Skill5_Internal: mw.Canvas
+	public get mCanvas_Skill5(): mw.Canvas {
+		if(!this.mCanvas_Skill5_Internal&&this.uiWidgetBase) {
+			this.mCanvas_Skill5_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/mCanvas_Skill5') as mw.Canvas
+		}
+		return this.mCanvas_Skill5_Internal
+	}
+	private mButton_Skill5_Internal: mw.Button
+	public get mButton_Skill5(): mw.Button {
+		if(!this.mButton_Skill5_Internal&&this.uiWidgetBase) {
+			this.mButton_Skill5_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/mCanvas_Skill5/mButton_Skill5') as mw.Button
+		}
+		return this.mButton_Skill5_Internal
+	}
 
 
  
@@ -124,6 +138,9 @@ export default class SkillMainUI_Generate extends UIScript {
 		
 	
 		this.mButton_Skill4.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mButton_Skill5.touchMethod = (ButtonTouchMethod.PreciseTap);
 		
 	
 

@@ -35,13 +35,14 @@ export class SkillMainPanel extends SkillMainUI_Generate{
         let skill2 = DataCenterC.getData(SkillModuleData).skill2;
         let skill3 = DataCenterC.getData(SkillModuleData).skill3;
         let skill4 = DataCenterC.getData(SkillModuleData).skill4;
+        let skill5 = DataCenterC.getData(SkillModuleData).skill5;
         let weapon = DataCenterC.getData(WeaponModuleData).getEquipedWeapon();
         if(!weapon){
             console.error("未装备武器");
             return;
         }
         haveSkillList.forEach((item,index)=>{
-            if(item == skill1 || item == skill2 || item == skill3 || item == skill4) return;
+            if(item == skill1 || item == skill2 || item == skill3 || item == skill4 || item == skill5) return;
             let config = GameConfig.SkillObj.getElement(item);
             if(config.weaponType != weapon.wtid && config.weaponType != 0) return;
             let skillItem = UIService.create(SkillListItem);
@@ -126,6 +127,19 @@ export class SkillMainPanel extends SkillMainUI_Generate{
                     return;
                 }
                 this.showSkillDetail(DataCenterC.getData(SkillModuleData).skill4,2,3);
+            }
+        })
+
+        this.mButton_Skill5.onClicked.add(()=>{
+            if(this.isChooseSkill){
+                ModuleService.getModule(SkillModuleC).equipSkill(this.equipSkillId,4);
+                this.mImage_change.visibility = SlateVisibility.Collapsed;
+                this.isChooseSkill = false;
+            }else{
+                if(DataCenterC.getData(SkillModuleData).skill1 == -1){
+                    return;
+                }
+                this.showSkillDetail(DataCenterC.getData(SkillModuleData).skill5,2,4);
             }
         })
 

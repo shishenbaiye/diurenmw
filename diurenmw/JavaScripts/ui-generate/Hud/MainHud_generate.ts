@@ -122,6 +122,69 @@ export default class MainHud_Generate extends UIScript {
 		}
 		return this.mMaskButton_skill4_Internal
 	}
+	private mButton_skill5_Internal: mw.Button
+	public get mButton_skill5(): mw.Button {
+		if(!this.mButton_skill5_Internal&&this.uiWidgetBase) {
+			this.mButton_skill5_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/Canvas/mButton_skill5') as mw.Button
+		}
+		return this.mButton_skill5_Internal
+	}
+	private mImage_skill5_Internal: mw.Image
+	public get mImage_skill5(): mw.Image {
+		if(!this.mImage_skill5_Internal&&this.uiWidgetBase) {
+			this.mImage_skill5_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/Canvas/mButton_skill5/mImage_skill5') as mw.Image
+		}
+		return this.mImage_skill5_Internal
+	}
+	private mMaskButton_skill5_Internal: mw.MaskButton
+	public get mMaskButton_skill5(): mw.MaskButton {
+		if(!this.mMaskButton_skill5_Internal&&this.uiWidgetBase) {
+			this.mMaskButton_skill5_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/Canvas/mButton_skill5/mMaskButton_skill5') as mw.MaskButton
+		}
+		return this.mMaskButton_skill5_Internal
+	}
+	private mButton_skillBack_Internal: mw.Button
+	public get mButton_skillBack(): mw.Button {
+		if(!this.mButton_skillBack_Internal&&this.uiWidgetBase) {
+			this.mButton_skillBack_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/Canvas/mButton_skillBack') as mw.Button
+		}
+		return this.mButton_skillBack_Internal
+	}
+	private mImage_skillBack_Internal: mw.Image
+	public get mImage_skillBack(): mw.Image {
+		if(!this.mImage_skillBack_Internal&&this.uiWidgetBase) {
+			this.mImage_skillBack_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/Canvas/mButton_skillBack/mImage_skillBack') as mw.Image
+		}
+		return this.mImage_skillBack_Internal
+	}
+	private mMaskButton_skillBack_Internal: mw.MaskButton
+	public get mMaskButton_skillBack(): mw.MaskButton {
+		if(!this.mMaskButton_skillBack_Internal&&this.uiWidgetBase) {
+			this.mMaskButton_skillBack_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/Canvas/mButton_skillBack/mMaskButton_skillBack') as mw.MaskButton
+		}
+		return this.mMaskButton_skillBack_Internal
+	}
+	private mButton_skillFinal_Internal: mw.Button
+	public get mButton_skillFinal(): mw.Button {
+		if(!this.mButton_skillFinal_Internal&&this.uiWidgetBase) {
+			this.mButton_skillFinal_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/Canvas/mButton_skillFinal') as mw.Button
+		}
+		return this.mButton_skillFinal_Internal
+	}
+	private mImage_skillFinal_Internal: mw.Image
+	public get mImage_skillFinal(): mw.Image {
+		if(!this.mImage_skillFinal_Internal&&this.uiWidgetBase) {
+			this.mImage_skillFinal_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/Canvas/mButton_skillFinal/mImage_skillFinal') as mw.Image
+		}
+		return this.mImage_skillFinal_Internal
+	}
+	private mMaskButton_skillFinal_Internal: mw.MaskButton
+	public get mMaskButton_skillFinal(): mw.MaskButton {
+		if(!this.mMaskButton_skillFinal_Internal&&this.uiWidgetBase) {
+			this.mMaskButton_skillFinal_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/Canvas/mButton_skillFinal/mMaskButton_skillFinal') as mw.MaskButton
+		}
+		return this.mMaskButton_skillFinal_Internal
+	}
 	private mButton_Bag_Internal: mw.Button
 	public get mButton_Bag(): mw.Button {
 		if(!this.mButton_Bag_Internal&&this.uiWidgetBase) {
@@ -180,6 +243,15 @@ export default class MainHud_Generate extends UIScript {
 		
 	
 		this.mButton_skill4.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mButton_skill5.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mButton_skillBack.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mButton_skillFinal.touchMethod = (ButtonTouchMethod.PreciseTap);
 		
 	
 		this.mButton_Bag.touchMethod = (ButtonTouchMethod.PreciseTap);

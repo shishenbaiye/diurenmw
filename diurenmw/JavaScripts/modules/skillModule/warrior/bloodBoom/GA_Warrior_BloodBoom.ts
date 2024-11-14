@@ -1,4 +1,5 @@
-import { Constructor, MPlugin, MPropertiesInject } from "../../../../framework/DI/MContainer";
+import { CameraManager } from "../../../../camera/CameraManager";
+import { Constructor, MPlugin, MPropertiesInject, RpcPlugin } from "../../../../framework/DI/MContainer";
 import { EffectTool } from "../../../../tools/EffectTool";
 import { MathTool } from "../../../../tools/MathTool";
 import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
@@ -37,6 +38,12 @@ export class GA_Warrior_BloodBoom extends GameAbility{
     @MPropertiesInject(EffectTool)
     private effectTool:EffectTool;
 
+    @MPropertiesInject(CameraManager)
+    private cameraManager:CameraManager;
+
+    @MPropertiesInject(RpcPlugin)
+    private rpc:RpcPlugin;
+
     protected onPreActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         
     }
@@ -53,8 +60,8 @@ export class GA_Warrior_BloodBoom extends GameAbility{
             let charPos = char.worldTransform.position.clone();
             this.effectTool.playAtPosition("265665",charPos,{scale:new Vector(1.5,6,1),color:LinearColor.red});
             this.effectTool.playAtPosition("265666",charPos,{scale:new Vector(1),color:LinearColor.red})
-
-            // animTask.pauseTask();
+            
+            this.rpc.client(char.player,this,this.C_ShakeCamera,0.4,5);
 
             let arr = MathTool.checkHitByPosition(owner as Character,charPos,500);
             arr.forEach((obj:Character)=>{
@@ -85,4 +92,7 @@ export class GA_Warrior_BloodBoom extends GameAbility{
         this.skillHelper.changePlayerCanMove((owner as Character).player,true);
     }
     
+    C_ShakeCamera(time:number,str:number){
+        this.cameraManager.shakeCamera(time,str,str,60,60);
+    }
 }

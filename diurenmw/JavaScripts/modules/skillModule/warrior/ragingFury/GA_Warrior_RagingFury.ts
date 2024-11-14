@@ -45,12 +45,12 @@ export class GA_Warrior_RagingFury extends GameAbility{
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         let char = owner as Character;
         let anim = char.loadAnimation("269224");
-        anim.speed = 1.5;
+        anim.speed = 1;
         anim.blendInTime = 0;
-
+        anim.startTime = 0.4;
         this.skillHelper.changePlayerCanMove(char.player,false);
 
-        let animTask = AT_PlayAnimation.New(this,anim,1,char);
+        let animTask = AT_PlayAnimation.New(this,anim,0.4,char);
 
 
        
@@ -58,7 +58,15 @@ export class GA_Warrior_RagingFury extends GameAbility{
         animTask.addEvent(0,()=>{
             let ragingFury = MFramework.createObject<RagingFuryObj>(RagingFuryObj);
             ragingFury.init(asc,owner,target,this)
-            ragingFury.start();
+            ragingFury.start();    
+        })
+
+        animTask.addEvent(0.1,()=>{
+            animTask.pauseTask();
+
+            AT_WaitTime.New(this,0.3).addEndListener(()=>{
+                animTask.resumeTask();
+            }).activate();
         })
         
         animTask.onFinished(()=>{
