@@ -43,9 +43,10 @@ export default class WeaponScript extends Script {
      */
     unEquipWeapon() {
         if (this.equipeWeapon) {
+            let res = ModuleService.getModule(WeaponModuleS).unEquipWeapon((this.gameObject as Character).player,this.equipeWeapon);
+            if(!res) return;
             this.equipeWeapon.unEquip();
             this.equipeWeapon = null;
-            ModuleService.getModule(WeaponModuleS).unEquipWeapon((this.gameObject as Character).player);
         }
     }
 

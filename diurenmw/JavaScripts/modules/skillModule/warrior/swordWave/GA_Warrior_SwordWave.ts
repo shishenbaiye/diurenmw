@@ -3,6 +3,7 @@ import { EffectTool } from "../../../../tools/EffectTool";
 import { MathTool } from "../../../../tools/MathTool";
 import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { AT_PlayAnimation } from "../../../gasModule/gameAbilitys/AT/customAT/AT_PlayAnimation";
+import { AT_WaitTime } from "../../../gasModule/gameAbilitys/AT/customAT/AT_WaitTime";
 import { GameAbility } from "../../../gasModule/gameAbilitys/GA/GameAbility";
 import { EGameAbilityTriggerSourceType } from "../../../gasModule/gameAbilitys/GA/GameAbilityType";
 import { CoolDownByGameEffect } from "../../../gasModule/gameAbilitys/GE/GESpecial/CoolDownByGameEffect";
@@ -16,70 +17,98 @@ import { GE_Cost_Warrior_SwordWave } from "./GE_Cost_Warrior_SwordWave";
 import { GE_Damage_Warrior_SwordWave } from "./GE_Damage_Warrior_SwordWave";
 
 
-@RegisterSkill(1005,ESkillType.GreatSword)
+@RegisterSkill(1005, ESkillType.GreatSword)
 @MPlugin()
-export class GA_Warrior_SwordWave extends GameAbility{
+export class GA_Warrior_SwordWave extends GameAbility {
     tag: string = "GA.Warrior.SwordWave";
     cancelTags: string[] = ["GA.Warrior"]
     blockTags: string[];
-    activationOwnedTags: string[] = ["State.Player.Skilling","State.Player.Stun"]
+    activationOwnedTags: string[] = ["State.Player.Skilling", "State.Player.Stun"]
     activationRequiredTags: string[];
-    activationBlockedTags: string[] = ["State.Player.BackJump","State.Player.NotCancel"]
+    activationBlockedTags: string[] = ["State.Player.BackJump", "State.Player.NotCancel"]
     targetRequiredTags: string[];
-    targetBlockedTags: string[] = ["Club.Player","State.Monster.Dead","State.Monster.Invincible"];
+    targetBlockedTags: string[] = ["Club.Player", "State.Monster.Dead", "State.Monster.Invincible"];
     trigger: { tag: string; sourceType: EGameAbilityTriggerSourceType; }[];
     cd: Constructor<CoolDownByGameEffect> = GE_CoolDown_Warrior_SwordWave;
     cost: Constructor<CostByGameEffect> = GE_Cost_Warrior_SwordWave;
 
     @MPropertiesInject(SkillHelper)
-    private skillHelper:SkillHelper;
+    private skillHelper: SkillHelper;
 
     @MPropertiesInject(EffectTool)
-    private effectTool:EffectTool;
+    private effectTool: EffectTool;
 
     protected onPreActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-        // throw new Error("Method not implemented.");
+        this.sendGameEvent(owner,"Event.Player.ReleaseSkill");
     }
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-        
+
         let char = owner as Character;
         let anim2 = char.loadAnimation("279760");
         anim2.speed = 1.5;
         anim2.blendInTime = 0;
         anim2.startTime = 0.5;
-        let animTask2 = AT_PlayAnimation.New(this,anim2,0.8,char);
+        let animTask2 = AT_PlayAnimation.New(this, anim2, 0.8, char);
 
         let anim1 = char.loadAnimation("279656");
         anim1.speed = 1.1;
         anim1.blendInTime = 0;
         console.log(anim1.length)
-        let animTask1 = AT_PlayAnimation.New(this,anim1,1.66,char);
+        let animTask1 = AT_PlayAnimation.New(this, anim1, 1.66, char);
 
-        this.skillHelper.changePlayerCanMove(char.player,false);
+        this.skillHelper.changePlayerCanMove(char.player, false);
 
-        animTask1.addEvent(0.5,()=>{
+        animTask1.addEvent(0.5, () => {
             let forward = char.worldTransform.getForwardVector().clone();
             let charPos = char.worldTransform.position.clone();
             let pos = charPos.add(forward.multiply(100));
-            this.effectTool.playAtPosition("94122",pos,{scale:new Vector(1,1.5,1),rotation:char.worldTransform.rotation,color:LinearColor.red});
+            this.effectTool.playAtPosition("94122", pos, { scale: new Vector(1, 1.5, 1), rotation: char.worldTransform.rotation, color: LinearColor.red });
 
             let forward2 = char.worldTransform.getForwardVector().clone();
             let start = char.worldTransform.position.clone().add(forward2.clone().multiply(100));
             let end = char.worldTransform.position.clone().add(forward2.clone().multiply(600));
-            let box = new Vector(100,200,100);
-            let arr = MathTool.checkHitByBoxTrace(owner as Character,start,end,box,char.worldTransform.rotation);
-            arr.forEach((obj:Character)=>{
+            let box = new Vector(100, 200, 100);
+            let arr = MathTool.checkHitByBoxTrace(owner as Character, start, end, box, char.worldTransform.rotation);
+            arr.forEach((obj: Character) => {
                 let asc = obj.getComponent(AbilitySystemComponent);
-                if(asc){
-                    if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
-                    this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_SwordWave});
+                if (asc) {
+                    if (asc.hasMatchingGameTag(this.targetBlockedTags)) return;
+                    this.sendGameEvent(owner, "Event.Player.HurtMonster", { target: obj });
+                    this.sendGameEvent(obj, "Event.Monster.OnHurt", { damageGE: GE_Damage_Warrior_SwordWave });
                     let force = obj.worldTransform.position.clone().subtract(char.worldTransform.position).normalize().multiply(800);
-                    this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.5,force:force});
+                    this.sendGameEvent(obj, "Event.Monster.OnHurtAnim", { duringTime: 0.5, force: force });
                 }
             })
+
+            if (asc.hasMatchingGameTag(["Weapon.SpecialEffect.SwordWave.AddOneAttack"])) {
+                AT_WaitTime.New(this, 0.2).addEndListener(() => {
+                    let forward = char.worldTransform.getForwardVector().clone();
+                    let charPos = char.worldTransform.position.clone();
+                    let pos = charPos.add(forward.multiply(100));
+                    this.effectTool.playAtPosition("94122", pos, { scale: new Vector(1, 1.5, 1), rotation: char.worldTransform.rotation, color: LinearColor.red });
+
+                    let forward2 = char.worldTransform.getForwardVector().clone();
+                    let start = char.worldTransform.position.clone().add(forward2.clone().multiply(100));
+                    let end = char.worldTransform.position.clone().add(forward2.clone().multiply(600));
+                    let box = new Vector(100, 200, 100);
+                    let arr = MathTool.checkHitByBoxTrace(owner as Character, start, end, box, char.worldTransform.rotation);
+                    arr.forEach((obj: Character) => {
+                        let asc = obj.getComponent(AbilitySystemComponent);
+                        if (asc) {
+                            if (asc.hasMatchingGameTag(this.targetBlockedTags)) return;
+                            this.sendGameEvent(owner, "Event.Player.HurtMonster", { target: obj });
+                            this.sendGameEvent(obj, "Event.Monster.OnHurt", { damageGE: GE_Damage_Warrior_SwordWave });
+                            let force = obj.worldTransform.position.clone().subtract(char.worldTransform.position).normalize().multiply(800);
+                            this.sendGameEvent(obj, "Event.Monster.OnHurtAnim", { duringTime: 0.5, force: force });
+                        }
+                    })
+
+                }).activate();
+            }
+
         })
 
-        animTask1.addEvent(0.6,()=>{
+        animTask1.addEvent(0.6, () => {
             animTask1.cancelTask();
             animTask2.activate();
         })
@@ -87,34 +116,61 @@ export class GA_Warrior_SwordWave extends GameAbility{
         animTask1.activate();
 
 
-        animTask2.addEvent(0.4,()=>{
-            EffectService.playAtPosition("123627",char.getSlotWorldPosition(HumanoidSlotType.Root),{scale:new Vector(1),duration:0.5,});
+        animTask2.addEvent(0.4, () => {
+            EffectService.playAtPosition("123627", char.getSlotWorldPosition(HumanoidSlotType.Root), { scale: new Vector(1), duration: 0.5, });
         })
 
-        animTask2.addEvent(0.4,()=>{
+        animTask2.addEvent(0.4, () => {
             let forward = char.worldTransform.getForwardVector().clone();
             let charPos = char.worldTransform.position.clone();
             charPos.z = char.getSlotWorldPosition(HumanoidSlotType.LeftFoot).z;
             let pos = charPos.add(forward.multiply(100));
-            this.effectTool.playAtPosition("168834",pos,{scale:new Vector(0.5),rotation:char.worldTransform.rotation,color:LinearColor.red});
+            this.effectTool.playAtPosition("168834", pos, { scale: new Vector(0.5), rotation: char.worldTransform.rotation, color: LinearColor.red });
 
             let forward2 = char.worldTransform.getForwardVector().clone();
             let start = char.worldTransform.position.clone().add(forward2.clone().multiply(100));
             let end = char.worldTransform.position.clone().add(forward2.clone().multiply(600));
-            let box = new Vector(100,100,100);
-            let arr = MathTool.checkHitByBoxTrace(owner as Character,start,end,box,char.worldTransform.rotation);
-            arr.forEach((obj:Character)=>{
+            let box = new Vector(100, 100, 100);
+            let arr = MathTool.checkHitByBoxTrace(owner as Character, start, end, box, char.worldTransform.rotation);
+            arr.forEach((obj: Character) => {
                 let asc = obj.getComponent(AbilitySystemComponent);
-                if(asc){
-                    if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
-                    this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_SwordWave});
+                if (asc) {
+                    if (asc.hasMatchingGameTag(this.targetBlockedTags)) return;
+                    this.sendGameEvent(owner, "Event.Player.HurtMonster", { target: obj });
+                    this.sendGameEvent(obj, "Event.Monster.OnHurt", { damageGE: GE_Damage_Warrior_SwordWave });
                     let force = obj.worldTransform.position.clone().subtract(char.worldTransform.position).normalize().multiply(800);
-                    this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.5,force:force});
+                    this.sendGameEvent(obj, "Event.Monster.OnHurtAnim", { duringTime: 0.5, force: force });
                 }
             })
         })
 
-        animTask2.onFinished(()=>{
+        animTask2.addEvent(0.6, () => {
+            if (asc.hasMatchingGameTag(["Weapon.SpecialEffect.SwordWave.AddOneAttack"])) {
+                let forward = char.worldTransform.getForwardVector().clone();
+                let charPos = char.worldTransform.position.clone();
+                charPos.z = char.getSlotWorldPosition(HumanoidSlotType.LeftFoot).z;
+                let pos = charPos.add(forward.multiply(100));
+                this.effectTool.playAtPosition("168834", pos, { scale: new Vector(0.5), rotation: char.worldTransform.rotation, color: LinearColor.red });
+
+                let forward2 = char.worldTransform.getForwardVector().clone();
+                let start = char.worldTransform.position.clone().add(forward2.clone().multiply(100));
+                let end = char.worldTransform.position.clone().add(forward2.clone().multiply(600));
+                let box = new Vector(100, 100, 100);
+                let arr = MathTool.checkHitByBoxTrace(owner as Character, start, end, box, char.worldTransform.rotation);
+                arr.forEach((obj: Character) => {
+                    let asc = obj.getComponent(AbilitySystemComponent);
+                    if (asc) {
+                        if (asc.hasMatchingGameTag(this.targetBlockedTags)) return;
+                        this.sendGameEvent(owner, "Event.Player.HurtMonster", { target: obj });
+                        this.sendGameEvent(obj, "Event.Monster.OnHurt", { damageGE: GE_Damage_Warrior_SwordWave });
+                        let force = obj.worldTransform.position.clone().subtract(char.worldTransform.position).normalize().multiply(800);
+                        this.sendGameEvent(obj, "Event.Monster.OnHurtAnim", { duringTime: 0.5, force: force });
+                    }
+                })
+            }
+        })
+
+        animTask2.onFinished(() => {
             this.end();
         })
 
@@ -124,7 +180,7 @@ export class GA_Warrior_SwordWave extends GameAbility{
     }
     protected onEnd(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         // throw new Error("Method not implemented.");
-        this.skillHelper.changePlayerCanMove((owner as Character).player,true);
+        this.skillHelper.changePlayerCanMove((owner as Character).player, true);
     }
-    
+
 }

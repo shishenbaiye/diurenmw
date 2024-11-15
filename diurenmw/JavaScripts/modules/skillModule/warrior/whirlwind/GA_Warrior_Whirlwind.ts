@@ -29,7 +29,7 @@ export class GA_Warrior_Whirlwind extends GameAbility{
     cost: Constructor<CostByGameEffect> = GE_Cost_Warrior_Whirlwind;
     
     protected onPreActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-
+        this.sendGameEvent(owner,"Event.Player.ReleaseSkill");
     }
     private effect1:number;
     private effect2:number;
@@ -52,6 +52,7 @@ export class GA_Warrior_Whirlwind extends GameAbility{
                     let asc = obj.getComponent(AbilitySystemComponent);
                     if(asc){
                         if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
+                        this.sendGameEvent(owner,"Event.Player.HurtMonster",{target:obj});
                         this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_Whirlwind1});
                         this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.2});
                     }
@@ -67,6 +68,7 @@ export class GA_Warrior_Whirlwind extends GameAbility{
                     let asc = obj.getComponent(AbilitySystemComponent);
                     if(asc){
                         if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
+                        this.sendGameEvent(owner,"Event.Player.HurtMonster",{target:obj});
                         this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_Whirlwind1});
                         this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.2});
                     }
@@ -82,6 +84,7 @@ export class GA_Warrior_Whirlwind extends GameAbility{
                     let asc = obj.getComponent(AbilitySystemComponent);
                     if(asc){
                         if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
+                        this.sendGameEvent(owner,"Event.Player.HurtMonster",{target:obj});
                         this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_Whirlwind1});
                         this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.2});
                     }
@@ -97,6 +100,7 @@ export class GA_Warrior_Whirlwind extends GameAbility{
                     let asc = obj.getComponent(AbilitySystemComponent);
                     if(asc){
                         if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
+                        this.sendGameEvent(owner,"Event.Player.HurtMonster",{target:obj});
                         this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_Whirlwind1});
                         this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.2});
                     }
@@ -112,6 +116,7 @@ export class GA_Warrior_Whirlwind extends GameAbility{
                     let asc = obj.getComponent(AbilitySystemComponent);
                     if(asc){
                         if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
+                        this.sendGameEvent(owner,"Event.Player.HurtMonster",{target:obj});
                         this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_Whirlwind1});
                         this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.2});
                     }
@@ -150,6 +155,7 @@ export class GA_Warrior_Whirlwind extends GameAbility{
                     let asc = obj.getComponent(AbilitySystemComponent);
                     if(asc){
                         if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
+                        this.sendGameEvent(owner,"Event.Player.HurtMonster",{target:obj});
                         this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_Whirlwind1});
                         this.sendGameEvent(obj,"Event.Monster.OnHurtAnim");
                     }

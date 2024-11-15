@@ -36,11 +36,9 @@ export class GA_Warrior_RagingFury extends GameAbility{
     @MPropertiesInject(SkillHelper)
     private skillHelper:SkillHelper;
 
-    @MPropertiesInject(EffectTool)
-    private effectTool:EffectTool;
 
     protected onPreActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-        
+        this.sendGameEvent(owner,"Event.Player.ReleaseSkill");
     }
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         let char = owner as Character;

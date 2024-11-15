@@ -44,7 +44,7 @@ export class GA_Warrior_JumpChop extends GameAbility{
     private rpc:RpcPlugin;
 
     protected onPreActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-        // throw new Error("Method not implemented.");
+        this.sendGameEvent(owner,"Event.Player.ReleaseSkill");
     }
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         let char = owner as Character;
@@ -71,6 +71,7 @@ export class GA_Warrior_JumpChop extends GameAbility{
                 if(asc){
                     if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
                     animTask.pauseTask()
+                    this.sendGameEvent(owner,"Event.Player.HurtMonster",{target:obj});
                     this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_JumpChop});
                     this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.5});
                 }
@@ -88,6 +89,7 @@ export class GA_Warrior_JumpChop extends GameAbility{
                 if(asc){
                     if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
                     animTask.pauseTask()
+                    this.sendGameEvent(owner,"Event.Player.HurtMonster",{target:obj});
                     this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_JumpChop});
                     this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.5});
                 }
@@ -112,6 +114,7 @@ export class GA_Warrior_JumpChop extends GameAbility{
                 if(asc){
                     if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
                     animTask.pauseTask()
+                    this.sendGameEvent(owner,"Event.Player.HurtMonster",{target:obj});
                     this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_JumpChop});
                     this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{onHurtType:"Crit",duringTime:0.5});
                 }

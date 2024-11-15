@@ -51,8 +51,9 @@ export class GA_Warrior_NormalAttack3 extends GameAbility {
                 if(asc){
                     if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
                     animTask.pauseTask();
+                    this.sendGameEvent(owner,"Event.Player.HurtMonster",{target:obj});
                     this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_NormalAttack3});
-                    let force = obj.worldTransform.position.clone().subtract(char.worldTransform.position).normalize().multiply(500);
+                    let force = obj.worldTransform.position.clone().subtract(char.worldTransform.position).normalize().multiply(300);
                     this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.5,force:force});
                 }
             })
@@ -75,36 +76,7 @@ export class GA_Warrior_NormalAttack3 extends GameAbility {
         animTask.onFinished(()=>{
             this.end();
         })
-        animTask.activate()
-        // let char = owner as Character;
-        // let aim = char.loadAnimation("269040");
-        // let animTask = AT_PlayAnimation.New(this, aim, 2.1, char);
-
-        // animTask.addEvent(0.6, () => {
-        //     let arr = MathTool.checkHitByDistance(owner as Character,350,120);
-        //     arr.forEach((obj:Character)=>{
-        //         let asc = obj.getComponent(AbilitySystemComponent);
-        //         if(asc){
-        //             this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_NormalAttack2});
-        //         }
-        //     })
-        // })
-
-
-        // animTask.addEvent(1.3, () => {
-        //     let arr = MathTool.checkHitByDistance(owner as Character,350,120);
-        //     arr.forEach((obj:Character)=>{
-        //         let asc = obj.getComponent(AbilitySystemComponent);
-        //         if(asc){
-        //             this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_NormalAttack3});
-        //         }
-        //     })
-        // })
-
-        // animTask.addEvent(2, () => {
-        //     this.end();
-        // });
-        // animTask.activate()
+        animTask.activate();
     }
     protected onCancel(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         this.skillHelper.callPlayerMove((owner as Character).player,false);

@@ -23,7 +23,7 @@ import { PlayerAttributeSet } from "./PlayerAttributeSet";
 export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleData> {
     protected onPlayerEnterGame(player: mw.Player): void {
         // 添加asc组件
-        player.character.addComponent(AbilitySystemComponent);
+        let asc = player.character.addComponent(AbilitySystemComponent);
         // 注册技能
         this.registerAbilitys();
         // 初始化添加脚本
@@ -39,7 +39,10 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
             let data = TeleportService.getTeleportData(player.teleportId);
             console.log(`带过来的数据：`, data)
         }
-        GameEventBus.emit(`AttributeModule_Ready`, player);
+
+        asc.isReady.add((char:Character)=>{
+            GameEventBus.emit(`AttributeModule_Ready`, char.player);
+        })
     }
 
     private registerAbilitys() {

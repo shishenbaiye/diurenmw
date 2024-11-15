@@ -45,7 +45,7 @@ export class GA_Warrior_All4One extends GameAbility{
     private rpc:RpcPlugin;
 
     protected onPreActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-        
+        this.sendGameEvent(owner,"Event.Player.ReleaseSkill");
     }
     private feng:number
     private qi:number
@@ -127,6 +127,7 @@ export class GA_Warrior_All4One extends GameAbility{
                 if(asc){
                     if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
                     onHurtArr.push(obj);
+                    this.sendGameEvent(owner,"Event.Player.HurtMonster",{target:obj});
                     this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_All4One1});
                     this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:2});
                 }
@@ -141,18 +142,21 @@ export class GA_Warrior_All4One extends GameAbility{
 
         animTask2.addEvent(0.7,()=>{
             onHurtArr.forEach((obj:Character)=>{
+                this.sendGameEvent(owner,"Event.Player.HurtMonster",{target:obj});
                 this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{onHurtType:"Crit"});
                 this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_All4One2});
             })
         })
         animTask2.addEvent(0.8,()=>{
             onHurtArr.forEach((obj:Character)=>{
+                this.sendGameEvent(owner,"Event.Player.HurtMonster",{target:obj});
                 this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{onHurtType:"Crit"});
                 this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_All4One3});
             })
         })
         animTask2.addEvent(0.9,()=>{
             onHurtArr.forEach((obj:Character)=>{
+                this.sendGameEvent(owner,"Event.Player.HurtMonster",{target:obj});
                 this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{onHurtType:"Crit"});
                 this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_All4One4});
             })

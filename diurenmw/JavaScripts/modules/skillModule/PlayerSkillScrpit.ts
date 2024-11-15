@@ -86,7 +86,7 @@ export default class PlayerSkillScrpit extends Script {
         if (this.ownerAsc.hasMatchingGameTag(["State.Player.NormalAttack"])) return;
         let skill = SkillManager.instance.getSkillById(this.normalAttack[this.currentNormalAttackIndex]);
         if (!skill) return;
-        let res = this.ownerAsc.tryActiveGameAbilityByClassOrName(skill);
+        let res = this.ownerAsc.tryActiveGameAbilityByClass(skill);
         if (!res) return;
         this.currentNormalAttackIndex++;
         if (this.timeOutId) {
@@ -106,9 +106,9 @@ export default class PlayerSkillScrpit extends Script {
         if(index == 0){
             let skill = SkillManager.instance.getSkillById(this.skill1);
             if (!skill) return false;
-            let res = this.ownerAsc.tryActiveGameAbilityByClassOrName(skill);
+            let res = this.ownerAsc.tryActiveGameAbilityByClass(skill);
             if(res){
-                let cd = GameConfig.SkillObj.getElement(this.skill1).cd;
+                let cd = res.getCD().time;
                 ModuleService.getModule(HudModuleS).setSkillCD(this.gameObject as Character,cd,0);
                 return true;
             }
@@ -116,9 +116,9 @@ export default class PlayerSkillScrpit extends Script {
         if(index == 1){
             let skill = SkillManager.instance.getSkillById(this.skill2);
             if (!skill) return false;
-            let res = this.ownerAsc.tryActiveGameAbilityByClassOrName(skill);
+            let res = this.ownerAsc.tryActiveGameAbilityByClass(skill);
             if(res){
-                let cd = GameConfig.SkillObj.getElement(this.skill2).cd;
+                let cd = res.getCD().time;
                 ModuleService.getModule(HudModuleS).setSkillCD(this.gameObject as Character,cd,1);
                 return true;
             }
@@ -126,9 +126,9 @@ export default class PlayerSkillScrpit extends Script {
         if(index == 2){
             let skill = SkillManager.instance.getSkillById(this.skill3);
             if (!skill) return false;
-            let res = this.ownerAsc.tryActiveGameAbilityByClassOrName(skill);
+            let res = this.ownerAsc.tryActiveGameAbilityByClass(skill);
             if(res){
-                let cd = GameConfig.SkillObj.getElement(this.skill3).cd;
+                let cd = res.getCD().time;
                 ModuleService.getModule(HudModuleS).setSkillCD(this.gameObject as Character,cd,2);
                 return true;
             }
@@ -136,9 +136,9 @@ export default class PlayerSkillScrpit extends Script {
         if(index == 3){
             let skill = SkillManager.instance.getSkillById(this.skill4);
             if (!skill) return false;
-            let res = this.ownerAsc.tryActiveGameAbilityByClassOrName(skill);
+            let res = this.ownerAsc.tryActiveGameAbilityByClass(skill);
             if(res){
-                let cd = GameConfig.SkillObj.getElement(this.skill4).cd;
+                let cd = res.getCD().time;
                 ModuleService.getModule(HudModuleS).setSkillCD(this.gameObject as Character,cd,3);
                 return true;
             }
@@ -147,9 +147,9 @@ export default class PlayerSkillScrpit extends Script {
         if(index == 4){
             let skill = SkillManager.instance.getSkillById(this.skill5);
             if (!skill) return false;
-            let res = this.ownerAsc.tryActiveGameAbilityByClassOrName(skill);
+            let res = this.ownerAsc.tryActiveGameAbilityByClass(skill);
             if(res){
-                let cd = GameConfig.SkillObj.getElement(this.skill5).cd;
+                let cd = res.getCD().time;
                 ModuleService.getModule(HudModuleS).setSkillCD(this.gameObject as Character,cd,4);
                 return true;
             }
@@ -158,9 +158,9 @@ export default class PlayerSkillScrpit extends Script {
         if(index == 5){
             let skill = SkillManager.instance.getSkillById(this.skillBack);
             if (!skill) return false;
-            let res = this.ownerAsc.tryActiveGameAbilityByClassOrName(skill);
+            let res = this.ownerAsc.tryActiveGameAbilityByClass(skill);
             if(res){
-                let cd = GameConfig.SkillObj.getElement(this.skillBack).cd;
+                let cd = res.getCD().time;
                 ModuleService.getModule(HudModuleS).setSkillCD(this.gameObject as Character,cd,5);
                 return true;
             }
@@ -169,9 +169,9 @@ export default class PlayerSkillScrpit extends Script {
         if(index == 6){
             let skill = SkillManager.instance.getSkillById(this.skillFinal);
             if (!skill) return false;
-            let res = this.ownerAsc.tryActiveGameAbilityByClassOrName(skill);
+            let res = this.ownerAsc.tryActiveGameAbilityByClass(skill);
             if(res){
-                let cd = GameConfig.SkillObj.getElement(this.skillFinal).cd;
+                let cd = res.getCD().time;
                 ModuleService.getModule(HudModuleS).setSkillCD(this.gameObject as Character,cd,6);
                 return true;
             }

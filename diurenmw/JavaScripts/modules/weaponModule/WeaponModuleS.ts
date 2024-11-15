@@ -20,12 +20,12 @@ export class WeaponModuleS extends ModuleS<WeaponModuleC, WeaponModuleData> {
             // 获取玩家装备的武器
             if (weaponData.equipedWeapon) {
                 let data = weaponData.getEquipedWeapon();
-                if(data){
-                    weaponScript.equepWeapon(data.uuid).then(()=>{
+                if (data) {
+                    weaponScript.equepWeapon(data.uuid).then(() => {
                         this.getClient(player).net_stopLoading();
                     })
                 }
-            }else{
+            } else {
                 this.getClient(player).net_stopLoading();
             }
         } else {
@@ -41,9 +41,9 @@ export class WeaponModuleS extends ModuleS<WeaponModuleC, WeaponModuleData> {
         let weapon = WeaponManager.instance.createNew(player, wid);
         let data = this.getPlayerData(player);
         data.addWeapon(weapon.getData());
-        if(weapon){
-            let res = ModuleService.getModule(BagManagerModuleS).addItem(player,weapon.uuid,ItemType.Weapon,weapon.wid,1);
-            if(!res){
+        if (weapon) {
+            let res = ModuleService.getModule(BagManagerModuleS).addItem(player, weapon.uuid, ItemType.Weapon, weapon.wid, 1);
+            if (!res) {
                 console.error(`玩家背包${player.userId}添加武器失败`);
                 return null;
             }
@@ -59,13 +59,13 @@ export class WeaponModuleS extends ModuleS<WeaponModuleC, WeaponModuleData> {
 
     removeWeapon(player: mw.Player, uuId: string): boolean {
         let data = this.getPlayerData(player);
-        let resBag = ModuleService.getModule(BagManagerModuleS).removeItem(player,uuId,ItemType.Weapon,1);
-        if(!resBag){
+        let resBag = ModuleService.getModule(BagManagerModuleS).removeItem(player, uuId, ItemType.Weapon, 1);
+        if (!resBag) {
             console.error(`玩家背包${player.userId}删除武器失败`);
             return false;
         }
         let res = data.removeWeapon(uuId);
-        if(!res){
+        if (!res) {
             console.error(`玩家${player.userId}删除武器失败`);
         }
     }
@@ -83,10 +83,16 @@ export class WeaponModuleS extends ModuleS<WeaponModuleC, WeaponModuleData> {
         return weapon;
     }
 
-    unEquipWeapon(player: mw.Player) {
+    unEquipWeapon(player: mw.Player, weapon: WeaponBase) {
+        let res = ModuleService.getModule(BagManagerModuleS).addItem(player, weapon.uuid, ItemType.Weapon, weapon.wid, 1);
+        if (!res) {
+            console.error(`玩家背包${player.userId}添加武器失败`);
+            return false;
+        }
         let data = this.getPlayerData(player);
         data.unEquipWeapon();
-        GameEventBus.emit(`WeaponModule_UnEquipWeapon`,player);
+        GameEventBus.emit(`WeaponModule_UnEquipWeapon`, player);
+        return true;
     }
 
 }

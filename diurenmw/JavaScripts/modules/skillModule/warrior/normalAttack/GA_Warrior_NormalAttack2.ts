@@ -53,8 +53,9 @@ export class GA_Warrior_NormalAttack2 extends GameAbility {
                 if(asc){
                     if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
                     animTask.pauseTask();
+                    this.sendGameEvent(owner,"Event.Player.HurtMonster",{target:obj});
                     this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_NormalAttack2});
-                    let force = obj.worldTransform.position.clone().subtract(char.worldTransform.position).normalize().multiply(500);
+                    let force = obj.worldTransform.position.clone().subtract(char.worldTransform.position).normalize().multiply(300);
                     this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.5,force:force});
                 }
             })

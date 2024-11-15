@@ -45,6 +45,7 @@ export class RagingFuryObj extends MObject{
             let asc = obj.getComponent(AbilitySystemComponent);
             if(asc){
                 if(asc.hasMatchingGameTag(this.gameAbility.targetBlockedTags)) return;
+                this.gameAbility.sendGameEvent(this.owner,"Event.Player.HurtMonster",{target:obj});
                 this.gameAbility.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_RagingFuryOne});
                 this.gameAbility.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{onHurtType:"Crit",duringTime:0.5});
             }
@@ -63,6 +64,7 @@ export class RagingFuryObj extends MObject{
                 let asc = obj.getComponent(AbilitySystemComponent);
                 if(asc){
                     if(asc.hasMatchingGameTag(this.gameAbility.targetBlockedTags)) return;
+                    this.gameAbility.sendGameEvent(this.owner,"Event.Player.HurtMonster",{target:obj});
                     this.gameAbility.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_RagingFuryTwo});
                     this.gameAbility.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{onHurtType:"Crit",duringTime:0.5});
                 }
@@ -76,6 +78,7 @@ export class RagingFuryObj extends MObject{
                 let asc = obj.getComponent(AbilitySystemComponent);
                 if(asc){
                     if(asc.hasMatchingGameTag(this.gameAbility.targetBlockedTags)) return;
+                    this.gameAbility.sendGameEvent(this.owner,"Event.Player.HurtMonster",{target:obj});
                     this.gameAbility.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_RagingFuryTwo});
                     this.gameAbility.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{onHurtType:"Crit",duringTime:0.5});
                 }
@@ -88,6 +91,7 @@ export class RagingFuryObj extends MObject{
                 let asc = obj.getComponent(AbilitySystemComponent);
                 if(asc){
                     if(asc.hasMatchingGameTag(this.gameAbility.targetBlockedTags)) return;
+                    this.gameAbility.sendGameEvent(this.owner,"Event.Player.HurtMonster",{target:obj});
                     this.gameAbility.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_RagingFuryTwo});
                     this.gameAbility.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{onHurtType:"Crit",duringTime:0.5});
                 }
@@ -100,6 +104,7 @@ export class RagingFuryObj extends MObject{
                 let asc = obj.getComponent(AbilitySystemComponent);
                 if(asc){
                     if(asc.hasMatchingGameTag(this.gameAbility.targetBlockedTags)) return;
+                    this.gameAbility.sendGameEvent(this.owner,"Event.Player.HurtMonster",{target:obj});
                     this.gameAbility.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_RagingFuryTwo});
                     this.gameAbility.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{onHurtType:"Crit",duringTime:0.5});
                 }

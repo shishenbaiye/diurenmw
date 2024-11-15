@@ -36,7 +36,7 @@ export class GA_Warrior_Slash extends GameAbility{
     private effectTool:EffectTool;
 
     protected onPreActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-        // throw new Error("Method not implemented.");
+        this.sendGameEvent(owner,"Event.Player.ReleaseSkill");
     }
 
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
@@ -60,6 +60,7 @@ export class GA_Warrior_Slash extends GameAbility{
                 let asc = obj.getComponent(AbilitySystemComponent);
                 if(asc){
                     if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
+                    this.sendGameEvent(owner,"Event.Player.HurtMonster",{target:obj});
                     this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_Slash});
                     this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{onHurtType:"Crit"});
                 }

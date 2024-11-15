@@ -6,4 +6,12 @@ import { GE_CoolDownBase } from "../../cdBase/GE_CoolDownBase";
 export class GE_CoolDown_Warrior_RagingFury extends GE_CoolDownBase{
     tag: string = "GE.CoolDown.Warrior.RagingFury"
     time: number = GameConfig.SkillObj.getElement(1007).cd
+
+    init(): void {
+        let ownerAsc = this.geContext.sourceASC;
+        if(ownerAsc.hasMatchingGameTag(["Weapon.SpecialEffect.SwordWave.SubRagingFuryCD"])){
+            this.time = this.time - 2;
+        }
+        super.init();
+    }
 }

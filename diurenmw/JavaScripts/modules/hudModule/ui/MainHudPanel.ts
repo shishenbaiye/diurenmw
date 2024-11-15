@@ -160,34 +160,54 @@ export class MainHudPanel extends MainHud_Generate{
     }
 
     skill1Cd:number = null;
+    skill1TotalCd:number = null;
+
     skill2Cd:number = null;
+    skill2TotalCd:number = null;
+
     skill3Cd:number = null;
+    skill3TotalCd:number = null;
+
     skill4Cd:number = null;
+    skill4TotalCd:number = null;
+
     skill5Cd:number = null;
+    skill5TotalCd:number = null;
+
     skillBackCd:number = null;
+    skillBackTotalCd:number = null;
+
     skillFinalCd:number = null;
+    skillFinalTotalCd:number = null;
     setSkillCD(cd:number,index:number){
         if(cd == 0) return;
         if(index == 0){
             this.skill1Cd = cd;
+            this.skill1TotalCd = cd;
         }
         if(index == 1){
             this.skill2Cd = cd;
+            this.skill2TotalCd = cd;
         }
         if(index == 2){
             this.skill3Cd = cd;
+            this.skill3TotalCd = cd;
         }
         if(index == 3){
             this.skill4Cd = cd;
+            this.skill4TotalCd = cd
         }
         if(index == 4){
             this.skill5Cd = cd;
+            this.skill5TotalCd = cd
         }
         if(index == 5){
             this.skillBackCd = cd;
+            this.skillBackTotalCd = cd
         }
         if(index == 6){
             this.skillFinalCd = cd;
+            this.skillFinalTotalCd = cd
         }
     }
 
@@ -196,10 +216,11 @@ export class MainHudPanel extends MainHud_Generate{
             this.skill1Cd -= dt;
             if(this.skill1Cd <= 0){
                 this.skill1Cd = null;
+                this.skill1TotalCd = null;
                 this.mMaskButton_skill1.visibility = SlateVisibility.Collapsed;
             }else{
                 this.mMaskButton_skill1.visibility = SlateVisibility.Visible;
-                this.mMaskButton_skill1.fanShapedValue = 1-(this.skill1Cd / GameConfig.SkillObj.getElement(this._skill1).cd)
+                this.mMaskButton_skill1.fanShapedValue = 1-(this.skill1Cd / this.skill1TotalCd);
             }
         }
 
@@ -207,10 +228,11 @@ export class MainHudPanel extends MainHud_Generate{
             this.skill2Cd -= dt;
             if(this.skill2Cd <= 0){
                 this.skill2Cd = null;
+                this.skill2TotalCd = null;
                 this.mMaskButton_skill2.visibility = SlateVisibility.Collapsed;
             }else{
                 this.mMaskButton_skill2.visibility = SlateVisibility.Visible;
-                this.mMaskButton_skill2.fanShapedValue = 1-(this.skill2Cd / GameConfig.SkillObj.getElement(this._skill2).cd)
+                this.mMaskButton_skill2.fanShapedValue = 1-(this.skill2Cd / this.skill2TotalCd);
             }
         }
 
@@ -218,10 +240,11 @@ export class MainHudPanel extends MainHud_Generate{
             this.skill3Cd -= dt;
             if(this.skill3Cd <= 0){
                 this.skill3Cd = null;
+                this.skill3TotalCd = null;
                 this.mMaskButton_skill3.visibility = SlateVisibility.Collapsed;
             }else{
                 this.mMaskButton_skill3.visibility = SlateVisibility.Visible;
-                this.mMaskButton_skill3.fanShapedValue = 1-(this.skill3Cd / GameConfig.SkillObj.getElement(this._skill3).cd)
+                this.mMaskButton_skill3.fanShapedValue = 1-(this.skill3Cd / this.skill3TotalCd);
             }
         }
 
@@ -229,10 +252,11 @@ export class MainHudPanel extends MainHud_Generate{
             this.skill4Cd -= dt;
             if(this.skill4Cd <= 0){
                 this.skill4Cd = null;
+                this.skill4TotalCd = null;
                 this.mMaskButton_skill4.visibility = SlateVisibility.Collapsed;
             }else{
                 this.mMaskButton_skill4.visibility = SlateVisibility.Visible;
-                this.mMaskButton_skill4.fanShapedValue = 1-(this.skill4Cd / GameConfig.SkillObj.getElement(this._skill4).cd)
+                this.mMaskButton_skill4.fanShapedValue = 1-(this.skill4Cd / this.skill4TotalCd);
             }
         }
 
@@ -240,10 +264,11 @@ export class MainHudPanel extends MainHud_Generate{
             this.skill5Cd -= dt;
             if(this.skill5Cd <= 0){
                 this.skill5Cd = null;
+                this.skill5TotalCd = null;
                 this.mMaskButton_skill5.visibility = SlateVisibility.Collapsed;
             }else{
                 this.mMaskButton_skill5.visibility = SlateVisibility.Visible;
-                this.mMaskButton_skill5.fanShapedValue = 1-(this.skill5Cd / GameConfig.SkillObj.getElement(this._skill5).cd)
+                this.mMaskButton_skill5.fanShapedValue = 1-(this.skill5Cd / this.skill5TotalCd);
             }
         }
 
@@ -251,10 +276,11 @@ export class MainHudPanel extends MainHud_Generate{
             this.skillBackCd -= dt;
             if(this.skillBackCd <= 0){
                 this.skillBackCd = null;
+                this.skillBackTotalCd = null;
                 this.mMaskButton_skillBack.visibility = SlateVisibility.Collapsed;
             }else{
                 this.mMaskButton_skillBack.visibility = SlateVisibility.Visible;
-                this.mMaskButton_skillBack.fanShapedValue = 1-(this.skillBackCd / GameConfig.SkillObj.getElement(this._skillBack).cd)
+                this.mMaskButton_skillBack.fanShapedValue = 1-(this.skillBackCd / this.skillBackTotalCd);
             }
         }
 
@@ -262,10 +288,11 @@ export class MainHudPanel extends MainHud_Generate{
             this.skillFinalCd -= dt;
             if(this.skillFinalCd <= 0){
                 this.skillFinalCd = null;
+                this.skillFinalTotalCd = null;
                 this.mMaskButton_skillFinal.visibility = SlateVisibility.Collapsed;
             }else{
                 this.mMaskButton_skillFinal.visibility = SlateVisibility.Visible;
-                this.mMaskButton_skillFinal.fanShapedValue = 1-(this.skillFinalCd / GameConfig.SkillObj.getElement(this._skillFinal).cd)
+                this.mMaskButton_skillFinal.fanShapedValue = 1-(this.skillFinalCd / this.skillFinalTotalCd);
             }
         }
     }

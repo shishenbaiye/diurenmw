@@ -1,3 +1,4 @@
+import { GameEventBus } from "../../../common/eventBus/EventBus";
 import { MFramework } from "../../../framework/MFramework";
 import TagOperation from "./TagOperation";
 import { TagTree } from "./TagTree";
@@ -25,6 +26,8 @@ export class GameTags extends Script {
     preTags: string[];
 
     private tagTree: TagTree = null;
+
+    isReady: Action = new Action();
     init() {
         this.tagTree = MFramework.createObject(TagTree) as TagTree;
         this.tagTree.father = this;
@@ -41,6 +44,7 @@ export class GameTags extends Script {
     protected onStart(): void {
         console.warn('GameTags onStart');
         this.init();
+        this.isReady.call();
     }
     /************************************************************************************************************************ */
     // 添加标签
