@@ -135,7 +135,6 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
 		// 卸载装备
         console.log("net_OnUnEquipmentItem : " + JSON.stringify(inItem));
         this.getPlayerData(player).unEquipmentItem(inItem, inEquipmentType);
-        this.addItem(player, inItem.uuid, inItem.itemtype, inItem.typeId, inItem.count);
         this.getClient(player).net_OnUnEquipmentItemUpdate(inItem, inEquipmentType);
 	}
 
