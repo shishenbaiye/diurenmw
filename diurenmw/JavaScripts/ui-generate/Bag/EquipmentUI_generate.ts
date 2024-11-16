@@ -13,23 +13,30 @@ export default class EquipmentUI_Generate extends UIScript {
 		private image_Internal: mw.Image
 	public get image(): mw.Image {
 		if(!this.image_Internal&&this.uiWidgetBase) {
-			this.image_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/RootCanvas/image') as mw.Image
+			this.image_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/image') as mw.Image
 		}
 		return this.image_Internal
 	}
 	private button_Internal: mw.Button
 	public get button(): mw.Button {
 		if(!this.button_Internal&&this.uiWidgetBase) {
-			this.button_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/RootCanvas/button') as mw.Button
+			this.button_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/button') as mw.Button
 		}
 		return this.button_Internal
 	}
 	private itemName_Internal: mw.TextBlock
 	public get itemName(): mw.TextBlock {
 		if(!this.itemName_Internal&&this.uiWidgetBase) {
-			this.itemName_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/RootCanvas/itemName') as mw.TextBlock
+			this.itemName_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/itemName') as mw.TextBlock
 		}
 		return this.itemName_Internal
+	}
+	private border_Internal: mw.Image
+	public get border(): mw.Image {
+		if(!this.border_Internal&&this.uiWidgetBase) {
+			this.border_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/border') as mw.Image
+		}
+		return this.border_Internal
 	}
 
 

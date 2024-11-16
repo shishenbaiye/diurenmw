@@ -9,6 +9,14 @@ import WeaponScript from "../weaponModule/WeaponScript";
 // 事件类型
 export type eventType = (inItem : BagItemBase)=>void;
 
+export enum QuantityColor {
+	Default = "#676767",
+    Normal = "#B8B8B8",
+	Grade = "#64DA74",
+	Rare = "#4B98DA",
+	Epic = "#7716DA"
+}
+
 export enum EquipmentType
 {
     // 武器
@@ -404,6 +412,57 @@ export class BagManagerModuleData extends Subdata {
                 console.error("getItemIcon itemtype error : " + itemtype);
                 return "";
         }
+    }
+
+    static getQuality(inItem: BagItemBase = null) : string {
+        let inQuantity : number = 0;
+        if(inItem)
+        {
+            switch(inItem.itemtype)
+            {
+                case ItemType.Weapon:
+                    inQuantity = GameConfig.WeaponObj.getElement(inItem.typeId).quality;
+                    break;
+                case ItemType.Armor:
+                    inQuantity = GameConfig.ArmorObj.getElement(inItem.typeId).quality;
+                    break;
+                case ItemType.Jewelry:
+                    inQuantity = GameConfig.JewelryObj.getElement(inItem.typeId).quality;
+                    break;
+                case ItemType.Consumables:
+                    inQuantity = GameConfig.ConsumablesObj.getElement(inItem.typeId).quality;
+                    break;
+                case ItemType.Materials:
+                    inQuantity = GameConfig.MaterialsObj.getElement(inItem.typeId).quality;
+                    break;
+            }
+        }
+        switch(inQuantity)
+        {
+            case 1:
+                return QuantityColor.Normal;
+                break;
+            case 2:
+                return QuantityColor.Grade;
+                break;
+            case 3:
+                return QuantityColor.Rare;
+                break;
+            case 4:
+                return QuantityColor.Epic;
+                break;
+            default:
+                return QuantityColor.Default;
+                break;
+        }
+    }
+
+    static setImageQuality(inImage : mw.Image, inItem: BagItemBase = null) {
+        inImage.setImageColorByHex(BagManagerModuleData.getQuality(inItem));
+    }
+
+    static setTextQuality(inText : mw.TextBlock, inItem: BagItemBase = null) {
+        inText.setFontColorByHex(BagManagerModuleData.getQuality(inItem));
     }
 
     static getTypeId(inEquipmentType : EquipmentType) : number {

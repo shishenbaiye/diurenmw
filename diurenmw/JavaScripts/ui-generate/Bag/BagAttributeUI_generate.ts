@@ -10,129 +10,136 @@
 
 @UIBind('UI/Bag/BagAttributeUI.ui')
 export default class BagAttributeUI_Generate extends UIScript {
-		private mCanvas_Internal: mw.Canvas
+		private exit_Internal: mw.Button
+	public get exit(): mw.Button {
+		if(!this.exit_Internal&&this.uiWidgetBase) {
+			this.exit_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/exit') as mw.Button
+		}
+		return this.exit_Internal
+	}
+	private mCanvas_Internal: mw.Canvas
 	public get mCanvas(): mw.Canvas {
 		if(!this.mCanvas_Internal&&this.uiWidgetBase) {
-			this.mCanvas_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/mCanvas') as mw.Canvas
+			this.mCanvas_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/ScrollBox/mCanvas') as mw.Canvas
 		}
 		return this.mCanvas_Internal
 	}
 	private mLevel_Internal: mw.TextBlock
 	public get mLevel(): mw.TextBlock {
 		if(!this.mLevel_Internal&&this.uiWidgetBase) {
-			this.mLevel_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/mCanvas/Canvas/mLevel') as mw.TextBlock
+			this.mLevel_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/ScrollBox/mCanvas/LevelLine/mLevel') as mw.TextBlock
 		}
 		return this.mLevel_Internal
 	}
 	private mEXP_Internal: mw.ProgressBar
 	public get mEXP(): mw.ProgressBar {
 		if(!this.mEXP_Internal&&this.uiWidgetBase) {
-			this.mEXP_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/mCanvas/Canvas/mEXP') as mw.ProgressBar
+			this.mEXP_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/ScrollBox/mCanvas/EXPLine/mEXP') as mw.ProgressBar
 		}
 		return this.mEXP_Internal
 	}
 	private mEXPValue_Internal: mw.TextBlock
 	public get mEXPValue(): mw.TextBlock {
 		if(!this.mEXPValue_Internal&&this.uiWidgetBase) {
-			this.mEXPValue_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/mCanvas/Canvas/mEXP/mEXPValue') as mw.TextBlock
+			this.mEXPValue_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/ScrollBox/mCanvas/EXPLine/mEXP/mEXPValue') as mw.TextBlock
 		}
 		return this.mEXPValue_Internal
 	}
 	private mHp_Internal: mw.ProgressBar
 	public get mHp(): mw.ProgressBar {
 		if(!this.mHp_Internal&&this.uiWidgetBase) {
-			this.mHp_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/mCanvas/Canvas/mHp') as mw.ProgressBar
+			this.mHp_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/ScrollBox/mCanvas/HPLine/mHp') as mw.ProgressBar
 		}
 		return this.mHp_Internal
 	}
 	private mHpValue_Internal: mw.TextBlock
 	public get mHpValue(): mw.TextBlock {
 		if(!this.mHpValue_Internal&&this.uiWidgetBase) {
-			this.mHpValue_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/mCanvas/Canvas/mHp/mHpValue') as mw.TextBlock
+			this.mHpValue_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/ScrollBox/mCanvas/HPLine/mHp/mHpValue') as mw.TextBlock
 		}
 		return this.mHpValue_Internal
 	}
 	private mMp_Internal: mw.ProgressBar
 	public get mMp(): mw.ProgressBar {
 		if(!this.mMp_Internal&&this.uiWidgetBase) {
-			this.mMp_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/mCanvas/Canvas/mMp') as mw.ProgressBar
+			this.mMp_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/ScrollBox/mCanvas/MPLine/mMp') as mw.ProgressBar
 		}
 		return this.mMp_Internal
 	}
 	private mMpValue_Internal: mw.TextBlock
 	public get mMpValue(): mw.TextBlock {
 		if(!this.mMpValue_Internal&&this.uiWidgetBase) {
-			this.mMpValue_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/mCanvas/Canvas/mMp/mMpValue') as mw.TextBlock
+			this.mMpValue_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/ScrollBox/mCanvas/MPLine/mMp/mMpValue') as mw.TextBlock
 		}
 		return this.mMpValue_Internal
 	}
 	private mAtk_Internal: mw.TextBlock
 	public get mAtk(): mw.TextBlock {
 		if(!this.mAtk_Internal&&this.uiWidgetBase) {
-			this.mAtk_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/mCanvas/Canvas/mAtk') as mw.TextBlock
+			this.mAtk_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/ScrollBox/mCanvas/AtkLine/mAtk') as mw.TextBlock
 		}
 		return this.mAtk_Internal
 	}
 	private mMAtk_Internal: mw.TextBlock
 	public get mMAtk(): mw.TextBlock {
 		if(!this.mMAtk_Internal&&this.uiWidgetBase) {
-			this.mMAtk_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/mCanvas/Canvas/mMAtk') as mw.TextBlock
+			this.mMAtk_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/ScrollBox/mCanvas/MAtkLine/mMAtk') as mw.TextBlock
 		}
 		return this.mMAtk_Internal
 	}
 	private mStr_Internal: mw.TextBlock
 	public get mStr(): mw.TextBlock {
 		if(!this.mStr_Internal&&this.uiWidgetBase) {
-			this.mStr_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/mCanvas/Canvas/mStr') as mw.TextBlock
+			this.mStr_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/ScrollBox/mCanvas/StrLine/mStr') as mw.TextBlock
 		}
 		return this.mStr_Internal
 	}
 	private mCrit_Internal: mw.TextBlock
 	public get mCrit(): mw.TextBlock {
 		if(!this.mCrit_Internal&&this.uiWidgetBase) {
-			this.mCrit_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/mCanvas/Canvas/mCrit') as mw.TextBlock
+			this.mCrit_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/ScrollBox/mCanvas/CritLine/mCrit') as mw.TextBlock
 		}
 		return this.mCrit_Internal
 	}
 	private mInt_Internal: mw.TextBlock
 	public get mInt(): mw.TextBlock {
 		if(!this.mInt_Internal&&this.uiWidgetBase) {
-			this.mInt_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/mCanvas/Canvas/mInt') as mw.TextBlock
+			this.mInt_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/ScrollBox/mCanvas/IntLine/mInt') as mw.TextBlock
 		}
 		return this.mInt_Internal
 	}
 	private mVit_Internal: mw.TextBlock
 	public get mVit(): mw.TextBlock {
 		if(!this.mVit_Internal&&this.uiWidgetBase) {
-			this.mVit_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/mCanvas/Canvas/mVit') as mw.TextBlock
+			this.mVit_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/ScrollBox/mCanvas/VitLine/mVit') as mw.TextBlock
 		}
 		return this.mVit_Internal
 	}
 	private mDef_Internal: mw.TextBlock
 	public get mDef(): mw.TextBlock {
 		if(!this.mDef_Internal&&this.uiWidgetBase) {
-			this.mDef_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/mCanvas/Canvas/mDef') as mw.TextBlock
+			this.mDef_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/ScrollBox/mCanvas/DefLine/mDef') as mw.TextBlock
 		}
 		return this.mDef_Internal
 	}
 	private mDamage_Internal: mw.TextBlock
 	public get mDamage(): mw.TextBlock {
 		if(!this.mDamage_Internal&&this.uiWidgetBase) {
-			this.mDamage_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/mCanvas/Canvas/mDamage') as mw.TextBlock
+			this.mDamage_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/ScrollBox/mCanvas/DamageLine/mDamage') as mw.TextBlock
 		}
 		return this.mDamage_Internal
 	}
 	private mSkillDamage_Internal: mw.TextBlock
 	public get mSkillDamage(): mw.TextBlock {
 		if(!this.mSkillDamage_Internal&&this.uiWidgetBase) {
-			this.mSkillDamage_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/mCanvas/Canvas/mSkillDamage') as mw.TextBlock
+			this.mSkillDamage_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/ScrollBox/mCanvas/SkillDamageLine/mSkillDamage') as mw.TextBlock
 		}
 		return this.mSkillDamage_Internal
 	}
 	private mCritDamage_Internal: mw.TextBlock
 	public get mCritDamage(): mw.TextBlock {
 		if(!this.mCritDamage_Internal&&this.uiWidgetBase) {
-			this.mCritDamage_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/mCanvas/Canvas/mCritDamage') as mw.TextBlock
+			this.mCritDamage_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/ScrollBox/mCanvas/CritDamageLine/mCritDamage') as mw.TextBlock
 		}
 		return this.mCritDamage_Internal
 	}
@@ -153,6 +160,9 @@ export default class BagAttributeUI_Generate extends UIScript {
 		
 		//按钮添加点击
 		
+		this.exit.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
 
 		//按钮多语言
 		
@@ -202,49 +212,46 @@ export default class BagAttributeUI_Generate extends UIScript {
 	
 		//文本多语言
 		
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/mCanvas/NameCanvas/Level") as any);
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/ScrollBox/mCanvas/LevelLine/Level") as any);
 		
 	
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/mCanvas/NameCanvas/EXP") as any);
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/ScrollBox/mCanvas/EXPLine/EXP") as any);
 		
 	
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/mCanvas/NameCanvas/Hp") as any);
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/ScrollBox/mCanvas/HPLine/Hp") as any);
 		
 	
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/mCanvas/NameCanvas/Mp") as any);
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/ScrollBox/mCanvas/MPLine/Mp") as any);
 		
 	
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/mCanvas/NameCanvas/Atk") as any);
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/ScrollBox/mCanvas/AtkLine/Atk") as any);
 		
 	
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/mCanvas/NameCanvas/MAtk") as any);
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/ScrollBox/mCanvas/MAtkLine/MAtk") as any);
 		
 	
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/mCanvas/NameCanvas/Str") as any);
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/ScrollBox/mCanvas/StrLine/Str") as any);
 		
 	
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/mCanvas/NameCanvas/Crit") as any);
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/ScrollBox/mCanvas/CritLine/Crit") as any);
 		
 	
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/mCanvas/NameCanvas/Int") as any);
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/ScrollBox/mCanvas/IntLine/Int") as any);
 		
 	
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/mCanvas/NameCanvas/Vit") as any);
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/ScrollBox/mCanvas/VitLine/Vit") as any);
 		
 	
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/mCanvas/NameCanvas/Def") as any);
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/ScrollBox/mCanvas/DefLine/Def") as any);
 		
 	
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/mCanvas/NameCanvas/Damage") as any);
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/ScrollBox/mCanvas/DamageLine/Damage") as any);
 		
 	
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/mCanvas/NameCanvas/SkillDamage") as any);
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/ScrollBox/mCanvas/SkillDamageLine/SkillDamage") as any);
 		
 	
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/mCanvas/NameCanvas/CritDamage") as any);
-		
-	
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/mCanvas/UserName") as any);
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/ScrollBox/mCanvas/CritDamageLine/CritDamage") as any);
 		
 	
 

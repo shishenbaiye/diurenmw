@@ -1,7 +1,7 @@
 
 import { GameConfig } from "../../../configs/GameConfig";
 import BagItemUI_Generate from "../../../ui-generate/Bag/BagItemUI_generate"
-import { BagItemBase, BagManagerModuleData, ItemType, eventType } from "../BagManagerModuleData";
+import { BagItemBase, BagManagerModuleData, ItemType, QuantityColor, eventType } from "../BagManagerModuleData";
 
 import WeaponScript from "../../weaponModule/WeaponScript";
 import { GameEventBus } from "../../../common/eventBus/EventBus";
@@ -45,8 +45,8 @@ export default class BagItemUI extends BagItemUI_Generate {
 		return this.itemNumObj_Internal
 	}
 
-	static defaultX = 100;
-	static defaultY = 100;
+	static defaultX = 140;
+	static defaultY = 140;
 	
 	/**
 	* onStart 之前触发一次
@@ -77,12 +77,14 @@ export default class BagItemUI extends BagItemUI_Generate {
 		if(!this.bagData)
 		{
 			this.setVisibility(mw.SlateVisibility.Hidden);
+			BagManagerModuleData.setImageQuality(this.border);
 			return;
 		}
 		this.itemData = this.bagData.findItemByIndex(inItemType, inIndex)
 		if(!this.itemData)
 		{
 			this.setVisibility(mw.SlateVisibility.Hidden);
+			BagManagerModuleData.setImageQuality(this.border);
 			return;
 		}
 
@@ -109,6 +111,7 @@ export default class BagItemUI extends BagItemUI_Generate {
 		{
 			this.isNew.visibility = mw.SlateVisibility.Hidden;
 		}
+		BagManagerModuleData.setImageQuality(this.border, this.itemData);
 	}
 
 	protected setVisibility(inVisibility : mw.SlateVisibility)

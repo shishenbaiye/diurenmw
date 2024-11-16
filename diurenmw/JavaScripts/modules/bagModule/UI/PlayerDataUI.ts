@@ -1,4 +1,5 @@
 
+import { GameEventBus } from "../../../common/eventBus/EventBus";
 import PlayerDataUI_Generate from "../../../ui-generate/Bag/PlayerDataUI_generate";
 import { ArmorPart } from "../../armorModule/ArmorType";
 import { JewelryPart } from "../../jewelryModule/JewelryType";
@@ -8,8 +9,8 @@ import EquipmentUI from "./EquipmentUI";
 
 @UIBind('UI/Bag/PlayerDataUI.ui')
 export default class PlayerDataUI extends PlayerDataUI_Generate {
-	Padding = 50;
-	size = 100;
+	Padding = 10;
+	size = 140;
 
 	equipmentUI : Array<EquipmentUI>;
 	/**
@@ -19,6 +20,9 @@ export default class PlayerDataUI extends PlayerDataUI_Generate {
 		const leftPadding = this.Padding;
 		const rightPadding = this.uiObject.size.x - this.Padding - this.size;
 		this.equipmentUI = new Array<EquipmentUI>();
+
+		GameEventBus.on("BagModule_UnEquipmentItemUpdate", this.updateEquipmentUI.bind(this));
+		GameEventBus.on("BagModule_EquipmentItemUpdate", this.updateEquipmentUI.bind(this));
 
 		// 武器
 		this.equipmentUI.push(this.createEquipment(ItemType.Weapon, 0, new mw.Vector2(leftPadding, this.Padding)));

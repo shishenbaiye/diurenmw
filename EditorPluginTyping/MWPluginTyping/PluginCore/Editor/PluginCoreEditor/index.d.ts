@@ -1549,7 +1549,6 @@ declare namespace mweditor {
         private openProjectCompletedHandle;
         private openProjectFailed;
         private openProjectFailedHandle;
-        copyTyping(): void;
         getCurrentDesc(): string;
         /**
          * 添加新流程，目前只能添加在 ParseCommand 之后和 OpenLevel 之前
@@ -2520,6 +2519,10 @@ declare namespace mweditor {
          * @returns 创建的插件信息，失败返回空
          */
         static createPlugin(name: string, data: CreatePluginData): Readonly<PluginInfo>;
+        /**
+         * 拷贝中英文Typing至当前工程和Saved目录下
+         */
+        static copyTyping(): void;
         /**
          * 编译目录下的所有插件
          * @param inPluginPath 包含插件的父目录

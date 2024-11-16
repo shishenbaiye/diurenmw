@@ -38,8 +38,12 @@ export default class BagAttributeUI extends BagAttributeUI_Generate {
         BagAttributeUI.changeCrit(BagAttributeUI.crit);
         BagAttributeUI.changeCritDamage(BagAttributeUI.critDamage);
 
-        
+        this.exit.onClicked.add(this.onExitClicked.bind(this));
 	}
+
+    onExitClicked() {
+        this.visible = false;
+    }
 
 	protected OnDestory() {
         BagAttributeUI.instance = null;

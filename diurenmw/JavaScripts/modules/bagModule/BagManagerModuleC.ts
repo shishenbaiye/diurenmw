@@ -1,13 +1,12 @@
 import { BagManagerModuleData, BagItemBase, ItemType, eventType, EquipmentType } from "./BagManagerModuleData";
 import { BagManagerModuleS } from "./BagManagerModuleS";
-import BagManagerUI from "./UI/BagManagerUI";
 import BagItemUI from "./UI/BagItemUI";
-import { PlayerAttributeSet } from "../AttributeModule/PlayerAttributeSet";
 import { GameEventBus } from "../../common/eventBus/EventBus";
 import BagAttributeUI from "./UI/BagAttributeUI";
+import BagMainUI from "./UI/BagMainUI";
 
 export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModuleData> {
-    bagManagerUIObj : BagManagerUI;
+    bagUIObj : BagMainUI;
 
     /**
      * @groups 基类/C&S拓展
@@ -78,8 +77,8 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
 
     // 打开背包
     onBagOpen(): void {
-        this.bagManagerUIObj = UIService.show(BagManagerUI);
-        this.bagManagerUIObj.init(this.data);
+        this.bagUIObj = UIService.show(BagMainUI);
+        this.bagUIObj.init();
     }
 
     onButtonClickEvent(typeId : BagItemBase)
@@ -101,24 +100,19 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
 
     // 更新客户端背包数据
     updateBagData(inItemtype : ItemType): void {
-        if(this.bagManagerUIObj && inItemtype == this.bagManagerUIObj.currentTypePage)
-        {
-            this.bagManagerUIObj.BagItemObjs.forEach((value: BagItemUI, index: number, array: BagItemUI[])=>{
-                value.updateItemUI(index, inItemtype);
-            }); 
-        }
+        GameEventBus.emit("BagModule_UpdateBagData", inItemtype);
     }
 
     net_OnUnEquipmentItemUpdate(inItem : BagItemBase, inEquipmentType : EquipmentType) {
         console.log("BagManagerModuleC net_OnUnEquipmentItemUpdate: " + JSON.stringify(inItem));
         this.data.equipmentItems[inEquipmentType] = {uuid: "", typeId: 0, count: 1, itemtype: inItem.itemtype, isNew: true};
-        this.bagManagerUIObj.playerDataUIObj.updateEquipmentUI(inEquipmentType);
+        GameEventBus.emit("BagModule_UnEquipmentItemUpdate", inEquipmentType);
     }
 
     net_OnEquipmentItemUpdate(inItem : BagItemBase, inEquipmentType : EquipmentType) {
         console.log("BagManagerModuleC net_OnEquipmentItemUpdate: " + JSON.stringify(inItem));
         this.data.equipmentItems[inEquipmentType] = inItem;
-        this.bagManagerUIObj.playerDataUIObj.updateEquipmentUI(inEquipmentType);
+        GameEventBus.emit("BagModule_EquipmentItemUpdate", inEquipmentType);
     }
 
 	protected onUnEquipmentItem(inItem : BagItemBase, inEquipmentType : EquipmentType) {

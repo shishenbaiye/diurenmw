@@ -1,50 +1,18 @@
 
-import BagUI_Generate from "../../../ui-generate/Bag/BagUI_generate"
 import BagItemUI from "./BagItemUI"
 import { BagItemBase, BagManagerModuleData, EquipmentType, ItemType, eventType } from "../BagManagerModuleData";
 import ItemTypeUI from "./ItemTypeUI";
-import { PlayerAttributeSet } from "../../AttributeModule/PlayerAttributeSet";
 import BagAttributeUI from "./BagAttributeUI";
 import PlayerDataUI from "./PlayerDataUI";
-import BagShowSelect from "./BagShowSelect";
 import BagMainShowSelect from "./BagMainShowSelect";
 import { GameEventBus } from "../../../common/eventBus/EventBus";
-import { BagManagerModuleC } from "../BagManagerModuleC";
+import BagManagerUI_Generate from "../../../ui-generate/Bag/BagManagerUI_generate";
 
-@UIBind('UI/Bag/BagUI.ui')
-export default class BagManagerUI extends BagUI_Generate {
+@UIBind('UI/Bag/BagManagerUI.ui')
+export default class BagManagerUI extends BagManagerUI_Generate {
 
 	BagItemObjs : Array<BagItemUI>;
 	ItemTypeUIs : Array<ItemTypeUI>;
-
-	bagAttributeUIObj : BagAttributeUI;
-	playerDataUIObj : PlayerDataUI;
-	mainShowSelectUI : BagMainShowSelect;
-
-	private exitButton_Internal: mw.Button
-	public get exitButton(): mw.Button {
-		if(!this.exitButton_Internal&&this.uiWidgetBase) {
-			this.exitButton_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/BagBackground/exit') as mw.Button;
-		}
-		return this.exitButton_Internal
-	}
-
-	private content_Internal: mw.Canvas
-	public get content(): mw.Canvas {
-		if(!this.content_Internal&&this.uiWidgetBase) {
-			this.content_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/BagBackground/ItemListBackground/ItemScrollBox/Content') as mw.Canvas;
-		}
-		return this.content_Internal
-	}
-
-	private typeContent_Internal: mw.TextBlock
-	public get typeContent(): mw.TextBlock {
-		if(!this.typeContent_Internal&&this.uiWidgetBase) {
-			this.typeContent_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/BagBackground/ItemType/TypeContent') as mw.TextBlock;
-		}
-		return this.typeContent_Internal
-	}
-
 	onTypeSelect: mw.MulticastDelegate<(inItemType : ItemType) => void>;
 
 	bagData : BagManagerModuleData;
@@ -63,48 +31,31 @@ export default class BagManagerUI extends BagUI_Generate {
 		this.currentTypePage = ItemType.Weapon;
 		this.onTypeSelect = new mw.MulticastDelegate<(inItemType : ItemType) => void>();
 		this.onTypeSelect.add(this.onTypeSelectClick.bind(this));
-        this.initButtons();
 		this.BagItemObjs = new Array<BagItemUI>;
 		this.ItemTypeUIs = new Array<ItemTypeUI>;
 
-		GameEventBus.on("BagModule_EquipmentClick", this.onEquipmentClick.bind(this));
-		GameEventBus.on("BagModule_ItemClick", this.onItemClick.bind(this));
+		GameEventBus.on("BagModule_UpdateBagData", this.updateBagData.bind(this));
+
+		this.bagData = DataCenterC.getData(BagManagerModuleData);
+		
+	}
+
+	updateBagData(inItemtype : ItemType) {
+		if(inItemtype == this.currentTypePage)
+		{
+			this.BagItemObjs.forEach((value: BagItemUI, index: number, array: BagItemUI[])=>{
+				value.updateItemUI(index, inItemtype);
+			});
+		}
 	}
 
 	/** 仅在游戏时间对非模板实例调用一次 */
 	protected onStart() {
-		this.itemNumPerLine = Math.floor(this.content.size.x / BagItemUI.defaultX);
+		this.itemNumPerLine = Math.floor(this.itemContent.size.x / BagItemUI.defaultX);
 		console.log("BagUI itemNumPerLine is " + this.itemNumPerLine);
-	}
 
-	public init(inBagData : BagManagerModuleData) { 
-		this.bagData = inBagData;
-		
 		this.updateItemTypeUI();
 		this.updateCurrentTypePage();
-		this.updateAttributeUI();
-		this.updatePlayerDataUI();
-	}
-	updatePlayerDataUI() {
-		if(!this.playerDataUIObj)
-		{
-			this.playerDataUIObj = UIService.create(PlayerDataUI);
-			this.playerDataCanvas.addChild(this.playerDataUIObj.uiObject);
-			this.playerDataUIObj.uiObject.position = new mw.Vector2(0, 0);
-			this.playerDataUIObj.uiObject.size = this.playerDataCanvas.size;
-			this.playerDataUIObj.uiObject.visibility = mw.SlateVisibility.Visible;
-		}
-	}
-
-	updateAttributeUI() {
-		if(!this.bagAttributeUIObj)
-		{
-			this.bagAttributeUIObj = UIService.create(BagAttributeUI);
-			this.attributeCanvas.addChild(this.bagAttributeUIObj.uiObject);
-			this.bagAttributeUIObj.uiObject.position = new mw.Vector2(0, 0);
-			this.bagAttributeUIObj.uiObject.size = this.attributeCanvas.size;
-			this.bagAttributeUIObj.uiObject.visibility = mw.SlateVisibility.Visible;
-		}
 	}
 
 	protected addItemTypeUI(inItemType : ItemType, inTypeText : string) {
@@ -136,7 +87,7 @@ export default class BagManagerUI extends BagUI_Generate {
 
 		const bagItemUIObject = UIService.create(BagItemUI);
 		bagItemUIObject.init(index, this.currentTypePage, this.bagData);
-		this.content.addChild(bagItemUIObject.uiObject)
+		this.itemContent.addChild(bagItemUIObject.uiObject)
 		this.BagItemObjs.push(bagItemUIObject);
 
 		bagItemUIObject.uiObject.position = new mw.Vector2((index % this.itemNumPerLine) * BagItemUI.defaultX, Math.floor(index / this.itemNumPerLine) * BagItemUI.defaultY);
@@ -158,11 +109,11 @@ export default class BagManagerUI extends BagUI_Generate {
 		this.bagMaxNum.text = currentItemNum.toString() + "/" + num.toString();
 		
 		let newY = (Math.floor(num / this.itemNumPerLine) + 1) * BagItemUI.defaultY;
-		if(newY > this.content.size.y) {
-			this.content.size = new Vector2(this.content.size.x, newY);
-			this.content.position = new Vector2(0, 0);
+		if(newY > this.itemContent.size.y) {
+			this.itemContent.size = new Vector2(this.itemContent.size.x, newY);
+			this.itemContent.position = new Vector2(0, 0);
 			this.BagItemObjs = new Array<BagItemUI>;
-			this.content.removeAllChildren();
+			this.itemContent.removeAllChildren();
 		}
 
 		let currentNum = this.BagItemObjs.length;
@@ -207,16 +158,6 @@ export default class BagManagerUI extends BagUI_Generate {
 		this.addItemTypeUI(ItemType.Materials, "材料");
 	}
 
-	protected initButtons() {
-		//按钮添加点击
-		this.exitButton.onClicked.add(this.onExitClicked.bind(this));
-	}
-
-	protected onExitClicked() {
-		console.log("BagUI onExitClicked");
-		this.destroy();
-	}
-
 	protected onWeaponClicked() {
 		console.log("BagUI OnWeaponClicked");
 		this.currentTypePage = ItemType.Weapon;
@@ -233,38 +174,6 @@ export default class BagManagerUI extends BagUI_Generate {
 				element.setSelectType(mw.CheckBoxState.Unchecked);
 			}
 		});
-	}
-
-	protected onItemClick(inItem : BagItemBase) {
-		this.mainShowSelectUI = UIService.create(BagMainShowSelect);
-		this.mainShowSelectUI.init(false, inItem);
-		if(this.uiWidgetBase)
-		{
-			this.uiWidgetBase.rootContent.addChild(this.mainShowSelectUI.uiObject);
-			this.mainShowSelectUI.uiObject.position = new mw.Vector2(0, 0);
-			this.mainShowSelectUI.uiObject.size = this.uiWidgetBase.rootContent.size;
-			this.mainShowSelectUI.uiObject.visibility = mw.SlateVisibility.Visible;
-		}
-		else
-		{
-			this.mainShowSelectUI.uiObject.visibility = mw.SlateVisibility.Collapsed;
-		}
-	}
-
-	protected onEquipmentClick(inItem : BagItemBase, inEquipmentType : EquipmentType) {
-		this.mainShowSelectUI = UIService.create(BagMainShowSelect);
-		this.mainShowSelectUI.init(true, inItem, inEquipmentType);
-		if(this.uiWidgetBase)
-		{
-			this.uiWidgetBase.rootContent.addChild(this.mainShowSelectUI.uiObject);
-			this.mainShowSelectUI.uiObject.position = new mw.Vector2(0, 0);
-			this.mainShowSelectUI.uiObject.size = this.uiWidgetBase.rootContent.size;
-			this.mainShowSelectUI.uiObject.visibility = mw.SlateVisibility.Visible;
-		}
-		else
-		{
-			this.mainShowSelectUI.uiObject.visibility = mw.SlateVisibility.Collapsed;
-		}
 	}
 }
  

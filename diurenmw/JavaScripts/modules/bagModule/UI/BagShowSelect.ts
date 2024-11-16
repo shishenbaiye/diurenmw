@@ -9,15 +9,8 @@ import JewelryScript from "../../jewelryModule/JewelryScript";
 import { MaterialModuleData } from "../../materialsModule/MaterialModuleData";
 import { WeaponModuleData } from "../../weaponModule/WeaponModuleData";
 import WeaponScript from "../../weaponModule/WeaponScript";
-import { BagItemBase, BagManagerModuleData, EquipmentType, ItemType } from "../BagManagerModuleData";
+import { BagItemBase, BagManagerModuleData, EquipmentType, ItemType, QuantityColor } from "../BagManagerModuleData";
 import BagSelectDataItem from "./BagSelectDataItem";
-
-enum QuantityColor {
-	Normal = "#B8B8B8",
-	Grade = "#64DA74",
-	Rare = "#4B98DA",
-	Epic = "#7716DA"
-}
 
 @UIBind('UI/Bag/BagShowSelect.ui')
 export default class BagShowSelect extends BagShowSelect_Generate {
@@ -77,7 +70,7 @@ export default class BagShowSelect extends BagShowSelect_Generate {
 				if(weaponData.useEffet4) {
 					this.addOnlyEffecItem(weaponConfig.effect4);
 				}
-				this.setData(this.item.itemtype, weaponData.wid, weaponConfig.quality);
+				this.setData(weaponData.wid, this.item);
 				break;
 			case ItemType.Jewelry:
 				let jewelryData = DataCenterC.getData(JewelryModuleData).getJewelryData(this.item.uuid);
@@ -97,7 +90,7 @@ export default class BagShowSelect extends BagShowSelect_Generate {
 				if(jewelryData.useEffet4) {
 					this.addOnlyEffecItem(jewelryConfig.effect4);
 				}
-				this.setData(this.item.itemtype, jewelryData.jid, jewelryConfig.quality);
+				this.setData(jewelryData.jid, this.item);
 				break;
 			case ItemType.Armor:
 				let armorData = DataCenterC.getData(ArmorModuleData).getArmorData(this.item.uuid);
@@ -118,7 +111,7 @@ export default class BagShowSelect extends BagShowSelect_Generate {
 				if(armorData.useEffet4) {
 					this.addOnlyEffecItem(armorConfig.effect4);
 				}
-				this.setData(this.item.itemtype, armorData.aid, armorConfig.quality);
+				this.setData(armorData.aid, this.item);
 				break;
 			case ItemType.Consumables:
 				let consumablesData = DataCenterC.getData(ConsumableModuleData).getConsumableData(this.item.uuid);
@@ -135,7 +128,7 @@ export default class BagShowSelect extends BagShowSelect_Generate {
 				if(consumablesData.useEffet4) {
 					this.addOnlyEffecItem(consumableConfig.effect4);
 				}
-				this.setData(this.item.itemtype, consumablesData.id, consumableConfig.quality);
+				this.setData(consumablesData.id, this.item);
 				break;
 			case ItemType.Materials:
 				let materialData = DataCenterC.getData(MaterialModuleData).getMaterialData(this.item.uuid);
@@ -152,7 +145,7 @@ export default class BagShowSelect extends BagShowSelect_Generate {
 				if(materialData.useEffet4) {
 					this.addOnlyEffecItem(materialConfig.effect4);
 				}
-				this.setData(this.item.itemtype, materialData.id, materialConfig.quality);
+				this.setData(materialData.id, this.item);
 				break;
 		}
 		
@@ -168,28 +161,14 @@ export default class BagShowSelect extends BagShowSelect_Generate {
 		}
 	}
 
-	setData(itemtype : ItemType, typeId : number, inQuantity : number) {
+	setData(typeId : number, inItem : BagItemBase) {
 		if(typeId)
 		{
-			this.name.text = BagManagerModuleData.getItemName(itemtype, typeId);
-			this.icon.imageGuid = BagManagerModuleData.getItemIcon(itemtype, typeId);
-			switch(inQuantity)
-			{
-				case 1:
-					this.grade.setImageColorByHex(QuantityColor.Normal);
-					break;
-				case 2:
-					this.grade.setImageColorByHex(QuantityColor.Grade);
-					break;
-				case 3:
-					this.grade.setImageColorByHex(QuantityColor.Rare);
-					break;
-				case 4:
-					this.grade.setImageColorByHex(QuantityColor.Epic);
-					break;
-			}
+			this.name.text = BagManagerModuleData.getItemName(inItem.itemtype, typeId);
+			this.icon.imageGuid = BagManagerModuleData.getItemIcon(inItem.itemtype, typeId);
+			BagManagerModuleData.setImageQuality(this.grade, inItem);
 		}
-		if(itemtype == ItemType.Consumables || itemtype == ItemType.Materials)
+		if(inItem.itemtype == ItemType.Consumables || inItem.itemtype == ItemType.Materials)
 		{
 			this.leftButtonText.text = "使用";
 		}

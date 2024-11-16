@@ -31,6 +31,13 @@ export default class BagItemUI_Generate extends UIScript {
 		}
 		return this.isNew_Internal
 	}
+	private border_Internal: mw.Image
+	public get border(): mw.Image {
+		if(!this.border_Internal&&this.uiWidgetBase) {
+			this.border_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/border') as mw.Image
+		}
+		return this.border_Internal
+	}
 
 
  

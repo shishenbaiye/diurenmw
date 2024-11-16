@@ -7,7 +7,7 @@ import { ArmorPart } from "../../armorModule/ArmorType";
 import JewelryScript from "../../jewelryModule/JewelryScript";
 import { JewelryPart } from "../../jewelryModule/JewelryType";
 import WeaponScript from "../../weaponModule/WeaponScript";
-import { EquipmentType, ItemType, BagItemBase, BagManagerModuleData } from "../BagManagerModuleData";
+import { EquipmentType, ItemType, BagItemBase, BagManagerModuleData, QuantityColor } from "../BagManagerModuleData";
 
 @UIBind('UI/Bag/EquipmentUI.ui')
 export default class EquipmentUI extends EquipmentUI_Generate {
@@ -117,6 +117,7 @@ export default class EquipmentUI extends EquipmentUI_Generate {
 				break;
 		}
 		this.setButtonImage(excelData.icon);
+		BagManagerModuleData.setImageQuality(this.border, {uuid: "", typeId: typeId, count: 1, itemtype: this.type, isNew: false});
 		this.itemName.text = excelData.name;
 		this.isEquipped = true;
 	}
@@ -132,6 +133,7 @@ export default class EquipmentUI extends EquipmentUI_Generate {
 	setDefaultData(inName : string) {
 		this.itemName.text = inName;
 		this.button.visibility = mw.SlateVisibility.Collapsed;
+		BagManagerModuleData.setImageQuality(this.border);
 	}
 }
  

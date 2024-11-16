@@ -10,33 +10,26 @@
 
 @UIBind('UI/Bag/BagUI.ui')
 export default class BagUI_Generate extends UIScript {
-		private exit_Internal: mw.Button
+		private menuContent_Internal: mw.Canvas
+	public get menuContent(): mw.Canvas {
+		if(!this.menuContent_Internal&&this.uiWidgetBase) {
+			this.menuContent_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/BagBackground/menuContent') as mw.Canvas
+		}
+		return this.menuContent_Internal
+	}
+	private exit_Internal: mw.Button
 	public get exit(): mw.Button {
 		if(!this.exit_Internal&&this.uiWidgetBase) {
 			this.exit_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/BagBackground/exit') as mw.Button
 		}
 		return this.exit_Internal
 	}
-	private bagMaxNum_Internal: mw.TextBlock
-	public get bagMaxNum(): mw.TextBlock {
-		if(!this.bagMaxNum_Internal&&this.uiWidgetBase) {
-			this.bagMaxNum_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/Image_1/Canvas/bagMaxNum') as mw.TextBlock
+	private menu_Internal: mw.Canvas
+	public get menu(): mw.Canvas {
+		if(!this.menu_Internal&&this.uiWidgetBase) {
+			this.menu_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/BagBackground/menu') as mw.Canvas
 		}
-		return this.bagMaxNum_Internal
-	}
-	private attributeCanvas_Internal: mw.Canvas
-	public get attributeCanvas(): mw.Canvas {
-		if(!this.attributeCanvas_Internal&&this.uiWidgetBase) {
-			this.attributeCanvas_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/attributeCanvas') as mw.Canvas
-		}
-		return this.attributeCanvas_Internal
-	}
-	private playerDataCanvas_Internal: mw.Canvas
-	public get playerDataCanvas(): mw.Canvas {
-		if(!this.playerDataCanvas_Internal&&this.uiWidgetBase) {
-			this.playerDataCanvas_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/playerDataCanvas') as mw.Canvas
-		}
-		return this.playerDataCanvas_Internal
+		return this.menu_Internal
 	}
 
 
@@ -63,14 +56,8 @@ export default class BagUI_Generate extends UIScript {
 		
 		//文本多语言
 		
-		this.initLanguage(this.bagMaxNum)
-		
-	
 		//文本多语言
 		
-		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/Image_1/Canvas/TextBlock") as any);
-		
-	
 
 	}
 
