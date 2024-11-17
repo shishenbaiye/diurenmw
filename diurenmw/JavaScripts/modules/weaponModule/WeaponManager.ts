@@ -7,6 +7,7 @@ import { PlayerAttributeSet } from "../AttributeModule/PlayerAttributeSet";
 import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { WeaponBase } from "./WeaponBase";
 import { WeaponData } from "./WeaponData";
+import { Normal_Weapon } from "./zhanshi/Normal_Weapon";
 
 @MSingletonPlugin()
 export class WeaponManager extends MObject {
@@ -35,7 +36,7 @@ export class WeaponManager extends MObject {
             weapon.init();
             return weapon;
         }
-        let weapon = MFramework.createObject(WeaponBase) as T;
+        let weapon = MFramework.createObject(Normal_Weapon) as T;
         weapon.wid = wid;
         weapon.owner = owner;
         weapon.ownerAttribute = as;
@@ -56,7 +57,7 @@ export class WeaponManager extends MObject {
             weapon.initByData(data);
             return weapon;
         }
-        let weapon = MFramework.createObject(WeaponBase) as T;
+        let weapon = MFramework.createObject(Normal_Weapon) as T;
         weapon.wid = data.wid;
         weapon.owner = owner;
         weapon.ownerAttribute = as;
