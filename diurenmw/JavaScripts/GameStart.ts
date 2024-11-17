@@ -43,6 +43,8 @@ import { ConsumableModuleData } from "./modules/consumableModule/ConsumableModul
 import { MaterialModuleS } from "./modules/materialsModule/MaterialModuleS";
 import { MaterialModuleData } from "./modules/materialsModule/MaterialModuleData";
 import { MaterialModuleC } from "./modules/materialsModule/MaterialModuleC";
+import { GasModuleC } from "./modules/gasModule/GasModuleC";
+import { GasModuleS } from "./modules/gasModule/GasModuleS";
 
 
 @Component
@@ -127,6 +129,7 @@ class GameStart extends OdinGame {
         MFramework.registerModule(MaterialModuleS, MaterialModuleC, MaterialModuleData);
         MFramework.registerModule(JewelryModuleS, JewelryModuleC, JewelryModuleData);
         MFramework.registerModule(SkillModuleS, SkillModuleC, SkillModuleData);
+        MFramework.registerModule(GasModuleS, GasModuleC, null);
         MFramework.registerModule(RankModuleS, RankModuleC, null);
         MFramework.registerModule(HudModuleS, HudModuleC, null);
         // MFramework.registerModule(NpcModuleS, NpcModuleC, null);

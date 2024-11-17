@@ -1,4 +1,5 @@
-import { MPlugin } from "../../../../../framework/DI/MContainer";
+import { MPlugin, MPropertiesInject, RpcPlugin } from "../../../../../framework/DI/MContainer";
+import { GasModuleS } from "../../../GasModuleS";
 import { GameAbility } from "../../GA/GameAbility";
 import { Payload } from "../../GEvent/Payload";
 import { AbilityTask } from "../AbilityTask";
@@ -16,19 +17,25 @@ export class AT_PlayAnimation extends AbilityTask{
         if(! owner) owner = ga.owner as Character;
         let payload = Payload.New();
         let instance = super.createTask(ga,payload) as AT_PlayAnimation;
+        this.uuid++;
         instance.owner = owner;
+        instance.uuid = this.uuid;
         instance.currentAnim = anim;
         instance.ainmationTime = TotalTime;
         instance.initAnimantion();
         return instance;
     }
-
+    private static uuid:number = 0;
+    private uuid:number = null;
     private owner:Character;
     private currentAnim: Animation;
     private currentAnimSpeed:number = 1;
     initAnimantion(){
         this.currentAnimSpeed = this.currentAnim.speed;
         this.totalTime = this.ainmationTime/this.currentAnim.speed;
+        if(SystemUtil.isServer()){
+            ModuleService.getModule(GasModuleS).createAT_Animation(this.owner,this.uuid,this.currentAnim);
+        }
     }   
 
     getOwner(){
@@ -44,7 +51,8 @@ export class AT_PlayAnimation extends AbilityTask{
     setSpeed(speed:number){
         this.currentAnimSpeed = speed;
         this.totalTime = this.ainmationTime/speed;
-        this.currentAnim.speed = speed;
+        // this.currentAnim.speed = speed;
+        ModuleService.getModule(GasModuleS).callClientAnimationSpeed(this.uuid,speed);
     }
 
     private endEvent:()=>void;
@@ -57,7 +65,10 @@ export class AT_PlayAnimation extends AbilityTask{
     private totalTime:number = 0;
     private ainmationTime:number = 0;
     protected onTaskActivate(ownerGameAbility: GameAbility): void {
-        this.currentAnim.play();
+        // this.currentAnim.play();
+        if(SystemUtil.isServer()){
+            ModuleService.getModule(GasModuleS).callClientAnimationPlay(this.uuid);
+        }
         this.animationFunc = (dt)=>{
             if(this.currentTime >= this.totalTime){
                 TimeUtil.onEnterFrame.remove(this.animationFunc);
@@ -78,19 +89,29 @@ export class AT_PlayAnimation extends AbilityTask{
         if(this.endEvent){
             this.endEvent();
         }
-        this.currentAnim.stop();
+        // this.currentAnim.stop();
+        if(SystemUtil.isServer()){
+            ModuleService.getModule(GasModuleS).callClientAnimationStop(this.uuid);
+            ModuleService.getModule(GasModuleS).callClientAnimationRemove(this.uuid);
+        }
         this.eventList = [];
         this.currentAnim = null;
         this.animationFunc = null;
     }
     protected onTaskPause(ownerGameAbility: GameAbility): void {
         // console.log("pause");
-        this.currentAnim.pause();
+        // this.currentAnim.pause();
+        if(SystemUtil.isServer()){
+            ModuleService.getModule(GasModuleS).callClientAnimationPause(this.uuid);
+        }
         TimeUtil.onEnterFrame.remove(this.animationFunc);
     }
     protected onTaskResume(ownerGameAbility: GameAbility): void {
         // console.log("resume");
-        this.currentAnim.resume();
+        // this.currentAnim.resume();
+        if(SystemUtil.isServer()){
+            ModuleService.getModule(GasModuleS).callClientAnimationResume(this.uuid);
+        }
         TimeUtil.onEnterFrame.add(this.animationFunc);
     }
     protected onTaskCancel(ownerGameAbility: GameAbility): void {
