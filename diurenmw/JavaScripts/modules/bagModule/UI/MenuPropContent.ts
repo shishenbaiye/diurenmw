@@ -27,9 +27,7 @@ export default class MenuPropContent extends MenuPropContent_Generate {
 		this.canUpdate = false;
 		this.layer = UILayerMiddle;
         
-		this.updateAttributeUI();
-		this.updatePlayerDataUI();
-		this.updateBagManagerUI();
+
 		
 		this.buttonPlayerInfo.onClicked.add(this.onPlayerInfoClick.bind(this));
 		GameEventBus.on("AttributeModule_Change", this.onChangeAttribute.bind(this));
@@ -38,6 +36,9 @@ export default class MenuPropContent extends MenuPropContent_Generate {
 	init() {
 		this.playerLevel.text = BagAttributeUI.level.toString();
 		this.playerName.text = AccountService.getNickName();
+		this.updateAttributeUI();
+		this.updatePlayerDataUI();
+		this.updateBagManagerUI();
 	}
 
 	updatePlayerDataUI() {
@@ -70,6 +71,7 @@ export default class MenuPropContent extends MenuPropContent_Generate {
 			this.bagManagerUIObj.uiObject.position = new mw.Vector2(0, 0);
 			this.bagManagerUIObj.uiObject.size = this.bagCanvas.size;
 			this.bagManagerUIObj.uiObject.visibility = mw.SlateVisibility.Visible;
+			this.bagManagerUIObj.init();
 		}
 	}
 

@@ -171,23 +171,18 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
         console.log("BagModuleS net_TestAddItem");
         
         let res = null;
-        player.character.getComponent(WeaponScript).addWeapon(1001);
+        player.character.getComponent(WeaponScript).addWeapon(1004);
+        player.character.getComponent(WeaponScript).addWeapon(1003);
         player.character.getComponent(WeaponScript).addWeapon(1002);
-        player.character.getComponent(WeaponScript).addWeapon(2001);
-        player.character.getComponent(WeaponScript).addWeapon(2002);
-        player.character.getComponent(WeaponScript).addWeapon(3001);
-        player.character.getComponent(WeaponScript).addWeapon(3002);
         
 
         player.character.getComponent(JewelryScript).addJewelry(10001);
         player.character.getComponent(JewelryScript).addJewelry(20001);
-        player.character.getComponent(JewelryScript).addJewelry(20002);
         player.character.getComponent(JewelryScript).addJewelry(30001);
 
 
         player.character.getComponent(ArmorScript).addArmor(10001);
         player.character.getComponent(ArmorScript).addArmor(20001);
-        player.character.getComponent(ArmorScript).addArmor(20002);
         player.character.getComponent(ArmorScript).addArmor(30001);
         player.character.getComponent(ArmorScript).addArmor(40001);
 

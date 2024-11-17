@@ -17,6 +17,27 @@ export default class BagMainShowSelect_Generate extends UIScript {
 		}
 		return this.exit_Internal
 	}
+	private leftCanvas_Internal: mw.Canvas
+	public get leftCanvas(): mw.Canvas {
+		if(!this.leftCanvas_Internal&&this.uiWidgetBase) {
+			this.leftCanvas_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/leftCanvas') as mw.Canvas
+		}
+		return this.leftCanvas_Internal
+	}
+	private rightCanvas_Internal: mw.Canvas
+	public get rightCanvas(): mw.Canvas {
+		if(!this.rightCanvas_Internal&&this.uiWidgetBase) {
+			this.rightCanvas_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/rightCanvas') as mw.Canvas
+		}
+		return this.rightCanvas_Internal
+	}
+	private selectButtonCanvas_Internal: mw.Canvas
+	public get selectButtonCanvas(): mw.Canvas {
+		if(!this.selectButtonCanvas_Internal&&this.uiWidgetBase) {
+			this.selectButtonCanvas_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/selectButtonCanvas') as mw.Canvas
+		}
+		return this.selectButtonCanvas_Internal
+	}
 
 
  
