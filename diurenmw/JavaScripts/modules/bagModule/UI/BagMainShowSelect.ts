@@ -53,34 +53,34 @@ export default class BagMainShowSelect extends BagMainShowSelect_Generate {
 		this.equipmentType = inEquipmentType;
 		this.rightCanvas.visibility = SlateVisibility.Visible;
 		this.leftCanvas.visibility = SlateVisibility.Collapsed;
-		if(inEquipment)
+		if(this.isEquipment)
 		{
-			if(inEquipment) {
-				inItem = DataCenterC.getData(BagManagerModuleData).equipmentItems[inEquipmentType];
+			if(this.isEquipment) {
+				this.item = DataCenterC.getData(BagManagerModuleData).equipmentItems[this.equipmentType];
 			}
 
-			this.rightShowSelectUI.init(true, inItem, inEquipmentType);
+			this.rightShowSelectUI.init(true, this.item, this.equipmentType);
 
 			this.registerButton(SelectButtonType.UnEquipment);
 		}
-		else if(inItem.itemtype == ItemType.Consumables || inItem.itemtype == ItemType.Materials)
+		else if(this.item.itemtype == ItemType.Consumables || this.item.itemtype == ItemType.Materials)
 		{
 			this.leftCanvas.visibility = SlateVisibility.Collapsed;
 
-			this.rightShowSelectUI.init(false, inItem, inEquipmentType);
+			this.rightShowSelectUI.init(false, this.item, this.equipmentType);
 
 			this.registerButton(SelectButtonType.Use);
 			this.registerButton(SelectButtonType.Remove);
 		}
 		else
 		{
-			inEquipmentType = BagManagerModuleData.getEquipmentTypeByTypeId(inItem.itemtype, inItem.typeId);
-			let inEquipmentItem = DataCenterC.getData(BagManagerModuleData).equipmentItems[inEquipmentType];
+			this.equipmentType = BagManagerModuleData.getEquipmentTypeByTypeId(this.item.itemtype, this.item.typeId);
+			let inEquipmentItem = DataCenterC.getData(BagManagerModuleData).equipmentItems[this.equipmentType];
 			if(inEquipmentItem.uuid != "") {
 				this.leftCanvas.visibility = SlateVisibility.Visible;
-				this.leftShowSelectUI.init(true, inEquipmentItem, inEquipmentType);
+				this.leftShowSelectUI.init(true, inEquipmentItem, this.equipmentType);
 			}
-			this.rightShowSelectUI.init(false, inItem, inEquipmentType);
+			this.rightShowSelectUI.init(false, this.item, this.equipmentType);
 
 			this.registerButton(SelectButtonType.Equipment);
 			this.registerButton(SelectButtonType.Remove);
