@@ -80,8 +80,7 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
 
         console.log("BagModuleS addItem : " + JSON.stringify(items));
         let data = this.getPlayerData(player);
-        if(data.addItem(items))
-        {
+        if(data.addItem(items)) {
             // 更新客户端数据
             this.getClient(player).net_addItem(items);
             return true;
