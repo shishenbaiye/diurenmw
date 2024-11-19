@@ -192,7 +192,9 @@ export class MathTool {
 		}
 		if (type == 3) {
 			const isCrit = Math.random() < crit;
-			const res = skill * skillDamage * damage * (isCrit ? 2 * critDamage : 1);
+			const max1 = Math.max(atk, matk);
+			const max2 = Math.max(str, int);
+			const res = (max1 + max2*5 ) * skill * skillDamage * damage * (isCrit ? 2 * critDamage : 1);
 			return {damage:Math.round(res),isCrit};
 		}
 	}

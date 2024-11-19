@@ -1,14 +1,14 @@
-import { GameConfig } from "../../../configs/GameConfig";
-import { MPlugin } from "../../../framework/DI/MContainer";
-import { AbilitySystemComponent } from "../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
-import { WeaponBase } from "../WeaponBase";
-import { registerWeapon } from "../WeaponManager";
+import { GameConfig } from "../../../../configs/GameConfig";
+import { MPlugin } from "../../../../framework/DI/MContainer";
+import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
+import { WeaponBase } from "../../WeaponBase";
+import { registerWeapon } from "../../WeaponManager";
 import { GA_Trigger_Weapon_LiuGuangSword } from "./GA_Trigger_Weapon_LiuGuangSword";
 
 @MPlugin()
-@registerWeapon(1004)
+@registerWeapon(1064)
 export class LiuGuang_Sword extends WeaponBase{
-    wid: number = 1004;
+    wid: number = 1064;
 
     init(): void {
         super.init();
@@ -19,9 +19,7 @@ export class LiuGuang_Sword extends WeaponBase{
     }
 
     refesh(): void {
-       /**刷新攻击力增加量 */
-       this.unExcuteEffet2();
-       this.excuteEffet2();
+       
     }
     async onModelLoad(): Promise<void> {
         let weaponConfig = GameConfig.WeaponObj.getElement(this.wid);
@@ -32,7 +30,7 @@ export class LiuGuang_Sword extends WeaponBase{
         model.worldTransform.scale = new Vector(1.2);
     }
     useEffet1: boolean = true;
-    effect1Desc: string = "攻击时有20%的概率召唤陨石"
+    effect1Desc: string = "攻击时有2%的概率召唤陨石"
     excuteEffet1(): void {
         let asc = this.owner.character.getComponent(AbilitySystemComponent);
         if(asc){
@@ -46,16 +44,13 @@ export class LiuGuang_Sword extends WeaponBase{
         }
     }
     useEffet2: boolean = true;
-    effect2Desc: string = "攻击力增加10%"
+    effect2Desc: string = "伤害增加15%"
     private atkAddValue: number = 0;
     excuteEffet2(): void {
-        let currentAtk = this.ownerAttribute.atk.getCurrent();
-        let addValue = Math.round(currentAtk * 0.15)
-        this.atkAddValue = addValue;
-        this.ownerAttribute.atk.add(addValue);
+        this.ownerAttribute.addDamage(0.15);
     }
     unExcuteEffet2(): void {
-        this.ownerAttribute.atk.sub(this.atkAddValue);
+        this.ownerAttribute.reduceDamage(0.15);
     }
     useEffet3: boolean = false;
     effect3Desc: string;

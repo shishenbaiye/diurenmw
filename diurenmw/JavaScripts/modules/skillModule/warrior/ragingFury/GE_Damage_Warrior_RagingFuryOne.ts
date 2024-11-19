@@ -8,8 +8,15 @@ import { MI_Player_Damage_ModifierClass } from "../../common/MI_Player_Damage_Mo
 
 @MPlugin()
 export class GE_Damage_Warrior_RagingFuryOne extends GE_Damage_Base{
+
+
+    public skillDamageAdd:number = 1;
+
     init(): void {
         super.init()
+        if(this.geContext.sourceASC.hasMatchingGameTag(["Weapon.SpecialEffect.PoKong.AddRagingFuryDamage"])){
+            this.skillDamageAdd = 1.2;
+        }
         let modifier1 = MI_Warrior_RagingFuryOne_GameModifiterInfo.New();
         modifier1.ownerEffect = this;
         modifier1.init();
@@ -36,6 +43,6 @@ export class MI_Warrior_RagingFuryOne_GameModifiterInfo extends GameModifierInfo
     targetMustNotNeedTags: string[];
 
     init(): void {
-        this.modifierClass = MI_Player_Damage_ModifierClass.New({id:1007,index:0});
+        this.modifierClass = MI_Player_Damage_ModifierClass.New({id:1007,index:0,skillDamageAdd:(this.ownerEffect as GE_Damage_Warrior_RagingFuryOne).skillDamageAdd});
     }  
 }

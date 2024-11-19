@@ -1,11 +1,12 @@
-import { GameConfig } from "../../../configs/GameConfig";
-import { WeaponBase } from "../WeaponBase";
-import { registerWeapon } from "../WeaponManager";
-import { MPlugin } from "../../../framework/DI/MContainer";
-import { AbilitySystemComponent } from "../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
+import { GameConfig } from "../../../../configs/GameConfig";
+import { WeaponBase } from "../../WeaponBase";
+import { registerWeapon } from "../../WeaponManager";
+import { MPlugin } from "../../../../framework/DI/MContainer";
+import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
+import { GA_Trigger_Weapon_TestBlood } from "./GA_Trigger_Weapon_TestBlood";
 
 @MPlugin()
-@registerWeapon(1002)
+@registerWeapon(1038)
 export class WarriorSuperWeapon extends WeaponBase {
     
     wid: number = 1002;
@@ -44,12 +45,22 @@ export class WarriorSuperWeapon extends WeaponBase {
 
 
     useEffet1: boolean = true;
-    effect1Desc: string = "技能伤害增加15%";
+    // effect1Desc: string = "技能伤害增加15%";
+    effect1Desc: string = "攻击时候10%概率出血";
     excuteEffet1(): void {
-        this.ownerAttribute.addSkillDamage(0.15);
+        console.warn("excuteEffet1")
+        let asc = this.owner.character.getComponent(AbilitySystemComponent);
+        if(asc){
+            asc.giveAbility(GA_Trigger_Weapon_TestBlood)
+        }
+        // this.ownerAttribute.addSkillDamage(0.15);
     }
     unExcuteEffet1(): void {
-        this.ownerAttribute.reduceSkillDamage(0.15);
+        let asc = this.owner.character.getComponent(AbilitySystemComponent);
+        if(asc){
+            asc.removeAbility(GA_Trigger_Weapon_TestBlood)
+        }
+        // this.ownerAttribute.reduceSkillDamage(0.15);
     }
 
 
@@ -57,6 +68,7 @@ export class WarriorSuperWeapon extends WeaponBase {
     effect2Desc: string = "攻击力增加15%";
     private atkAddValue: number = 0;
     excuteEffet2(): void {
+        console.warn("excuteEffet2")
         let currentAtk = this.ownerAttribute.atk.getCurrent();
         let addValue = Math.round(currentAtk * 0.15)
         this.atkAddValue = addValue;
@@ -71,6 +83,7 @@ export class WarriorSuperWeapon extends WeaponBase {
     effect3Desc: string = "防御力增加15%";
     private defAddValue: number = 0;
     excuteEffet3(): void {
+        console.warn("excuteEffet3")
         let currentDef = this.ownerAttribute.def.getCurrent();
         let addValue = Math.round(currentDef * 0.15)
         this.defAddValue = addValue;
@@ -85,6 +98,7 @@ export class WarriorSuperWeapon extends WeaponBase {
     effect4Desc: string = "血量增加15%";
     private hpAddValue: number = 0;
     excuteEffet4(): void {
+        console.warn("excuteEffet4")
         let currentHp = this.ownerAttribute.maxHp.getCurrent();
         let addValue = Math.round(currentHp * 0.15)
         this.hpAddValue = addValue;

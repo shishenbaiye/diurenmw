@@ -72,7 +72,8 @@ class GameStart extends OdinGame {
         //是否打印通信的log
         LogManager.instance.showNet = true;
         let selectedLanguageIndex = 0;
-        let language = LocaleUtil.getDefaultLocale().toString().toLowerCase();
+        
+        let language = LanguageUtil.getlanguage().toString().toLowerCase();
         if (!!language.match("en")) {
             selectedLanguageIndex = 0;
         }

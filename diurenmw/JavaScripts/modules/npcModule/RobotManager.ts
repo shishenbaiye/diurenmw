@@ -2,6 +2,8 @@ import { MSingletonPlugin } from "../../framework/DI/MContainer";
 import { MFramework } from "../../framework/MFramework";
 import { MObject } from "../../framework/Object/MObject";
 import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
+import { GA_Trigger_Monster_OnBlood } from "./GA_Trigger_Monster_OnBlood";
+import { GA_Trigger_Monster_OnDefDown } from "./GA_Trigger_Monster_OnDefDown";
 import { GA_Trigger_Monster_OnHurt } from "./GA_Trigger_Monster_OnHurt";
 import { GA_Trigger_Monster_OnHurtAnim } from "./GA_Trigger_Monster_OnHurtAnim";
 import { MonsterAttributeSet } from "./MonsterAttributeSet";
@@ -69,6 +71,8 @@ export class RobotManager extends MObject {
         // 添加初始技能
         abs.giveAbility(GA_Trigger_Monster_OnHurt);
         abs.giveAbility(GA_Trigger_Monster_OnHurtAnim);
+        abs.giveAbility(GA_Trigger_Monster_OnBlood);
+        abs.giveAbility(GA_Trigger_Monster_OnDefDown);
         //同步脚本
         let npcInfo = char.getComponent(NpcScript);
         if (!npcInfo) {

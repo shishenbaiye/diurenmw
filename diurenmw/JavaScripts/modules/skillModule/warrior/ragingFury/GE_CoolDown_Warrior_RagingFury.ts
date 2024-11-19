@@ -9,7 +9,7 @@ export class GE_CoolDown_Warrior_RagingFury extends GE_CoolDownBase{
 
     init(): void {
         let ownerAsc = this.geContext.sourceASC;
-        if(ownerAsc.hasMatchingGameTag(["Weapon.SpecialEffect.SwordWave.SubRagingFuryCD"])){
+        if(ownerAsc.hasMatchingGameTag(["Weapon.SpecialEffect.PoKong.SubRagingFuryCD"])){
             this.time = this.time - 2;
         }
         super.init();

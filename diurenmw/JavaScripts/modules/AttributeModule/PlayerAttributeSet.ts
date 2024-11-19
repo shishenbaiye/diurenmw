@@ -55,6 +55,12 @@ export class PlayerAttributeSet extends AttributeSet {
     @Property({ displayName: "暴击伤害", replicated: true, onChanged: "onCritDamageChanged" })
     public critDamage: AttributeSetData;
 
+    @Property({ displayName: "攻击速度", replicated: true, onChanged: "onAtkSpeedChanged" })
+    public atkSpeed: AttributeSetData;
+
+    @Property({ displayName: "释放速度", replicated: true, onChanged: "onCastSpeedChanged" })
+    public castSpeed: AttributeSetData;
+
     onLevelChanged(oldValue: number, newValue: number): void {
         ModuleService.getModule(AttributeModuleC).onChangeAttribute("level", this.level.getCurrent(),this.level.ownerGameObjectId);
     }
@@ -119,6 +125,13 @@ export class PlayerAttributeSet extends AttributeSet {
         ModuleService.getModule(AttributeModuleC).onChangeAttribute("critDamage", this.critDamage.getCurrent(),this.critDamage.ownerGameObjectId);
     }
 
+    onAtkSpeedChanged(oldValue: number, newValue: number): void {
+        ModuleService.getModule(AttributeModuleC).onChangeAttribute("atkSpeed", this.atkSpeed.getCurrent(),this.atkSpeed.ownerGameObjectId);
+    }
+
+    onCastSpeedChanged(oldValue: number, newValue: number): void {
+        ModuleService.getModule(AttributeModuleC).onChangeAttribute("castSpeed", this.castSpeed.getCurrent(),this.castSpeed.ownerGameObjectId);
+    }
 
 
 

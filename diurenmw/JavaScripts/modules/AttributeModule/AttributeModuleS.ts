@@ -103,6 +103,9 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
             AttributeDataInit(as, "crit", excelData.crit);
             AttributeDataInit(as, "critDamage", 1);
 
+            AttributeDataInit(as, "atkSpeed", 1);
+            AttributeDataInit(as, "castSpeed", 1);
+
             as.refreshAttribute();
             console.warn(`初始化属性完成`);
         }

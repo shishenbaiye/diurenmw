@@ -31,4 +31,8 @@ export enum EPlayerAttributeSetType{
     crit = "crit",
     /**暴击伤害 */
     critDamage = "critDamage",
+    /**攻击速度 */
+    atkSpeed = "atkSpeed",
+    /**释放速度 */
+    castSpeed = "castSpeed",
 }

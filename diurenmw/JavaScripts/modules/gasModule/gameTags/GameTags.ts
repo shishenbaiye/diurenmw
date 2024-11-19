@@ -74,6 +74,11 @@ export class GameTags extends Script {
         return this.tagTree.hasTag(tag);
     }
 
+    //获取某个标签的数量
+    getTagCountByName(tag: string): number {
+        return this.tagTree.getTagCountByName(tag);
+    }
+
     // 获取标签总数
     getTagCount(): number {
         return this.tagTree.getTagCount();

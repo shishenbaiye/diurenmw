@@ -1,24 +1,24 @@
-import { CameraManager } from "../../../camera/CameraManager";
-import { Constructor, MPlugin, MPropertiesInject, RpcPlugin } from "../../../framework/DI/MContainer";
-import { EffectTool } from "../../../tools/EffectTool";
-import { MathTool } from "../../../tools/MathTool";
-import { PlayerAttributeSet } from "../../AttributeModule/PlayerAttributeSet";
-import { EPlayerAttributeSetType } from "../../AttributeModule/PlayerAttributeSetType";
-import { AbilitySystemComponent } from "../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
-import { AT_WaitTime } from "../../gasModule/gameAbilitys/AT/customAT/AT_WaitTime";
-import { GameAbility } from "../../gasModule/gameAbilitys/GA/GameAbility";
-import { EGameAbilityTriggerSourceType } from "../../gasModule/gameAbilitys/GA/GameAbilityType";
-import { EGameCustomModOp, EGameModOp } from "../../gasModule/gameAbilitys/GE/GameEffectType";
-import { GameModifierInfo } from "../../gasModule/gameAbilitys/GE/GameModifierInfo";
-import { CoolDownByGameEffect } from "../../gasModule/gameAbilitys/GE/GESpecial/CoolDownByGameEffect";
-import { CostByGameEffect } from "../../gasModule/gameAbilitys/GE/GESpecial/CostByGameEffect";
-import { ModifierClass } from "../../gasModule/gameAbilitys/GE/ModifierClass";
-import { MonsterAttributeSet } from "../../npcModule/MonsterAttributeSet";
-import { EMonsterAttributeSetType } from "../../npcModule/MonsterAttributeSetType";
-import { GE_Damage_Base } from "../../skillModule/common/GE_Damage_Base";
-import { MI_Player_Damage_ModifierClass } from "../../skillModule/common/MI_Player_Damage_ModifierClass";
-import { SkillHelper } from "../../skillModule/SkillHelper";
-import { GE_Damage_Warrior_Slash } from "../../skillModule/warrior/slash/GE_Damage_Warrior_Slash";
+import { CameraManager } from "../../../../camera/CameraManager";
+import { Constructor, MPlugin, MPropertiesInject, RpcPlugin } from "../../../../framework/DI/MContainer";
+import { EffectTool } from "../../../../tools/EffectTool";
+import { MathTool } from "../../../../tools/MathTool";
+import { PlayerAttributeSet } from "../../../AttributeModule/PlayerAttributeSet";
+import { EPlayerAttributeSetType } from "../../../AttributeModule/PlayerAttributeSetType";
+import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
+import { AT_WaitTime } from "../../../gasModule/gameAbilitys/AT/customAT/AT_WaitTime";
+import { GameAbility } from "../../../gasModule/gameAbilitys/GA/GameAbility";
+import { EGameAbilityTriggerSourceType } from "../../../gasModule/gameAbilitys/GA/GameAbilityType";
+import { EGameCustomModOp, EGameModOp } from "../../../gasModule/gameAbilitys/GE/GameEffectType";
+import { GameModifierInfo } from "../../../gasModule/gameAbilitys/GE/GameModifierInfo";
+import { CoolDownByGameEffect } from "../../../gasModule/gameAbilitys/GE/GESpecial/CoolDownByGameEffect";
+import { CostByGameEffect } from "../../../gasModule/gameAbilitys/GE/GESpecial/CostByGameEffect";
+import { ModifierClass } from "../../../gasModule/gameAbilitys/GE/ModifierClass";
+import { MonsterAttributeSet } from "../../../npcModule/MonsterAttributeSet";
+import { EMonsterAttributeSetType } from "../../../npcModule/MonsterAttributeSetType";
+import { GE_Damage_Base } from "../../../skillModule/common/GE_Damage_Base";
+import { MI_Player_Damage_ModifierClass } from "../../../skillModule/common/MI_Player_Damage_ModifierClass";
+import { SkillHelper } from "../../../skillModule/SkillHelper";
+import { GE_Damage_Warrior_Slash } from "../../../skillModule/warrior/slash/GE_Damage_Warrior_Slash";
 
 @MPlugin()
 export class GA_Trigger_Weapon_LiuGuangSword extends GameAbility{
@@ -55,7 +55,7 @@ export class GA_Trigger_Weapon_LiuGuangSword extends GameAbility{
         let customData = this.payload.customData;
         let targetChar = customData.target as Character;
         // 计算概率，百分之20的概率触发
-        if(Math.random() > 0.2) return;
+        if(Math.random() > 0.02) return;
 
         let pos = targetChar.getSlotWorldPosition(HumanoidSlotType.Root);
 
@@ -66,7 +66,6 @@ export class GA_Trigger_Weapon_LiuGuangSword extends GameAbility{
             arr.forEach((obj:Character)=>{
                 let asc = obj.getComponent(AbilitySystemComponent);
                 if(asc){
-                    if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
                     this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_Slash});
                     this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{onHurtType:"Crit"});
                 }
@@ -119,7 +118,7 @@ export class MI_Weapon_LiuGuangSword_GameModifiterInfo extends GameModifierInfo{
     targetMustNotNeedTags: string[];
 
     init(): void {
-        this.modifierClass = MI_Weapon_LiuGuangSword_ModifierClass.New({value:2000});
+        this.modifierClass = MI_Weapon_LiuGuangSword_ModifierClass.New({value:5000});
     }
     
 }

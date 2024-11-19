@@ -47,16 +47,16 @@ export abstract class GameAbility extends MObject {
     abstract targetBlockedTags: string[];
 
     /**技能触发器 */
-    abstract trigger: {tag:string,sourceType:EGameAbilityTriggerSourceType}[];
+    abstract trigger: { tag: string, sourceType: EGameAbilityTriggerSourceType }[];
 
     /**技能CD */
-    abstract cd:Constructor<CoolDownByGameEffect>
+    abstract cd: Constructor<CoolDownByGameEffect>
 
     /**技能消耗 */
-    abstract cost:Constructor<CostByGameEffect>
+    abstract cost: Constructor<CostByGameEffect>
 
     /**gameEvent带的数据 */
-    public payload: Payload|null = null;
+    public payload: Payload | null = null;
 
     /**CD技能实例 */
     private cdEffect: CoolDownByGameEffect;
@@ -69,7 +69,7 @@ export abstract class GameAbility extends MObject {
         // 判断owner需要的标签
         if (this.activationRequiredTags) {
             let res = asc.hasAllMatchingGameTags(this.activationRequiredTags);
-            if(!res){
+            if (!res) {
                 console.warn(`owner技能前置条件不满足${this.tag}`)
                 return false;
             }
@@ -86,30 +86,30 @@ export abstract class GameAbility extends MObject {
         }
 
         // 判断当前技能是否被锁
-        if(asc.hasMatchingBlockTag(this.tag)){
+        if (asc.hasMatchingBlockTag(this.tag)) {
             console.warn(`技能已经被锁定${this.tag}`)
             return false;
         }
-        
+
         // 判断技能是否在CD中
-        if(this.cd){
+        if (this.cd) {
             let cdEffect = MFramework.createObject(this.cd) as CoolDownByGameEffect;
             let tag = cdEffect.tag;
-            if(asc.hasMatchingBlockTag(tag)){
+            if (asc.hasMatchingBlockTag(tag)) {
                 console.warn(`技能在CD中${this.tag}`)
                 return false;
             }
         }
 
-        if(this.cost){
-            if(asc.attributeSet){
+        if (this.cost) {
+            if (asc.attributeSet) {
                 let costEffect = MFramework.createObject(this.cost) as CostByGameEffect;
                 let res = costEffect.canCost(asc.attributeSet);
-                if(!res){
+                if (!res) {
                     console.warn(`消耗不足，无法释放技能${this.tag}`)
                     return false;
                 }
-            }else{
+            } else {
                 console.warn(`人物没有属性，技能消耗扣除失败，无法释放技能${this.tag}`)
                 return false;
             }
@@ -152,14 +152,14 @@ export abstract class GameAbility extends MObject {
     }
 
     /**预先释放 */
-    preActive(asc: AbilitySystemComponent) {  
+    preActive(asc: AbilitySystemComponent) {
         // 激活技能标签添加进Tag
-        if(this.activationOwnedTags){
+        if (this.activationOwnedTags) {
             this.activationOwnedTags.forEach((value) => {
                 asc.gameTag.addTag(value);
             });
         }
-         // 判断打断的技能
+        // 判断打断的技能
         asc.ApplyAbilityBlockAndCancelTags(this);
         this.onPreActive(this.ownerAsc, this.owner, this.target);
     }
@@ -168,14 +168,14 @@ export abstract class GameAbility extends MObject {
     active(asc: AbilitySystemComponent) {
         this.ownerAsc = asc;
         this.isActivate = true;
-        this.cdEffect = this.applyCDEffectToSelf(this.ownerAsc,this.cd);
-        this.applyCostEffectToSelf(this.ownerAsc,this.cost);
+        this.cdEffect = this.applyCDEffectToSelf(this.ownerAsc, this.cd);
+        this.applyCostEffectToSelf(this.ownerAsc, this.cost);
         this.onActive(this.ownerAsc, this.owner, this.target);
     }
 
     /**结束技能 */
     end() {
-        if(!this.isActivate) return;
+        if (!this.isActivate) return;
         this.isActivate = false;
         this.onEnd(this.ownerAsc, this.owner, this.target);
         this.ownerAsc.endAbility(this);
@@ -183,10 +183,10 @@ export abstract class GameAbility extends MObject {
 
     /**打断技能 */
     cancel() {
-        if(!this.isActivate) return;
+        if (!this.isActivate) return;
         this.onCancel(this.ownerAsc, this.owner, this.target);
-        if(this.abilityTasks){
-            this.abilityTasks.forEach((value)=>{
+        if (this.abilityTasks) {
+            this.abilityTasks.forEach((value) => {
                 value.cancelTask();
             });
         }
@@ -194,25 +194,30 @@ export abstract class GameAbility extends MObject {
     }
 
     /**发送GameEvent */
-    sendGameEvent(target:GameObject, tag: string, customData?:any) {
+    sendGameEvent(target: GameObject, tag: string, customData?: any) {
         let gameEvent = GameEvent.New();
         let payload = Payload.New();
         payload.ability = this,
         payload.eventMagnitude = this.owner.worldTransform.position.clone();
         payload.customData = customData;
         payload.source = this.owner;
-        gameEvent.send(tag,this.owner,target,payload);
+        gameEvent.send(tag, this.owner, target, payload);
+    }
+
+    /**创建一个外部GE实例 */
+    makeOutGoingGameEffect(gameEffect: Constructor<GameEffect>): GameEffect {
+        return this.ownerAsc.makeOutGoingGameEffect(gameEffect);
     }
 
     /**应用效果 */
-    applyGameEffectToTarget(gameEffect:Constructor<GameEffect>, target: GameObject):GameEffect {
-        return this.ownerAsc.applyGameEffectToTarget( gameEffect, target);
+    applyGameEffectToTarget(gameEffect: Constructor<GameEffect>, target: GameObject): GameEffect {
+        return this.ownerAsc.applyGameEffectToTarget(gameEffect, target);
     }
 
     /**应用CD */
-    applyCDEffectToSelf(ownerAsc:AbilitySystemComponent,gameEffect:Constructor<CoolDownByGameEffect>){
-        if(gameEffect){
-            if(MFramework.createObject<CoolDownByGameEffect>(gameEffect).time == 0){
+    applyCDEffectToSelf(ownerAsc: AbilitySystemComponent, gameEffect: Constructor<CoolDownByGameEffect>) {
+        if (gameEffect) {
+            if (MFramework.createObject<CoolDownByGameEffect>(gameEffect).time == 0) {
                 return;
             }
             return ownerAsc.applyGameEffectToSelf(gameEffect) as CoolDownByGameEffect;
@@ -220,15 +225,15 @@ export abstract class GameAbility extends MObject {
     }
 
     /**获取CD */
-    getCD():CoolDownByGameEffect{
-        if(this.cdEffect){
+    getCD(): CoolDownByGameEffect {
+        if (this.cdEffect) {
             return this.cdEffect;
         }
     }
 
     /**应用消耗 */
-    applyCostEffectToSelf(ownerAsc:AbilitySystemComponent,gameEffect:Constructor<CostByGameEffect>){
-        if(gameEffect){
+    applyCostEffectToSelf(ownerAsc: AbilitySystemComponent, gameEffect: Constructor<CostByGameEffect>) {
+        if (gameEffect) {
             ownerAsc.applyGameEffectToSelf(gameEffect);
         }
     }
@@ -237,18 +242,18 @@ export abstract class GameAbility extends MObject {
     // #region AbilityTask
 
     /**添加AbilityTask */
-    addAbilityTask(abilityTask:AbilityTask){
-        if(this.isActivate){
+    addAbilityTask(abilityTask: AbilityTask) {
+        if (this.isActivate) {
             this.abilityTasks.push(abilityTask);
         }
     }
 
 
     /**移除AbilityTask */
-    removeAbilityTask(abilityTask:AbilityTask){
+    removeAbilityTask(abilityTask: AbilityTask) {
         let index = this.abilityTasks.indexOf(abilityTask);
-        if(index != -1){
-            this.abilityTasks.splice(index,1);
+        if (index != -1) {
+            this.abilityTasks.splice(index, 1);
         }
     }
 
