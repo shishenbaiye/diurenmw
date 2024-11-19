@@ -1,13 +1,23 @@
 import { GameEventBus } from "../../../common/eventBus/EventBus";
 import BagMainShowSelect_Generate from "../../../ui-generate/Bag/BagMainShowSelect_generate";
+import SelectButtonUI_Generate from "../../../ui-generate/Bag/SelectButtonUI_generate";
 import { WeaponModuleData } from "../../weaponModule/WeaponModuleData";
 import { BagItemBase, BagManagerModuleData, EquipmentType, ItemType } from "../BagManagerModuleData";
 import BagShowSelect from "./BagShowSelect";
+
+export enum SelectButtonType {
+    Equipment = "装备",
+	UnEquipment = "解除",
+	Remove = "丢弃",
+	Use = "使用",
+}
 
 @UIBind('UI/Bag/BagMainShowSelect.ui')
 export default class BagMainShowSelect extends BagMainShowSelect_Generate {
 	
 	isEquipment: boolean = false;
+	item : BagItemBase;
+	equipmentType : EquipmentType;
 
 	leftShowSelectUI : BagShowSelect;
 	rightShowSelectUI : BagShowSelect;
@@ -17,22 +27,16 @@ export default class BagMainShowSelect extends BagMainShowSelect_Generate {
 	*/
 	protected onAwake() {
 		this.leftShowSelectUI = UIService.create(BagShowSelect);
-		this.uiWidgetBase.rootContent.addChild(this.leftShowSelectUI.uiObject);
-		this.leftShowSelectUI.uiObject.position = new mw.Vector2(740, 140);
-		this.leftShowSelectUI.uiObject.size = new mw.Vector2(400, 800);
+		this.leftCanvas.addChild(this.leftShowSelectUI.uiObject);
+		this.leftShowSelectUI.uiObject.size = this.leftCanvas.size;
 		this.leftShowSelectUI.uiObject.visibility = mw.SlateVisibility.Visible;
 
 		this.rightShowSelectUI = UIService.create(BagShowSelect);
-		this.uiWidgetBase.rootContent.addChild(this.rightShowSelectUI.uiObject);
-		this.rightShowSelectUI.uiObject.position = new mw.Vector2(1150, 140);
-		this.rightShowSelectUI.uiObject.size = new mw.Vector2(400, 800);
+		this.rightCanvas.addChild(this.rightShowSelectUI.uiObject);
+		this.rightShowSelectUI.uiObject.size = this.rightCanvas.size;
 		this.rightShowSelectUI.uiObject.visibility = mw.SlateVisibility.Visible;
 
 		this.exit.onClicked.add(this.onExit.bind(this));
-
-		GameEventBus.on("BagModule_RemoveItem", this.onRemoveItem.bind(this));
-		GameEventBus.on("BagModule_UnEquipmentItem", this.onUnEquipmentItem.bind(this));
-		GameEventBus.on("BagModule_EquipmentItem", this.onEquipmentItem.bind(this));
 	}
 
 	/** 仅在游戏时间对非模板实例调用一次 */
@@ -45,21 +49,63 @@ export default class BagMainShowSelect extends BagMainShowSelect_Generate {
 
 	init(inEquipment : boolean, inItem : BagItemBase = null, inEquipmentType : EquipmentType = null) {
 		this.isEquipment = inEquipment;
-		if(inEquipment)
+		this.item = inItem;
+		this.equipmentType = inEquipmentType;
+		this.rightCanvas.visibility = SlateVisibility.Visible;
+		this.leftCanvas.visibility = SlateVisibility.Collapsed;
+		if(this.isEquipment)
 		{
-			this.leftShowSelectUI.init(true, null, inEquipmentType);
-			this.rightShowSelectUI.setVisible(false);
+			if(this.isEquipment) {
+				this.item = DataCenterC.getData(BagManagerModuleData).equipmentItems[this.equipmentType];
+			}
+
+			this.rightShowSelectUI.init(true, this.item, this.equipmentType);
+
+			this.registerButton(SelectButtonType.UnEquipment);
 		}
-		else if(inItem.itemtype == ItemType.Consumables || inItem.itemtype == ItemType.Materials)
+		else if(this.item.itemtype == ItemType.Consumables || this.item.itemtype == ItemType.Materials)
 		{
-			this.leftShowSelectUI.visible = false;
-			this.rightShowSelectUI.init(false, inItem, inEquipmentType);
+			this.leftCanvas.visibility = SlateVisibility.Collapsed;
+
+			this.rightShowSelectUI.init(false, this.item, this.equipmentType);
+
+			this.registerButton(SelectButtonType.Use);
+			this.registerButton(SelectButtonType.Remove);
 		}
 		else
 		{
-			inEquipmentType = BagManagerModuleData.getEquipmentTypeByTypeId(inItem.itemtype, inItem.typeId);
-			this.leftShowSelectUI.init(true, null, inEquipmentType);
-			this.rightShowSelectUI.init(false, inItem, inEquipmentType);
+			this.equipmentType = BagManagerModuleData.getEquipmentTypeByTypeId(this.item.itemtype, this.item.typeId);
+			let inEquipmentItem = DataCenterC.getData(BagManagerModuleData).equipmentItems[this.equipmentType];
+			if(inEquipmentItem.uuid != "") {
+				this.leftCanvas.visibility = SlateVisibility.Visible;
+				this.leftShowSelectUI.init(true, inEquipmentItem, this.equipmentType);
+			}
+			this.rightShowSelectUI.init(false, this.item, this.equipmentType);
+
+			this.registerButton(SelectButtonType.Equipment);
+			this.registerButton(SelectButtonType.Remove);
+		}
+	}
+
+	registerButton(InSelectButtonType: SelectButtonType) {
+		let newButton = UIService.create(SelectButtonUI_Generate);
+		this.selectButtonCanvas.addChild(newButton.uiObject);
+		this.leftShowSelectUI.uiObject.visibility = mw.SlateVisibility.Visible;
+		newButton.buttonInfo.text = InSelectButtonType;
+
+		switch(InSelectButtonType) {
+			case SelectButtonType.Equipment:
+				newButton.buttonSelect.onClicked.add(this.onEdquipment.bind(this));
+				break;
+			case SelectButtonType.UnEquipment:
+				newButton.buttonSelect.onClicked.add(this.onUnEdquipment.bind(this));
+				break;
+			case SelectButtonType.Remove:
+				newButton.buttonSelect.onClicked.add(this.onRemove.bind(this));
+				break;
+			case SelectButtonType.Use:
+				newButton.buttonSelect.onClicked.add(this.onEdquipment.bind(this));
+				break;
 		}
 	}
 
@@ -68,15 +114,33 @@ export default class BagMainShowSelect extends BagMainShowSelect_Generate {
 		this.destroy();
 	}
 
-	onRemoveItem(inItem : BagItemBase) {
+	onUnEdquipment() {
+		// 卸下装备
+		if(!this.item.uuid)
+		{
+			return;
+		}
+		GameEventBus.emit("BagModule_UnEquipmentItem", this.item, this.equipmentType);
 		this.onExit();
 	}
 
-	onUnEquipmentItem(inItem : BagItemBase, inEquipmentType : EquipmentType) {
+	onEdquipment() {
+		if(!this.item.uuid)
+		{
+			return;
+		}
+		// 装上装备
+		GameEventBus.emit("BagModule_EquipmentItem", this.item, this.equipmentType);
 		this.onExit();
 	}
 
-	onEquipmentItem(inItem : BagItemBase, inEquipmentType : EquipmentType) {
+	onRemove() {
+		if(!this.item.uuid)
+		{
+			return;
+		}
+		// 丢弃物品
+		GameEventBus.emit("BagModule_RemoveItem", this.item);
 		this.onExit();
 	}
 }

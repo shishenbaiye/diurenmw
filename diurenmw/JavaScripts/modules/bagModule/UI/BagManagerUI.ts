@@ -49,13 +49,15 @@ export default class BagManagerUI extends BagManagerUI_Generate {
 		}
 	}
 
+	init() {
+		this.updateItemTypeUI();
+		this.updateCurrentTypePage();
+	}
+
 	/** 仅在游戏时间对非模板实例调用一次 */
 	protected onStart() {
 		this.itemNumPerLine = Math.floor(this.itemContent.size.x / BagItemUI.defaultX);
 		console.log("BagUI itemNumPerLine is " + this.itemNumPerLine);
-
-		this.updateItemTypeUI();
-		this.updateCurrentTypePage();
 	}
 
 	protected addItemTypeUI(inItemType : ItemType, inTypeText : string) {
@@ -108,7 +110,7 @@ export default class BagManagerUI extends BagManagerUI_Generate {
 		let currentItemNum : number = this.bagData.getTypeItemNumber(this.currentTypePage);
 		this.bagMaxNum.text = currentItemNum.toString() + "/" + num.toString();
 		
-		let newY = (Math.floor(num / this.itemNumPerLine) + 1) * BagItemUI.defaultY;
+		let newY = Math.ceil(num / this.itemNumPerLine) * BagItemUI.defaultY;
 		if(newY > this.itemContent.size.y) {
 			this.itemContent.size = new Vector2(this.itemContent.size.x, newY);
 			this.itemContent.position = new Vector2(0, 0);

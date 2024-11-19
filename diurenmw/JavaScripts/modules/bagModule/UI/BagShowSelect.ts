@@ -21,9 +21,6 @@ export default class BagShowSelect extends BagShowSelect_Generate {
 	* onStart 之前触发一次
 	*/
 	protected onAwake() {
-		this.singleButton.onClicked.add(this.onUnEdquipment.bind(this));
-		this.leftButton.onClicked.add(this.onEdquipment.bind(this));
-		this.rightButton.onClicked.add(this.onRemove.bind(this));
 	}
 
 	/** 仅在游戏时间对非模板实例调用一次 */
@@ -38,16 +35,6 @@ export default class BagShowSelect extends BagShowSelect_Generate {
 		this.isEquipment = inEquipment;
 		this.item = inItem;
 		this.equipmentType = inEquipmentType;
-
-		if(inEquipment) {
-			this.item = DataCenterC.getData(BagManagerModuleData).equipmentItems[this.equipmentType];
-		}
-
-		if(!this.item.uuid)
-		{
-			this.visible = false;
-			return;
-		}
 
 		switch(this.item.itemtype)
 		{
@@ -148,17 +135,6 @@ export default class BagShowSelect extends BagShowSelect_Generate {
 				this.setData(materialData.id, this.item);
 				break;
 		}
-		
-		if(this.isEquipment)
-		{
-			this.doubleSelect.visibility = mw.SlateVisibility.Hidden;
-			this.singleButton.visibility = mw.SlateVisibility.Visible;
-		}
-		else
-		{
-			this.doubleSelect.visibility = mw.SlateVisibility.Visible;
-			this.singleButton.visibility = mw.SlateVisibility.Hidden;
-		}
 	}
 
 	setData(typeId : number, inItem : BagItemBase) {
@@ -168,59 +144,22 @@ export default class BagShowSelect extends BagShowSelect_Generate {
 			this.icon.imageGuid = BagManagerModuleData.getItemIcon(inItem.itemtype, typeId);
 			BagManagerModuleData.setImageQuality(this.grade, inItem);
 		}
-		if(inItem.itemtype == ItemType.Consumables || inItem.itemtype == ItemType.Materials)
-		{
-			this.leftButtonText.text = "使用";
-		}
-		else
-		{
-			this.leftButtonText.text = "装备";
-		}
-	}
-
-	onUnEdquipment() {
-		// 卸下装备
-		if(!this.item.uuid)
-		{
-			return;
-		}
-		GameEventBus.emit("BagModule_UnEquipmentItem", this.item, this.equipmentType);
-	}
-
-	onEdquipment() {
-		if(!this.item.uuid)
-		{
-			return;
-		}
-		// 装上装备
-		GameEventBus.emit("BagModule_EquipmentItem", this.item, this.equipmentType);
-	}
-
-	onRemove() {
-		if(!this.item.uuid)
-		{
-			return;
-		}
-		// 丢弃物品
-		GameEventBus.emit("BagModule_RemoveItem", this.item);
 	}
 
 	addDataItem(inValue: string, inInfo : string) {
 		let inDataItem = UIService.create(BagSelectDataItem);
-		this.data.addChild(inDataItem.uiObject);
-		inDataItem.uiObject.position = new mw.Vector2(0, this.data.getChildrenCount() * BagSelectDataItem.DefaultHigh);
-		inDataItem.uiObject.size = new mw.Vector2(BagSelectDataItem.DefaultWidth, BagSelectDataItem.DefaultHigh);
+		this.baseInfoContent.addChild(inDataItem.uiObject);
+		inDataItem.init(inInfo + " +" + inValue);
+		inDataItem.uiObject.size = inDataItem.value.size;
 		inDataItem.uiObject.visibility = mw.SlateVisibility.Visible;
-		inDataItem.init("+", inValue, inInfo);
 	}
 
 	addOnlyEffecItem(inInfo : string) {
 		let inDataItem = UIService.create(BagSelectDataItem);
-		this.data.addChild(inDataItem.uiObject);
-		inDataItem.uiObject.position = new mw.Vector2(0, this.data.getChildrenCount() * BagSelectDataItem.DefaultHigh);
-		inDataItem.uiObject.size = new mw.Vector2(BagSelectDataItem.DefaultWidth, BagSelectDataItem.DefaultHigh);
+		this.effectInfoContent.addChild(inDataItem.uiObject);
+		inDataItem.init(inInfo);
+		inDataItem.uiObject.size = inDataItem.value.size;
 		inDataItem.uiObject.visibility = mw.SlateVisibility.Visible;
-		inDataItem.initOnlyEffect(inInfo);
 	}
 }
  

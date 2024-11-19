@@ -10,33 +10,12 @@
 
 @UIBind('UI/Bag/BagSelectDataItem.ui')
 export default class BagSelectDataItem_Generate extends UIScript {
-		private effect_Internal: mw.TextBlock
-	public get effect(): mw.TextBlock {
-		if(!this.effect_Internal&&this.uiWidgetBase) {
-			this.effect_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/effect') as mw.TextBlock
-		}
-		return this.effect_Internal
-	}
-	private value_Internal: mw.TextBlock
+		private value_Internal: mw.TextBlock
 	public get value(): mw.TextBlock {
 		if(!this.value_Internal&&this.uiWidgetBase) {
 			this.value_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/value') as mw.TextBlock
 		}
 		return this.value_Internal
-	}
-	private effectInfo_Internal: mw.TextBlock
-	public get effectInfo(): mw.TextBlock {
-		if(!this.effectInfo_Internal&&this.uiWidgetBase) {
-			this.effectInfo_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/effectInfo') as mw.TextBlock
-		}
-		return this.effectInfo_Internal
-	}
-	private onlyEffect_Internal: mw.TextBlock
-	public get onlyEffect(): mw.TextBlock {
-		if(!this.onlyEffect_Internal&&this.uiWidgetBase) {
-			this.onlyEffect_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/onlyEffect') as mw.TextBlock
-		}
-		return this.onlyEffect_Internal
 	}
 
 
@@ -60,16 +39,7 @@ export default class BagSelectDataItem_Generate extends UIScript {
 		
 		//文本多语言
 		
-		this.initLanguage(this.effect)
-		
-	
 		this.initLanguage(this.value)
-		
-	
-		this.initLanguage(this.effectInfo)
-		
-	
-		this.initLanguage(this.onlyEffect)
 		
 	
 		//文本多语言
