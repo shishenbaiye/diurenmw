@@ -7,7 +7,7 @@ import { GameModifierInfo } from "../../../gasModule/gameAbilitys/GE/GameModifie
 import { CoolDownByGameEffect } from "../../../gasModule/gameAbilitys/GE/GESpecial/CoolDownByGameEffect";
 import { CostByGameEffect } from "../../../gasModule/gameAbilitys/GE/GESpecial/CostByGameEffect";
 import { ModifierClass } from "../../../gasModule/gameAbilitys/GE/ModifierClass";
-import { EMonsterAttributeSetType } from "../../../npcModule/MonsterAttributeSetType";
+import { EMonsterAttributeSetType } from "../../../robotModule/base/MonsterAttributeSetType";
 import { GE_Damage_Base } from "../../../skillModule/common/GE_Damage_Base";
 
 @MPlugin()

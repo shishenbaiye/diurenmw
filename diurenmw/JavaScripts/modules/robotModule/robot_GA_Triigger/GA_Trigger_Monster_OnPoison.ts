@@ -1,18 +1,21 @@
-import { Constructor, MPlugin, MPropertiesInject, MSingletonPlugin } from "../../framework/DI/MContainer";
-import { MathTool } from "../../tools/MathTool";
-import { PlayerAttributeSet } from "../AttributeModule/PlayerAttributeSet";
-import { EPlayerAttributeSetType } from "../AttributeModule/PlayerAttributeSetType";
-import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
-import { GameAbility } from "../gasModule/gameAbilitys/GA/GameAbility";
-import { EGameAbilityTriggerSourceType } from "../gasModule/gameAbilitys/GA/GameAbilityType";
-import { EGameCustomModOp, EGameModOp } from "../gasModule/gameAbilitys/GE/GameEffectType";
-import { GameModifierInfo } from "../gasModule/gameAbilitys/GE/GameModifierInfo";
-import { CoolDownByGameEffect } from "../gasModule/gameAbilitys/GE/GESpecial/CoolDownByGameEffect";
-import { CostByGameEffect } from "../gasModule/gameAbilitys/GE/GESpecial/CostByGameEffect";
-import { ModifierClass } from "../gasModule/gameAbilitys/GE/ModifierClass";
-import { GE_Damage_Base } from "../skillModule/common/GE_Damage_Base";
-import { MonsterAttributeSet } from "./MonsterAttributeSet";
-import { EMonsterAttributeSetType } from "./MonsterAttributeSetType";
+import { MSingletonPlugin, MPlugin, MPropertiesInject } from "../../../framework/DI/MContainer";
+import { MathTool } from "../../../tools/MathTool";
+import { Constructor } from "../../../tools/Singleton";
+import { PlayerAttributeSet } from "../../AttributeModule/PlayerAttributeSet";
+import { EPlayerAttributeSetType } from "../../AttributeModule/PlayerAttributeSetType";
+import { AbilitySystemComponent } from "../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
+import { GameAbility } from "../../gasModule/gameAbilitys/GA/GameAbility";
+import { EGameAbilityTriggerSourceType } from "../../gasModule/gameAbilitys/GA/GameAbilityType";
+import { EGameModOp, EGameCustomModOp } from "../../gasModule/gameAbilitys/GE/GameEffectType";
+import { GameModifierInfo } from "../../gasModule/gameAbilitys/GE/GameModifierInfo";
+import { CoolDownByGameEffect } from "../../gasModule/gameAbilitys/GE/GESpecial/CoolDownByGameEffect";
+import { CostByGameEffect } from "../../gasModule/gameAbilitys/GE/GESpecial/CostByGameEffect";
+import { ModifierClass } from "../../gasModule/gameAbilitys/GE/ModifierClass";
+import { GE_Damage_Base } from "../../skillModule/common/GE_Damage_Base";
+import { MonsterAttributeSet } from "../base/MonsterAttributeSet";
+import { EMonsterAttributeSetType } from "../base/MonsterAttributeSetType";
+
+
 
 @MSingletonPlugin()
 class MonsterPoisonManager{
