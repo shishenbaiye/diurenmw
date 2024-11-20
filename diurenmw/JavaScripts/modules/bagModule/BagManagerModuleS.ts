@@ -107,7 +107,8 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
         }
         else
         {
-            
+            // 添加失败，回滚
+            this.removeItem(player, inUuid, inItemType, inCount);
         }
         return false;
     }
