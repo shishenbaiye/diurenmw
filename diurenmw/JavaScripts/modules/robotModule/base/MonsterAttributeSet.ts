@@ -46,7 +46,7 @@ export class MonsterAttributeSet extends AttributeSet {
         // DamageDigit.showObjDamage(oldValue - newValue, this.gameObject)
         DamageDigit2.showDamage((oldValue - newValue).toString(), this.gameObject.worldTransform.position, `#00E800`,
             64, new Vector2(0, 0),
-            192, new Vector(-100, 100),
+            192, new Vector(100, -100),
             -50
         )
 
