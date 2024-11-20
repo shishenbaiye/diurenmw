@@ -35,15 +35,6 @@ export class PlayerHeadUI {
         }
     }
 
-    // public refreshHp() {
-    //     if (!this.targetAbs) this.targetAbs = this.targetCharacter.getComponent(AbilitySystemComponent)
-    //     if (this.targetAbs.attributeSet) {
-    //         let as = this.targetAbs.attributeSet as PlayerAttributeSet;
-    //         this.targetUI.progressBar_blood.currentValue = as.hp.getCurrent() / as.maxHp.getCurrent();
-    //         this.targetUI.txt_hp.text = `${as.hp.getCurrent() / as.maxHp.getCurrent()}`;
-    //     }
-    // }
-
     public setVisibility(vis: boolean) {
         this.targetUI.rootCanvas.visibility = vis ? SlateVisibility.SelfHitTestInvisible : SlateVisibility.Collapsed;
     }

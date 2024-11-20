@@ -58,6 +58,9 @@ export default class BagUI_Generate extends UIScript {
 		
 		//文本多语言
 		
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/BagBackground/exit/TextBlock") as any);
+		
+	
 
 	}
 

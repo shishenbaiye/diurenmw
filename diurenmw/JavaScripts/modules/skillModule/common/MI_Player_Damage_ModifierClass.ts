@@ -6,14 +6,14 @@ import { AbilitySystemComponent } from "../../gasModule/gameAbilitys/ASC/Ability
 import { EGameCustomModOp } from "../../gasModule/gameAbilitys/GE/GameEffectType";
 import { GameModifierInfo } from "../../gasModule/gameAbilitys/GE/GameModifierInfo";
 import { ModifierClass } from "../../gasModule/gameAbilitys/GE/ModifierClass";
-import { MonsterAttributeSet } from "../../npcModule/MonsterAttributeSet";
-import { EMonsterAttributeSetType } from "../../npcModule/MonsterAttributeSetType";
+import { MonsterAttributeSet } from "../../robotModule/base/MonsterAttributeSet";
+import { EMonsterAttributeSetType } from "../../robotModule/base/MonsterAttributeSetType";
 import { GE_Damage_Base } from "./GE_Damage_Base";
 
-export class MI_Player_Damage_ModifierClass extends ModifierClass{
+export class MI_Player_Damage_ModifierClass extends ModifierClass {
 
-    customData:{id:number,index:number,skillDamageAdd?:number};
-    static New(data:any): MI_Player_Damage_ModifierClass {
+    customData: { id: number, index: number, skillDamageAdd?: number };
+    static New(data: any): MI_Player_Damage_ModifierClass {
         let obj = new MI_Player_Damage_ModifierClass();
         obj.customData = data;
         return obj;
@@ -23,7 +23,7 @@ export class MI_Player_Damage_ModifierClass extends ModifierClass{
     customModifyFunction(sourceModifierInfo: GameModifierInfo, context: { sourceASC: AbilitySystemComponent; targetASC: AbilitySystemComponent; }): number {
         let sourceAttr = context.sourceASC.attributeSet as PlayerAttributeSet;
         let targetAttr = context.targetASC.attributeSet as MonsterAttributeSet;
-        let damage = MathTool.damageFormula(1,GameConfig.SkillObj.getElement(this.customData.id).damage[this.customData.index]/100 * (this.customData.skillDamageAdd || 1),
+        let damage = MathTool.damageFormula(1, GameConfig.SkillObj.getElement(this.customData.id).damage[this.customData.index] / 100 * (this.customData.skillDamageAdd || 1),
             sourceAttr.getAttr(EPlayerAttributeSetType.atk).getCurrent(),
             sourceAttr.getAttr(EPlayerAttributeSetType.matk).getCurrent(),
             sourceAttr.getAttr(EPlayerAttributeSetType.str).getCurrent(),
@@ -31,7 +31,7 @@ export class MI_Player_Damage_ModifierClass extends ModifierClass{
             sourceAttr.getAttr(EPlayerAttributeSetType.damage).getCurrent(),
             sourceAttr.getAttr(EPlayerAttributeSetType.skillDamage).getCurrent(),
             sourceAttr.getAttr(EPlayerAttributeSetType.crit).getCurrent(),
-            sourceAttr.getAttr(EPlayerAttributeSetType.critDamage).getCurrent()        
+            sourceAttr.getAttr(EPlayerAttributeSetType.critDamage).getCurrent()
         )
 
         let finalDamage = MathTool.calculateActualDamage(damage.damage,
@@ -42,5 +42,5 @@ export class MI_Player_Damage_ModifierClass extends ModifierClass{
         (sourceModifierInfo.ownerEffect as GE_Damage_Base).damageValue = finalDamage;
         return finalDamage;
     }
-    
+
 }

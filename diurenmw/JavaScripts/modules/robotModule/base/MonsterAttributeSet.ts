@@ -2,7 +2,7 @@ import { GameEventBus } from "../../../common/eventBus/EventBus";
 import { AttributeDataInit } from "../../gasModule/gameAbilitys/AS/AttributeHelper";
 import { AttributeSet } from "../../gasModule/gameAbilitys/AS/AttributeSet";
 import { AttributeSetData } from "../../gasModule/gameAbilitys/AS/AttributeSetData";
-import { DamageDigit } from "../../PlayerModule/ui/DamageDigit";
+import { DamageDigit2 } from "../../PlayerModule/ui/DamageDigit2";
 
 @Component
 export class MonsterAttributeSet extends AttributeSet {
@@ -43,7 +43,13 @@ export class MonsterAttributeSet extends AttributeSet {
 
     onHpChanged(path: string, newValue: number, oldValue: number): void {
         //飘字
-        DamageDigit.showObjDamage(oldValue - newValue, this.gameObject)
+        // DamageDigit.showObjDamage(oldValue - newValue, this.gameObject)
+        DamageDigit2.showDamage((oldValue - newValue).toString(), this.gameObject.worldTransform.position, `#00E800`,
+            64, new Vector2(0, 0),
+            192, new Vector(-100, 100),
+            -50
+        )
+
         //事件派发
         GameEventBus.emit("AttributeNpc_Change", `hp`, this.hp.getCurrent(), this.hp.ownerGameObjectId);
 
