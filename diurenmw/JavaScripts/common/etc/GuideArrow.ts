@@ -82,7 +82,7 @@ export default class GuideArrow extends mw.Script {
 
             this.startTime = 0;
         } else {
-            this.destoryArrow();
+            this.destroyArrow();
         }
     }
 
@@ -93,10 +93,10 @@ export default class GuideArrow extends mw.Script {
 
         this.targetPos = mw.Vector.zero;
 
-        this.destoryArrow();
+        this.destroyArrow();
     }
 
-    private destoryArrow() {
+    private destroyArrow() {
         //销毁箭头
         this.startTime = -1;
         this.newPosArr = [];

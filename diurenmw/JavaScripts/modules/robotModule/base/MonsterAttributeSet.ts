@@ -76,8 +76,8 @@ export class MonsterAttributeSet extends AttributeSet {
     protected onStart(): void {
         // 初始化
         AttributeDataInit(this, "level", 20);
-        AttributeDataInit(this, "hp", 1000000);
-        AttributeDataInit(this, "maxHp", 1000000);
+        AttributeDataInit(this, "hp", 100000);
+        AttributeDataInit(this, "maxHp", 100000);
         AttributeDataInit(this, "mp", 100000);
         AttributeDataInit(this, "maxMp", 100000);
         AttributeDataInit(this, "def", 1000);
