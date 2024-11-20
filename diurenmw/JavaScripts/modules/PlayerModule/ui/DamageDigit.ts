@@ -1,4 +1,3 @@
-import { MathTool } from "../../../tools/MathTool";
 import { WorldUIPool } from "../../../tools/UIPool";
 import DamageDigitView_Generate from "../../../ui-generate/Attribute/DamageDigitView_generate";
 
@@ -6,7 +5,7 @@ const MaxDamage: number = 1e10;
 
 export class DamageDigit {
     private static pool: WorldUIPool<DamageDigitView>
-    public static view:number = 0;
+    public static view: number = 0;
     private static num: number = 0;
 
     public static showDamage(action: (view: DamageDigitView) => void) {
@@ -20,7 +19,7 @@ export class DamageDigit {
         if (Number.isNaN(damage)) return
         this.checkPool()
         let view = this.pool.get()
-        let tips = /**`${damage >= 0 ? `+` : `-`}`+*/`${Math.abs(damage) >= MaxDamage ? MaxDamage : Math.abs(damage)}`;
+        let tips = `${Math.abs(damage) >= MaxDamage ? MaxDamage : Math.abs(damage)}`;
         let star = obj.worldTransform.position;
         star.z += (obj.getBoundingBox().z / 2)
         view.ui.txt_context.text = tips;
@@ -60,35 +59,9 @@ class DamageDigitView {
         this.uiWidget.widgetSpace = mw.WidgetSpaceMode.Screen
         this.uiWidget.occlusionEnable = false
 
-
         this.endPosition = new Vector()
         this.endPosition2 = new Vector()
         this.currentScale = new Vector2()
-
-        // this.tween3 = new Tween({ o: 1 }).to({ o: 0 }, 300).onUpdate(obj => {
-        //     this.ui.txt_context.renderOpacity = obj.o
-        // }).onComplete(() => {
-        //     this.stage = false
-        //     this.uiWidget.setVisibility(mw.PropertyStatus.Off)
-        // })
-
-        // this.tween2 = new Tween({ z: 0 }).to({ z: 1 }, 300)
-        //     .onStart(() => {
-        //         this.ui.txt_context.contentColor = LinearColor.red;
-        //     }).onUpdate(obj => {
-        //         this.uiWidget.worldTransform.position = mw.Vector.lerp(this.startPosition, this.endPosition, obj.z)
-        //     }).chain(this.tween3)
-
-
-        // this.tween1 = new Tween({ s: 0 }).to({ s: 1 }, 400).easing(TweenUtil.Easing.Elastic.InOut)
-        //     .onStart(() => {
-        //         this.ui.txt_context.contentColor = LinearColor.white;
-        //     }).onUpdate(obj => {
-        //         let s = MathTool.lerp(0.3, 1, obj.s)
-        //         this.currentScale.x = s
-        //         this.currentScale.y = s
-        //         this.ui.txt_context.renderScale = this.currentScale
-        //     }).chain(this.tween2)
 
         this.tween3 = new Tween({ o: 1 }).to({ o: 0 }, 50).onUpdate(obj => {
             this.ui.txt_context.renderOpacity = obj.o
@@ -127,8 +100,8 @@ class DamageDigitView {
         let random1 = Math.random() * 50;
         let random2 = Math.random() * 50;
 
-        this.startPosition = startPosition.add(new Vector(0,random1, random2))
-        
+        this.startPosition = startPosition.add(new Vector(0, random1, random2))
+
         this.endPosition.x = this.startPosition.x
         this.endPosition.y = this.startPosition.y
         this.endPosition.z = this.startPosition.z + 5;

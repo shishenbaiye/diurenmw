@@ -1,5 +1,5 @@
 import { AttributeModuleS } from "../../../modules/AttributeModule/AttributeModuleS";
-import { RobotManager } from "../../../modules/npcModule/RobotManager";
+import RobotManager from "../../../modules/robotModule/RobotManager";
 import PlayerSkillScrpit from "../../../modules/skillModule/PlayerSkillScrpit";
 import WeaponScript from "../../../modules/weaponModule/WeaponScript";
 import { TestModuleC } from "./TestModuleC";

@@ -2,7 +2,7 @@ import { MPlugin } from "../../../../framework/DI/MContainer";
 import { EGameModOp } from "../../../gasModule/gameAbilitys/GE/GameEffectType";
 import { GameModifierInfo } from "../../../gasModule/gameAbilitys/GE/GameModifierInfo";
 import { ModifierClass } from "../../../gasModule/gameAbilitys/GE/ModifierClass";
-import { EMonsterAttributeSetType } from "../../../npcModule/MonsterAttributeSetType";
+import { EMonsterAttributeSetType } from "../../../robotModule/base/MonsterAttributeSetType";
 import { GE_Damage_Base } from "../../common/GE_Damage_Base";
 import { MI_Player_Damage_ModifierClass } from "../../common/MI_Player_Damage_ModifierClass";
 
@@ -28,8 +28,8 @@ export class GE_Damage_Warrior_SwordWave extends GE_Damage_Base {
 }
 
 
-export class MI_Warrior_SwordWave_GameModifiterInfo extends GameModifierInfo{
-    
+export class MI_Warrior_SwordWave_GameModifiterInfo extends GameModifierInfo {
+
     static New(): MI_Warrior_SwordWave_GameModifiterInfo {
         return new MI_Warrior_SwordWave_GameModifiterInfo();
     }
@@ -44,7 +44,7 @@ export class MI_Warrior_SwordWave_GameModifiterInfo extends GameModifierInfo{
     targetMustNotNeedTags: string[];
 
     init(): void {
-        this.modifierClass = MI_Player_Damage_ModifierClass.New({id:1005,index:0});
+        this.modifierClass = MI_Player_Damage_ModifierClass.New({ id: 1005, index: 0 });
     }
-    
+
 }
