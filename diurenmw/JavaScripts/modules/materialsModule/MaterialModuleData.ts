@@ -22,6 +22,15 @@ export class MaterialModuleData extends Subdata{
         return null;
     }
 
+    findMaterialByUuid(inUuid : string): MaterialData {
+        for (let i = 0; i < this.haveMaterialList.length; i++) {
+            if (this.haveMaterialList[i].uuid === inUuid) {
+                return this.haveMaterialList[i];
+            }
+        }
+        return null;
+    }
+
     updateMaterial(inId : number, inNum : number): MaterialData {
         for (let i = 0; i < this.haveMaterialList.length; i++) {
             if (this.haveMaterialList[i].id === inId) {

@@ -102,7 +102,7 @@ export default class JewelryScript extends Script {
     }
 
     /**删除防具 */
-    romoveJewelry(uuid: string) {
+    removeJewelry(uuid: string) {
         return ModuleService.getModule(JewelryModuleS).removeJewelry((this.gameObject as Character).player, uuid);
     }
 

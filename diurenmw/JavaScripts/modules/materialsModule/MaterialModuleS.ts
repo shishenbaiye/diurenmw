@@ -38,19 +38,6 @@ export class MaterialModuleS extends ModuleS<MaterialModuleC, MaterialModuleData
             data.addMaterial(Material.getData());
         }
         
-        
-        if(Material){
-            let res = ModuleService.getModule(BagManagerModuleS).addItem(player,Material.uuid,ItemType.Materials,Material.id,1);
-            if(!res){
-                console.error(`玩家背包${player.userId}添加材料失败`);
-                // 如果添加失败，回滚
-                if(MaterialData)
-                {
-                    data.updateMaterial(id, -inNum);
-                }
-                return null;
-            }
-        }
         console.log(`玩家${player.userId}获得材料${Material.uuid}`);
         return Material;
     }
@@ -60,17 +47,20 @@ export class MaterialModuleS extends ModuleS<MaterialModuleC, MaterialModuleData
         return data.haveMaterialList;
     }
 
-    removeMaterial(player: mw.Player, uuId: string): boolean {
+    removeMaterial(player: mw.Player, uuId: string, inCount : number): boolean {
         let data = this.getPlayerData(player);
-        let resBag = ModuleService.getModule(BagManagerModuleS).removeItem(player,uuId,ItemType.Materials,1);
-        if(!resBag){
-            console.error(`玩家背包${player.userId}删除材料失败`);
+        let inMaterialData = data.findMaterialByUuid(uuId)
+        if(!inMaterialData) {
+            console.error(`玩家${player.userId}没有这个材料`);
             return false;
         }
-        let res = data.removeMaterial(uuId);
+
+        let res = data.updateMaterial(inMaterialData.id, -inCount);
         if(!res){
             console.error(`玩家${player.userId}删除材料失败`);
+            return false;
         }
+        return true;
     }
 
     useMaterial(player: mw.Player, uuId: string, inNum : number): MaterialBase {

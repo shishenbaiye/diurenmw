@@ -147,6 +147,7 @@ export default class BagShowSelect extends BagShowSelect_Generate {
 	}
 
 	addDataItem(inValue: string, inInfo : string) {
+		if(inValue == "0") return;
 		let inDataItem = UIService.create(BagSelectDataItem);
 		this.baseInfoContent.addChild(inDataItem.uiObject);
 		inDataItem.init(inInfo + " +" + inValue);

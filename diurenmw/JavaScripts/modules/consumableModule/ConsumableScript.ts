@@ -38,7 +38,7 @@ export default class ConsumableScript extends Script {
     /**删除消耗品
      * @param uuid 消耗品uuid
      */
-    removeConsumable(uuid: string) {
-        return ModuleService.getModule(ConsumableModuleS).removeConsumable((this.gameObject as Character).player, uuid);
+    removeConsumable(uuid: string, inNum : number) {
+        return ModuleService.getModule(ConsumableModuleS).removeConsumable((this.gameObject as Character).player, uuid, inNum);
     }
 }

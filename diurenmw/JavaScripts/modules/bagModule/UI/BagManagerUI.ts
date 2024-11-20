@@ -47,6 +47,9 @@ export default class BagManagerUI extends BagManagerUI_Generate {
 				value.updateItemUI(index, inItemtype);
 			});
 		}
+		let num = this.bagData.bagTypeCapacity.get(this.currentTypePage);
+		let currentItemNum : number = this.bagData.getTypeItemNumber(this.currentTypePage);
+		this.bagMaxNum.text = currentItemNum.toString() + "/" + num.toString();
 	}
 
 	init() {

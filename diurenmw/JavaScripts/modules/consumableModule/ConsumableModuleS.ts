@@ -38,19 +38,6 @@ export class ConsumableModuleS extends ModuleS<ConsumableModuleC, ConsumableModu
             data.addConsumable(Consumable.getData());
         }
         
-        
-        if(Consumable){
-            let res = ModuleService.getModule(BagManagerModuleS).addItem(player,Consumable.uuid,ItemType.Consumables,Consumable.id,1);
-            if(!res){
-                console.error(`玩家背包${player.userId}添加消耗品失败`);
-                // 如果添加失败，回滚
-                if(ConsumableData)
-                {
-                    data.updateConsumable(id, -inNum);
-                }
-                return null;
-            }
-        }
         console.log(`玩家${player.userId}获得消耗品${Consumable.uuid}`);
         return Consumable;
     }
@@ -60,17 +47,20 @@ export class ConsumableModuleS extends ModuleS<ConsumableModuleC, ConsumableModu
         return data.haveConsumableList;
     }
 
-    removeConsumable(player: mw.Player, uuId: string): boolean {
+    removeConsumable(player: mw.Player, uuId: string, inCount : number): boolean {
         let data = this.getPlayerData(player);
-        let resBag = ModuleService.getModule(BagManagerModuleS).removeItem(player,uuId,ItemType.Consumables,1);
-        if(!resBag){
-            console.error(`玩家背包${player.userId}删除消耗品失败`);
+        let inConsumableData = data.findConsumableByUuid(uuId)
+        if(!inConsumableData) {
+            console.error(`玩家${player.userId}没有这个消耗品`);
             return false;
         }
-        let res = data.removeConsumable(uuId);
+
+        let res = data.updateConsumable(inConsumableData.id, -inCount);
         if(!res){
             console.error(`玩家${player.userId}删除消耗品失败`);
+            return false;
         }
+        return true;
     }
 
     useConsumable(player: mw.Player, uuId: string, inNum : number): ConsumableBase {

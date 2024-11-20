@@ -9,7 +9,7 @@ import { GA_Trigger_Weapon_TestBlood } from "./GA_Trigger_Weapon_TestBlood";
 @registerWeapon(1038)
 export class WarriorSuperWeapon extends WeaponBase {
     
-    wid: number = 1002;
+    wid: number = 1038;
 
     init() {
         super.init();
