@@ -12,6 +12,9 @@ export class GE_Damage_Warrior_All4One2 extends GE_Damage_Base{
         super.init();
 
         let modifier1 = MI_Warrior_All4One2_GameModifiterInfo.New();
+        if(this.geContext.sourceASC.hasMatchingGameTag(["Weapon.SpecialEffect.AddAll4OneDamage10"])){
+            modifier1.skillDamageAdd = 1.1;
+        }
         modifier1.ownerEffect = this;
         modifier1.init();
         if(!this.modifiers){
@@ -26,7 +29,7 @@ export class MI_Warrior_All4One2_GameModifiterInfo extends GameModifierInfo{
     static New(): MI_Warrior_All4One2_GameModifiterInfo {
         return new MI_Warrior_All4One2_GameModifiterInfo();
     }
-
+    public skillDamageAdd:number = 1;
     modifierName: string = EMonsterAttributeSetType.hp;
     modifierOp: EGameModOp = EGameModOp.Custom;
     modifierValue: number;
@@ -37,7 +40,7 @@ export class MI_Warrior_All4One2_GameModifiterInfo extends GameModifierInfo{
     targetMustNotNeedTags: string[];
 
     init(): void {
-        this.modifierClass = MI_Player_Damage_ModifierClass.New({id:1013,index:1});
+        this.modifierClass = MI_Player_Damage_ModifierClass.New({id:1013,index:1,skillDamageAdd:this.skillDamageAdd});
     }
     
 }

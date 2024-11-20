@@ -12,6 +12,9 @@ export class GE_Damage_Warrior_JumpChop extends GE_Damage_Base{
     init(): void {
         super.init()
         let modifier1 = MI_Warrior_JumpChop_GameModifiterInfo.New();
+        if(this.geContext.sourceASC.hasMatchingGameTag(["Weapon.SpecialEffect.AddJumpChopDamage10"])){
+            modifier1.skillDamageAdd = 1.1;
+        }
         modifier1.ownerEffect = this;
         modifier1.init();
         if(!this.modifiers){
@@ -27,7 +30,7 @@ export class MI_Warrior_JumpChop_GameModifiterInfo extends GameModifierInfo{
     static New(): MI_Warrior_JumpChop_GameModifiterInfo {
         return new MI_Warrior_JumpChop_GameModifiterInfo();
     }
-
+    skillDamageAdd:number = 1;
     modifierName: string = EMonsterAttributeSetType.hp;
     modifierOp: EGameModOp = EGameModOp.Custom;
     modifierValue: number;
@@ -38,6 +41,6 @@ export class MI_Warrior_JumpChop_GameModifiterInfo extends GameModifierInfo{
     targetMustNotNeedTags: string[];
 
     init(): void {
-        this.modifierClass = MI_Player_Damage_ModifierClass.New({id:1008,index:0});
+        this.modifierClass = MI_Player_Damage_ModifierClass.New({id:1008,index:0,skillDamageAdd:this.skillDamageAdd});
     }  
 }

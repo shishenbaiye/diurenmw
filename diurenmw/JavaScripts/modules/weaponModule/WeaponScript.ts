@@ -17,9 +17,9 @@ export default class WeaponScript extends Script {
      * @param uuid 武器uuid
      */
     async equepWeapon(uuid: string): Promise<boolean> {
+        this.unEquipWeapon();
         let weapon = ModuleService.getModule(WeaponModuleS).equepWeapon((this.gameObject as Character).player, uuid);
         if (weapon) {
-            this.unEquipWeapon();
             await weapon.equip();
             this.equipeWeapon = weapon;
             ModuleService.getModule(AttributeModuleS).refeshAttr((this.gameObject as Character).player);

@@ -6,6 +6,7 @@ import { GA_Trigger_Monster_OnBlood } from "./GA_Trigger_Monster_OnBlood";
 import { GA_Trigger_Monster_OnDefDown } from "./GA_Trigger_Monster_OnDefDown";
 import { GA_Trigger_Monster_OnHurt } from "./GA_Trigger_Monster_OnHurt";
 import { GA_Trigger_Monster_OnHurtAnim } from "./GA_Trigger_Monster_OnHurtAnim";
+import { GA_Trigger_Monster_OnPoison } from "./GA_Trigger_Monster_OnPoison";
 import { MonsterAttributeSet } from "./MonsterAttributeSet";
 import { NpcBase } from "./NpcBase";
 import { NpcData } from "./NpcData";
@@ -72,6 +73,7 @@ export class RobotManager extends MObject {
         abs.giveAbility(GA_Trigger_Monster_OnHurt);
         abs.giveAbility(GA_Trigger_Monster_OnHurtAnim);
         abs.giveAbility(GA_Trigger_Monster_OnBlood);
+        abs.giveAbility(GA_Trigger_Monster_OnPoison);
         abs.giveAbility(GA_Trigger_Monster_OnDefDown);
         //同步脚本
         let npcInfo = char.getComponent(NpcScript);
