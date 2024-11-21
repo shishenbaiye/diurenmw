@@ -39,14 +39,15 @@ export class GA_Warrior_NormalAttack3 extends GameAbility {
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         let char = owner as Character;
         let attrSpeed = asc.attributeSet.getAttr(EPlayerAttributeSetType.atkSpeed).getCurrent();
-        let aim = char.loadAnimation("269254");
+        let aim = char.loadAnimation("303224");
+        // let aim = char.loadAnimation("269254");
         aim.blendInTime = 0;
-        aim.speed = 1.2*attrSpeed;
-        let animTask = AT_PlayAnimation.New(this,aim,1.5,char);
+        aim.speed = 1.1*attrSpeed;
+        let animTask = AT_PlayAnimation.New(this,aim,1.0,char);
         this.skillHelper.changePlayerCanMove(char.player,false);
 
 
-        animTask.addEvent(0.6,()=>{
+        animTask.addEvent(0.15,()=>{
             let arr = MathTool.checkHitByCharacter(owner as Character,200,160);
             arr.forEach((obj:Character)=>{
                 let asc = obj.getComponent(AbilitySystemComponent);
@@ -59,17 +60,17 @@ export class GA_Warrior_NormalAttack3 extends GameAbility {
                     this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.5,force:force});
                 }
             })
-            AT_WaitTime.New(this,0.2).addEndListener(()=>{
+            AT_WaitTime.New(this,0.15).addEndListener(()=>{
                 animTask.resumeTask()
             }).activate()
         })
 
 
 
-        animTask.addEvent(0.4,()=>{
+        animTask.addEvent(0,()=>{
             this.skillHelper.callPlayerMove(char.player,true,char.worldTransform.getForwardVector().normalize().multiply(0.5));
         })
-        animTask.addEvent(0.6,()=>{
+        animTask.addEvent(0.1,()=>{
             this.skillHelper.callPlayerMove(char.player,false);
         })
 

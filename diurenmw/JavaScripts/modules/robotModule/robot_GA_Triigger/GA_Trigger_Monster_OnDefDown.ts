@@ -30,7 +30,9 @@ export class GA_Trigger_Monster_OnDefDown extends GameAbility {
 
     }
     private downDef: number = 0;
+    private iid:number = 0;
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
+        this.iid = EffectService.playOnGameObject("141632", owner, { scale: new Vector(5) ,slotType:HumanoidSlotType.Nameplate,loopCount:0});
         let ownerAttribute = asc.attributeSet as MonsterAttributeSet;
         if (ownerAttribute) {
             let def = ownerAttribute.getAttr(EMonsterAttributeSetType.def).getCurrent();
@@ -42,6 +44,7 @@ export class GA_Trigger_Monster_OnDefDown extends GameAbility {
 
     }
     protected onEnd(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
+        EffectService.stop(this.iid);
         let ownerAttribute = asc.attributeSet as MonsterAttributeSet;
         if (ownerAttribute) {
             ownerAttribute.getAttr(EMonsterAttributeSetType.def).add(this.downDef);

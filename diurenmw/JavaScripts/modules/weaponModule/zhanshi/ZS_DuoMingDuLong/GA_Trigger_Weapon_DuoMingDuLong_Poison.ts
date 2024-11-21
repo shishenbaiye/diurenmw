@@ -24,16 +24,22 @@ export class GA_Trigger_Weapon_DuoMingDuLong_Poison extends GameAbility{
     }]
     cd: Constructor<CoolDownByGameEffect>;
     cost: Constructor<CostByGameEffect>;
+
+    private isNotActive: boolean = false;
     protected onPreActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-        // throw new Error("Method not implemented.");
+        if(Math.random() > 0.05){
+            this.isNotActive = true;
+        }
     }
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-        if(!this.payload) return;
-        let char = owner as Character;
+        if(this.isNotActive || !this.payload){
+            this.end();
+            return;
+        }
+
         let customData = this.payload.customData;
         let targetChar = customData.target as Character;
-        // 计算概率，百分之5的概率触发
-        // if(Math.random() > 0.05) return;
+ 
         this.sendGameEvent(targetChar,"Event.Monster.OnPoison",{damageValue:40,time:7});
         this.end()
     }

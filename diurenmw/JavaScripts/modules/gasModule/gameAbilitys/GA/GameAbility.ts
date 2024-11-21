@@ -161,7 +161,7 @@ export abstract class GameAbility extends MObject {
         }
         // 判断打断的技能
         asc.ApplyAbilityBlockAndCancelTags(this);
-        this.onPreActive(this.ownerAsc, this.owner, this.target);
+        this.onPreActive(asc, this.owner, this.target);
     }
 
     /**激活技能 */

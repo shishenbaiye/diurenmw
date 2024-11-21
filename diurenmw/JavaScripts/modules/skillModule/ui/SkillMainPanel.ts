@@ -18,6 +18,15 @@ export class SkillMainPanel extends SkillMainUI_Generate{
         this.haveSkillList.forEach((item)=>{item.destroy()});
     }
 
+    setSkillFinalUI(skillId:number){
+        if(skillId == -1){
+            this.mButton_SkillFinal.visibility = SlateVisibility.Collapsed;
+        }else{
+            this.mButton_SkillFinal.visibility = SlateVisibility.Visible;
+            this.mButton_SkillFinal.normalImageGuid = GameConfig.SkillObj.getElement(skillId).iconGuid;
+        }
+    }
+
     setSkillUI(skillId:number,index:number){
         if(skillId == -1){
             this[`mButton_Skill${index+1}`].normalImageGuid = "163403";
@@ -143,6 +152,15 @@ export class SkillMainPanel extends SkillMainUI_Generate{
             }
         })
 
-
+        this.mButton_SkillFinal.onClicked.add(()=>{
+            if(this.isChooseSkill){
+                return;
+            }else{
+                if(DataCenterC.getData(SkillModuleData).skillFinal == -1){
+                    return;
+                }
+                this.showSkillDetail(DataCenterC.getData(SkillModuleData).skillFinal,3);
+            }
+        })
     }
 }

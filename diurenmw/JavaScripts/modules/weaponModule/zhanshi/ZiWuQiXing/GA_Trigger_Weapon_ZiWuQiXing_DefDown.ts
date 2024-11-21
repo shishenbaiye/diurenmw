@@ -24,20 +24,23 @@ export class GA_Trigger_Weapon_ZiWuQiXing_DefDown extends GameAbility{
     }]
     cd: Constructor<CoolDownByGameEffect>;
     cost: Constructor<CostByGameEffect>;
+    private isNotActive:boolean = false;
     protected onPreActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-        // throw new Error("Method not implemented.");
+        if(Math.random() > 0.1) {
+            this.isNotActive = true;
+        }
     }
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-        if(!this.payload) return;
-        let char = owner as Character;
+        if(this.isNotActive || !this.payload){
+            this.end();
+            return;
+        }
+
         let customData = this.payload.customData;
         let targetChar = customData.target as Character;
-
-        if(Math.random() > 0.10) return;
         let targetAsc = targetChar.getComponent(AbilitySystemComponent);
         targetAsc.gameTag.addTag("Event.Player.OnDefDown");
         AT_WaitTime.New(this,20).addEndListener(()=>{
-            targetAsc.gameTag.removeTag("Event.Player.OnDefDown");
             this.end();
         }).activate();
     }
@@ -45,7 +48,12 @@ export class GA_Trigger_Weapon_ZiWuQiXing_DefDown extends GameAbility{
         // throw new Error("Method not implemented.");
     }
     protected onEnd(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-        // throw new Error("Method not implemented.");
+        if(this.isNotActive) return;
+        if(!this.payload) return;
+        let customData = this.payload.customData;
+        let targetChar = customData.target as Character;
+        let targetAsc = targetChar.getComponent(AbilitySystemComponent);
+        targetAsc.gameTag.removeTag("Event.Player.OnDefDown");
     }
 
 }

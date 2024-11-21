@@ -30,20 +30,27 @@ export class GA_Trigger_Weapon_ZhiYanFenTian extends GameAbility {
     }]
     cd: Constructor<CoolDownByGameEffect>;
     cost: Constructor<CostByGameEffect>;
+    private isNotActive: boolean = false;
     protected onPreActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-        // throw new Error("Method not implemented.");
+        // 计算概率，百分之10的概率触发
+        if (Math.random() > 0.05) {
+            this.isNotActive = true;
+        }
     }
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-        if (!this.payload) return;
-        let char = owner as Character;
+        if(this.isNotActive || !this.payload) {
+            this.end();
+            return;
+        }
+
         let customData = this.payload.customData;
         let targetChar = customData.target as Character;
-        // 计算概率，百分之10的概率触发
-        if (Math.random() > 0.05) return;
         let targetAsc = targetChar.getComponent(AbilitySystemComponent);
 
-
-        if (targetAsc.hasMatchingGameTag(this.targetBlockedTags)) return;
+        if (targetAsc.hasMatchingGameTag(this.targetBlockedTags)){
+            this.end();
+            return;
+        }
         this.sendGameEvent(targetChar, "Event.Monster.OnHurt", { damageGE: GE_Damage_Weapon_ZhiYanFenTian });
         this.end();
     }

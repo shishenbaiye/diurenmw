@@ -11,7 +11,7 @@ import { EMonsterAttributeSetType } from "../../../robotModule/base/MonsterAttri
 import { GE_Damage_Base } from "../../../skillModule/common/GE_Damage_Base";
 
 @MPlugin()
-export class GA_Trigger_Weapon_YinYu_Damage extends GameAbility{
+export class GA_Trigger_Weapon_YinYu_Damage extends GameAbility {
     tag: string = "GA.Trigger.Weapon.YinYu.Damage";
     cancelTags: string[];
     blockTags: string[];
@@ -21,22 +21,28 @@ export class GA_Trigger_Weapon_YinYu_Damage extends GameAbility{
     targetRequiredTags: string[];
     targetBlockedTags: string[];
     trigger: { tag: string; sourceType: EGameAbilityTriggerSourceType; }[] = [{
-        tag:"Event.Player.HurtMonster",
-        sourceType:EGameAbilityTriggerSourceType.GameEvent
+        tag: "Event.Player.HurtMonster",
+        sourceType: EGameAbilityTriggerSourceType.GameEvent
     }]
     cd: Constructor<CoolDownByGameEffect>;
     cost: Constructor<CostByGameEffect>;
+    private isNotActive: boolean = false;
     protected onPreActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-        // throw new Error("Method not implemented.");
+        // 计算概率，百分之10的概率触发
+        if (Math.random() > 0.02){
+            this.isNotActive = true;
+        }
     }
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-        if(!this.payload) return;
-        let char = owner as Character;
+        if (this.isNotActive || !this.payload) {
+            this.end();
+            return;
+        }
+
         let customData = this.payload.customData;
         let targetChar = customData.target as Character;
-        // 计算概率，百分之10的概率触发
-        if(Math.random() > 0.02) return;
-        this.sendGameEvent(targetChar,"Event.Monster.OnHurt",{damageGE:GE_Damage_Weapon_YinYuSword})
+
+        this.sendGameEvent(targetChar, "Event.Monster.OnHurt", { damageGE: GE_Damage_Weapon_YinYuSword })
         this.end();
     }
     protected onCancel(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
@@ -48,22 +54,22 @@ export class GA_Trigger_Weapon_YinYu_Damage extends GameAbility{
 }
 
 @MPlugin()
-export class GE_Damage_Weapon_YinYuSword extends GE_Damage_Base{
+export class GE_Damage_Weapon_YinYuSword extends GE_Damage_Base {
     init(): void {
         super.init();
 
         let modifier1 = MI_Weapon_YinYuSword_GameModifiterInfo.New();
         modifier1.ownerEffect = this;
         modifier1.init();
-        if(!this.modifiers){
+        if (!this.modifiers) {
             this.modifiers = [];
         }
         this.modifiers.push(modifier1)
     }
 }
 
-export class MI_Weapon_YinYuSword_GameModifiterInfo extends GameModifierInfo{
-    
+export class MI_Weapon_YinYuSword_GameModifiterInfo extends GameModifierInfo {
+
     static New(): MI_Weapon_YinYuSword_GameModifiterInfo {
         return new MI_Weapon_YinYuSword_GameModifiterInfo();
     }
@@ -75,5 +81,5 @@ export class MI_Weapon_YinYuSword_GameModifiterInfo extends GameModifierInfo{
     sourceMustNeedTags: string[];
     sourceMustNotNeedTags: string[];
     targetMustNeedTags: string[];
-    targetMustNotNeedTags: string[];  
+    targetMustNotNeedTags: string[];
 }

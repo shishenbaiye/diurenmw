@@ -45,16 +45,22 @@ export class GA_Trigger_Weapon_LiuGuangSword extends GameAbility {
 
     cd: Constructor<CoolDownByGameEffect>;
     cost: Constructor<CostByGameEffect>;
-    protected onPreActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
 
+    private isNotActive:boolean = false;
+    protected onPreActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
+        if(Math.random() > 0.02) {
+            this.isNotActive = true;
+        }
     }
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-        if (!this.payload) return;
+        if(this.isNotActive || !this.payload) {
+            this.end();
+            return;
+        }
+
         let char = owner as Character;
         let customData = this.payload.customData;
         let targetChar = customData.target as Character;
-        // 计算概率，百分之20的概率触发
-        if (Math.random() > 0.02) return;
 
         let pos = targetChar.getSlotWorldPosition(HumanoidSlotType.Root);
 

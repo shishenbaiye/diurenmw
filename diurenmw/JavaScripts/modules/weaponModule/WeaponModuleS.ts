@@ -39,6 +39,7 @@ export class WeaponModuleS extends ModuleS<WeaponModuleC, WeaponModuleData> {
      */
     addWeapon(player: mw.Player, wid: number): WeaponBase {
         let weapon = WeaponManager.instance.createNew(player, wid);
+        if(weapon == null)  return null;
         let data = this.getPlayerData(player);
         data.addWeapon(weapon.getData());
         console.log(`玩家${player.userId}获得武器${weapon.getData().uuid}`);

@@ -39,16 +39,17 @@ export class GA_Warrior_NormalAttack2 extends GameAbility {
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         let char = owner as Character;
         let attrSpeed = asc.attributeSet.getAttr(EPlayerAttributeSetType.atkSpeed).getCurrent();
-        let aim = char.loadAnimation("269040");
+        let aim = char.loadAnimation("303207");
+        // let aim = char.loadAnimation("269040");
         aim.blendInTime = 0;
-        aim.speed = 1.2*attrSpeed;
-        aim.startTime = 0.95;
-        let animTask = AT_PlayAnimation.New(this, aim, 0.7, char);
+        aim.speed = 1.1*attrSpeed;
+        // aim.startTime = 0.95;
+        let animTask = AT_PlayAnimation.New(this, aim, 0.5, char);
 
         this.skillHelper.changePlayerCanMove(char.player,false);
 
 
-        animTask.addEvent(0.4, () => {
+        animTask.addEvent(0.1, () => {
             let arr = MathTool.checkHitByCharacter(owner as Character,200,120);
             arr.forEach((obj:Character)=>{
                 let asc = obj.getComponent(AbilitySystemComponent);
@@ -61,7 +62,7 @@ export class GA_Warrior_NormalAttack2 extends GameAbility {
                     this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.5,force:force});
                 }
             })
-            AT_WaitTime.New(this,0.2).addEndListener(()=>{
+            AT_WaitTime.New(this,0.15).addEndListener(()=>{
                 animTask.resumeTask()
             }).activate()
         })
@@ -72,10 +73,10 @@ export class GA_Warrior_NormalAttack2 extends GameAbility {
             this.end();
         })
 
-        animTask.addEvent(0.3,()=>{
+        animTask.addEvent(0,()=>{
             this.skillHelper.callPlayerMove(char.player,true,char.worldTransform.getForwardVector().normalize().multiply(0.5));
         })
-        animTask.addEvent(0.5,()=>{
+        animTask.addEvent(0.1,()=>{
             this.skillHelper.callPlayerMove(char.player,false);
         })
 

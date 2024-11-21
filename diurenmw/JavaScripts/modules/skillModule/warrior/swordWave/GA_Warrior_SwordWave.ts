@@ -1,6 +1,7 @@
 import { Constructor, MPlugin, MPropertiesInject } from "../../../../framework/DI/MContainer";
 import { EffectTool } from "../../../../tools/EffectTool";
 import { MathTool } from "../../../../tools/MathTool";
+import { EPlayerAttributeSetType } from "../../../AttributeModule/PlayerAttributeSetType";
 import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { AT_PlayAnimation } from "../../../gasModule/gameAbilitys/AT/customAT/AT_PlayAnimation";
 import { AT_WaitTime } from "../../../gasModule/gameAbilitys/AT/customAT/AT_WaitTime";
@@ -44,14 +45,16 @@ export class GA_Warrior_SwordWave extends GameAbility {
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
 
         let char = owner as Character;
+        let attrSpeed = asc.attributeSet.getAttr(EPlayerAttributeSetType.atkSpeed).getCurrent();
+
         let anim2 = char.loadAnimation("279760");
-        anim2.speed = 1.5;
+        anim2.speed = 1.5 * attrSpeed;
         anim2.blendInTime = 0;
         anim2.startTime = 0.5;
         let animTask2 = AT_PlayAnimation.New(this, anim2, 0.8, char);
 
         let anim1 = char.loadAnimation("279656");
-        anim1.speed = 1.1;
+        anim1.speed = 1.1 * attrSpeed;
         anim1.blendInTime = 0;
         console.log(anim1.length)
         let animTask1 = AT_PlayAnimation.New(this, anim1, 1.66, char);
