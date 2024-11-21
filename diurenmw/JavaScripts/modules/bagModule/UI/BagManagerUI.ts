@@ -1,6 +1,6 @@
 
 import BagItemUI from "./BagItemUI"
-import { BagItemBase, BagManagerModuleData, EquipmentType, ItemType, eventType } from "../BagManagerModuleData";
+import { BagItemBase, BagManagerModuleData, EquipmentType, ItemType, SortType, eventType } from "../BagManagerModuleData";
 import ItemTypeUI from "./ItemTypeUI";
 import BagAttributeUI from "./BagAttributeUI";
 import PlayerDataUI from "./PlayerDataUI";
@@ -20,6 +20,8 @@ export default class BagManagerUI extends BagManagerUI_Generate {
 	currentTypePage : ItemType;
 	// 每行多少个物品
 	itemNumPerLine : number;
+	// 排序方式
+	mSortType : SortType;
 
 	/**
 	* onStart 之前触发一次
@@ -33,14 +35,17 @@ export default class BagManagerUI extends BagManagerUI_Generate {
 		this.onTypeSelect.add(this.onTypeSelectClick.bind(this));
 		this.BagItemObjs = new Array<BagItemUI>;
 		this.ItemTypeUIs = new Array<ItemTypeUI>;
+		this.mSortType = SortType.Time;
 
 		GameEventBus.on("BagModule_UpdateBagData", this.updateBagData.bind(this));
 
 		this.bagData = DataCenterC.getData(BagManagerModuleData);
-		
+		this.sortList.onSelectionChangedEvent.add(this.onSortListChanged.bind(this));
 	}
 
 	updateBagData(inItemtype : ItemType) {
+		this.bagData.sort(this.currentTypePage, this.mSortType);
+
 		if(inItemtype == this.currentTypePage)
 		{
 			this.BagItemObjs.forEach((value: BagItemUI, index: number, array: BagItemUI[])=>{
@@ -179,6 +184,16 @@ export default class BagManagerUI extends BagManagerUI_Generate {
 				element.setSelectType(mw.CheckBoxState.Unchecked);
 			}
 		});
+	}
+
+	protected onSortListChanged(item: string, select: mw.SelectInfo) {
+		console.warn("BagUI onSortListChanged : " + item + ", " + select);
+		if(item == "稀有度") {
+			this.mSortType = SortType.Quality;
+		} else {
+			this.mSortType = SortType.Time;
+		}
+		this.updateBagData(this.currentTypePage);
 	}
 }
  

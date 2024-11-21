@@ -66,6 +66,13 @@ export default class BagManagerUI_Generate extends UIScript {
 		}
 		return this.buttonDecompose_Internal
 	}
+	private sortList_Internal: mw.Dropdown
+	public get sortList(): mw.Dropdown {
+		if(!this.sortList_Internal&&this.uiWidgetBase) {
+			this.sortList_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/operatorShow/sortList') as mw.Dropdown
+		}
+		return this.sortList_Internal
+	}
 
 
  

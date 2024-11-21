@@ -195,7 +195,6 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
         else
         {
             this.getPlayerData(player).equipmentItem(inItem, inEquipmentType);
-            this.removeItem(player, inItem.uuid, inItem.itemtype, inItem.count);
             this.getClient(player).net_OnEquipmentItemUpdate(inItem, inEquipmentType);
         }
         
