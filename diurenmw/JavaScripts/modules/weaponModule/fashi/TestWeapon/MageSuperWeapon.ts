@@ -2,12 +2,13 @@ import { GameConfig } from "../../../../configs/GameConfig";
 import { WeaponBase } from "../../WeaponBase";
 import { MPlugin } from "../../../../framework/DI/MContainer";
 import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
-import { GA_Trigger_Weapon_TestBlood } from "./GA_Trigger_Weapon_TestBlood";
+import { registerWeapon } from "../../WeaponManager";
 
 @MPlugin()
-export class WarriorSuperWeapon extends WeaponBase {
+@registerWeapon(2002)
+export class MageSuperWeapon extends WeaponBase {
     
-    wid: number = 1038;
+    wid: number = 2002;
 
     init() {
         super.init();
@@ -46,18 +47,18 @@ export class WarriorSuperWeapon extends WeaponBase {
     // effect1Desc: string = "技能伤害增加15%";
     effect1Desc: string = "攻击时候10%概率出血";
     excuteEffet1(): void {
-        console.warn("excuteEffet1")
-        let asc = this.owner.character.getComponent(AbilitySystemComponent);
-        if(asc){
-            asc.giveAbility(GA_Trigger_Weapon_TestBlood)
-        }
+        // console.warn("excuteEffet1")
+        // let asc = this.owner.character.getComponent(AbilitySystemComponent);
+        // if(asc){
+        //     asc.giveAbility(GA_Trigger_Weapon_TestBlood)
+        // }
         // this.ownerAttribute.addSkillDamage(0.15);
     }
     unExcuteEffet1(): void {
-        let asc = this.owner.character.getComponent(AbilitySystemComponent);
-        if(asc){
-            asc.removeAbility(GA_Trigger_Weapon_TestBlood)
-        }
+        // let asc = this.owner.character.getComponent(AbilitySystemComponent);
+        // if(asc){
+        //     asc.removeAbility(GA_Trigger_Weapon_TestBlood)
+        // }
         // this.ownerAttribute.reduceSkillDamage(0.15);
     }
 

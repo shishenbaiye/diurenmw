@@ -48,7 +48,7 @@ export class GA_Warrior_NormalAttack1 extends GameAbility{
         this.skillHelper.changePlayerCanMove(char.player,false);
 
         animTask.addEvent(0.1, () => {
-            let arr = MathTool.checkHitByCharacter(owner as Character,200,120);
+            let arr = MathTool.checkHitByCharacter(owner as Character,300,120);
             arr.forEach((obj:Character)=>{
                 let asc = obj.getComponent(AbilitySystemComponent);
                 if(asc){

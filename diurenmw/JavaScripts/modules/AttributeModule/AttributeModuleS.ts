@@ -8,6 +8,8 @@ import { ArmorPart } from "../armorModule/ArmorType";
 import { AttributeDataInit } from "../gasModule/gameAbilitys/AS/AttributeHelper";
 import { AbilitySystemComponent } from "../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { GA_Trigger_NotFullMp } from "../skillModule/common/GA_Trigger_NotFullMp";
+import { GA_Mage_BackJump } from "../skillModule/mage/backJump/GA_Mage_BackJump";
+import { GA_Mage_NormalAttack1 } from "../skillModule/mage/normalAttack/GA_Mage_NormalAttack1";
 import { GA_Warrior_All4One } from "../skillModule/warrior/all4One/GA_Warrior_All4One";
 import { GA_Warrior_BackJump } from "../skillModule/warrior/backJump/GA_Warrior_BackJump";
 import { GA_Warrior_NormalAttack1 } from "../skillModule/warrior/normalAttack/GA_Warrior_NormalAttack1";
@@ -70,6 +72,10 @@ export class AttributeModuleS extends ModuleS<AttributeModuleC, AttributeModuleD
             component.giveAbility(GA_Warrior_NormalAttack3);
             component.giveAbility(GA_Warrior_BackJump);
             component.giveAbility(GA_Warrior_All4One);
+
+            // 法杖
+            component.giveAbility(GA_Mage_NormalAttack1);
+            component.giveAbility(GA_Mage_BackJump)
         }
     }
 

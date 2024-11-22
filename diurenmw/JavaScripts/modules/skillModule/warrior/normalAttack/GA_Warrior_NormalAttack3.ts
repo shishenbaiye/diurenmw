@@ -48,7 +48,7 @@ export class GA_Warrior_NormalAttack3 extends GameAbility {
 
 
         animTask.addEvent(0.15,()=>{
-            let arr = MathTool.checkHitByCharacter(owner as Character,200,160);
+            let arr = MathTool.checkHitByCharacter(owner as Character,300,160);
             arr.forEach((obj:Character)=>{
                 let asc = obj.getComponent(AbilitySystemComponent);
                 if(asc){

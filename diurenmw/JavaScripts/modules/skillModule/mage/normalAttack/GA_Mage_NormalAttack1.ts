@@ -8,19 +8,18 @@ import { GameAbility } from "../../../gasModule/gameAbilitys/GA/GameAbility";
 import { EGameAbilityTriggerSourceType } from "../../../gasModule/gameAbilitys/GA/GameAbilityType";
 import { CoolDownByGameEffect } from "../../../gasModule/gameAbilitys/GE/GESpecial/CoolDownByGameEffect";
 import { CostByGameEffect } from "../../../gasModule/gameAbilitys/GE/GESpecial/CostByGameEffect";
+import { FlyObj } from "../../common/FlyObj";
 import { SkillHelper } from "../../SkillHelper";
 import { RegisterSkill } from "../../SkillManager";
 import { ESkillType } from "../../SkillType";
-import { GE_Damage_Warrior_NormalAttack1 } from "./GE_Damage_Warrior_NormalAttack1";
-import { GE_Damage_Warrior_NormalAttack2 } from "./GE_Damage_Warrior_NormalAttack2";
-import { GE_Damage_Warrior_NormalAttack3 } from "./GE_Damage_Warrior_NormalAttack3";
+import { GE_Damage_Warrior_NormalAttack1 } from "../../warrior/normalAttack/GE_Damage_Warrior_NormalAttack1";
 
-@RegisterSkill(1002, ESkillType.GreatSword)
 @MPlugin()
-export class GA_Warrior_NormalAttack2 extends GameAbility {
-    tag: string = "GA.Warrior.NormalAttack.Two";
+@RegisterSkill(2001,ESkillType.Staff)
+export class GA_Mage_NormalAttack1 extends GameAbility{
+    tag: string = "GA.Mage.NormalAttack1";
     cancelTags: string[];
-    blockTags: string[] = [];
+    blockTags: string[];
     activationOwnedTags: string[] = ["State.Player.NormalAttack"]
     activationRequiredTags: string[];
     activationBlockedTags: string[] = ["State.Player.Skilling","State.Player.BackJump"]
@@ -30,55 +29,66 @@ export class GA_Warrior_NormalAttack2 extends GameAbility {
     cd: Constructor<CoolDownByGameEffect>;
     cost: Constructor<CostByGameEffect>;
 
+
     @MPropertiesInject(SkillHelper)
     private skillHelper:SkillHelper;
 
     protected onPreActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-
+        // throw new Error("Method not implemented.");
     }
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         let char = owner as Character;
-        let attrSpeed = asc.attributeSet.getAttr(EPlayerAttributeSetType.atkSpeed).getCurrent();
-        let aim = char.loadAnimation("303207");
+        let attrSpeed = asc.attributeSet.getAttr(EPlayerAttributeSetType.castSpeed).getCurrent();
+        let aim = char.loadAnimation("363500");
         // let aim = char.loadAnimation("269040");
         aim.blendInTime = 0;
         aim.speed = 1.1*attrSpeed;
-        // aim.startTime = 0.95;
-        let animTask = AT_PlayAnimation.New(this, aim, 0.5, char);
+        aim.blendOutMode = AnimationBlendMode.QuadraticInOut;
+        let animTask = AT_PlayAnimation.New(this, aim, 0.6, char);
 
         this.skillHelper.changePlayerCanMove(char.player,false);
 
-
-        animTask.addEvent(0.1, () => {
-            let arr = MathTool.checkHitByCharacter(owner as Character,300,120);
-            arr.forEach((obj:Character)=>{
-                let asc = obj.getComponent(AbilitySystemComponent);
-                if(asc){
-                    if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
-                    animTask.pauseTask();
-                    this.sendGameEvent(owner,"Event.Player.HurtMonster",{target:obj});
-                    this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_NormalAttack2});
-                    let force = obj.worldTransform.position.clone().subtract(char.worldTransform.position).normalize().multiply(300);
-                    this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.5,force:force});
-                }
+        animTask.addEvent(0.2, () => {
+            let start = char.worldTransform.position.clone().add(char.worldTransform.getForwardVector().normalize().multiply(100));
+            let fly = FlyObj.New("B72E49DC44990F4F8E68D18D66FC239B",start,char.worldTransform.getForwardVector(),800,1,char,50);
+            fly.addCheckListener((objs)=>{
+                objs.forEach((obj:Character)=>{
+                    let asc = obj.getComponent(AbilitySystemComponent);
+                    if(asc){
+                        if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
+                        this.sendGameEvent(owner,"Event.Player.HurtMonster",{target:obj});
+                        let force = obj.worldTransform.position.clone().subtract(char.worldTransform.position).normalize().multiply(300);
+                        this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.5,force:force});
+                        this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_NormalAttack1});
+                    }
+                })
+                fly.cancel();
             })
-            AT_WaitTime.New(this,0.15).addEndListener(()=>{
-                animTask.resumeTask()
-            }).activate()
+            fly.activate();
         })
 
 
-        
         animTask.onFinished(()=>{
             this.end();
         })
 
-        animTask.addEvent(0,()=>{
-            this.skillHelper.callPlayerMove(char.player,true,char.worldTransform.getForwardVector().normalize().multiply(0.5));
+        animTask.addEvent(0.2,()=>{
+            new Tween({v:char.worldTransform.position.clone()})
+            .to({v:char.worldTransform.position.clone().add(char.worldTransform.getForwardVector().normalize().multiply(-30))},200)
+            .onUpdate((v)=>{
+                char.worldTransform.position = v.v;
+            }).start();
+            // this.skillHelper.callPlayerMove(char.player,true,char.worldTransform.getForwardVector().normalize().multiply(0.5));
         })
         animTask.addEvent(0.1,()=>{
-            this.skillHelper.callPlayerMove(char.player,false);
+            // this.skillHelper.callPlayerMove(char.player,false);
         })
+        // animTask.addEvent(1.2,()=>{
+        //     this.skillHelper.callPlayerMove(char.player,true);
+        // })
+        // animTask.addEvent(1.4,()=>{
+        //     this.skillHelper.callPlayerMove(char.player,false);
+        // })
 
 
 
@@ -90,4 +100,5 @@ export class GA_Warrior_NormalAttack2 extends GameAbility {
     protected onEnd(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         this.skillHelper.changePlayerCanMove((owner as Character).player,true);
     }
+    
 }
