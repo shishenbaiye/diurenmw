@@ -12,6 +12,12 @@ export class GE_Damage_Warrior_SwordWave extends GE_Damage_Base {
         super.init();
 
         let modifier1 = MI_Warrior_SwordWave_GameModifiterInfo.New();
+        if(this.geContext.sourceASC.hasMatchingGameTag(["Weapon.SpecialEffect.AddSwordWaveDamage5"])){
+            modifier1.skillDamageAdd = 1.05;
+        }
+        if(this.geContext.sourceASC.hasMatchingGameTag(["Weapon.SpecialEffect.AddSwordWaveDamage10"])){
+            modifier1.skillDamageAdd = 1.1;
+        }
         modifier1.ownerEffect = this;
         modifier1.init();
         if (!this.modifiers) {
@@ -27,7 +33,7 @@ export class MI_Warrior_SwordWave_GameModifiterInfo extends GameModifierInfo {
     static New(): MI_Warrior_SwordWave_GameModifiterInfo {
         return new MI_Warrior_SwordWave_GameModifiterInfo();
     }
-
+    skillDamageAdd:number = 1;
     modifierName: string = EMonsterAttributeSetType.hp;
     modifierOp: EGameModOp = EGameModOp.Custom;
     modifierValue: number;

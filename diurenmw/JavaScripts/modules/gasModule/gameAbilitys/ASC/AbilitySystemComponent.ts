@@ -432,6 +432,15 @@ export class AbilitySystemComponent extends Script {
         this.attributeSet.bindAbilitySystemComponent(this);
     }
 
+    /**打断技能 */
+    public cancelAbility(tag:string) {
+        this.activatedAbilitys.forEach((value) => {
+            if (this.checkAbilityCancel(tag, value.tag)) {
+                value.cancel();
+            }
+        })
+    }
+
     /**获取GameTag */
     get gameTag(): GameTags | null {
         if (!this._gameTag) {

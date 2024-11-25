@@ -31,6 +31,20 @@ export default class SkillMainUI_Generate extends UIScript {
 		}
 		return this.mButton_Close_Internal
 	}
+	private mCanvas_SkillFinal_Internal: mw.Canvas
+	public get mCanvas_SkillFinal(): mw.Canvas {
+		if(!this.mCanvas_SkillFinal_Internal&&this.uiWidgetBase) {
+			this.mCanvas_SkillFinal_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/mCanvas_SkillFinal') as mw.Canvas
+		}
+		return this.mCanvas_SkillFinal_Internal
+	}
+	private mButton_SkillFinal_Internal: mw.Button
+	public get mButton_SkillFinal(): mw.Button {
+		if(!this.mButton_SkillFinal_Internal&&this.uiWidgetBase) {
+			this.mButton_SkillFinal_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/mCanvas_SkillFinal/mButton_SkillFinal') as mw.Button
+		}
+		return this.mButton_SkillFinal_Internal
+	}
 	private mImage_change_Internal: mw.Image
 	public get mImage_change(): mw.Image {
 		if(!this.mImage_change_Internal&&this.uiWidgetBase) {
@@ -126,6 +140,9 @@ export default class SkillMainUI_Generate extends UIScript {
 		//按钮添加点击
 		
 		this.mButton_Close.touchMethod = (ButtonTouchMethod.PreciseTap);
+		
+	
+		this.mButton_SkillFinal.touchMethod = (ButtonTouchMethod.PreciseTap);
 		
 	
 		this.mButton_Skill1.touchMethod = (ButtonTouchMethod.PreciseTap);

@@ -105,14 +105,16 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
 
     net_OnUnEquipmentItemUpdate(inItem : BagItemBase, inEquipmentType : EquipmentType) {
         console.log("BagManagerModuleC net_OnUnEquipmentItemUpdate: " + JSON.stringify(inItem));
-        this.data.equipmentItems[inEquipmentType] = {uuid: "", typeId: 0, count: 1, itemtype: inItem.itemtype, isNew: true};
+        this.data.unEquipmentItem(inItem, inEquipmentType);
         GameEventBus.emit("BagModule_UnEquipmentItemUpdate", inEquipmentType);
+        this.updateBagData(inItem.itemtype);
     }
 
     net_OnEquipmentItemUpdate(inItem : BagItemBase, inEquipmentType : EquipmentType) {
         console.log("BagManagerModuleC net_OnEquipmentItemUpdate: " + JSON.stringify(inItem));
-        this.data.equipmentItems[inEquipmentType] = inItem;
+        this.data.equipmentItem(inItem, inEquipmentType);
         GameEventBus.emit("BagModule_EquipmentItemUpdate", inEquipmentType);
+        this.updateBagData(inItem.itemtype);
     }
 
 	protected onUnEquipmentItem(inItem : BagItemBase, inEquipmentType : EquipmentType) {

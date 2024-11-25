@@ -22,18 +22,30 @@ export class ConsumableModuleData extends Subdata{
         return null;
     }
 
+    findConsumableByUuid(uuId: string): ConsumableData {
+        for (let i = 0; i < this.haveConsumableList.length; i++) {
+            if (this.haveConsumableList[i].uuid === uuId) {
+                return this.haveConsumableList[i];
+            }
+        }
+        return null;
+    }
+
     updateConsumable(inId : number, inNum : number): ConsumableData {
+        let inConsumableData : ConsumableData = null;
         for (let i = 0; i < this.haveConsumableList.length; i++) {
             if (this.haveConsumableList[i].id === inId) {
                 this.haveConsumableList[i].num += inNum;
                 if(this.haveConsumableList[i].num <= 0){
                     this.haveConsumableList.splice(i, 1);
-                    return null;
+                    break;
                 }
-                return this.haveConsumableList[i];
+                inConsumableData = this.haveConsumableList[i];
+                break;
             }
         }
         this.save(true);
+        return inConsumableData;
     }
 
     addConsumable(Consumable: ConsumableData): void {

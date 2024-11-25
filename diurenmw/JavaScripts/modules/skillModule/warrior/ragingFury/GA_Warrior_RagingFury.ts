@@ -2,6 +2,7 @@ import { Constructor, MPlugin, MPropertiesInject } from "../../../../framework/D
 import { MFramework } from "../../../../framework/MFramework";
 import { EffectTool } from "../../../../tools/EffectTool";
 import { MathTool } from "../../../../tools/MathTool";
+import { EPlayerAttributeSetType } from "../../../AttributeModule/PlayerAttributeSetType";
 import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { AT_PlayAnimation } from "../../../gasModule/gameAbilitys/AT/customAT/AT_PlayAnimation";
 import { AT_WaitTime } from "../../../gasModule/gameAbilitys/AT/customAT/AT_WaitTime";
@@ -42,8 +43,9 @@ export class GA_Warrior_RagingFury extends GameAbility{
     }
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         let char = owner as Character;
+        let attrSpeed = asc.attributeSet.getAttr(EPlayerAttributeSetType.atkSpeed).getCurrent();
         let anim = char.loadAnimation("269224");
-        anim.speed = 1;
+        anim.speed = 1 * attrSpeed;
         anim.blendInTime = 0;
         anim.startTime = 0.4;
         this.skillHelper.changePlayerCanMove(char.player,false);

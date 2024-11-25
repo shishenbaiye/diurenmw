@@ -8,6 +8,7 @@ import PlayerSkillScrpit from "../skillModule/PlayerSkillScrpit";
 import ArmorScript from "../armorModule/ArmorScript";
 import JewelryScript from "../jewelryModule/JewelryScript";
 import { BagManagerModuleS } from "../bagModule/BagManagerModuleS";
+import { ItemType } from "../bagModule/BagManagerModuleData";
 
 export class GMManager extends Singleton {
 
@@ -18,24 +19,21 @@ export class GMManager extends Singleton {
 
             }, (player: mw.Player, itemId: string) => {
                 console.log(`增加武器${itemId}`);
-                let weaponScript = player.character.getComponent(WeaponScript);
-                weaponScript.addWeapon(parseInt(itemId));
+                ModuleService.getModule(BagManagerModuleS).addItem(player,ItemType.Weapon,parseInt(itemId));
             }
         );
         AddGMCommand(
             "增加防具", (player: Player, itemId: string) => {
 
             }, (player: mw.Player, itemId: string) => {
-                let armorScript = player.character.getComponent(ArmorScript);
-                armorScript.addArmor(parseInt(itemId));
+                ModuleService.getModule(BagManagerModuleS).addItem(player,ItemType.Armor,parseInt(itemId));
             }
         );
         AddGMCommand(
             "增加首饰", (player: Player, itemId: string) => {
 
             }, (player: mw.Player, itemId: string) => {
-                let jewelryScript = player.character.getComponent(JewelryScript);
-                jewelryScript.addJewelry(parseInt(itemId));
+                ModuleService.getModule(BagManagerModuleS).addItem(player,ItemType.Jewelry,parseInt(itemId));
             }
         );
         AddGMCommand(

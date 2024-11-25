@@ -21,6 +21,11 @@ export class SkillModuleC extends ModuleC<SkillModuleS,SkillModuleData>{
         this.skillUI.refeshSkillList();
     }
 
+    setSkillFinalUI(skillId:number){
+        if(!this.skillUI) UIService.create(SkillMainPanel);
+        this.skillUI.setSkillFinalUI(skillId);
+    }
+
     equipSkill(skillId:number,index:number){
         this.server.net_equipSkill(skillId,index);
     }

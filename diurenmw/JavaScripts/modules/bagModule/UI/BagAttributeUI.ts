@@ -70,7 +70,7 @@ export default class BagAttributeUI extends BagAttributeUI_Generate {
                 BagAttributeUI.changeMaxMp(value);
                 break;
             case "str":
-                BagAttributeUI.changeAtk(value);
+                BagAttributeUI.changeStr(value);
                 break;
             case "int":
 				BagAttributeUI.changeInt(value);

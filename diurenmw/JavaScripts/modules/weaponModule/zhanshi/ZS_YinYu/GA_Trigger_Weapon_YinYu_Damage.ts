@@ -1,0 +1,85 @@
+import { Constructor, MPlugin } from "../../../../framework/DI/MContainer";
+import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
+import { GameAbility } from "../../../gasModule/gameAbilitys/GA/GameAbility";
+import { EGameAbilityTriggerSourceType } from "../../../gasModule/gameAbilitys/GA/GameAbilityType";
+import { EGameModOp } from "../../../gasModule/gameAbilitys/GE/GameEffectType";
+import { GameModifierInfo } from "../../../gasModule/gameAbilitys/GE/GameModifierInfo";
+import { CoolDownByGameEffect } from "../../../gasModule/gameAbilitys/GE/GESpecial/CoolDownByGameEffect";
+import { CostByGameEffect } from "../../../gasModule/gameAbilitys/GE/GESpecial/CostByGameEffect";
+import { ModifierClass } from "../../../gasModule/gameAbilitys/GE/ModifierClass";
+import { EMonsterAttributeSetType } from "../../../robotModule/base/MonsterAttributeSetType";
+import { GE_Damage_Base } from "../../../skillModule/common/GE_Damage_Base";
+
+@MPlugin()
+export class GA_Trigger_Weapon_YinYu_Damage extends GameAbility {
+    tag: string = "GA.Trigger.Weapon.YinYu.Damage";
+    cancelTags: string[];
+    blockTags: string[];
+    activationOwnedTags: string[];
+    activationRequiredTags: string[];
+    activationBlockedTags: string[];
+    targetRequiredTags: string[];
+    targetBlockedTags: string[];
+    trigger: { tag: string; sourceType: EGameAbilityTriggerSourceType; }[] = [{
+        tag: "Event.Player.HurtMonster",
+        sourceType: EGameAbilityTriggerSourceType.GameEvent
+    }]
+    cd: Constructor<CoolDownByGameEffect>;
+    cost: Constructor<CostByGameEffect>;
+    private isNotActive: boolean = false;
+    protected onPreActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
+        // 计算概率，百分之10的概率触发
+        if (Math.random() > 0.02){
+            this.isNotActive = true;
+        }
+    }
+    protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
+        if (this.isNotActive || !this.payload) {
+            this.end();
+            return;
+        }
+
+        let customData = this.payload.customData;
+        let targetChar = customData.target as Character;
+
+        this.sendGameEvent(targetChar, "Event.Monster.OnHurt", { damageGE: GE_Damage_Weapon_YinYuSword })
+        this.end();
+    }
+    protected onCancel(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
+        // throw new Error("Method not implemented.");
+    }
+    protected onEnd(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
+        // throw new Error("Method not implemented.");
+    }
+}
+
+@MPlugin()
+export class GE_Damage_Weapon_YinYuSword extends GE_Damage_Base {
+    init(): void {
+        super.init();
+
+        let modifier1 = MI_Weapon_YinYuSword_GameModifiterInfo.New();
+        modifier1.ownerEffect = this;
+        modifier1.init();
+        if (!this.modifiers) {
+            this.modifiers = [];
+        }
+        this.modifiers.push(modifier1)
+    }
+}
+
+export class MI_Weapon_YinYuSword_GameModifiterInfo extends GameModifierInfo {
+
+    static New(): MI_Weapon_YinYuSword_GameModifiterInfo {
+        return new MI_Weapon_YinYuSword_GameModifiterInfo();
+    }
+
+    modifierName: string = EMonsterAttributeSetType.hp;
+    modifierOp: EGameModOp = EGameModOp.Subtract;
+    modifierValue: number = 1000;
+    modifierClass: ModifierClass;
+    sourceMustNeedTags: string[];
+    sourceMustNotNeedTags: string[];
+    targetMustNeedTags: string[];
+    targetMustNotNeedTags: string[];
+}

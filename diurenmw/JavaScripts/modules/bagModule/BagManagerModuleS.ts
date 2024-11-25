@@ -74,7 +74,27 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
         this.getPlayerData(player).onItemClick(inItem);
     }
 
-    addItem(player: mw.Player, inUuid : string, inItemType : ItemType, inTypeId : number, inCount : number): boolean {
+    // 只有材料和消耗品可以一次添加多个，武器、饰品、防具一次只能添加一个
+    addItem(player: mw.Player,inItemType : ItemType, inTypeId : number, inCount : number = 1): boolean {
+
+        let inUuid;
+        switch (inItemType) {
+            case ItemType.Weapon:
+                inUuid = player.character.getComponent(WeaponScript).addWeapon(inTypeId).uuid;
+                break;
+            case ItemType.Jewelry:
+                inUuid = player.character.getComponent(JewelryScript).addJewelry(inTypeId).uuid;
+                break;
+            case ItemType.Armor:
+                inUuid = player.character.getComponent(ArmorScript).addArmor(inTypeId).uuid;
+                break;
+            case ItemType.Consumables:
+                inUuid = player.character.getComponent(ConsumableScript).addConsumable(inTypeId, inCount).uuid;
+                break;
+            case ItemType.Materials:
+                inUuid = player.character.getComponent(MaterialScript).addMaterial(inTypeId, inCount).uuid;
+                break;
+        }
 
         let items : BagItemBase = {uuid: inUuid, typeId: inTypeId, count: inCount, itemtype: inItemType, isNew: true};
 
@@ -85,8 +105,12 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
             this.getClient(player).net_addItem(items);
             return true;
         }
+        else
+        {
+            // 添加失败，回滚
+            this.removeItem(player, inUuid, inItemType, inCount);
+        }
         return false;
-        
     }
 
     // 查找物品数量
@@ -95,11 +119,29 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
         return data.findItem(inItemType, inUuid).count;
     }
 
-    // 删除指定数量的物品
-    removeItem(player: mw.Player, inUuid : string, inItemType : ItemType, inCount : number): boolean {
+    // 删除指定数量的物品，数量只针对材料和消耗品生效
+    removeItem(player: mw.Player, inUuid : string, inItemType : ItemType, inCount : number = 1): boolean {
         let data = this.getPlayerData(player);
         if(data.removeItem(inUuid, inItemType, inCount))
         {
+            switch (inItemType) {
+                case ItemType.Weapon:
+                    player.character.getComponent(WeaponScript).removeWeapon(inUuid);
+                    break;
+                case ItemType.Jewelry:
+                    player.character.getComponent(JewelryScript).removeJewelry(inUuid);
+                    break;
+                case ItemType.Armor:
+                    player.character.getComponent(ArmorScript).removeArmor(inUuid);
+                    break;
+                case ItemType.Consumables:
+                    player.character.getComponent(ConsumableScript).removeConsumable(inUuid, inCount);
+                    break;
+                case ItemType.Materials:
+                    player.character.getComponent(MaterialScript).removeMaterial(inUuid, inCount);
+                    break;
+            }
+
             // 更新客户端数据
             this.getClient(player).net_removeItem(inUuid, inItemType, inCount);
             return true;
@@ -153,7 +195,6 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
         else
         {
             this.getPlayerData(player).equipmentItem(inItem, inEquipmentType);
-            this.removeItem(player, inItem.uuid, inItem.itemtype, inItem.count);
             this.getClient(player).net_OnEquipmentItemUpdate(inItem, inEquipmentType);
         }
         
@@ -169,27 +210,38 @@ export class BagManagerModuleS extends ModuleS<BagManagerModuleC,BagManagerModul
     net_TestAddItem(player: mw.Player): void {
         console.log("BagModuleS net_TestAddItem");
         
-        let res = null;
-        player.character.getComponent(WeaponScript).addWeapon(1004);
-        player.character.getComponent(WeaponScript).addWeapon(1003);
-        player.character.getComponent(WeaponScript).addWeapon(1002);
-        
+        this.addItem(player, ItemType.Weapon, 1066);
+        this.addItem(player, ItemType.Weapon, 1069);
+        this.addItem(player, ItemType.Weapon, 1063);
+        this.addItem(player, ItemType.Weapon, 1064);
+        this.addItem(player, ItemType.Weapon, 1038);
+        this.addItem(player, ItemType.Weapon, 1068);
+        this.addItem(player, ItemType.Weapon, 1065);
+        this.addItem(player, ItemType.Weapon, 1067);
+        this.addItem(player, ItemType.Weapon, 1053);
+        this.addItem(player, ItemType.Weapon, 1058);
+        this.addItem(player, ItemType.Weapon, 1055);
+        this.addItem(player, ItemType.Weapon, 1057);
+        this.addItem(player, ItemType.Weapon, 1062);
+        this.addItem(player, ItemType.Weapon, 1060);
+        this.addItem(player, ItemType.Weapon, 1056);
+        this.addItem(player, ItemType.Weapon, 1047);
+        this.addItem(player, ItemType.Weapon, 1050);
 
-        player.character.getComponent(JewelryScript).addJewelry(10001);
-        player.character.getComponent(JewelryScript).addJewelry(20001);
-        player.character.getComponent(JewelryScript).addJewelry(30001);
+        this.addItem(player, ItemType.Jewelry, 10001);
+        this.addItem(player, ItemType.Jewelry, 20001);
+        this.addItem(player, ItemType.Jewelry, 30001);
 
+        this.addItem(player, ItemType.Armor, 10001);
+        this.addItem(player, ItemType.Armor, 20001);
+        this.addItem(player, ItemType.Armor, 30001);
+        this.addItem(player, ItemType.Armor, 40001);
 
-        player.character.getComponent(ArmorScript).addArmor(10001);
-        player.character.getComponent(ArmorScript).addArmor(20001);
-        player.character.getComponent(ArmorScript).addArmor(30001);
-        player.character.getComponent(ArmorScript).addArmor(40001);
+        this.addItem(player, ItemType.Consumables, 10001, 3);
+        this.addItem(player, ItemType.Consumables, 10002, 3);
+        this.addItem(player, ItemType.Consumables, 10003, 3);
 
-        player.character.getComponent(ConsumableScript).addConsumable(10001, 1);
-        player.character.getComponent(ConsumableScript).addConsumable(10002, 1);
-        player.character.getComponent(ConsumableScript).addConsumable(10003, 1);
-
-        player.character.getComponent(MaterialScript).addMaterial(10001, 1);
+        this.addItem(player, ItemType.Materials, 10001, 3);
     }
 
     // 测试代码

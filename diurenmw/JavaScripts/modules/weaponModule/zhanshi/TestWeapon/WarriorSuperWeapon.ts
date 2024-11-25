@@ -1,15 +1,13 @@
 import { GameConfig } from "../../../../configs/GameConfig";
 import { WeaponBase } from "../../WeaponBase";
-import { registerWeapon } from "../../WeaponManager";
 import { MPlugin } from "../../../../framework/DI/MContainer";
 import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { GA_Trigger_Weapon_TestBlood } from "./GA_Trigger_Weapon_TestBlood";
 
 @MPlugin()
-@registerWeapon(1038)
 export class WarriorSuperWeapon extends WeaponBase {
     
-    wid: number = 1002;
+    wid: number = 1038;
 
     init() {
         super.init();

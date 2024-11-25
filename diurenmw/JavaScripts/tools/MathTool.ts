@@ -259,7 +259,7 @@ export class MathTool {
     }
 
 	/**指定位置的范围检测(圆形) */
-	static checkHitByPosition(owner:Character,pos:Vector,dis:number): GameObject[] {
+	static checkHitByPosition(owner:Character,pos:Vector,dis:number): Character[] {
 		let vector = pos.clone();
         let res = QueryUtil.sphereOverlap(vector, dis, true, undefined, false, owner);
         let characterArray = []

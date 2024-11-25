@@ -2,6 +2,7 @@ import { CameraManager } from "../../../../camera/CameraManager";
 import { Constructor, MPlugin, MPropertiesInject, RpcPlugin } from "../../../../framework/DI/MContainer";
 import { EffectTool } from "../../../../tools/EffectTool";
 import { MathTool } from "../../../../tools/MathTool";
+import { EPlayerAttributeSetType } from "../../../AttributeModule/PlayerAttributeSetType";
 import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { AT_PlayAnimation } from "../../../gasModule/gameAbilitys/AT/customAT/AT_PlayAnimation";
 import { AT_WaitTime } from "../../../gasModule/gameAbilitys/AT/customAT/AT_WaitTime";
@@ -49,8 +50,9 @@ export class GA_Warrior_BloodBoom extends GameAbility{
     }
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         let char = owner as Character;
+        let attrSpeed = asc.attributeSet.getAttr(EPlayerAttributeSetType.atkSpeed).getCurrent();
         let anim = char.loadAnimation("281036");
-        anim.speed = 1;
+        anim.speed = 1 * attrSpeed;
         anim.blendInTime = 0;
         let animTask = AT_PlayAnimation.New(this,anim,1.83,char);
 

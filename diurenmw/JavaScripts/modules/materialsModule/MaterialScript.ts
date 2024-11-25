@@ -38,7 +38,7 @@ export default class MaterialScript extends Script {
     /**删除材料
      * @param uuid 材料uuid
      */
-    removeMaterial(uuid: string) {
-        return ModuleService.getModule(MaterialModuleS).removeMaterial((this.gameObject as Character).player, uuid);
+    removeMaterial(uuid: string, inNum : number) {
+        return ModuleService.getModule(MaterialModuleS).removeMaterial((this.gameObject as Character).player, uuid, inNum);
     }
 }

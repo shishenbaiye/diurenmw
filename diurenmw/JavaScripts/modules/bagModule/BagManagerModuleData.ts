@@ -1,5 +1,6 @@
 import { ConfigBase } from "../../configs/ConfigBase";
 import { GameConfig } from "../../configs/GameConfig";
+import { UuidCreater } from "../../tools/UuidCreater";
 import ArmorScript from "../armorModule/ArmorScript";
 import { ArmorPart } from "../armorModule/ArmorType";
 import JewelryScript from "../jewelryModule/JewelryScript";
@@ -12,9 +13,9 @@ export type eventType = (inItem : BagItemBase)=>void;
 export enum QuantityColor {
 	Default = "#676767",
     Normal = "#B8B8B8",
-	Grade = "#64DA74",
-	Rare = "#4B98DA",
-	Epic = "#7716DA"
+	Grade = "#4B98DA",
+	Rare = "#7716DA",
+	Epic = "#D9B600"
 }
 
 export enum EquipmentType
@@ -49,6 +50,12 @@ export enum ItemType
     Consumables = "3",
     // 材料
     Materials = "4",
+}
+
+export enum SortType
+{
+    Time = 0,
+    Quality = 1,
 }
 
 export interface BagItemBase {
@@ -145,6 +152,22 @@ export class BagManagerModuleData extends Subdata {
         if(SystemUtil.isServer())
         {
             this.save(true);
+        }
+    }
+
+    sort(itemType: ItemType, inSortType : SortType) : void {
+        switch(inSortType)
+        {
+            case SortType.Time:
+                this.itemList.get(itemType).sort((a, b) => {
+                    return UuidCreater.extractTimestamp(a.uuid) > UuidCreater.extractTimestamp(b.uuid) ? -1 : 1;
+                });
+                break;
+            case SortType.Quality:
+                this.itemList.get(itemType).sort((a, b) => {
+                    return BagManagerModuleData.getItemQuality(a) > BagManagerModuleData.getItemQuality(b) ? -1 : 1;
+                });
+                break;
         }
     }
 
@@ -297,46 +320,59 @@ export class BagManagerModuleData extends Subdata {
     }
 
     equipmentItem(inItem : BagItemBase, inEquipmentType : EquipmentType) : boolean {
-        // 装备物品
-        switch(inItem.itemtype)
+
+        if(this.equipmentItems[inEquipmentType].uuid != "")
         {
-            case ItemType.Weapon:
-                this.owner.character.getComponent(WeaponScript).equepWeapon(inItem.uuid);
-                break;
-            case ItemType.Jewelry:
-                this.owner.character.getComponent(JewelryScript).equepJewelry(BagManagerModuleData.getTypeId(inEquipmentType), inItem.uuid);
-                break;
-            case ItemType.Armor:
-                this.owner.character.getComponent(ArmorScript).equepArmor(BagManagerModuleData.getTypeId(inEquipmentType), inItem.uuid);
-                break;
+            this.addItem(this.equipmentItems[inEquipmentType]);
         }
         this.equipmentItems[inEquipmentType] = inItem;
-        
+        this.removeItem(inItem.uuid, inItem.itemtype, 1);
+
         if(SystemUtil.isServer())
         {
+            // 装备物品
+            switch(inItem.itemtype)
+            {
+                case ItemType.Weapon:
+                    this.owner.character.getComponent(WeaponScript).equepWeapon(inItem.uuid);
+                    break;
+                case ItemType.Jewelry:
+                    this.owner.character.getComponent(JewelryScript).equepJewelry(BagManagerModuleData.getTypeId(inEquipmentType), inItem.uuid);
+                    break;
+                case ItemType.Armor:
+                    this.owner.character.getComponent(ArmorScript).equepArmor(BagManagerModuleData.getTypeId(inEquipmentType), inItem.uuid);
+                    break;
+            }
+        
             this.save(false);
         }
         return true;
     }
 
     unEquipmentItem(inItem : BagItemBase, inEquipmentType : EquipmentType) : boolean {
-        // 卸载装备
-        switch(inItem.itemtype)
+
+        if(this.equipmentItems[inEquipmentType].uuid != "")
         {
-            case ItemType.Weapon:
-                this.owner.character.getComponent(WeaponScript).unEquipWeapon();
-                break;
-            case ItemType.Jewelry:
-                this.owner.character.getComponent(JewelryScript).unEquipJewelry(BagManagerModuleData.getTypeId(inEquipmentType));
-                break;
-            case ItemType.Armor:
-                this.owner.character.getComponent(ArmorScript).unEquipArmor(BagManagerModuleData.getTypeId(inEquipmentType));
-                break;
+            this.addItem(this.equipmentItems[inEquipmentType]);
         }
         this.equipmentItems[inEquipmentType] = {uuid: "", typeId: 0, count: 1, itemtype: inItem.itemtype, isNew: true};
 
         if(SystemUtil.isServer())
         {
+            // 卸载装备
+            switch(inItem.itemtype)
+            {
+                case ItemType.Weapon:
+                    this.owner.character.getComponent(WeaponScript).unEquipWeapon();
+                    break;
+                case ItemType.Jewelry:
+                    this.owner.character.getComponent(JewelryScript).unEquipJewelry(BagManagerModuleData.getTypeId(inEquipmentType));
+                    break;
+                case ItemType.Armor:
+                    this.owner.character.getComponent(ArmorScript).unEquipArmor(BagManagerModuleData.getTypeId(inEquipmentType));
+                    break;
+            }
+        
             this.save(false);
         }
         return true;
@@ -414,28 +450,34 @@ export class BagManagerModuleData extends Subdata {
         }
     }
 
+    static getItemQuality(inItem : BagItemBase) : number {
+        let inQuantity : number = 0;
+        switch(inItem.itemtype)
+        {
+            case ItemType.Weapon:
+                inQuantity = GameConfig.WeaponObj.getElement(inItem.typeId).quality;
+                break;
+            case ItemType.Armor:
+                inQuantity = GameConfig.ArmorObj.getElement(inItem.typeId).quality;
+                break;
+            case ItemType.Jewelry:
+                inQuantity = GameConfig.JewelryObj.getElement(inItem.typeId).quality;
+                break;
+            case ItemType.Consumables:
+                inQuantity = GameConfig.ConsumablesObj.getElement(inItem.typeId).quality;
+                break;
+            case ItemType.Materials:
+                inQuantity = GameConfig.MaterialsObj.getElement(inItem.typeId).quality;
+                break;
+        }
+        return inQuantity;
+    }
+
     static getQuality(inItem: BagItemBase = null) : string {
         let inQuantity : number = 0;
         if(inItem)
         {
-            switch(inItem.itemtype)
-            {
-                case ItemType.Weapon:
-                    inQuantity = GameConfig.WeaponObj.getElement(inItem.typeId).quality;
-                    break;
-                case ItemType.Armor:
-                    inQuantity = GameConfig.ArmorObj.getElement(inItem.typeId).quality;
-                    break;
-                case ItemType.Jewelry:
-                    inQuantity = GameConfig.JewelryObj.getElement(inItem.typeId).quality;
-                    break;
-                case ItemType.Consumables:
-                    inQuantity = GameConfig.ConsumablesObj.getElement(inItem.typeId).quality;
-                    break;
-                case ItemType.Materials:
-                    inQuantity = GameConfig.MaterialsObj.getElement(inItem.typeId).quality;
-                    break;
-            }
+            inQuantity = BagManagerModuleData.getItemQuality(inItem);
         }
         switch(inQuantity)
         {

@@ -2,6 +2,7 @@ import { CameraManager } from "../../../../camera/CameraManager";
 import { Constructor, MPlugin, MPropertiesInject, RpcPlugin } from "../../../../framework/DI/MContainer";
 import { EffectTool } from "../../../../tools/EffectTool";
 import { MathTool } from "../../../../tools/MathTool";
+import { EPlayerAttributeSetType } from "../../../AttributeModule/PlayerAttributeSetType";
 import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { AT_PlayAnimation } from "../../../gasModule/gameAbilitys/AT/customAT/AT_PlayAnimation";
 import { AT_WaitTime } from "../../../gasModule/gameAbilitys/AT/customAT/AT_WaitTime";
@@ -48,10 +49,11 @@ export class GA_Warrior_JumpChop extends GameAbility{
     }
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         let char = owner as Character;
+        let attrSpeed = asc.attributeSet.getAttr(EPlayerAttributeSetType.atkSpeed).getCurrent();
         let anim = char.loadAnimation("279697");
-        anim.speed = 1.3;
+        anim.speed = 1.3*attrSpeed;
         anim.blendInTime = 0;
-        let animTask = AT_PlayAnimation.New(this,anim,1.5,char);
+        let animTask = AT_PlayAnimation.New(this,anim,1.4,char);
 
         this.skillHelper.changePlayerCanMove(char.player,false);
 
@@ -65,7 +67,7 @@ export class GA_Warrior_JumpChop extends GameAbility{
 
         animTask.addEvent(0.87,()=>{
 
-            let arr = MathTool.checkHitByCharacter(owner as Character,200,120);
+            let arr = MathTool.checkHitByCharacter(owner as Character,200,60);
             arr.forEach((obj:Character)=>{
                 let asc = obj.getComponent(AbilitySystemComponent);
                 if(asc){
@@ -83,7 +85,7 @@ export class GA_Warrior_JumpChop extends GameAbility{
         })
         animTask.addEvent(0.97,()=>{
 
-            let arr = MathTool.checkHitByCharacter(owner as Character,200,120);
+            let arr = MathTool.checkHitByCharacter(owner as Character,200,60);
             arr.forEach((obj:Character)=>{
                 let asc = obj.getComponent(AbilitySystemComponent);
                 if(asc){
@@ -126,6 +128,7 @@ export class GA_Warrior_JumpChop extends GameAbility{
         })
 
         animTask.onFinished(()=>{
+            console.warn("跳斩结束")
             this.end();
         })
 

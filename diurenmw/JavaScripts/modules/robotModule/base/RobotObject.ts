@@ -6,6 +6,7 @@ import { GA_Trigger_Monster_OnBlood } from "../robot_GA_Triigger/GA_Trigger_Mons
 import { GA_Trigger_Monster_OnDefDown } from "../robot_GA_Triigger/GA_Trigger_Monster_OnDefDown";
 import { GA_Trigger_Monster_OnHurt } from "../robot_GA_Triigger/GA_Trigger_Monster_OnHurt";
 import { GA_Trigger_Monster_OnHurtAnim } from "../robot_GA_Triigger/GA_Trigger_Monster_OnHurtAnim";
+import { GA_Trigger_Monster_OnPoison } from "../robot_GA_Triigger/GA_Trigger_Monster_OnPoison";
 import { RobotData } from "./RobotData";
 import RobotScript from "./RobotScript";
 @MPlugin()
@@ -41,6 +42,7 @@ export abstract class RobotObject extends MObject {
         this.abs.giveAbility(GA_Trigger_Monster_OnHurt);
         this.abs.giveAbility(GA_Trigger_Monster_OnHurtAnim);
         this.abs.giveAbility(GA_Trigger_Monster_OnBlood);
+        this.abs.giveAbility(GA_Trigger_Monster_OnPoison);
         this.abs.giveAbility(GA_Trigger_Monster_OnDefDown);
     }
 

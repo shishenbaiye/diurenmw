@@ -117,7 +117,7 @@ export default class ArmorScript extends Script {
     }
 
     /**删除防具 */
-    romoveArmor(uuid: string) {
+    removeArmor(uuid: string) {
         return ModuleService.getModule(ArmorModuleS).removeArmor((this.gameObject as Character).player, uuid);
     }
 

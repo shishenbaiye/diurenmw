@@ -195,6 +195,7 @@ export default class PlayerSkillScrpit extends Script {
     onSetSkillFinal(){
         if(this.gameObject.gameObjectId != Player.localPlayer.character.gameObjectId) return;
         ModuleService.getModule(HudModuleC).setFinalSkill(this.skillFinal);
+        ModuleService.getModule(SkillModuleC).setSkillFinalUI(this.skillFinal);
     }
 
     onSetSkill1(){
