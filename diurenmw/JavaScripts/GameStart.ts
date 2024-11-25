@@ -12,19 +12,31 @@ import { AttributeModuleS } from "./modules/AttributeModule/AttributeModuleS";
 import { BagManagerModuleC } from "./modules/bagModule/BagManagerModuleC";
 import { BagManagerModuleData } from "./modules/bagModule/BagManagerModuleData";
 import { BagManagerModuleS } from "./modules/bagModule/BagManagerModuleS";
+import { ConsumableModuleC } from "./modules/consumableModule/ConsumableModuleC";
+import { ConsumableModuleData } from "./modules/consumableModule/ConsumableModuleData";
+import { ConsumableModuleS } from "./modules/consumableModule/ConsumableModuleS";
 import { DSEventModuleC } from "./modules/dSEventModule/DSEventModuleC";
 import { DSEventModuleS } from "./modules/dSEventModule/DSEventModuleS";
+import { GasModuleC } from "./modules/gasModule/GasModuleC";
+import { GasModuleS } from "./modules/gasModule/GasModuleS";
 import { GMModuleC, GMModuleS } from "./modules/gmModule/GmModule";
 import { HudModuleC } from "./modules/hudModule/HudModuleC";
 import { HudModuleS } from "./modules/hudModule/HudModuleS";
 import { JewelryModuleC } from "./modules/jewelryModule/JewelryModuleC";
 import { JewelryModuleData } from "./modules/jewelryModule/JewelryModuleData";
 import { JewelryModuleS } from "./modules/jewelryModule/JewelryModuleS";
+import { MatchModuleC } from "./modules/matchModule/MatchModuleC";
+import { MatchModuleS } from "./modules/matchModule/MatchModuleS";
+import { MaterialModuleC } from "./modules/materialsModule/MaterialModuleC";
+import { MaterialModuleData } from "./modules/materialsModule/MaterialModuleData";
+import { MaterialModuleS } from "./modules/materialsModule/MaterialModuleS";
 import { PlayerModuleC } from "./modules/PlayerModule/PlayerModuleC";
 import { PlayerModuleData } from "./modules/PlayerModule/PlayerModuleData";
 import { PlayerModuleS } from "./modules/PlayerModule/PlayerModuleS";
 import { RankModuleC } from "./modules/rankModule/RankModuleC";
 import { RankModuleS } from "./modules/rankModule/RankModuleS";
+import RobotModuleC from "./modules/robotModule/RobotModuleC";
+import RobotModuleS from "./modules/robotModule/RobotModuleS";
 import { SkillModuleC } from "./modules/skillModule/SkillModuleC";
 import { SkillModuleData } from "./modules/skillModule/SkillModuleData";
 import { SkillModuleS } from "./modules/skillModule/SkillModuleS";
@@ -37,14 +49,6 @@ import { TutorialModuleS } from "./modules/tutorialModule/TutorialModuleS";
 import { WeaponModuleC } from "./modules/weaponModule/WeaponModuleC";
 import { WeaponModuleData } from "./modules/weaponModule/WeaponModuleData";
 import { WeaponModuleS } from "./modules/weaponModule/WeaponModuleS";
-import { ConsumableModuleS } from "./modules/consumableModule/ConsumableModuleS";
-import { ConsumableModuleC } from "./modules/consumableModule/ConsumableModuleC";
-import { ConsumableModuleData } from "./modules/consumableModule/ConsumableModuleData";
-import { MaterialModuleS } from "./modules/materialsModule/MaterialModuleS";
-import { MaterialModuleData } from "./modules/materialsModule/MaterialModuleData";
-import { MaterialModuleC } from "./modules/materialsModule/MaterialModuleC";
-import { GasModuleC } from "./modules/gasModule/GasModuleC";
-import { GasModuleS } from "./modules/gasModule/GasModuleS";
 
 
 @Component
@@ -72,7 +76,7 @@ class GameStart extends OdinGame {
         //是否打印通信的log
         LogManager.instance.showNet = true;
         let selectedLanguageIndex = 0;
-        
+
         let language = LanguageUtil.getlanguage().toString().toLowerCase();
         if (!!language.match("en")) {
             selectedLanguageIndex = 0;
@@ -133,7 +137,8 @@ class GameStart extends OdinGame {
         MFramework.registerModule(GasModuleS, GasModuleC, null);
         MFramework.registerModule(RankModuleS, RankModuleC, null);
         MFramework.registerModule(HudModuleS, HudModuleC, null);
-        // MFramework.registerModule(NpcModuleS, NpcModuleC, null);
+        MFramework.registerModule(RobotModuleS, RobotModuleC, null);
+        MFramework.registerModule(MatchModuleS, MatchModuleC, null);
         MFramework.enterGame();
     }
 
