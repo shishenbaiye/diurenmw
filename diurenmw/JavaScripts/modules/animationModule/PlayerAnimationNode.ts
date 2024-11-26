@@ -19,11 +19,12 @@ export class PlayerAnimationNode {
         this.nexts = new Array<PlayerAnimationNodeInfo>();
     }
 
-    addNext(inNode : PlayerAnimationNodeInfo) {
-        this.nexts.push(inNode);
+    addNext(inAnimationNode : PlayerAnimationNode, inCondition : eventCondition) {
+        console.log(`PlayerAnimationNode addNext ${this.nodeName} -> ${inAnimationNode.nodeName}`);
+        this.nexts.push({animationNode : inAnimationNode, condition : inCondition});
     }
 
-    Play(inState : PlayerAnimationState) {
+    play(inState : PlayerAnimationState) {
         if(this.anim) {
             this.anim.play();
         } else {

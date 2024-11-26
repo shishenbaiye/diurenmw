@@ -39,27 +39,25 @@ export class PlayerAnimationMgr extends Script {
         const NodeName_SwordIdle = "持重剑站立";
         const NodeName_SwordMove = "持重剑行走";
         // 姿态节点
-        this.currentNode = this.registerAnimationNode(NodeName_Empty, null, StanceBlendMode.WholeBody);
-        this.registerAnimationNode(NodeName_SwordIdle, "303259", StanceBlendMode.WholeBody);
-        this.registerAnimationNode(NodeName_SwordMove, "303175", StanceBlendMode.WholeBody);
+        let aniNodeEmpty = this.registerAnimationNode(NodeName_Empty, null, StanceBlendMode.WholeBody);
+        let aniNodeSwordIdle = this.registerAnimationNode(NodeName_SwordIdle, "303259", StanceBlendMode.WholeBody);
+        let aniNodeSwordMovde = this.registerAnimationNode(NodeName_SwordMove, "303175", StanceBlendMode.WholeBody);
 
         // 姿态关系构建
-        this.AnimationNodeAddNext(NodeName_Empty, NodeName_SwordIdle, (inState : PlayerAnimationState)=>{
-            // console.log("PlayerAnimationMgr contains AnimationNode NodeName_Empty -> NodeName_SwordIdle");
+        aniNodeEmpty.addNext(aniNodeSwordIdle, (inState : PlayerAnimationState)=>{
             return this.animationState.isEquipWeaponOfSword && !inState.character.isMoving;
         });
-        this.AnimationNodeAddNext(NodeName_Empty, NodeName_SwordMove, (inState : PlayerAnimationState)=>{
-            // console.log("PlayerAnimationMgr contains AnimationNode NodeName_Empty -> NodeName_SwordMove");
+        aniNodeEmpty.addNext(aniNodeSwordMovde, (inState : PlayerAnimationState)=>{
             return this.animationState.isEquipWeaponOfSword && inState.character.isMoving;
         });
-        this.AnimationNodeAddNext(NodeName_SwordIdle, NodeName_Empty, (inState : PlayerAnimationState)=>{
-            // console.log("PlayerAnimationMgr contains AnimationNode NodeName_SwordIdle -> NodeName_Empty");
+        aniNodeSwordIdle.addNext(aniNodeEmpty, (inState : PlayerAnimationState)=>{
             return !this.animationState.isEquipWeaponOfSword || inState.character.isMoving;
         });
-        this.AnimationNodeAddNext(NodeName_SwordMove, NodeName_Empty, (inState : PlayerAnimationState)=>{
-            // console.log("PlayerAnimationMgr contains AnimationNode NodeName_SwordMove -> NodeName_Empty");
+        aniNodeSwordMovde.addNext(aniNodeEmpty, (inState : PlayerAnimationState)=>{
             return !this.animationState.isEquipWeaponOfSword || !inState.character.isMoving;
         });
+
+        this.currentNode = aniNodeEmpty;
     }
 
     onEquipWeapon(player: mw.Player) {
@@ -102,25 +100,21 @@ export class PlayerAnimationMgr extends Script {
         return animNode;
     }
 
-    // 添加节点关系
-    protected AnimationNodeAddNext(inNodeName : string, inNextName : string, inCondition : eventCondition) {
-        let node = this.animationNodeMap.get(inNodeName);
-        let nextNode = this.animationNodeMap.get(inNextName);
-        if(node && nextNode) {
-            console.log(`PlayerAnimationMgr AnimationNodeAddNext ${inNodeName} -> ${inNextName}`);
-            node.addNext({animationNode: nextNode, condition: inCondition});
-        }
-    }
-
     // 更新动画状态机
     protected updateAnimationState() {
         let srcNode = this.currentNode;
         let nextNode = this.currentNode;
-        for(let i = 0; this.currentNode; ++i) {
-            if(i > 0 && nextNode == srcNode) {
+        let stateCheck : Array<string> = new Array<string>();
+        while(nextNode) {
+            if(stateCheck.find((inNode) => {
+                return inNode == nextNode.nodeName;
+            })) {
                 console.error("PlayerAnimationMgr updateAnimationState dead loop");
-                break;
+                return;
             }
+
+            stateCheck.push(nextNode.nodeName);
+
             let isUpdate = false;
             for(let i = 0; i < nextNode.nexts.length; ++i) {
                 if(nextNode.nexts[i].condition(this.animationState)) {
@@ -135,7 +129,7 @@ export class PlayerAnimationMgr extends Script {
         if(nextNode && nextNode != this.currentNode) {
             console.log(`PlayerAnimationMgr updateAnimationState ${this.currentNode.nodeName} -> ${nextNode.nodeName}`);
             this.currentNode = nextNode;
-            this.currentNode.Play(this.animationState);
+            this.currentNode.play(this.animationState);
         }
     }
 }
