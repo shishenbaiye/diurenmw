@@ -122,7 +122,7 @@ export default class EquipmentUI extends EquipmentUI_Generate {
 		this.isEquipped = true;
 	}
 
-	setButtonImage(image: string) { 
+	setButtonImage(image: string) {
 		this.button.normalImageGuid = image;
 		this.button.disableImageGuid = image;
 		this.button.pressedImageGuid = image;
