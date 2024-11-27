@@ -99,6 +99,12 @@ export default class BagAttributeUI extends BagAttributeUI_Generate {
             case "critDamage":
                 BagAttributeUI.changeCritDamage(value);
                 break;
+            case "atkSpeed":
+                BagAttributeUI.changeAtkSpeed(value);
+                break;
+            case "castSpeed":
+                BagAttributeUI.changeCastSpeed(value);
+                break;
             default:
                 console.error(`未知属性：${attrName}`);
         }
@@ -239,7 +245,7 @@ export default class BagAttributeUI extends BagAttributeUI_Generate {
         BagAttributeUI.skillDamage = value;
         if (BagAttributeUI.instance)
         {
-            BagAttributeUI.instance.mSkillDamage.text = `${Math.round((BagAttributeUI.skillDamage-1)*100)}%`;
+            BagAttributeUI.instance.mSkillDamage.text = `${Math.round(( BagAttributeUI.skillDamage)*100)}%`;
         }
     }
 
@@ -248,7 +254,7 @@ export default class BagAttributeUI extends BagAttributeUI_Generate {
         BagAttributeUI.damage = value;
         if (BagAttributeUI.instance)
         {
-            BagAttributeUI.instance.mDamage.text = `${Math.round((BagAttributeUI.damage-1)*100)}%`;
+            BagAttributeUI.instance.mDamage.text = `${Math.round((BagAttributeUI.damage)*100)}%`;
         }
     }
 
@@ -261,13 +267,32 @@ export default class BagAttributeUI extends BagAttributeUI_Generate {
         }
     }
 
-    static critDamage:number = 0;
+    static critDamage : number = 0;
     static changeCritDamage(value:number){
         BagAttributeUI.critDamage = value;
         if (BagAttributeUI.instance)
         {
-            BagAttributeUI.instance.mCritDamage.text = `${Math.round((BagAttributeUI.critDamage-1)*100)}%`;
+            BagAttributeUI.instance.mCritDamage.text = `${Math.round((BagAttributeUI.critDamage)*100)}%`;
         }
     }
+
+    static atkSpeed:number = 0;
+    static changeAtkSpeed(value:number){
+        BagAttributeUI.atkSpeed = value;
+        if (BagAttributeUI.instance)
+        {
+            BagAttributeUI.instance.mAtkSpeed.text = `${Math.round((BagAttributeUI.atkSpeed)*100)}%`;
+        }
+    }
+
+    static castSpeed : number = 0;
+    static changeCastSpeed(value:number){
+        BagAttributeUI.castSpeed = value;
+        if (BagAttributeUI.instance)
+        {
+            BagAttributeUI.instance.mCastSpeed.text = `${Math.round((BagAttributeUI.castSpeed)*100)}%`;
+        }
+    }
+
 }
  

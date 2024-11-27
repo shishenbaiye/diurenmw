@@ -36,6 +36,7 @@ export default class BagMainUI extends BagUI_Generate {
 	}
 
 	init() {
+		this.setVisible(true);
 		this.menuPropContentUIObj.init();
 	}
 
@@ -52,7 +53,8 @@ export default class BagMainUI extends BagUI_Generate {
 
 	protected onExitClicked() {
 		console.log("BagUI onExitClicked");
-		this.destroy();
+		// this.destroy();
+		this.setVisible(false);
 	}
 
 	protected onItemClick(inItem : BagItemBase) {

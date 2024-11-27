@@ -63,7 +63,7 @@ export class PlayerAnimationMgr extends Script {
     onEquipWeapon(player: mw.Player) {
         if(player.character.gameObjectId != this.gameObject.gameObjectId) return;
         let weaponScript = player.character.getComponent(WeaponScript);
-        if(weaponScript){
+        if(weaponScript && weaponScript.getEquipWeapon()){
             let weapon = weaponScript.getEquipWeapon().getData();
             if(weapon){
                 if(weapon.wtid == 1){
