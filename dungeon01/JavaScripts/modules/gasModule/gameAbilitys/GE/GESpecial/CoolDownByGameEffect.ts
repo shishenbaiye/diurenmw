@@ -1,6 +1,7 @@
 import { GameEffect } from "../GameEffect";
 import { GameEffectComponent } from "../GameEffectComponent";
 import { EGameEffectDurationType, EGameEffectCalculationType, EGameEffectPeriodicInhibitionPolicy } from "../GameEffectType";
+import { GameModifierInfo } from "../GameModifierInfo";
 import { BlockAbilityWithTag } from "../GEComponet/BlockAbilityWithTag";
 
 export abstract class CoolDownByGameEffect extends GameEffect{
@@ -16,7 +17,7 @@ export abstract class CoolDownByGameEffect extends GameEffect{
     periodInstant: boolean;
     periodicInhibitionPolicy: EGameEffectPeriodicInhibitionPolicy;
     geComponent: GameEffectComponent[] = [];
-    geAttribute: { [key: string]: number; }[];
+    modifiers: GameModifierInfo[];
     
     init(){
         if(this.time){

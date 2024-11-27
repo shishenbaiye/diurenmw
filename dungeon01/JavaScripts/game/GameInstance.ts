@@ -1,18 +1,13 @@
-import { MComponent } from "../framework/Component/ComponentManager";
-import { MConstructorInject, MPropertiesInject, MSingletonPlugin, RpcPlugin } from "../framework/DI/MContainer";
-import { MGameInstance } from "../framework/GameInstance/MGameInstance";
 import { CameraManager } from "../camera/CameraManager";
+import { MComponent } from "../framework/Component/ComponentManager";
+import { MSingletonPlugin, MConstructorInject, RpcPlugin, MPropertiesInject } from "../framework/DI/MContainer";
+import { MGameInstance } from "../framework/GameInstance/MGameInstance";
 import { MFramework } from "../framework/MFramework";
-import { GAModuleC } from "../modules/gasModule/GAModuleC";
-import { GAModuleS } from "../modules/gasModule/GAModuleS";
 import { LoggerManager, Logger } from "../tools/LoggerTool";
-import { MGSTool } from "../tools/MGSToos";
 import { ParabolaTool } from "../tools/ParabolaTool";
 import { SoundTool } from "../tools/SoundTool";
-
-// import { PlayerNewModuleData } from "../modules/playerNewModule/PlayerNewModuleData";
-// import { PlayerNewModuleC } from "../modules/playerNewModule/PlayerNewModuleC";
-// import { PlayerNewModuleS } from "../modules/playerNewModule/PlayerNewModuleS";
+import { TestModuleC } from "./scenceModules/TestModule/TestModuleC";
+import { TestModuleS } from "./scenceModules/TestModule/TestModuleS";
 
 
 // 受击1  284759 285100 285427
@@ -36,16 +31,16 @@ export class GameInstance extends MGameInstance {
     private log: Logger;
 
     onServerStart(): void {
-        this.log.warn("GameInstance onServerStart dungeon01");
+        this.log.warn("GameInstance onServerStart main");
         // 加载资源
         this.downloadAssets();
         // 注册模块
         this.onRegisterModuleModule();
     }
     async onClientStart() {
-        this.log.warn("GameInstance onClientStart dungeon01");
+        this.log.warn("GameInstance onClientStart main");
         // 初始化抛物线工具
-        ParabolaTool.init(10);
+        // ParabolaTool.init(10);
         // 初始化相机
         this.camera.init();
         // 加载资源
@@ -63,7 +58,6 @@ export class GameInstance extends MGameInstance {
 
 
     onRegisterModuleModule() {
-        MFramework.registerModule(GAModuleS, GAModuleC, null);
-        // MFramework.registerModule(PlayerNewModuleS, PlayerNewModuleC, PlayerNewModuleData);
+        MFramework.registerModule(TestModuleS, TestModuleC, null);
     }
 }

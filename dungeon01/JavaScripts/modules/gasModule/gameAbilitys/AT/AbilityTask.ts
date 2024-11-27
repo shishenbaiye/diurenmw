@@ -34,6 +34,9 @@ export abstract class AbilityTask extends MObject {
         if (this.isPause) {
             return false;
         }
+        if(this.isActivate){
+            return false;
+        }
 
         this.isActivate = true;
         this.onTaskActivate(this.ownerGameAbility);
@@ -56,7 +59,6 @@ export abstract class AbilityTask extends MObject {
     }
     // 恢复任务
     resumeTask() {
-        console.log('resumeTask base',this.isActivate,this.isPause);
         if (this.isActivate == false) return;
         if (this.isPause == false) return;
         this.isPause = false;

@@ -1,3 +1,4 @@
+import { GameEventBus } from "../../../common/eventBus/EventBus";
 import { MFramework } from "../../../framework/MFramework";
 import TagOperation from "./TagOperation";
 import { TagTree } from "./TagTree";
@@ -22,18 +23,28 @@ export class GameTags extends Script {
     addTagAction: Action1<string> = new Action1<string>();
     removeTagAction: Action1<string> = new Action1<string>();
 
+    preTags: string[];
 
     private tagTree: TagTree = null;
+
+    isReady: Action = new Action();
     init() {
         this.tagTree = MFramework.createObject(TagTree) as TagTree;
         this.tagTree.father = this;
         this.tags.forEach(tag => {
             this.tagTree.addTag(tag);
         })
+
+        if(this.preTags){
+            this.preTags.forEach(tag => {
+                this.addTag(tag);
+            })
+        }
     }
     protected onStart(): void {
         console.warn('GameTags onStart');
         this.init();
+        this.isReady.call();
     }
     /************************************************************************************************************************ */
     // 添加标签
@@ -61,6 +72,11 @@ export class GameTags extends Script {
     // 是否拥有标签
     hasTag(tag: string): boolean {
         return this.tagTree.hasTag(tag);
+    }
+
+    //获取某个标签的数量
+    getTagCountByName(tag: string): number {
+        return this.tagTree.getTagCountByName(tag);
     }
 
     // 获取标签总数

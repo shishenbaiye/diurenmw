@@ -139,6 +139,26 @@ export class TagTree extends MObject{
         return true;
     }
 
+    getTagCountByName(tagPath: string): number {
+        let tagNames: string[] = null;
+        try{
+            tagNames = tagPath.split('.');
+        }catch(e){
+            console.error(`查找标签失败: ${tagPath}`);
+            return 0;
+        }
+        let currentNode = this.root;
+        for(let i = 0; i < tagNames.length; i++){
+            let tagName = tagNames[i];
+            let childNode = currentNode.findChild(tagName);
+            if(!childNode){
+                return 0;
+            }
+            currentNode = childNode;
+        }
+        return currentNode.count;
+    }
+
     getTagCount(): number {
         return this.count;
     }

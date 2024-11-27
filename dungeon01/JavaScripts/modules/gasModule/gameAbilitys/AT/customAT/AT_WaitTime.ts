@@ -9,10 +9,10 @@ export class AT_WaitTime extends AbilityTask {
     /**创建一个等待任务
      * @param ga 技能
      * @param timeType 时间类型
-     * @param delayTime 延迟时间
+     * @param delayTime 延迟时间(单位秒)
      */
     static New(ga: GameAbility,delayTime: number = 0,timeType: EAbilityTaskTimeType = EAbilityTaskTimeType.Time):AT_WaitTime {
-        let payload = Payload.createPayload();
+        let payload = Payload.New();
         let instance = super.createTask(ga,payload) as AT_WaitTime;
         instance.timeType = timeType;
         instance.delayTime = delayTime;

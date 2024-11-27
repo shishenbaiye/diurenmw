@@ -12,7 +12,7 @@ export class GameEvent extends MObject{
     }
 
 
-    static createEvent(){
+    static New(){
         return MFramework.createObject(GameEvent) as GameEvent;
     }
 

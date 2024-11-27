@@ -1,18 +1,21 @@
+import { MContainer, RpcPlugin } from "../framework/DI/MContainer";
+import { SkillModuleS } from "../modules/skillModule/SkillModuleS";
+
 export class MathTool {
 
 
-    /**计算两个3维向量是否平行 */
-    static isParallel(v1: Vector, v2: Vector): boolean {
-        let v1x = v1.x;
-        let v1y = v1.y;
-        let v1z = v1.z;
-        let v2x = v2.x;
-        let v2y = v2.y;
-        let v2z = v2.z;
-        return (v1y * v2z - v1z * v2y) === 0 && (v1z * v2x - v1x * v2z) === 0 && (v1x * v2y - v1y * v2x) === 0;
-    }
+	/**计算两个3维向量是否平行 */
+	static isParallel(v1: Vector, v2: Vector): boolean {
+		let v1x = v1.x;
+		let v1y = v1.y;
+		let v1z = v1.z;
+		let v2x = v2.x;
+		let v2y = v2.y;
+		let v2z = v2.z;
+		return (v1y * v2z - v1z * v2y) === 0 && (v1z * v2x - v1x * v2z) === 0 && (v1x * v2y - v1y * v2x) === 0;
+	}
 
-    /**
+	/**
 	 * Rotation转欧拉角
 	 * @param rotation Rotation
 	 * @returns 欧拉角
@@ -142,4 +145,174 @@ export class MathTool {
 	public static getPercent(_value: number, _min: number, _max: number) {
 		return (_value - _min) / (_max - _min);
 	}
+
+
+	/**正态分布随机值
+	 * @param min 最小值
+	 * @param max 最大值
+	 * @param bias 越大越偏向最大值，默认2
+	 */
+	public static normalDistribution(min: number, max: number, bias: number = 2): number {
+		const r = Math.random();
+		const exponent = bias;
+		const value = max - (max - min) * Math.pow(1 - r, exponent);
+		return Math.round(value);
+	}
+
+
+	/**伤害计算公式
+	 * @param type 伤害类型 1:物理 2:魔法 3:真实
+	 * @param skill 技能倍率
+	 * @param atk 物理攻击
+	 * @param matk 魔法攻击
+	 * @param str 力量
+	 * @param int 智力
+	 * @param damage 伤害加成 
+	 * @param skillDamage 技能伤害加成
+	 * @param crit 暴击率
+	 * @param critDamage 暴击伤害
+	 * @returns 伤害值
+	 */
+	public static damageFormula(type: number, skill: number, atk: number, matk: number, str: number, int: number, damage: number, skillDamage: number, crit: number, critDamage: number): {damage:number,isCrit:boolean} {
+		if (type == 1) {
+			// 力量兑换物理攻击值
+			const strAdd = str * 5;
+			const isCrit = Math.random() < crit;
+			const res = (atk + strAdd) * skill * skillDamage * damage * (isCrit ? 1.5 * critDamage : 1);
+			// 取整
+			return {damage:Math.round(res),isCrit};
+		}
+		if (type == 2) {
+			// 智力兑换魔法攻击值
+			const intAdd = int * 5;
+			const isCrit = Math.random() < crit;
+			const res = (matk + intAdd) * skill * skillDamage * damage * (isCrit ? 1.5 * critDamage : 1);
+			// 取整
+			return {damage:Math.round(res),isCrit};
+		}
+		if (type == 3) {
+			const isCrit = Math.random() < crit;
+			const max1 = Math.max(atk, matk);
+			const max2 = Math.max(str, int);
+			const res = (max1 + max2*5 ) * skill * skillDamage * damage * (isCrit ? 2 * critDamage : 1);
+			return {damage:Math.round(res),isCrit};
+		}
+	}
+
+	/**计算玩家对怪物造成的伤害 */
+	public static calculateActualDamage(damage: number, monsterDef: number, monsterLevel: number, K = 1000): number {
+
+		// 计算实际伤害 ActualDamage
+		const actualDamage = damage * (1 - (monsterDef / (monsterDef + K + monsterLevel * 40)))
+
+		// 确保实际伤害不为负数,取整
+		return Math.round(actualDamage)
+	}
+
+	/**计算怪物对玩家造成伤害 */
+	public static calculateMonsterDamage(monsterDamage: number, playerDef: number, playerLevel: number, monsterLevel: number, K = 50): number {
+		// 计算等级因子 LevelFactor
+		const levelFactor = 1 / (1 + Math.exp(monsterLevel - playerLevel));
+
+		// 计算实际伤害 ActualDamage
+		const actualDamage = monsterDamage * K / (K + playerDef * levelFactor);
+
+		// 确保实际伤害不为负数
+		return Math.round(Math.max(actualDamage, 0));
+	}
+
+	// [0-1]
+	public static pingPong(t: number): number {
+		return Math.abs(t % 1 - 0.5) * 2
+	}
+
+	public static lerp(a: number, b: number, t: number): number {
+		return (b - a) * t + a
+	}
+
+
+	/**
+	 * 距离+角度检测
+	 * @param owner 
+	 * @param dis 距离
+	 * @param angle 角度，例如60度：60
+	 * @returns 
+	 */
+	static checkHitByCharacter(owner:Character,dis:number,angle:number): GameObject[] {
+        let ownerLocation = owner.worldTransform.position.clone();
+		let charArr = this.checkHit(owner,dis);
+        let characterArray = [];
+        charArr.forEach((character) => {
+            if (character.gameObjectId != owner.gameObjectId) {
+				let targetLocation = character.worldTransform.position.clone();
+				let ownerForward = owner.worldTransform.getForwardVector().normalize();
+				let ownerForwardXY = new Vector2(ownerForward.x, ownerForward.y);
+				let ownerToTarget = targetLocation.subtract(ownerLocation).normalize();
+				let ownerToTargetXY = new Vector2(ownerToTarget.x, ownerToTarget.y);
+				let a = Vector2.angle(ownerForwardXY, ownerToTargetXY);
+				if (a < angle) {
+					characterArray.push(character);
+				}
+            }
+        })
+        return characterArray;
+    }
+
+	/**指定位置的范围检测(圆形) */
+	static checkHitByPosition(owner:Character,pos:Vector,dis:number): Character[] {
+		let vector = pos.clone();
+        let res = QueryUtil.sphereOverlap(vector, dis, true, undefined, false, owner);
+        let characterArray = []
+        for (let i = 0; i < res.length; i++) {
+            if (res[i] instanceof Character) {
+                characterArray.push(res[i]);
+            }
+        }
+        return characterArray;
+	}
+	/**指定位置的范围检测（矩形） */
+	static checkHitByBoxOverlap(owner:Character,posCenter:Vector,boxExtent:Vector): GameObject[] {
+		let vector = posCenter.clone();
+        let res = QueryUtil.boxOverlap(vector, boxExtent, true, undefined, false, owner);
+		ModuleService.getModule(SkillModuleS).drowCheckHitByBoxOverlap(owner,posCenter,boxExtent)
+        let characterArray = []
+        for (let i = 0; i < res.length; i++) {
+            if (res[i] instanceof Character) {
+                characterArray.push(res[i]);
+            }
+        }
+        return characterArray;
+	}
+
+	/**指定位置的范围检测（盒体检测） */
+	static checkHitByBoxTrace(owner:Character,start:Vector,end:Vector,boxExtent:Vector,direction:Rotation): GameObject[] {
+		let vector = start.clone();
+		let res = QueryUtil.boxTrace(vector, end, boxExtent, direction, true, false,undefined,false, owner);
+		// ModuleService.getModule(SkillModuleS).drowCheckHitByBoxTrace(owner,start,end,boxExtent,direction);
+		let characterArray = []
+		for (let i = 0; i < res.length; i++) {
+			if (res[i].gameObject instanceof Character) {
+				characterArray.push(res[i].gameObject);
+			}
+		}
+		return characterArray;
+	}
+
+	/**
+	 * 圆形范围检测
+	 * @param owner 
+	 * @param dis 
+	 * @returns 
+	 */
+	static checkHit(owner:Character,dis:number): Character[] {
+        let vector = owner.worldTransform.position.clone()
+        let res = QueryUtil.sphereOverlap(vector, dis, true, undefined, false, owner);
+        let characterArray = []
+        for (let i = 0; i < res.length; i++) {
+            if (res[i] instanceof Character) {
+                characterArray.push(res[i]);
+            }
+        }
+        return characterArray;
+    }
 }
