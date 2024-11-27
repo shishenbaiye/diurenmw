@@ -12,7 +12,7 @@ import { GE_Damage_Base } from "./GE_Damage_Base";
 
 export class MI_Player_Damage_ModifierClass extends ModifierClass {
 
-    customData: { id: number, index: number, skillDamageAdd?: number };
+    customData: { id: number, index: number, skillDamageAdd?: number , type?:number};
     static New(data: any): MI_Player_Damage_ModifierClass {
         let obj = new MI_Player_Damage_ModifierClass();
         obj.customData = data;
@@ -21,9 +21,12 @@ export class MI_Player_Damage_ModifierClass extends ModifierClass {
 
     modifyOp: EGameCustomModOp = EGameCustomModOp.Subtract;
     customModifyFunction(sourceModifierInfo: GameModifierInfo, context: { sourceASC: AbilitySystemComponent; targetASC: AbilitySystemComponent; }): number {
+        if(!this.customData.type){
+            this.customData.type = 1;
+        }
         let sourceAttr = context.sourceASC.attributeSet as PlayerAttributeSet;
         let targetAttr = context.targetASC.attributeSet as MonsterAttributeSet;
-        let damage = MathTool.damageFormula(1, GameConfig.SkillObj.getElement(this.customData.id).damage[this.customData.index] / 100 * (this.customData.skillDamageAdd || 1),
+        let damage = MathTool.damageFormula(this.customData.type, GameConfig.SkillObj.getElement(this.customData.id).damage[this.customData.index] / 100 * (this.customData.skillDamageAdd || 1),
             sourceAttr.getAttr(EPlayerAttributeSetType.atk).getCurrent(),
             sourceAttr.getAttr(EPlayerAttributeSetType.matk).getCurrent(),
             sourceAttr.getAttr(EPlayerAttributeSetType.str).getCurrent(),

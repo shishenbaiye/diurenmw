@@ -193,7 +193,7 @@ export class SkillModuleS extends ModuleS<SkillModuleC, SkillModuleData> {
         if(!weaponBackSkill) weaponBackSkill = -1;
 
         let weaponFinalSkillList = skillData.weaponFinalSkillList.get(weaponId.toString());
-        if(!weaponFinalSkillList) weaponFinalSkillList = [];
+        if(!weaponFinalSkillList) weaponFinalSkillList = [-1];
 
 
         let skillScript = player.character.getComponent(PlayerSkillScrpit);

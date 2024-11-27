@@ -13,6 +13,7 @@ import { SkillHelper } from "../../SkillHelper";
 import { RegisterSkill } from "../../SkillManager";
 import { ESkillType } from "../../SkillType";
 import { GE_Damage_Warrior_NormalAttack1 } from "../../warrior/normalAttack/GE_Damage_Warrior_NormalAttack1";
+import { GE_Damage_Mage_NormalAttack1 } from "./GE_Damage_Mage_NormalAttack1";
 
 @MPlugin()
 @RegisterSkill(2001,ESkillType.Staff)
@@ -50,7 +51,7 @@ export class GA_Mage_NormalAttack1 extends GameAbility{
 
         animTask.addEvent(0.2, () => {
             let start = char.worldTransform.position.clone().add(char.worldTransform.getForwardVector().normalize().multiply(100));
-            let fly = FlyObj.New("B72E49DC44990F4F8E68D18D66FC239B",start,char.worldTransform.getForwardVector(),800,1,char,50);
+            let fly = FlyObj.New("B72E49DC44990F4F8E68D18D66FC239B",start,char.worldTransform.getForwardVector(),800,1,char,100);
             fly.addCheckListener((objs)=>{
                 objs.forEach((obj:Character)=>{
                     let asc = obj.getComponent(AbilitySystemComponent);
@@ -59,7 +60,7 @@ export class GA_Mage_NormalAttack1 extends GameAbility{
                         this.sendGameEvent(owner,"Event.Player.HurtMonster",{target:obj});
                         let force = obj.worldTransform.position.clone().subtract(char.worldTransform.position).normalize().multiply(300);
                         this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.5,force:force});
-                        this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_NormalAttack1});
+                        this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Mage_NormalAttack1});
                     }
                 })
                 fly.cancel();
@@ -73,11 +74,11 @@ export class GA_Mage_NormalAttack1 extends GameAbility{
         })
 
         animTask.addEvent(0.2,()=>{
-            new Tween({v:char.worldTransform.position.clone()})
-            .to({v:char.worldTransform.position.clone().add(char.worldTransform.getForwardVector().normalize().multiply(-30))},200)
-            .onUpdate((v)=>{
-                char.worldTransform.position = v.v;
-            }).start();
+            // new Tween({v:char.worldTransform.position.clone()})
+            // .to({v:char.worldTransform.position.clone().add(char.worldTransform.getForwardVector().normalize().multiply(-30))},200)
+            // .onUpdate((v)=>{
+            //     char.worldTransform.position = v.v;
+            // }).start();
             // this.skillHelper.callPlayerMove(char.player,true,char.worldTransform.getForwardVector().normalize().multiply(0.5));
         })
         animTask.addEvent(0.1,()=>{
