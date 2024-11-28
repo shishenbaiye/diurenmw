@@ -22,6 +22,7 @@ export class PlayerAnimationNode {
     addNext(inAnimationNode : PlayerAnimationNode, inCondition : eventCondition) {
         console.log(`PlayerAnimationNode addNext ${this.nodeName} -> ${inAnimationNode.nodeName}`);
         this.nexts.push({animationNode : inAnimationNode, condition : inCondition});
+        return this;
     }
 
     play(inState : PlayerAnimationState) {

@@ -1,4 +1,5 @@
 import { Constructor, MPlugin, MPropertiesInject } from "../../../../framework/DI/MContainer";
+import { EffectTool } from "../../../../tools/EffectTool";
 import { MathTool } from "../../../../tools/MathTool";
 import { EPlayerAttributeSetType } from "../../../AttributeModule/PlayerAttributeSetType";
 import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
@@ -35,6 +36,9 @@ export class GA_Mage_NormalAttack2 extends GameAbility{
     @MPropertiesInject(SkillHelper)
     private skillHelper:SkillHelper;
 
+    @MPropertiesInject(EffectTool)
+    private effectTool:EffectTool;
+
     protected onPreActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         // throw new Error("Method not implemented.");
     }
@@ -50,13 +54,14 @@ export class GA_Mage_NormalAttack2 extends GameAbility{
 
         this.skillHelper.changePlayerCanMove(char.player,false);
 
-        animTask.addEvent(0.2, () => {
+        animTask.addEvent(0.4, () => {
             let start = char.worldTransform.position.clone().add(char.worldTransform.getForwardVector().normalize().multiply(100));
-            let fly = FlyObj.New("B72E49DC44990F4F8E68D18D66FC239B",start,char.worldTransform.getForwardVector(),800,1,char,100);
+            let fly = FlyObj.New("B72E49DC44990F4F8E68D18D66FC239B",start,char.worldTransform.getForwardVector(),1200,1,char,60);
             fly.addCheckListener((objs)=>{
                 objs.forEach((obj:Character)=>{
                     let asc = obj.getComponent(AbilitySystemComponent);
                     if(asc){
+                        this.effectTool.playAtPosition("13417",obj.worldTransform.position.clone());
                         if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
                         this.sendGameEvent(owner,"Event.Player.HurtMonster",{target:obj});
                         let force = obj.worldTransform.position.clone().subtract(char.worldTransform.position).normalize().multiply(300);
@@ -75,22 +80,12 @@ export class GA_Mage_NormalAttack2 extends GameAbility{
         })
 
         animTask.addEvent(0.2,()=>{
-            // new Tween({v:char.worldTransform.position.clone()})
-            // .to({v:char.worldTransform.position.clone().add(char.worldTransform.getForwardVector().normalize().multiply(-30))},200)
-            // .onUpdate((v)=>{
-            //     char.worldTransform.position = v.v;
-            // }).start();
-            // this.skillHelper.callPlayerMove(char.player,true,char.worldTransform.getForwardVector().normalize().multiply(0.5));
+            new Tween({v:char.worldTransform.position.clone()})
+            .to({v:char.worldTransform.position.clone().add(char.worldTransform.getForwardVector().normalize().multiply(-10))},200)
+            .onUpdate((v)=>{
+                char.worldTransform.position = v.v;
+            }).start();
         })
-        animTask.addEvent(0.1,()=>{
-            // this.skillHelper.callPlayerMove(char.player,false);
-        })
-        // animTask.addEvent(1.2,()=>{
-        //     this.skillHelper.callPlayerMove(char.player,true);
-        // })
-        // animTask.addEvent(1.4,()=>{
-        //     this.skillHelper.callPlayerMove(char.player,false);
-        // })
 
 
 
