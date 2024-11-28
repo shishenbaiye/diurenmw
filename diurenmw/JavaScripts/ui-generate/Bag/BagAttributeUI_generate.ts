@@ -143,6 +143,20 @@ export default class BagAttributeUI_Generate extends UIScript {
 		}
 		return this.mCritDamage_Internal
 	}
+	private mAtkSpeed_Internal: mw.TextBlock
+	public get mAtkSpeed(): mw.TextBlock {
+		if(!this.mAtkSpeed_Internal&&this.uiWidgetBase) {
+			this.mAtkSpeed_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/ScrollBox/mCanvas/AtkSpeedLine/mAtkSpeed') as mw.TextBlock
+		}
+		return this.mAtkSpeed_Internal
+	}
+	private mCastSpeed_Internal: mw.TextBlock
+	public get mCastSpeed(): mw.TextBlock {
+		if(!this.mCastSpeed_Internal&&this.uiWidgetBase) {
+			this.mCastSpeed_Internal = this.uiWidgetBase.findChildByPath('RootCanvas/ScrollBox/mCanvas/CastSpeedLine/mCastSpeed') as mw.TextBlock
+		}
+		return this.mCastSpeed_Internal
+	}
 
 
  
@@ -210,6 +224,12 @@ export default class BagAttributeUI_Generate extends UIScript {
 		this.initLanguage(this.mCritDamage)
 		
 	
+		this.initLanguage(this.mAtkSpeed)
+		
+	
+		this.initLanguage(this.mCastSpeed)
+		
+	
 		//文本多语言
 		
 		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/ScrollBox/mCanvas/LevelLine/Level") as any);
@@ -252,6 +272,12 @@ export default class BagAttributeUI_Generate extends UIScript {
 		
 	
 		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/ScrollBox/mCanvas/CritDamageLine/CritDamage") as any);
+		
+	
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/ScrollBox/mCanvas/AtkSpeedLine/AtkSpeed") as any);
+		
+	
+		this.initLanguage(this.uiWidgetBase.findChildByPath("RootCanvas/ScrollBox/mCanvas/CastSpeedLine/CastSpeed") as any);
 		
 	
 

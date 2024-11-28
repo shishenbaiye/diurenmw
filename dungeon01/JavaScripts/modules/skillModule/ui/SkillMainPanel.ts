@@ -1,0 +1,166 @@
+import { GameConfig } from "../../../configs/GameConfig";
+import SkillMainUI_Generate from "../../../ui-generate/Skill/SkillMainUI_generate";
+import { WeaponModuleData } from "../../weaponModule/WeaponModuleData";
+import { SkillModuleC } from "../SkillModuleC";
+import { SkillModuleData } from "../SkillModuleData";
+import { SkillDetailPanel } from "./SkillDetailPanel";
+import { SkillListItem } from "./SkillListItem";
+
+export class SkillMainPanel extends SkillMainUI_Generate{
+
+    open(){
+        UIService.showUI(this);
+        this.refeshSkillList();
+    }
+
+    close(){
+        UIService.hideUI(this);
+        this.haveSkillList.forEach((item)=>{item.destroy()});
+    }
+
+    setSkillFinalUI(skillId:number){
+        if(skillId == -1){
+            this.mButton_SkillFinal.visibility = SlateVisibility.Collapsed;
+        }else{
+            this.mButton_SkillFinal.visibility = SlateVisibility.Visible;
+            this.mButton_SkillFinal.normalImageGuid = GameConfig.SkillObj.getElement(skillId).iconGuid;
+        }
+    }
+
+    setSkillUI(skillId:number,index:number){
+        if(skillId == -1){
+            this[`mButton_Skill${index+1}`].normalImageGuid = "163403";
+        }else{
+            this[`mButton_Skill${index+1}`].normalImageGuid = GameConfig.SkillObj.getElement(skillId).iconGuid;
+        }
+    }
+    private haveSkillList:Array<SkillListItem> = [];
+    refeshSkillList(){
+        this.haveSkillList.forEach((item)=>{
+            item.destroy();
+        })
+        let haveSkillList = DataCenterC.getData(SkillModuleData).haveSkills;
+        let skill1 = DataCenterC.getData(SkillModuleData).skill1;
+        let skill2 = DataCenterC.getData(SkillModuleData).skill2;
+        let skill3 = DataCenterC.getData(SkillModuleData).skill3;
+        let skill4 = DataCenterC.getData(SkillModuleData).skill4;
+        let skill5 = DataCenterC.getData(SkillModuleData).skill5;
+        let weapon = DataCenterC.getData(WeaponModuleData).getEquipedWeapon();
+        if(!weapon){
+            console.error("未装备武器");
+            return;
+        }
+        haveSkillList.forEach((item,index)=>{
+            if(item == skill1 || item == skill2 || item == skill3 || item == skill4 || item == skill5) return;
+            let config = GameConfig.SkillObj.getElement(item);
+            if(config.weaponType != weapon.wtid && config.weaponType != 0) return;
+            let skillItem = UIService.create(SkillListItem);
+            skillItem.init(this,item);
+            this.mCanvas_SkillList.addChild(skillItem.uiObject);
+            this.haveSkillList.push(skillItem);
+        })
+    }
+
+    showSkillDetail(skillid:number,type:number,index?:number){
+        if(!this.skillDetailUI) this.skillDetailUI = UIService.create(SkillDetailPanel);
+        this.skillDetailUI.farther = this;
+        this.skillDetailUI.setSkillDetail(skillid,type,index);
+        UIService.showUI(this.skillDetailUI);
+    }
+
+    public isChooseSkill:boolean = false;
+    public equipSkillId:number;
+    enterEquipSkillState(skillid:number){
+        this.isChooseSkill = true;
+        this.equipSkillId = skillid;
+        this.mImage_change.visibility = SlateVisibility.Visible;
+    }
+
+
+
+
+    public skillDetailUI:SkillDetailPanel;
+    
+    protected onAwake(): void {
+        super.onAwake();
+        this.mButton_Close.onClicked.add(()=>{
+            this.close();
+        })
+
+        this.mButton_Skill1.onClicked.add(()=>{
+            if(this.isChooseSkill){
+                ModuleService.getModule(SkillModuleC).equipSkill(this.equipSkillId,0);
+                this.mImage_change.visibility = SlateVisibility.Collapsed;
+                this.isChooseSkill = false;
+            }else{
+                if(DataCenterC.getData(SkillModuleData).skill1 == -1){
+                    return;
+                }
+                this.showSkillDetail(DataCenterC.getData(SkillModuleData).skill1,2,0);
+            }
+        })
+
+        this.mButton_Skill2.onClicked.add(()=>{
+            if(this.isChooseSkill){
+                ModuleService.getModule(SkillModuleC).equipSkill(this.equipSkillId,1);
+                this.mImage_change.visibility = SlateVisibility.Collapsed;
+                this.isChooseSkill = false;
+            }else{
+                if(DataCenterC.getData(SkillModuleData).skill1 == -1){
+                    return;
+                }
+                this.showSkillDetail(DataCenterC.getData(SkillModuleData).skill2,2,1);
+            }
+        })
+
+        this.mButton_Skill3.onClicked.add(()=>{
+            if(this.isChooseSkill){
+                ModuleService.getModule(SkillModuleC).equipSkill(this.equipSkillId,2);
+                this.mImage_change.visibility = SlateVisibility.Collapsed;
+                this.isChooseSkill = false;
+            }else{
+                if(DataCenterC.getData(SkillModuleData).skill1 == -1){
+                    return;
+                }
+                this.showSkillDetail(DataCenterC.getData(SkillModuleData).skill3,2,2);
+            }
+        })
+
+        this.mButton_Skill4.onClicked.add(()=>{
+            if(this.isChooseSkill){
+                ModuleService.getModule(SkillModuleC).equipSkill(this.equipSkillId,3);
+                this.mImage_change.visibility = SlateVisibility.Collapsed;
+                this.isChooseSkill = false;
+            }else{
+                if(DataCenterC.getData(SkillModuleData).skill1 == -1){
+                    return;
+                }
+                this.showSkillDetail(DataCenterC.getData(SkillModuleData).skill4,2,3);
+            }
+        })
+
+        this.mButton_Skill5.onClicked.add(()=>{
+            if(this.isChooseSkill){
+                ModuleService.getModule(SkillModuleC).equipSkill(this.equipSkillId,4);
+                this.mImage_change.visibility = SlateVisibility.Collapsed;
+                this.isChooseSkill = false;
+            }else{
+                if(DataCenterC.getData(SkillModuleData).skill1 == -1){
+                    return;
+                }
+                this.showSkillDetail(DataCenterC.getData(SkillModuleData).skill5,2,4);
+            }
+        })
+
+        this.mButton_SkillFinal.onClicked.add(()=>{
+            if(this.isChooseSkill){
+                return;
+            }else{
+                if(DataCenterC.getData(SkillModuleData).skillFinal == -1){
+                    return;
+                }
+                this.showSkillDetail(DataCenterC.getData(SkillModuleData).skillFinal,3);
+            }
+        })
+    }
+}

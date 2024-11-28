@@ -1,9 +1,8 @@
-
-import { Constructor } from "../../../../framework/DI/MContainer";
 import { MObject } from "../../../../framework/Object/MObject";
 import { AbilitySystemComponent } from "../ASC/AbilitySystemComponent";
 import { GameEffectComponent } from "./GameEffectComponent";
 import { EGameEffectCalculationType, EGameEffectDurationType, EGameEffectPeriodicInhibitionPolicy } from "./GameEffectType";
+import { GameModifierInfo } from "./GameModifierInfo";
 
 export abstract class GameEffect extends MObject {
 
@@ -34,8 +33,8 @@ export abstract class GameEffect extends MObject {
     /**组件 */
     abstract geComponent: GameEffectComponent[];
 
-    /*属性修改 */
-    abstract geAttribute: { [key: string]: number }[]
+    /** 属性修改 */
+    abstract modifiers: GameModifierInfo[];
     // #endregion
 
     private isActivate: boolean = false;
@@ -46,7 +45,13 @@ export abstract class GameEffect extends MObject {
                     return false;
                 }
             }
-            return true;
+        }
+        if (this.modifiers) {
+            for (let i = 0; i < this.modifiers.length; i++) {
+                if (!this.modifiers[i].canApply(this.geContext)) {
+                    return false;
+                }
+            }
         }
         return true;
     }
@@ -67,7 +72,16 @@ export abstract class GameEffect extends MObject {
     /**瞬时 */
     private activeInstant() {
         this.apply();
+        this.applyModifiers();
         this.end();
+    }
+
+    private applyModifiers() {
+        if (this.modifiers) {
+            this.modifiers.forEach((modifier) => {
+                modifier.apply(this.geContext);
+            });
+        }
     }
 
     /**无限 */
@@ -90,10 +104,12 @@ export abstract class GameEffect extends MObject {
     }
 
     /**应用组件效果 */
-    private apply() {
-        this.geComponent.forEach((geComponent) => {
-            geComponent.active(this.geContext);
-        });
+    protected apply() {
+        if (this.geComponent) {
+            this.geComponent.forEach((geComponent) => {
+                geComponent.active(this.geContext);
+            });
+        }
         this.isTickComponent = true;
     }
 
@@ -102,9 +118,12 @@ export abstract class GameEffect extends MObject {
     protected end() {
         this.isActivate = false;
         this.isTickComponent = false;
-        this.geComponent.forEach((geComponent) => {
-            geComponent.end(this.geContext);
-        });
+        if (this.geComponent) {
+            this.geComponent.forEach((geComponent) => {
+                geComponent.end(this.geContext);
+            });
+        }
+
         this.geContext.targetASC.endEffect(this);
     }
 
@@ -116,9 +135,11 @@ export abstract class GameEffect extends MObject {
             // 先结束一轮效果等待周期
             this.isActivate = false;
             this.isTickComponent = false;
-            this.geComponent.forEach((geComponent) => {
-                geComponent.end(this.geContext);
-            });
+            if (this.geComponent) {
+                this.geComponent.forEach((geComponent) => {
+                    geComponent.end(this.geContext);
+                });
+            }
             this.currentTime = 0;
             this.currentPeriodTime = 0;
             this.isStartPeriod = true;
@@ -138,7 +159,7 @@ export abstract class GameEffect extends MObject {
 
     private isTickComponent: boolean = false;
     update(dt: number) {
-        if (this.isTickComponent) {
+        if (this.isTickComponent && this.geComponent) {
             this.geComponent.forEach((geComponent) => {
                 geComponent.update(dt);
             });
@@ -165,8 +186,10 @@ export abstract class GameEffect extends MObject {
     }
 
     init() {
-        this.geComponent.forEach((geComponent) => {
-            geComponent.init();
-        });
+        if (this.geComponent) {
+            this.geComponent.forEach((geComponent) => {
+                geComponent.init();
+            });
+        }
     }
 }

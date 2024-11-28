@@ -1,26 +1,74 @@
-import { OdinGame, LogManager } from "odin";
+import { LogManager, OdinGame } from "odin";
+import { LoadingManager } from "./common/LoadingManager";
+import { CurrentScence } from "./CurrentScence";
+import { MContainer } from "./framework/DI/MContainer";
 import { MFramework } from "./framework/MFramework";
-import { GAModuleS } from "./modules/gasModule/GAModuleS";
-import { GAModuleC } from "./modules/gasModule/GAModuleC";
-import { PlayerModuleS } from "./modules/PlayerModule/PlayerModuleS";
+import { ArmorModuleC } from "./modules/armorModule/ArmorModuleC";
+import { ArmorModuleData } from "./modules/armorModule/ArmorModuleData";
+import { ArmorModuleS } from "./modules/armorModule/ArmorModuleS";
+import { AttributeModuleC } from "./modules/AttributeModule/AttributeModuleC";
+import { AttributeModuleData } from "./modules/AttributeModule/AttributeModuleData";
+import { AttributeModuleS } from "./modules/AttributeModule/AttributeModuleS";
+import { BagManagerModuleC } from "./modules/bagModule/BagManagerModuleC";
+import { BagManagerModuleData } from "./modules/bagModule/BagManagerModuleData";
+import { BagManagerModuleS } from "./modules/bagModule/BagManagerModuleS";
+import { ConsumableModuleC } from "./modules/consumableModule/ConsumableModuleC";
+import { ConsumableModuleData } from "./modules/consumableModule/ConsumableModuleData";
+import { ConsumableModuleS } from "./modules/consumableModule/ConsumableModuleS";
+import { DSEventModuleC } from "./modules/dSEventModule/DSEventModuleC";
+import { DSEventModuleS } from "./modules/dSEventModule/DSEventModuleS";
+import { GasModuleC } from "./modules/gasModule/GasModuleC";
+import { GasModuleS } from "./modules/gasModule/GasModuleS";
+import { GMModuleC, GMModuleS } from "./modules/gmModule/GmModule";
+import { HudModuleC } from "./modules/hudModule/HudModuleC";
+import { HudModuleS } from "./modules/hudModule/HudModuleS";
+import { JewelryModuleC } from "./modules/jewelryModule/JewelryModuleC";
+import { JewelryModuleData } from "./modules/jewelryModule/JewelryModuleData";
+import { JewelryModuleS } from "./modules/jewelryModule/JewelryModuleS";
+import { MatchModuleC } from "./modules/matchModule/MatchModuleC";
+import { MatchModuleS } from "./modules/matchModule/MatchModuleS";
+import { MaterialModuleC } from "./modules/materialsModule/MaterialModuleC";
+import { MaterialModuleData } from "./modules/materialsModule/MaterialModuleData";
+import { MaterialModuleS } from "./modules/materialsModule/MaterialModuleS";
 import { PlayerModuleC } from "./modules/PlayerModule/PlayerModuleC";
 import { PlayerModuleData } from "./modules/PlayerModule/PlayerModuleData";
-import { GAModuleData } from "./modules/gasModule/GAModuleData";
-import { CurrentScence } from "./CurrentScence";
+import { PlayerModuleS } from "./modules/PlayerModule/PlayerModuleS";
+import { RankModuleC } from "./modules/rankModule/RankModuleC";
+import { RankModuleS } from "./modules/rankModule/RankModuleS";
+import RobotModuleC from "./modules/robotModule/RobotModuleC";
+import RobotModuleS from "./modules/robotModule/RobotModuleS";
+import { SkillModuleC } from "./modules/skillModule/SkillModuleC";
+import { SkillModuleData } from "./modules/skillModule/SkillModuleData";
+import { SkillModuleS } from "./modules/skillModule/SkillModuleS";
+import { TaskModuleC } from "./modules/taskModule/TaskModuleC";
+import TaskModuleData from "./modules/taskModule/TaskModuleData";
+import { TaskModuleS } from "./modules/taskModule/TaskModuleS";
+import { TutorialModuleC } from "./modules/tutorialModule/TutorialModuleC";
+import { TutorialModuleData } from "./modules/tutorialModule/TutorialModuleData";
+import { TutorialModuleS } from "./modules/tutorialModule/TutorialModuleS";
+import { WeaponModuleC } from "./modules/weaponModule/WeaponModuleC";
+import { WeaponModuleData } from "./modules/weaponModule/WeaponModuleData";
+import { WeaponModuleS } from "./modules/weaponModule/WeaponModuleS";
 
 
 @Component
 class GameStart extends OdinGame {
 
+    static instance: GameStart
+
     @mw.Property({ displayName: "数据是否本地" })
     public isLocal = true;
+    @mw.Property({ displayName: "是否打开GM" })
+    openGM: boolean = false;
 
     onStart(): void {
+        GameStart.instance = this;
         this.useUpdate = true;
         MFramework.initial(CurrentScence.currentScence);
-
+        MContainer.instance.getPlugin(LoadingManager).init();
         DataStorage.setTemporaryStorage(this.isLocal);
         if (mw.SystemUtil.isClient()) {
+
         }
         super.onStart();
         //输出log是否带odin前缀，以便于和编辑器的log进行区分
@@ -28,7 +76,8 @@ class GameStart extends OdinGame {
         //是否打印通信的log
         LogManager.instance.showNet = true;
         let selectedLanguageIndex = 0;
-        let language = LocaleUtil.getDefaultLocale().toString().toLowerCase();
+
+        let language = LanguageUtil.getlanguage().toString().toLowerCase();
         if (!!language.match("en")) {
             selectedLanguageIndex = 0;
         }
@@ -61,6 +110,7 @@ class GameStart extends OdinGame {
         //         }
         //     }
         // });
+
         this.onRegisterModuleModule();
     }
 
@@ -71,10 +121,24 @@ class GameStart extends OdinGame {
     //实现父类“注册模块”抽象方法
     onRegisterModuleModule(): void {
         // MFramework.registerModule(MallModuleS, MallModuleC, MallData);
-        MFramework.registerModule(GAModuleS,GAModuleC,GAModuleData);
-        MFramework.registerModule(PlayerModuleS,PlayerModuleC,PlayerModuleData)
-
-
+        MFramework.registerModule(GMModuleS, GMModuleC, null);
+        MFramework.registerModule(DSEventModuleS, DSEventModuleC, null);
+        MFramework.registerModule(TaskModuleS, TaskModuleC, TaskModuleData);
+        MFramework.registerModule(TutorialModuleS, TutorialModuleC, TutorialModuleData);
+        MFramework.registerModule(BagManagerModuleS, BagManagerModuleC, BagManagerModuleData);
+        MFramework.registerModule(AttributeModuleS, AttributeModuleC, AttributeModuleData);
+        MFramework.registerModule(PlayerModuleS, PlayerModuleC, PlayerModuleData);
+        MFramework.registerModule(WeaponModuleS, WeaponModuleC, WeaponModuleData);
+        MFramework.registerModule(ArmorModuleS, ArmorModuleC, ArmorModuleData);
+        MFramework.registerModule(ConsumableModuleS, ConsumableModuleC, ConsumableModuleData);
+        MFramework.registerModule(MaterialModuleS, MaterialModuleC, MaterialModuleData);
+        MFramework.registerModule(JewelryModuleS, JewelryModuleC, JewelryModuleData);
+        MFramework.registerModule(SkillModuleS, SkillModuleC, SkillModuleData);
+        MFramework.registerModule(GasModuleS, GasModuleC, null);
+        MFramework.registerModule(RankModuleS, RankModuleC, null);
+        MFramework.registerModule(HudModuleS, HudModuleC, null);
+        MFramework.registerModule(RobotModuleS, RobotModuleC, null);
+        MFramework.registerModule(MatchModuleS, MatchModuleC, null);
         MFramework.enterGame();
     }
 

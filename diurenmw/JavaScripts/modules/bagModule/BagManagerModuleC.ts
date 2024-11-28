@@ -21,6 +21,8 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
 		GameEventBus.on("BagModule_EquipmentItem", this.onEquipmentItem.bind(this));
 		GameEventBus.on("BagModule_RemoveItem", this.onRemoveItem.bind(this));
         GameEventBus.on("BagModule_ItemClick", this.onItemClick.bind(this));
+
+        this.bagUIObj = UIService.create(BagMainUI);
     }
 
     /**
@@ -58,7 +60,7 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
      * @effect 只在客户端调用生效
      */
     protected onDestroy(): void {
-        
+        this.bagUIObj = null;
     }
 
     // 初始化背包
@@ -77,7 +79,7 @@ export class BagManagerModuleC extends ModuleC<BagManagerModuleS,BagManagerModul
 
     // 打开背包
     onBagOpen(): void {
-        this.bagUIObj = UIService.show(BagMainUI);
+        UIService.showUI(this.bagUIObj);
         this.bagUIObj.init();
     }
 

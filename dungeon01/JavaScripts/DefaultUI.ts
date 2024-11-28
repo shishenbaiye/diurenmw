@@ -1,4 +1,6 @@
-﻿@UIBind('')
+﻿import { SkillModuleC } from "./modules/skillModule/SkillModuleC";
+
+@UIBind('')
 export default class DefaultUI extends UIScript {
 	private character: Character;
 	private anim1 = null;
@@ -14,15 +16,7 @@ export default class DefaultUI extends UIScript {
 		
 		//点击跳跃按钮,异步获取人物后执行跳跃
         jumpBtn.onPressed.add(()=>{
-			if (this.character) {
-				this.character.changeState(CharacterStateType.Jumping);
-			} else {
-				Player.asyncGetLocalPlayer().then((player) => {
-					this.character = player.character;
-					//角色执行跳跃功能
-					this.character.changeState(CharacterStateType.Jumping);
-				});
-			}
+			ModuleService.getModule(SkillModuleC).activeSkill(0);
 		})	
 		
 
