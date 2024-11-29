@@ -4,6 +4,8 @@ import { MathTool } from "../../../../tools/MathTool";
 import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { GameAbility } from "../../../gasModule/gameAbilitys/GA/GameAbility";
 import { GE_Damage_Mage_NormalAttack1 } from "../normalAttack/GE_Damage_Mage_NormalAttack1";
+import { GE_Damage_Mage_NightHollow1 } from "./GE_Damage_Mage_NightHollow1";
+import { GE_Damage_Mage_NightHollow2 } from "./GE_Damage_Mage_NightHollow2";
 
 @MPlugin()
 export class NightHollowObj extends MObject {
@@ -29,14 +31,28 @@ export class NightHollowObj extends MObject {
         this.iid = setTimeout(() => {
             this.iid = null;
             this.isActivated = true;
-        }, 200);
+        }, 100);
         setTimeout(() => {
             this.cancel();
-        }, 5000);
+        }, 3000);
     }
 
-    onUpdate() {
+    private deltaTime: number = 0;
+    onUpdate(dt:number) {
         if (this.isActivated) {
+            if(this.deltaTime > 0.5){
+                let arr = MathTool.checkHitByPosition(this.owner, this.pos, 200);
+                arr.forEach((char) => {
+                    let asc = char.getComponent(AbilitySystemComponent);
+                    if (asc) {
+                        if (asc.hasMatchingGameTag(this.gameAbility.targetBlockedTags)) return
+                        this.gameAbility.sendGameEvent(this.owner, "Event.Player.HurtMonster", { target: char });
+                        this.gameAbility.sendGameEvent(char, "Event.Monster.OnHurt", { damageGE: GE_Damage_Mage_NightHollow1 });
+                    }
+                })
+                this.deltaTime = 0;
+            }
+            this.deltaTime += dt;
             let arr = MathTool.checkHitByPosition(this.owner, this.pos, 500);
             arr.forEach((char) => {
                 let asc = char.getComponent(AbilitySystemComponent);
@@ -58,7 +74,7 @@ export class NightHollowObj extends MObject {
                 if (asc.hasMatchingGameTag(this.gameAbility.targetBlockedTags)) return
                 this.gameAbility.sendGameEvent(this.owner, "Event.Player.HurtMonster", { target: char });
                 this.gameAbility.sendGameEvent(char, "Event.Monster.OnHurtAnim", { onHurtType:"Crit",duringTime:0.5 });
-                this.gameAbility.sendGameEvent(char, "Event.Monster.OnHurt", { damageGE: GE_Damage_Mage_NormalAttack1 });
+                this.gameAbility.sendGameEvent(char, "Event.Monster.OnHurt", { damageGE: GE_Damage_Mage_NightHollow2 });
             }
         })
     }

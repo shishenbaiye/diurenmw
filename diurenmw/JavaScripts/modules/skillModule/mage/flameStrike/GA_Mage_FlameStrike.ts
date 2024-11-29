@@ -12,15 +12,16 @@ import { FlyObj } from "../../common/FlyObj";
 import { SkillHelper } from "../../SkillHelper";
 import { RegisterSkill } from "../../SkillManager";
 import { ESkillType } from "../../SkillType";
-import { GE_CoolDown_Mage_NightHollow } from "./GE_CoolDown_Mage_NightHollow";
-import { GE_Cost_Mage_NightHollow } from "./GE_Cost_Mage_NightHollow";
-import { NightHollowObj } from "./NightHollowObj";
+import { FlameStrikeObj } from "./FlameStrikeObj";
+import { GE_CoolDown_Mage_FlameStrike } from "./GE_CoolDown_Mage_FlameStrike";
+import { GE_Cost_Mage_FlameStrike } from "./GE_Cost_Mage_FlameStrike";
+
 
 
 @MPlugin()
-@RegisterSkill(2009, ESkillType.Staff)
-export class GA_Mage_NightHollow extends GameAbility {
-    tag: string = "GA.Mage.NightHollow";
+@RegisterSkill(2004, ESkillType.Staff)
+export class GA_Mage_FlameStrike extends GameAbility {
+    tag: string = "GA.Mage.FlameStrike";
     cancelTags: string[] = ["GA.Mage"]
     blockTags: string[];
     activationOwnedTags: string[] = ["State.Player.Skilling"]
@@ -29,8 +30,8 @@ export class GA_Mage_NightHollow extends GameAbility {
     targetRequiredTags: string[];
     targetBlockedTags: string[] = ["Club.Player", "State.Monster.Dead", "State.Monster.Invincible"];
     trigger: { tag: string; sourceType: EGameAbilityTriggerSourceType; }[];
-    cd: Constructor<CoolDownByGameEffect> = GE_CoolDown_Mage_NightHollow;
-    cost: Constructor<CostByGameEffect> = GE_Cost_Mage_NightHollow;
+    cd: Constructor<CoolDownByGameEffect> = GE_CoolDown_Mage_FlameStrike;
+    cost: Constructor<CostByGameEffect> = GE_Cost_Mage_FlameStrike;
 
 
     @MPropertiesInject(SkillHelper)
@@ -54,25 +55,17 @@ export class GA_Mage_NightHollow extends GameAbility {
 
         this.skillHelper.changePlayerCanMove(char.player, false);
 
-        // 创建黑洞召唤物
-        let pos = char.getSlotWorldPosition(HumanoidSlotType.Root).clone().add(char.worldTransform.getForwardVector().normalized.multiply(500));
-        let nightHollowObj = MFramework.createObject(NightHollowObj) as NightHollowObj;
-
         animTask.addEvent(0.5, () => {
-            nightHollowObj.init(pos, char, asc,this);
-            nightHollowObj.activate();
+            let pos = char.getSlotWorldPosition(HumanoidSlotType.Root).clone().add(char.worldTransform.getForwardVector().normalized.multiply(500));
+            let flameStrikeObj = MFramework.createObject(FlameStrikeObj) as FlameStrikeObj;
+            flameStrikeObj.init(pos, char, asc, this);
+            flameStrikeObj.activate();
         })
 
 
         animTask.onFinished(() => {
             this.end();
         })
-
-        animTask.addEvent(0.2, () => {
-
-        })
-
-
 
         animTask.activate()
     }

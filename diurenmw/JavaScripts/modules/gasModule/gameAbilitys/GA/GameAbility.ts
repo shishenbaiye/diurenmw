@@ -228,6 +228,8 @@ export abstract class GameAbility extends MObject {
     getCD(): CoolDownByGameEffect {
         if (this.cdEffect) {
             return this.cdEffect;
+        }else{
+            return {time:0} as CoolDownByGameEffect;
         }
     }
 
