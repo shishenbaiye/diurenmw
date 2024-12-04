@@ -29,12 +29,12 @@ export class FlameStrikeObj extends MObject {
         setTimeout(() => {
             this.boom()
             this.cancel();
-        }, 2000);
+        }, 1000);
     }
 
     private boom() {
-        this.effectTool.playAtPosition("129280", this.pos, { scale: new Vector(1.5),color:new LinearColor(1,100/255,0) });
-        setTimeout(() => {
+        this.effectTool.playAtPosition("130642", this.pos, { scale: new Vector(3.5,3.5,3),color:new LinearColor(1,74/255,0) });
+        // setTimeout(() => {
             EffectService.stop(this.effectid);
             let arr = MathTool.checkHitByPosition(this.owner, this.pos, 450);
             arr.forEach((char) => {
@@ -46,7 +46,7 @@ export class FlameStrikeObj extends MObject {
                     this.gameAbility.sendGameEvent(char, "Event.Monster.OnHurt", { damageGE: GE_Damage_Mage_FlameStrike });
                 }
             })
-        }, 200);
+        // }, 200);
     }
 
     private cancel() {

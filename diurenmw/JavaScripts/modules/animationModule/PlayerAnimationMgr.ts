@@ -44,8 +44,8 @@ export class PlayerAnimationMgr extends Script {
         let aniNodeEmpty = this.registerAnimationNode(NodeName_Empty, null, StanceBlendMode.WholeBody);
 
         // 大剑姿态节点
-        let aniNodeSwordIdle = this.registerAnimationNode(NodeName_SwordIdle, "303259", StanceBlendMode.WholeBody);
-        let aniNodeSwordMove = this.registerAnimationNode(NodeName_SwordMove, "303175", StanceBlendMode.WholeBody);
+        let aniNodeSwordIdle = this.registerAnimationNode(NodeName_SwordIdle, "281854", StanceBlendMode.WholeBody);
+        let aniNodeSwordMove = this.registerAnimationNode(NodeName_SwordMove, "285153", StanceBlendMode.WholeBody);
 
         // 法杖姿态节点
         let aniNodeStaffIdle = this.registerAnimationNode(NodeName_StaffIdle, "285533", StanceBlendMode.WholeBody);
@@ -75,6 +75,27 @@ export class PlayerAnimationMgr extends Script {
                 return this.animationState.isEquipWeaponOfSword && !inState.character.isMoving;
             });
 
+        // 法杖姿态
+        aniNodeEmpty
+            .addNext(aniNodeStaffIdle, (inState: PlayerAnimationState) => {
+                return this.animationState.isEquipWeaponOfStaff && !inState.character.isMoving;
+            })
+
+        aniNodeStaffIdle
+            .addNext(aniNodeEmpty, (inState: PlayerAnimationState) => {
+                return !this.animationState.isEquipWeaponOfStaff;
+            })
+            .addNext(aniNodeStaffMovde, (inState: PlayerAnimationState) => {
+                return this.animationState.isEquipWeaponOfStaff && inState.character.isMoving;
+            });
+
+        aniNodeStaffMovde
+            .addNext(aniNodeEmpty, (inState: PlayerAnimationState) => {
+                return !this.animationState.isEquipWeaponOfStaff;
+            })
+            .addNext(aniNodeStaffIdle, (inState: PlayerAnimationState) => {
+                return this.animationState.isEquipWeaponOfStaff && !inState.character.isMoving;
+            });
 
 
 

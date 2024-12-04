@@ -1,5 +1,6 @@
-import { MPlugin } from "../../../../framework/DI/MContainer";
+import { MPlugin, MPropertiesInject } from "../../../../framework/DI/MContainer";
 import { MObject } from "../../../../framework/Object/MObject";
+import { EffectTool } from "../../../../tools/EffectTool";
 import { MathTool } from "../../../../tools/MathTool";
 import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { GameAbility } from "../../../gasModule/gameAbilitys/GA/GameAbility";
@@ -10,6 +11,9 @@ import { GE_Damage_Mage_NightHollow2 } from "./GE_Damage_Mage_NightHollow2";
 @MPlugin()
 export class NightHollowObj extends MObject {
 
+    @MPropertiesInject(EffectTool)
+    private effectTool: EffectTool;
+    
     private owner: Character;
     private ownerAsc: AbilitySystemComponent
     private pos: Vector
@@ -27,7 +31,7 @@ export class NightHollowObj extends MObject {
     private isActivated: boolean = false;
     private iid: number = null;
     public activate() {
-        this.effectid = EffectService.playAtPosition("27693", this.pos, { loopCount: 0, scale: new Vector(2) });
+        this.effectid = this.effectTool.playAtPosition("168951", this.pos.clone().add(new Vector(0,0,170)), { loopCount: 0, scale: new Vector(1),color:new LinearColor(34/255,0,150/255) });
         this.iid = setTimeout(() => {
             this.iid = null;
             this.isActivated = true;
@@ -87,7 +91,7 @@ export class NightHollowObj extends MObject {
                 this.iid = null;
             }
             TimeUtil.onEnterFrame.remove(this.onUpdate, this);
-            EffectService.stop(this.effectid);
+            this.effectTool.stopEffect(this.effectid);
             this.isActivated = false;
         }
     }

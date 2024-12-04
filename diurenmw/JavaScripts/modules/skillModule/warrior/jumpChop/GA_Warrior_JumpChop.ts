@@ -115,16 +115,11 @@ export class GA_Warrior_JumpChop extends GameAbility{
                 let asc = obj.getComponent(AbilitySystemComponent);
                 if(asc){
                     if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
-                    animTask.pauseTask()
                     this.sendGameEvent(owner,"Event.Player.HurtMonster",{target:obj});
                     this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Warrior_JumpChop});
                     this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{onHurtType:"Crit",duringTime:0.5});
                 }
             })
-
-            AT_WaitTime.New(this,0.2).addEndListener(()=>{
-                animTask.resumeTask()
-            }).activate()
         })
 
         animTask.onFinished(()=>{

@@ -30,7 +30,7 @@ export class GA_Mage_NightHollow extends GameAbility {
     targetBlockedTags: string[] = ["Club.Player", "State.Monster.Dead", "State.Monster.Invincible"];
     trigger: { tag: string; sourceType: EGameAbilityTriggerSourceType; }[];
     cd: Constructor<CoolDownByGameEffect> = GE_CoolDown_Mage_NightHollow;
-    cost: Constructor<CostByGameEffect> = GE_Cost_Mage_NightHollow;
+    cost: Constructor<CostByGameEffect> = GE_Cost_Mage_NightHollow
 
 
     @MPropertiesInject(SkillHelper)
@@ -57,6 +57,10 @@ export class GA_Mage_NightHollow extends GameAbility {
         // 创建黑洞召唤物
         let pos = char.getSlotWorldPosition(HumanoidSlotType.Root).clone().add(char.worldTransform.getForwardVector().normalized.multiply(500));
         let nightHollowObj = MFramework.createObject(NightHollowObj) as NightHollowObj;
+
+        animTask.addEvent(0.2, () => {
+            EffectService.playAtPosition("219368", char.getSlotWorldPosition(HumanoidSlotType.Root),{scale:new Vector(1.5)})
+        })
 
         animTask.addEvent(0.5, () => {
             nightHollowObj.init(pos, char, asc,this);

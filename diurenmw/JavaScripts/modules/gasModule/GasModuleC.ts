@@ -7,7 +7,7 @@ export class GasModuleC extends ModuleC<GasModuleS,null>{
 
 
     net_CreateAnimation(animData: AnimationData) {
-        console.log("net_CreateAnimation",animData);
+        // console.log("net_CreateAnimation",animData);
         let owner = GameObject.findGameObjectById(animData.owner) as Character;
         let anim = owner.loadAnimation(animData.animAsset);
         anim.blendInTime = animData.animBlendInTime;

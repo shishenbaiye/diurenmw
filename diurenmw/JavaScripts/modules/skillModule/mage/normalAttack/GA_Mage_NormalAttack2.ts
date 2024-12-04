@@ -64,7 +64,7 @@ export class GA_Mage_NormalAttack2 extends GameAbility{
                         this.effectTool.playAtPosition("13417",obj.worldTransform.position.clone());
                         if(asc.hasMatchingGameTag(this.targetBlockedTags)) return;
                         this.sendGameEvent(owner,"Event.Player.HurtMonster",{target:obj});
-                        let force = obj.worldTransform.position.clone().subtract(char.worldTransform.position).normalize().multiply(300);
+                        let force = obj.worldTransform.position.clone().subtract(char.worldTransform.position).normalize().multiply(500);
                         this.sendGameEvent(obj,"Event.Monster.OnHurtAnim",{duringTime:0.5,force:force});
                         this.sendGameEvent(obj,"Event.Monster.OnHurt",{damageGE:GE_Damage_Mage_NormalAttack2});
                     }

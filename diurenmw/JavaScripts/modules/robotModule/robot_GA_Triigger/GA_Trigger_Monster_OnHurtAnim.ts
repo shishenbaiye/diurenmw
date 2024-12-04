@@ -73,7 +73,14 @@ export class GA_Trigger_Monster_OnHurtAnim extends GameAbility {
         this.animTask.activate();
 
         if (this.payload.customData.force) {
-            ownerChar.addImpulse(this.payload.customData.force, true);
+            if(ownerChar.velocity.z != 0){
+                console.warn("jumping!!!!");
+                ownerChar.addImpulse(this.payload.customData.force.multiply(1/8), true);
+            }else{
+                console.warn("not jumping!!!!");
+                ownerChar.addImpulse(this.payload.customData.force, true);
+            }
+            
         }
 
         if (duringTime) {
@@ -99,13 +106,15 @@ export class GA_Trigger_Monster_OnHurtAnim extends GameAbility {
         this.animTask = AT_PlayAnimation.New(this, anim, 1.8, ownerChar);
         this.animTask.activate();
 
+        ownerChar.addImpulse(new Vector(0, 0, 500), true);
+
         AT_WaitTime.New(this, 0.8).addEndListener(() => {
-            console.warn("pause");
+            // console.warn("pause");
             this.animTask.pauseTask();
         }).activate();
 
         AT_WaitTime.New(this, 1.5).addEndListener(() => {
-            console.warn("resume");
+            // console.warn("resume");
             this.animTask.resumeTask();
         }).activate();
     }
