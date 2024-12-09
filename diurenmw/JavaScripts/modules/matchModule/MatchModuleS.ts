@@ -1,4 +1,6 @@
+import { SceneType } from "../../GameStart";
 import { DSEventModuleS } from "../dSEventModule/DSEventModuleS";
+import { SceneModuleS } from "../sceneModule/SceneModuleS";
 import { MatchQueueConfig } from "./base/PlayerMatchConfig";
 import { PlayerMatchInfo } from "./base/PlayerMatchInfo";
 import { MatchModuleC } from "./MatchModuleC";
@@ -45,11 +47,8 @@ export class MatchModuleS extends ModuleS<MatchModuleC, null> {
         this.net_LeftQueue(player.userId);
     }
 
-    public teleport(sceneName: string, userIds: string[], isLockRoom: boolean, attachData: string) {
-        TeleportService.asyncTeleportToScene(sceneName, userIds, {
-            createNewPrivateRoom: isLockRoom,
-            teleportData: attachData,
-        });
+    public teleport(sceneName: SceneType, userIds: string[], isLockRoom: boolean, attachData: string) {
+        ModuleService.getModule(SceneModuleS).changeScene(sceneName, userIds, isLockRoom, attachData)
     }
 
     /**

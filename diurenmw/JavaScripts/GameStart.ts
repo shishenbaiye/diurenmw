@@ -50,6 +50,13 @@ import { WeaponModuleC } from "./modules/weaponModule/WeaponModuleC";
 import { WeaponModuleData } from "./modules/weaponModule/WeaponModuleData";
 import { WeaponModuleS } from "./modules/weaponModule/WeaponModuleS";
 
+export enum SceneType {
+    /** 主城 */
+    MainCity = `diurenmw`,
+    /** 地牢1 */
+    Dungeon01 = `Dungeon01`,
+}
+
 
 @Component
 class GameStart extends OdinGame {
@@ -59,7 +66,14 @@ class GameStart extends OdinGame {
     @mw.Property({ displayName: "数据是否本地" })
     public isLocal = true;
     @mw.Property({ displayName: "是否打开GM" })
-    openGM: boolean = false;
+    public openGM: boolean = false;
+    @mw.Property({
+        displayName: "当前场景", selectOptions: {
+            '主城': SceneType.MainCity,
+            '地牢1': SceneType.Dungeon01,
+        }
+    })
+    public selectedSceneType: SceneType = SceneType.MainCity;
 
     onStart(): void {
         GameStart.instance = this;
