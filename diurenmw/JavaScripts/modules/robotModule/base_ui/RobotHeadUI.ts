@@ -30,8 +30,8 @@ export class RobotHeadUI {
     /** 血量刷新 */
     public async refreshHp() {
         let obj = await RobotManager.instance.getRobot(this.owner);
-        if (obj && obj.abs.attributeSet instanceof MonsterAttributeSet) {
-            let as = obj.abs.attributeSet;
+        if (obj && obj.info_abs.attributeSet instanceof MonsterAttributeSet) {
+            let as = obj.info_abs.attributeSet;
             this.targetUI.progressBar_blood.currentValue = as.hp.getCurrent() / as.maxHp.getCurrent();
         }
     }

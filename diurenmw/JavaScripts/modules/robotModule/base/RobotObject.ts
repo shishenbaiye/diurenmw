@@ -14,36 +14,38 @@ export abstract class RobotObject extends MObject {
 
     /** 数据 */
     public data: RobotData;
-    /** 脚本 */
-    public info: RobotScript;
-    /** 能力系统 */
-    public abs: AbilitySystemComponent;
+    /** 同步脚本 */
+    public info_sync: RobotScript;
+    /** 能力脚本 */
+    public info_abs: AbilitySystemComponent;
+    /** 控制器 */
+    public controller_move: MoveController;
     /** 归属对象 */
     public owner: Character;
-    /** 目标对象 */
-    public target: Character;
-    /** 寻路对象 */
-    public move: MoveController;
 
     /** 初始化 */
     public isInit: boolean = false;
 
-    public init(data: RobotData, abs: AbilitySystemComponent, info: RobotScript, owner: Character): void {
+    public init(data: RobotData, abs: AbilitySystemComponent, base: RobotScript, owner: Character): void {
         this.isInit = true;
         this.owner = owner;
-        this.info = info;
+        this.info_sync = base;
+        this.info_abs = abs;
         this.data = data;
-        this.abs = abs
     }
 
     public init_GA_Trigger(): void {
         if (SystemUtil.isClient()) return;
         // 添加能力-状态触发
-        this.abs.giveAbility(GA_Trigger_Monster_OnHurt);
-        this.abs.giveAbility(GA_Trigger_Monster_OnHurtAnim);
-        this.abs.giveAbility(GA_Trigger_Monster_OnBlood);
-        this.abs.giveAbility(GA_Trigger_Monster_OnPoison);
-        this.abs.giveAbility(GA_Trigger_Monster_OnDefDown);
+        this.info_abs.giveAbility(GA_Trigger_Monster_OnHurt);
+        this.info_abs.giveAbility(GA_Trigger_Monster_OnHurtAnim);
+        this.info_abs.giveAbility(GA_Trigger_Monster_OnBlood);
+        this.info_abs.giveAbility(GA_Trigger_Monster_OnPoison);
+        this.info_abs.giveAbility(GA_Trigger_Monster_OnDefDown);
+    }
+
+    public init_behavior(): void {
+        this.controller_move = new MoveController(this.owner);
     }
 
 }
