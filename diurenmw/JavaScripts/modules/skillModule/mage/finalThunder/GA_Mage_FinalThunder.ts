@@ -67,20 +67,23 @@ export class GA_Mage_FinalThunder extends GameAbility {
             EffectService.playAtPosition("219368", char.getSlotWorldPosition(HumanoidSlotType.Root), { scale: new Vector(1.5) })
         })
 
+        animTask1.addEvent(0.2,()=>{
+            this.rpc.client(char.player, this, this.C_ChangeCamera,char.worldTransform.getForwardVector().clone(),0,cameraOffsetY);
+        })
+
         animTask1.addEvent(0.8, () => {
             this.rpc.client(char.player, this, this.C_ChangeLight, -3.9);
         })
 
         animTask1.addEvent(1.0, () => {
             xi = this.effectTool.playAtPosition("108250", posUp, { scale: new Vector(3) })
-            this.rpc.client(char.player, this, this.C_ChangeCamera,char.worldTransform.getForwardVector().clone(),0,cameraOffsetY);
             this.startHollow(posUp);
         })
 
         animTask1.addEvent(1.2, () => {
             animTask1.pauseTask();
 
-            AT_WaitTime.New(this, 3).addEndListener(() => {
+            AT_WaitTime.New(this, 5).addEndListener(() => {
                 this.effectTool.stopEffect(xi);
                 this.stopHollow();
                 animTask1.cancelTask();

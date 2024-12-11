@@ -144,7 +144,7 @@ export class CameraManager extends MObject {
         if (angle < 90 && angle > -90) {
             let tw = new mw.Tween({ postion: slength })
                 .to({ postion: elength }, 500)
-                .easing(TweenUtil.Easing.Exponential.In)
+                .easing(TweenUtil.Easing.Exponential.Out)
                 .onUpdate((obj) => {
                     try {
                         camera.localTransform.position = new Vector(0, obj.postion, 0);
@@ -156,7 +156,7 @@ export class CameraManager extends MObject {
         } else {
             let tw = new mw.Tween({ postion: -slength })
                 .to({ postion: -elength }, 500)
-                .easing(TweenUtil.Easing.Exponential.In)
+                .easing(TweenUtil.Easing.Exponential.Out)
                 .onUpdate((obj) => {
                     try {
                         camera.localTransform.position = new Vector(0, obj.postion, 0);

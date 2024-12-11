@@ -36,7 +36,7 @@ export class FlameStrikeObj extends MObject {
         this.effectTool.playAtPosition("130642", this.pos, { scale: new Vector(3.5,3.5,3),color:new LinearColor(1,74/255,0) });
         // setTimeout(() => {
             EffectService.stop(this.effectid);
-            let arr = MathTool.checkHitByPosition(this.owner, this.pos, 450);
+            let arr = MathTool.checkHitByPosition(this.owner, this.pos, 300);
             arr.forEach((char) => {
                 let asc = char.getComponent(AbilitySystemComponent);
                 if (asc) {
