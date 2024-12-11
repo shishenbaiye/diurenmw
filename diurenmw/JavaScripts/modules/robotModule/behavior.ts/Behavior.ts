@@ -4,8 +4,8 @@ import { BehaviorBase } from "./IBehavior";
 export class BehaviorFollow extends BehaviorBase {
     checkCondition(dt: number): boolean {
         //TODO 跟随条件满足
-        if (this.owner.move) {
-            this.owner.move.followTarget(null, 400);
+        if (this.owner.controller_move) {
+            this.owner.controller_move.followStart(null, 400);
         }
         return true;
     }
@@ -15,8 +15,8 @@ export class BehaviorFollow extends BehaviorBase {
 export class BehaviorAttack extends BehaviorBase {
     checkCondition(dt: number): boolean {
         //TODO 攻击条件满足
-        if (this.owner.move) {
-            this.owner.move.stopFollow();
+        if (this.owner.controller_move) {
+            this.owner.controller_move.followStop();
             //开始攻击
         }
         return true;
