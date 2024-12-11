@@ -47,7 +47,8 @@ export class RagingFuryObj extends MObject {
                 if (asc.hasMatchingGameTag(this.gameAbility.targetBlockedTags)) return;
                 this.gameAbility.sendGameEvent(this.owner, "Event.Player.HurtMonster", { target: obj });
                 this.gameAbility.sendGameEvent(obj, "Event.Monster.OnHurt", { damageGE: GE_Damage_Warrior_RagingFuryOne });
-                this.gameAbility.sendGameEvent(obj, "Event.Monster.OnHurtAnim", { onHurtType: "Crit", duringTime: 0.5 });
+                let force = new Vector(0,0,500);
+                this.gameAbility.sendGameEvent(obj, "Event.Monster.OnHurtAnim", { onHurtType: "Crit", duringTime: 0.5 , force:force });
             }
         })
 
@@ -66,7 +67,8 @@ export class RagingFuryObj extends MObject {
                     if (asc.hasMatchingGameTag(this.gameAbility.targetBlockedTags)) return;
                     this.gameAbility.sendGameEvent(this.owner, "Event.Player.HurtMonster", { target: obj });
                     this.gameAbility.sendGameEvent(obj, "Event.Monster.OnHurt", { damageGE: GE_Damage_Warrior_RagingFuryTwo });
-                    this.gameAbility.sendGameEvent(obj, "Event.Monster.OnHurtAnim", { onHurtType: "Crit", duringTime: 0.5 });
+                    let force = new Vector(0,0,500);
+                    this.gameAbility.sendGameEvent(obj, "Event.Monster.OnHurtAnim", { onHurtType: "Crit", duringTime: 0.5, force:force  });
                 }
             })
         }, 1500);
@@ -80,7 +82,8 @@ export class RagingFuryObj extends MObject {
                     if (asc.hasMatchingGameTag(this.gameAbility.targetBlockedTags)) return;
                     this.gameAbility.sendGameEvent(this.owner, "Event.Player.HurtMonster", { target: obj });
                     this.gameAbility.sendGameEvent(obj, "Event.Monster.OnHurt", { damageGE: GE_Damage_Warrior_RagingFuryTwo });
-                    this.gameAbility.sendGameEvent(obj, "Event.Monster.OnHurtAnim", { onHurtType: "Crit", duringTime: 0.5 });
+                    let force = new Vector(0,0,500);
+                    this.gameAbility.sendGameEvent(obj, "Event.Monster.OnHurtAnim", { onHurtType: "Crit", duringTime: 0.5 ,force:force  });
                 }
             })
         }, 1600);
@@ -94,7 +97,8 @@ export class RagingFuryObj extends MObject {
                         if (asc.hasMatchingGameTag(this.gameAbility.targetBlockedTags)) return;
                         this.gameAbility.sendGameEvent(this.owner, "Event.Player.HurtMonster", { target: obj });
                         this.gameAbility.sendGameEvent(obj, "Event.Monster.OnHurt", { damageGE: GE_Damage_Warrior_RagingFuryTwo });
-                        this.gameAbility.sendGameEvent(obj, "Event.Monster.OnHurtAnim", { onHurtType: "Crit", duringTime: 0.5 });
+                        let force = new Vector(0,0,500);
+                        this.gameAbility.sendGameEvent(obj, "Event.Monster.OnHurtAnim", { onHurtType: "Crit", duringTime: 0.5 ,force:force });
                     }
                 })
             }
@@ -108,7 +112,8 @@ export class RagingFuryObj extends MObject {
                     if (asc.hasMatchingGameTag(this.gameAbility.targetBlockedTags)) return;
                     this.gameAbility.sendGameEvent(this.owner, "Event.Player.HurtMonster", { target: obj });
                     this.gameAbility.sendGameEvent(obj, "Event.Monster.OnHurt", { damageGE: GE_Damage_Warrior_RagingFuryTwo });
-                    this.gameAbility.sendGameEvent(obj, "Event.Monster.OnHurtAnim", { onHurtType: "Crit", duringTime: 0.5 });
+                    let force = new Vector(0,0,500);
+                    this.gameAbility.sendGameEvent(obj, "Event.Monster.OnHurtAnim", { onHurtType: "Crit", duringTime: 0.5 ,force:force });
                 }
             })
         }, 1700);
@@ -122,7 +127,8 @@ export class RagingFuryObj extends MObject {
                         if (asc.hasMatchingGameTag(this.gameAbility.targetBlockedTags)) return;
                         this.gameAbility.sendGameEvent(this.owner, "Event.Player.HurtMonster", { target: obj });
                         this.gameAbility.sendGameEvent(obj, "Event.Monster.OnHurt", { damageGE: GE_Damage_Warrior_RagingFuryTwo });
-                        this.gameAbility.sendGameEvent(obj, "Event.Monster.OnHurtAnim", { onHurtType: "Crit", duringTime: 0.5 });
+                        let force = new Vector(0,0,500);
+                        this.gameAbility.sendGameEvent(obj, "Event.Monster.OnHurtAnim", { onHurtType: "Crit", duringTime: 0.5 , force:force });
                     }
                 })
             }
@@ -136,7 +142,8 @@ export class RagingFuryObj extends MObject {
                     if (asc.hasMatchingGameTag(this.gameAbility.targetBlockedTags)) return;
                     this.gameAbility.sendGameEvent(this.owner, "Event.Player.HurtMonster", { target: obj });
                     this.gameAbility.sendGameEvent(obj, "Event.Monster.OnHurt", { damageGE: GE_Damage_Warrior_RagingFuryTwo });
-                    this.gameAbility.sendGameEvent(obj, "Event.Monster.OnHurtAnim", { onHurtType: "Crit", duringTime: 0.5 });
+                    let force = new Vector(0,0,500);
+                    this.gameAbility.sendGameEvent(obj, "Event.Monster.OnHurtAnim", { onHurtType: "Crit", duringTime: 0.5 ,force:force });
                 }
             })
         }, 1800);

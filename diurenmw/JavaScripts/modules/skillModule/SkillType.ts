@@ -16,5 +16,5 @@ export class WeaponNormalAttack{
 
     static Staff = [2001,2002];
     static StaffBack = 2003;
-    static StaffFinal = [-1]
+    static StaffFinal = [2099]
 }

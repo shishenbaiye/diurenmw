@@ -19,10 +19,10 @@ export class CameraManager extends MObject {
     private curCameta: Camera;
     private playerCameta: Camera;
     private cacheCameta: Camera;
-    private logger:Logger;
+    private logger: Logger;
     private cameraMap: Map<string, Camera> = new Map<string, Camera>();
-    private baseCameraArmLength:number;
-    constructor(@MConstructorInject(LoggerManager) private log: LoggerManager){
+    private baseCameraArmLength: number;
+    constructor(@MConstructorInject(LoggerManager) private log: LoggerManager) {
         super();
         this.logger = this.log.getLogger(CameraManager);
     }
@@ -41,19 +41,19 @@ export class CameraManager extends MObject {
     }
 
     /**获取基础弹簧臂长度 */
-    getBaseCameraArmLength():number{
+    getBaseCameraArmLength(): number {
         return this.baseCameraArmLength;
     }
 
     /**添加相机配置 */
-    public addCamera(name: string, guid:string) {
-        if(this.cameraMap.has(name)){
-            this.logger.error(`相机已存在`,name);
+    public addCamera(name: string, guid: string) {
+        if (this.cameraMap.has(name)) {
+            this.logger.error(`相机已存在`, name);
             return;
         }
         let obj = GameObject.findGameObjectById(guid) as Camera;
-        if(!obj){
-            this.logger.error(`相机创建失败`,name);
+        if (!obj) {
+            this.logger.error(`相机创建失败`, name);
             return;
         }
         this.cameraMap.set(name, obj);
@@ -75,9 +75,9 @@ export class CameraManager extends MObject {
     }
 
     /**切换相机 */
-    public switchCamera(name:string, blendTime: number = 0, blendFunc?: mw.CameraSwitchBlendFunction, blendExp?: number) {
-        if(!this.cameraMap.has(name)){
-            this.logger.error(`相机不存在`,name);
+    public switchCamera(name: string, blendTime: number = 0, blendFunc?: mw.CameraSwitchBlendFunction, blendExp?: number) {
+        if (!this.cameraMap.has(name)) {
+            this.logger.error(`相机不存在`, name);
             return;
         }
         this.cacheCameta = Camera.currentCamera;
@@ -135,13 +135,46 @@ export class CameraManager extends MObject {
             .start();
     }
 
+    mainForcusPos(_vec: Vector, slength: number = 0,elength:number = 500) {
+        let camera = Camera.currentCamera;
+        // 判断相机右向量与vec向量的方向关系，夹角小于90度则为正方向，大于90度则为负方向
+        let rightVec = new Vector(0,1,0)
+        let angle = MathTool.calculateEulerAngles(_vec,rightVec);
+        console.log("angle", angle);    
+        if (angle < 90 && angle > -90) {
+            let tw = new mw.Tween({ postion: slength })
+                .to({ postion: elength }, 500)
+                .easing(TweenUtil.Easing.Exponential.In)
+                .onUpdate((obj) => {
+                    try {
+                        camera.localTransform.position = new Vector(0, obj.postion, 0);
+                    } catch (e) {
+                        tw.stop();
+                    }
+                })
+                .start()
+        } else {
+            let tw = new mw.Tween({ postion: -slength })
+                .to({ postion: -elength }, 500)
+                .easing(TweenUtil.Easing.Exponential.In)
+                .onUpdate((obj) => {
+                    try {
+                        camera.localTransform.position = new Vector(0, obj.postion, 0);
+                    } catch (e) {
+                        tw.stop();
+                    }
+                })
+                .start();
+        }
+    }
+
     /**震屏 */
-    shakeCamera(duration:number = 1,xAmplitude:number = 10,yAmplitude:number = 10,xFrequency:number = 10,yFrequency:number = 10){ 
+    shakeCamera(duration: number = 1, xAmplitude: number = 10, yAmplitude: number = 10, xFrequency: number = 10, yFrequency: number = 10) {
         let shakeinfo = {} as CameraShakeInfo;
         shakeinfo.positionXAmplitude = xAmplitude;
         shakeinfo.positionYAmplitude = yAmplitude;
         shakeinfo.positionXFrequency = xFrequency;
         shakeinfo.positionYFrequency = yFrequency;
-        Camera.shake(shakeinfo,duration);
+        Camera.shake(shakeinfo, duration);
     }
 }

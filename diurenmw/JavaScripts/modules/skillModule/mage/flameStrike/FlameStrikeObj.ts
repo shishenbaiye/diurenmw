@@ -42,7 +42,8 @@ export class FlameStrikeObj extends MObject {
                 if (asc) {
                     if (asc.hasMatchingGameTag(this.gameAbility.targetBlockedTags)) return
                     this.gameAbility.sendGameEvent(this.owner, "Event.Player.HurtMonster", { target: char });
-                    this.gameAbility.sendGameEvent(char, "Event.Monster.OnHurtAnim", { onHurtType: "Crit", duringTime: 0.5 });
+                    let force = new Vector(0,0,1000)
+                    this.gameAbility.sendGameEvent(char, "Event.Monster.OnHurtAnim", { onHurtType: "Crit", duringTime: 0.5,force:force });
                     this.gameAbility.sendGameEvent(char, "Event.Monster.OnHurt", { damageGE: GE_Damage_Mage_FlameStrike });
                 }
             })

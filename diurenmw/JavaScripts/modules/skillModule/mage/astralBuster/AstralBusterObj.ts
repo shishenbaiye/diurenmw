@@ -4,6 +4,7 @@ import { EffectTool } from "../../../../tools/EffectTool";
 import { MathTool } from "../../../../tools/MathTool";
 import { AbilitySystemComponent } from "../../../gasModule/gameAbilitys/ASC/AbilitySystemComponent";
 import { GA_Mage_AstralBuster } from "./GA_Mage_AstralBuster";
+import { GE_Damage_Mage_AstralBuster1 } from "./GE_Damage_Mage_AstralBuster1";
 import { GE_Damage_Mage_AstralBuster2 } from "./GE_Damage_Mage_AstralBuster2";
 
 @MPlugin()
@@ -42,9 +43,27 @@ export class AstralBusterObj extends MObject {
         let start = this.owner.worldTransform.position.clone().add(new Vector(0,0,800));
         this.obj.worldTransform.position = start
         this.obj.worldTransform.rotation = Rotation.fromVector(start.clone().subtract(this.pos).clone())
+        TimeUtil.onEnterFrame.add(this.checkHit, this);
         this.obj.moveTo(this.pos,2,true,()=>{
+            TimeUtil.onEnterFrame.remove(this.checkHit, this);
             this.boom()
             this.cancel();
+        })
+    }
+
+    private hitArr:GameObject[] = []
+    private checkHit(){
+        let arr = MathTool.checkHitByPosition(this.owner, this.obj.worldTransform.position, 200);
+        arr.forEach((char) => {
+            let asc = char.getComponent(AbilitySystemComponent);
+            if (asc) {
+                if (asc.hasMatchingGameTag(this.gameAbility.targetBlockedTags)) return
+                if(this.hitArr.indexOf(char) != -1) return
+                this.hitArr.push(char);
+                this.gameAbility.sendGameEvent(this.owner, "Event.Player.HurtMonster", { target: char });
+                this.gameAbility.sendGameEvent(char,"Event.Monster.OnHurtAnim",{duringTime:0.5});
+                this.gameAbility.sendGameEvent(char, "Event.Monster.OnHurt", { damageGE: GE_Damage_Mage_AstralBuster1 });
+            }
         })
     }
 

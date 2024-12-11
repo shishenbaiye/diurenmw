@@ -1,4 +1,5 @@
-import { Constructor, MPlugin, MPropertiesInject } from "../../../../framework/DI/MContainer";
+import { CameraManager } from "../../../../camera/CameraManager";
+import { Constructor, MPlugin, MPropertiesInject, RpcPlugin } from "../../../../framework/DI/MContainer";
 import { MFramework } from "../../../../framework/MFramework";
 import { EffectTool } from "../../../../tools/EffectTool";
 import { MathTool } from "../../../../tools/MathTool";
@@ -41,11 +42,19 @@ export class GA_Mage_ArcticFeast extends GameAbility {
     @MPropertiesInject(EffectTool)
     private effectTool: EffectTool;
 
+    @MPropertiesInject(CameraManager)
+    private cameraManager: CameraManager;
+
+    @MPropertiesInject(RpcPlugin)
+    private rpc: RpcPlugin;
+
     protected onPreActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         // throw new Error("Method not implemented.");
     }
 
     private effectId:number;
+    private isCamera:boolean = false;
+    private cameraOffsetY:number;
     protected onActive(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         let char = owner as Character;
         let attrSpeed = asc.attributeSet.getAttr(EPlayerAttributeSetType.castSpeed).getCurrent();
@@ -64,7 +73,10 @@ export class GA_Mage_ArcticFeast extends GameAbility {
         let ice = MFramework.createObject(ArcticFeastObj) as ArcticFeastObj;
         ice.init(pos,char,asc,this);
         ice.activate();
-
+        let cameraOffsetY = Math.abs(pos.y - char.getSlotWorldPosition(HumanoidSlotType.Root).y);
+        this.cameraOffsetY = cameraOffsetY;
+        this.rpc.client(char.player, this, this.C_ChangeCamera,char.worldTransform.getForwardVector().clone(),0,cameraOffsetY);
+        this.isCamera = true;
 
         animTask1.addEvent(0.2, () => {
             EffectService.playAtPosition("219368", char.getSlotWorldPosition(HumanoidSlotType.Root),{scale:new Vector(1.5)})
@@ -136,6 +148,8 @@ export class GA_Mage_ArcticFeast extends GameAbility {
             })
         })
         animTask3.onFinished(() => {
+            this.rpc.client(char.player, this, this.C_ChangeCamera,char.worldTransform.getForwardVector().clone(),cameraOffsetY,0);
+            this.isCamera = false;
             ice.cancel();
             this.end();
         })
@@ -143,10 +157,16 @@ export class GA_Mage_ArcticFeast extends GameAbility {
         animTask1.activate()
     }
     protected onCancel(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
-
+        if(this.isCamera){
+            let char = owner as Character;
+            this.rpc.client(char.player, this, this.C_ChangeCamera,char.worldTransform.getForwardVector().clone(),this.cameraOffsetY,0);
+        }
     }
     protected onEnd(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
         this.skillHelper.changePlayerCanMove((owner as Character).player, true);
     }
 
+    C_ChangeCamera(_pos:Vector,slength:number,elength:number){ 
+        this.cameraManager.mainForcusPos(_pos,slength,elength);
+    }
 }

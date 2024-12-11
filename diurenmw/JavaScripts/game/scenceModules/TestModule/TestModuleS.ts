@@ -21,10 +21,13 @@ export class TestModuleS extends ModuleS<TestModuleC, null> {
 
 
         let npc = GameObject.findGameObjectById(`27A625FD`) as Character;
+        let npc3 = GameObject.findGameObjectById(`201394CD`) as Character;
+        let npc4 = GameObject.findGameObjectById(`234435BE`) as Character;
         // let asc = npc.addComponent(AbilitySystemComponent);
         RobotManager.instance.getRobot(npc);
+        RobotManager.instance.getRobot(npc3);
+        RobotManager.instance.getRobot(npc4);
     }
-
     protected onPlayerEnterGame(player: mw.Player): void {
         // setTimeout(() => {
         //     let res = player.character.getComponent(WeaponScript).addWeapon(1002);

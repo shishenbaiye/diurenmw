@@ -1,6 +1,3 @@
-import { MContainer, RpcPlugin } from "../framework/DI/MContainer";
-import { SkillModuleS } from "../modules/skillModule/SkillModuleS";
-
 export class MathTool {
 
 
@@ -274,7 +271,7 @@ export class MathTool {
 	static checkHitByBoxOverlap(owner:Character,posCenter:Vector,boxExtent:Vector): GameObject[] {
 		let vector = posCenter.clone();
         let res = QueryUtil.boxOverlap(vector, boxExtent, true, undefined, false, owner);
-		ModuleService.getModule(SkillModuleS).drowCheckHitByBoxOverlap(owner,posCenter,boxExtent)
+		// ModuleService.getModule(SkillModuleS).drowCheckHitByBoxOverlap(owner,posCenter,boxExtent)
         let characterArray = []
         for (let i = 0; i < res.length; i++) {
             if (res[i] instanceof Character) {
