@@ -9,7 +9,6 @@ import { GameAbility } from "../../../gasModule/gameAbilitys/GA/GameAbility";
 import { EGameAbilityTriggerSourceType } from "../../../gasModule/gameAbilitys/GA/GameAbilityType";
 import { CoolDownByGameEffect } from "../../../gasModule/gameAbilitys/GE/GESpecial/CoolDownByGameEffect";
 import { CostByGameEffect } from "../../../gasModule/gameAbilitys/GE/GESpecial/CostByGameEffect";
-import WeaponScript from "../../../weaponModule/WeaponScript";
 import { SkillHelper } from "../../SkillHelper";
 import { RegisterSkill } from "../../SkillManager";
 import { ESkillType } from "../../SkillType";
@@ -76,7 +75,7 @@ export class GA_Mage_FinalThunder extends GameAbility {
         })
 
         animTask1.addEvent(1.0, () => {
-            xi = this.effectTool.playAtPosition("108250", posUp, { scale: new Vector(3) })
+            xi = this.effectTool.playAtPosition("163348", posUp, { scale: new Vector(5) })
             this.startHollow(posUp);
         })
 
@@ -87,6 +86,10 @@ export class GA_Mage_FinalThunder extends GameAbility {
                 this.effectTool.stopEffect(xi);
                 this.stopHollow();
                 animTask1.cancelTask();
+
+                animTask2.addEvent(1,()=>{
+                    this.rpc.client(char.player, this, this.C_ChangeCamera,char.worldTransform.getForwardVector().clone(),cameraOffsetY,0);
+                })
 
                 animTask2.addEvent(1.5, () => {
                     this.effectTool.playAtPosition("151574", posUp, { scale: new Vector(15), color: new LinearColor(1, 219 / 255, 149 / 255) });
@@ -108,7 +111,6 @@ export class GA_Mage_FinalThunder extends GameAbility {
                 })
 
                 animTask2.addEvent(1.8,()=>{
-                    this.rpc.client(char.player, this, this.C_ChangeCamera,char.worldTransform.getForwardVector().clone(),cameraOffsetY,0);
                     this.rpc.client(char.player, this, this.C_ChangeLight, +3.9);
                 })
 
@@ -136,7 +138,7 @@ export class GA_Mage_FinalThunder extends GameAbility {
         let ownerChar = this.owner as Character;
         let pos = _pos.clone();
         this.fun = () => {
-            let arr = MathTool.checkHitByPosition(ownerChar, pos, 500);
+            let arr = MathTool.checkHitByPosition(ownerChar, pos, 1000);
             arr.forEach((char) => {
                 let asc = char.getComponent(AbilitySystemComponent);
                 if (asc) {

@@ -80,13 +80,13 @@ export class GA_Mage_ArcticFeast extends GameAbility {
 
         animTask1.addEvent(0.2, () => {
             EffectService.playAtPosition("219368", char.getSlotWorldPosition(HumanoidSlotType.Root),{scale:new Vector(1.5)})
-            this.effectTool.playAtPosition("152215",pos,{scale:new Vector(1)});
+            this.effectTool.playAtPosition("152215",pos,{scale:new Vector(2)});
         })       
         animTask1.addEvent(0.5, () => {
             
         })
         animTask1.addEvent(1.2,()=>{
-            let arr = MathTool.checkHitByPosition(char,pos,230);
+            let arr = MathTool.checkHitByPosition(char,pos,500);
             arr.forEach((monster) => {
                 let asc = monster.getComponent(AbilitySystemComponent);
                 if (asc) {
@@ -105,13 +105,10 @@ export class GA_Mage_ArcticFeast extends GameAbility {
 
         animTask2.addEvent(0.2, () => {
             EffectService.playAtPosition("219368", char.getSlotWorldPosition(HumanoidSlotType.Root),{scale:new Vector(1.5)})
-            this.effectTool.playAtPosition("152215",pos,{scale:new Vector(1)});
-        })
-        animTask2.addEvent(0.5, () => {
-          
+            this.effectTool.playAtPosition("152215",pos,{scale:new Vector(2)});
         })
         animTask2.addEvent(1.2,()=>{
-            let arr = MathTool.checkHitByPosition(char,pos,230);
+            let arr = MathTool.checkHitByPosition(char,pos,500);
             arr.forEach((monster) => {
                 let asc = monster.getComponent(AbilitySystemComponent);
                 if (asc) {
@@ -130,13 +127,13 @@ export class GA_Mage_ArcticFeast extends GameAbility {
 
         animTask3.addEvent(0.2, () => {
             EffectService.playAtPosition("219368", char.getSlotWorldPosition(HumanoidSlotType.Root),{scale:new Vector(1.5)})
-            this.effectTool.playAtPosition("152215",pos,{scale:new Vector(1)});
+            this.effectTool.playAtPosition("152215",pos,{scale:new Vector(2)});
         })
         animTask3.addEvent(0.5, () => {
 
         })
         animTask3.addEvent(1.2,()=>{
-            let arr = MathTool.checkHitByPosition(char,pos,230);
+            let arr = MathTool.checkHitByPosition(char,pos,500);
             arr.forEach((monster) => {
                 let asc = monster.getComponent(AbilitySystemComponent);
                 if (asc) {

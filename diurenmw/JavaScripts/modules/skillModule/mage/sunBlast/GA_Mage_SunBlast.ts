@@ -65,7 +65,7 @@ export class GA_Mage_SunBlast extends GameAbility {
                 if (asc) {
                     if (asc.hasMatchingGameTag(this.targetBlockedTags)) return
                     this.sendGameEvent(this.owner, "Event.Player.HurtMonster", { target: char });
-                    let force = obj.worldTransform.position.clone().subtract(char.worldTransform.position).normalize().multiply(2000);
+                    let force = obj.worldTransform.position.clone().subtract(char.getSlotWorldPosition(HumanoidSlotType.Root)).normalize().multiply(850);
                     this.sendGameEvent(obj, "Event.Monster.OnHurtAnim", { duringTime: 0.5, force: force });
                     this.sendGameEvent(obj, "Event.Monster.OnHurt", { damageGE: GE_Damage_Mage_SunBlast });
                 }

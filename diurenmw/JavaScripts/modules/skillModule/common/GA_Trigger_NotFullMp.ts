@@ -43,7 +43,7 @@ export class GA_Trigger_NotFullMp extends GameAbility{
                     console.log(`已经满了`);
                 }
             }
-        },100)  
+        },200)  
     }
     protected onCancel(asc: AbilitySystemComponent, owner: GameObject, target: GameObject): void {
        
