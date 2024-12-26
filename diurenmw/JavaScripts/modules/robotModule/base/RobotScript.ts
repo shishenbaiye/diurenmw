@@ -21,8 +21,10 @@ export default class RobotScript extends Script {
         await this.gameObject.asyncReady();
         //客户端组件
         if (SystemUtil.isClient()) {
-            if (!this.robot_head_c) this.robot_head_c = new RobotHeadUI();
-            this.robot_head_c.initHead(this.gameObject as Character);
+            if (!this.robot_head_c) {
+                this.robot_head_c = new RobotHeadUI();
+                this.robot_head_c.initHead(this.gameObject as Character);
+            }
             this.robot_head_c.refreshHp();
             this.robot_head_c.refreshInfo();
         }

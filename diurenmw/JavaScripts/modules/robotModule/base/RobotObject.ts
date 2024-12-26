@@ -46,6 +46,8 @@ export abstract class RobotObject extends MObject {
 
     public init_behavior(): void {
         this.controller_move = new MoveController(this.owner);
+        this.controller_move.pathInit(this.data)
+        this.controller_move.pathMoveStart();
     }
 
 }

@@ -51,6 +51,7 @@ export default class RobotManager extends MObject {
         //初始对象
         base.init(new RobotData(), abs, info, char);
         base.init_GA_Trigger();
+        base.init_behavior();
         this.robotPool.set(char, base);
 
     }
